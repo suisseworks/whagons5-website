@@ -65,7 +65,7 @@ export const translations = {
     launchDate: 'Lanzamiento Marzo 2026',
     yearsInMarket: '10 Años en el Mercado',
     tagline: 'Gestión de flujos de trabajo, simplificada.',
-    ctaButton: 'Cuenta Conmigo',
+    ctaButton: 'Me Interesa',
     whatIsWhagonsButton: '¿Qué es Whagons?',
     heroQuote: 'La cumbre es lo que nos impulsa, pero la escalada en sí es lo que importa.',
     heroQuoteAuthor: 'Conrad Anker',

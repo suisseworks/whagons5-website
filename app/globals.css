@@ -38,12 +38,21 @@
   }
 }
 
+html {
+  overflow-x: hidden;
+  height: 100%;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
   color: var(--text-primary);
   overflow-x: hidden;
+  overflow-y: auto;
   scroll-behavior: smooth;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 /* Note: scroll-behavior is defined above on html already */
@@ -52,6 +61,7 @@ body {
   position: relative;
   width: 100%;
   min-height: 100vh;
+  max-width: 100vw;
   overflow-x: hidden;
 }
 
@@ -115,11 +125,11 @@ body {
 /* Language Switcher */
 .language-switcher {
   position: fixed;
-  top: 2rem;
-  right: 2rem;
+  top: clamp(1rem, 2vw, 2rem);
+  right: clamp(1rem, 2vw, 2rem);
   z-index: 100;
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
+  padding: clamp(0.4rem, 1vw, 0.5rem) clamp(0.75rem, 2vw, 1rem);
+  font-size: clamp(0.8rem, 1.2vw, 0.9rem);
   font-weight: 600;
   color: var(--text-primary);
   background: var(--surface);
@@ -144,7 +154,8 @@ body {
 
 /* Hero Section */
 .hero-section {
-  min-height: 100vh;
+  height: 100vh;
+  max-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -152,6 +163,8 @@ body {
   position: relative;
   z-index: 7;
   overflow: hidden;
+  padding: 2rem 0;
+  box-sizing: border-box;
 }
 
 .hero-background-image {
@@ -173,18 +186,24 @@ body {
 .hero-content-wrapper {
   position: relative;
   width: 100%;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4rem;
+  justify-content: center;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
   z-index: 7;
+  padding: 1rem 0;
+  box-sizing: border-box;
 }
 
 .hero-quote-container {
   max-width: 800px;
-  padding: 0 2rem;
+  width: 100%;
+  padding: 0 clamp(1rem, 2vw, 2rem);
   animation: fadeInUp 0.8s var(--animation-easing) 1.2s both;
   transition: transform 0.3s ease, opacity 0.3s ease;
+  flex-shrink: 0;
 }
 
 .hero-motivation-quote {
@@ -225,12 +244,13 @@ body {
   width: 100%;
   padding-left: 2rem;
   padding-right: 2rem;
-  margin-top: 2rem;
+  margin-top: auto;
   margin-left: auto;
   margin-right: 0;
   align-self: flex-end;
   animation: fadeInUp 0.8s var(--animation-easing) 1.4s both;
   text-align: right;
+  flex-shrink: 0;
 }
 
 .hero-organic-growth-text {
@@ -258,10 +278,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
-  padding: 3rem 2rem;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  padding: clamp(1rem, 2vw, 2rem) clamp(1rem, 2vw, 2rem);
   max-width: 900px;
+  width: 100%;
   margin: 0 auto;
+  flex-shrink: 0;
 }
 
 /* Typography - Title */
@@ -331,14 +353,14 @@ body {
 .years-badge,
 .years-animate {
   position: fixed;
-  top: 2rem;
-  left: 2rem;
+  top: clamp(1rem, 2vw, 2rem);
+  left: clamp(1rem, 2vw, 2rem);
   z-index: 100;
-  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
   font-weight: 700;
   color: var(--brand-color);
   margin: 0;
-  padding: 0.5rem 1.25rem;
+  padding: clamp(0.4rem, 1vw, 0.5rem) clamp(1rem, 2vw, 1.25rem);
   background: rgba(89, 179, 175, 0.25);
   border: 2px solid var(--brand-color);
   border-radius: 20px;
@@ -396,7 +418,7 @@ body {
   gap: 1rem;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 1.5rem;
+  margin-top: clamp(0.75rem, 2vw, 1rem);
 }
 
 /* CTA Button */
@@ -553,26 +575,29 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
   .hero-section {
-    min-height: 90vh;
+    height: 100vh;
+    max-height: 100vh;
+    padding: 1rem 0;
   }
 
   .content {
-    gap: 1.5rem;
-    padding: 2rem 1.5rem;
+    gap: clamp(0.75rem, 2vw, 1rem);
+    padding: clamp(0.5rem, 2vw, 1rem) clamp(1rem, 2vw, 1.5rem);
   }
 
   .hero-content-wrapper {
-    gap: 3rem;
+    gap: clamp(1rem, 3vw, 2rem);
+    padding: 0.5rem 0;
   }
 
   .hero-quote-container {
-    padding: 0 1.5rem;
+    padding: 0 clamp(1rem, 2vw, 1.5rem);
   }
 
   .hero-organic-growth {
-    margin-top: 1.5rem;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    margin-top: auto;
+    padding-left: clamp(1rem, 2vw, 1.5rem);
+    padding-right: clamp(1rem, 2vw, 1.5rem);
     max-width: 100%;
     margin-left: auto;
     margin-right: 0;
@@ -595,16 +620,19 @@ body {
 
 @media (max-width: 480px) {
   .hero-section {
-    min-height: 85vh;
+    height: 100vh;
+    max-height: 100vh;
+    padding: 0.5rem 0;
   }
 
   .content {
-    gap: 1.25rem;
-    padding: 1.5rem 1rem;
+    gap: clamp(0.5rem, 2vw, 0.75rem);
+    padding: clamp(0.5rem, 2vw, 1rem) 1rem;
   }
 
   .hero-content-wrapper {
-    gap: 2.5rem;
+    gap: clamp(0.75rem, 2vw, 1.5rem);
+    padding: 0.25rem 0;
   }
 
   .hero-quote-container {
@@ -612,7 +640,7 @@ body {
   }
 
   .hero-organic-growth {
-    margin-top: 1.25rem;
+    margin-top: auto;
     padding-left: 1rem;
     padding-right: 1rem;
     max-width: 100%;
