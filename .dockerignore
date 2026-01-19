@@ -11,3 +11,10 @@ yarn-error.log*
 *.pem
 .vscode
 .idea
+
+# Exclude old Vite/React code
+src/
+vite.config.ts
+tsconfig.app.json
+tsconfig.node.json
+index.html
