@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import FogEffect from '../components/FogEffect';
 import SignupForm from '../components/SignupForm';
 import { translations, Language } from '../i18n';
 import { Link } from 'react-router-dom';
@@ -17,7 +16,6 @@ export default function Home({ language, toggleLanguage }: HomeProps) {
     <div className="app">
       {/* Sun element - light is coming */}
       <div className="sun"></div>
-      <FogEffect intensity="normal" />
       
       {/* Language Switcher */}
       <button onClick={toggleLanguage} className="language-switcher" aria-label="Switch language">

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import FogEffect from './components/FogEffect';
 import SignupForm from './components/SignupForm';
 import { translations, Language } from './lib/i18n';
 import Link from 'next/link';
@@ -25,7 +24,6 @@ export default function Home() {
     <div className="app">
       {/* Sun element - light is coming */}
       <div className="sun"></div>
-      <FogEffect intensity="normal" />
       
       {/* Language Switcher */}
       <button onClick={toggleLanguage} className="language-switcher" aria-label="Switch language">

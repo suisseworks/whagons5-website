@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { translations, Language } from '../i18n';
-import FogEffect from '../components/FogEffect';
 
 interface WhatIsWhagonsProps {
   language: Language;
@@ -14,7 +13,6 @@ export default function WhatIsWhagons({ language, toggleLanguage }: WhatIsWhagon
     <div className="what-is-whagons-page">
       <div className="what-is-background-image"></div>
       <div className="what-is-overlay"></div>
-      <FogEffect intensity="reduced" />
       
       {/* Language Switcher */}
       <button onClick={toggleLanguage} className="language-switcher" aria-label="Switch language">
