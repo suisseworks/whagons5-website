@@ -1,5 +1,7 @@
+'use client';
+
 import { useState, FormEvent, useEffect } from 'react';
-import { translations, Language } from '../i18n';
+import { translations, Language } from '../lib/i18n';
 
 interface SignupFormProps {
   language: Language;
@@ -7,13 +9,10 @@ interface SignupFormProps {
   onClose: () => void;
 }
 
-const ZAPIER_WEBHOOKS = {
-  en: 'https://hooks.zapier.com/hooks/catch/23330707/uskle6l/',
-  es: 'https://hooks.zapier.com/hooks/catch/23330707/u8mjtmv/',
-};
-
 // Auto-detect country from browser
 const getCountryFromBrowser = (): string => {
+  if (typeof window === 'undefined') return 'Unknown';
+  
   try {
     // Try to get country from browser locale
     const locale = navigator.language || (navigator as any).userLanguage;
@@ -97,51 +96,42 @@ export default function SignupForm({ language, isOpen, onClose }: SignupFormProp
     setStatus('idle');
 
     try {
-      // Zapier webhooks work better with form-urlencoded to avoid CORS issues
-      const formData = new URLSearchParams();
-      formData.append('name', name.trim());
-      formData.append('email', email.trim());
-      formData.append('company', company.trim());
-      formData.append('industry', industry);
-      formData.append('country', country || 'Unknown');
-      formData.append('language', language);
-      formData.append('timestamp', new Date().toISOString());
-
-      // Use no-cors mode to bypass CORS restrictions from localhost
-      // Note: We can't read the response with no-cors, but Zapier will receive the data
-      const response = await fetch(ZAPIER_WEBHOOKS[language], {
+      // Call Next.js API route instead of Zapier
+      const response = await fetch('/api/flowdesk', {
         method: 'POST',
-        mode: 'no-cors', // Bypass CORS - we can't read response but Zapier receives data
-        body: formData.toString(),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          company: company.trim(),
+          industry: industry,
+          country: country || 'Unknown',
+          language: language,
+        }),
       });
 
-      // With no-cors mode, we can't check response.ok, so assume success
-      // The data will still be sent to Zapier successfully
-      setStatus('success');
-      setName('');
-      setEmail('');
-      setCompany('');
-      setIndustry('');
-      setCountry('');
-      // Close form after 2 seconds
-      setTimeout(() => {
-        onClose();
-        setStatus('idle');
-      }, 2000);
+      const data = await response.json();
+
+      if (data.success) {
+        setStatus('success');
+        setName('');
+        setEmail('');
+        setCompany('');
+        setIndustry('');
+        setCountry('');
+        // Close form after 2 seconds
+        setTimeout(() => {
+          onClose();
+          setStatus('idle');
+        }, 2000);
+      } else {
+        setStatus('error');
+      }
     } catch (error) {
       console.error('Error submitting form:', error);
-      // Even if there's an error, the request might have succeeded
-      // Show success to user since we can't verify with no-cors
-      setStatus('success');
-      setName('');
-      setEmail('');
-      setCompany('');
-      setIndustry('');
-      setCountry('');
-      setTimeout(() => {
-        onClose();
-        setStatus('idle');
-      }, 2000);
+      setStatus('error');
     } finally {
       setIsSubmitting(false);
     }
