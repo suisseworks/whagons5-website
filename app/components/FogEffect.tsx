@@ -75,8 +75,8 @@ export default function FogEffect({ onClose, intensity = 'normal' }: FogEffectPr
           size: Math.random() * 280 + 150, // Varied patch sizes
           speed: Math.random() * 0.3 + 0.1, // Gentle movement speed
           opacity: isReduced 
-            ? Math.random() * 0.10 + 0.05 // Slightly reduced intensity
-            : Math.random() * 0.20 + 0.12, // Reduced mist opacity
+            ? Math.random() * 0.06 + 0.03 // Softer reduced intensity
+            : Math.random() * 0.12 + 0.06, // Softer mist opacity
           drift: (Math.random() - 0.5) * 0.2, // Horizontal drift
           verticalSpeed: Math.random() * 0.08 - 0.04, // Vertical movement
           baseY: Math.random() * canvas.height,
@@ -131,18 +131,18 @@ export default function FogEffect({ onClose, intensity = 'normal' }: FogEffectPr
           ? 'rgba(220, 220, 240, 0)'
           : 'rgba(140, 150, 170, 0)';
         
-        // Create radial gradient for fog with more solid center
+        // Create radial gradient for fog with softer, more gradual fade
         const gradient = ctx.createRadialGradient(
-          fog.x, fog.y, fog.size * 0.25,
+          fog.x, fog.y, fog.size * 0.2,
           fog.x, fog.y, fog.size
         );
         gradient.addColorStop(0, fogColor);
-        gradient.addColorStop(0.5, isDarkMode 
-          ? `rgba(220, 220, 240, ${fog.opacity * 0.8})`
-          : `rgba(140, 150, 170, ${fog.opacity * 0.8})`);
-        gradient.addColorStop(0.8, isDarkMode 
-          ? `rgba(220, 220, 240, ${fog.opacity * 0.4})`
-          : `rgba(140, 150, 170, ${fog.opacity * 0.4})`);
+        gradient.addColorStop(0.4, isDarkMode 
+          ? `rgba(220, 220, 240, ${fog.opacity * 0.6})`
+          : `rgba(140, 150, 170, ${fog.opacity * 0.6})`);
+        gradient.addColorStop(0.7, isDarkMode 
+          ? `rgba(220, 220, 240, ${fog.opacity * 0.3})`
+          : `rgba(140, 150, 170, ${fog.opacity * 0.3})`);
         gradient.addColorStop(1, fogColorTransparent);
         
         ctx.fillStyle = gradient;

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Language } from './i18n';
 import Home from './pages/Home';
 import WhatIsWhagons from './pages/WhatIsWhagons';
+import DemoRequest from './pages/DemoRequest';
 
 function App() {
   const [language, setLanguage] = useState<Language>('en');
@@ -26,6 +27,10 @@ function App() {
         <Route 
           path="/what-is-whagons" 
           element={<WhatIsWhagons language={language} toggleLanguage={toggleLanguage} />} 
+        />
+        <Route 
+          path="/demow5" 
+          element={<DemoRequest language={language} toggleLanguage={toggleLanguage} />} 
         />
       </Routes>
     </BrowserRouter>

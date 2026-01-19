@@ -42,6 +42,11 @@ export const translations = {
     formEmailInvalid: 'Please enter a valid email',
     formCompanyRequired: 'Company name is required',
     formIndustryRequired: 'Please select an industry',
+    demoRequestTitle: 'Request a Whagons 5 Demo',
+    demoRequestSubtitle: 'See how Whagons 5 can transform your workflow management',
+    demoRequestSubmitButton: 'Request Demo',
+    demoRequestSuccessTitle: 'Thank You!',
+    demoRequestSuccessMessage: 'We\'ve received your demo request. Our team will contact you shortly to schedule your personalized demo.',
     industries: {
       technology: 'Technology',
       healthcare: 'Healthcare',
@@ -103,6 +108,11 @@ export const translations = {
     formEmailInvalid: 'Por favor ingresa un correo electrónico válido',
     formCompanyRequired: 'El nombre de la empresa es requerido',
     formIndustryRequired: 'Por favor selecciona una industria',
+    demoRequestTitle: 'Solicita una Demo de Whagons 5',
+    demoRequestSubtitle: 'Descubre cómo Whagons 5 puede transformar tu gestión de flujos de trabajo',
+    demoRequestSubmitButton: 'Solicitar Demo',
+    demoRequestSuccessTitle: '¡Gracias!',
+    demoRequestSuccessMessage: 'Hemos recibido tu solicitud de demo. Nuestro equipo se pondrá en contacto contigo pronto para programar tu demo personalizada.',
     industries: {
       technology: 'Tecnología',
       healthcare: 'Salud',
