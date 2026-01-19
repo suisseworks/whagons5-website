@@ -43,7 +43,10 @@ body {
   background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
   color: var(--text-primary);
   overflow-x: hidden;
+  overflow-y: hidden;
   scroll-behavior: smooth;
+  height: 100vh;
+  max-height: 100vh;
 }
 
 /* Note: scroll-behavior is defined above on html already */
@@ -51,8 +54,10 @@ body {
 .app {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  max-height: 100vh;
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 /* Sun - Light is Coming */
@@ -144,7 +149,8 @@ body {
 
 /* Hero Section */
 .hero-section {
-  min-height: 100vh;
+  height: 100vh;
+  max-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -176,13 +182,19 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4rem;
+  justify-content: center;
+  gap: clamp(1.5rem, 3vw, 3rem);
   z-index: 7;
+  padding: 2rem 1rem;
+  max-height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .hero-quote-container {
   max-width: 800px;
   padding: 0 2rem;
+  margin-top: clamp(0.5rem, 1vw, 1rem);
   animation: fadeInUp 0.8s var(--animation-easing) 1.2s both;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
@@ -225,7 +237,7 @@ body {
   width: 100%;
   padding-left: 2rem;
   padding-right: 2rem;
-  margin-top: 2rem;
+  margin-top: clamp(0.5rem, 1vw, 1rem);
   margin-left: auto;
   margin-right: 0;
   align-self: flex-end;
@@ -258,8 +270,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
-  padding: 3rem 2rem;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  padding: 1rem 2rem;
   max-width: 900px;
   margin: 0 auto;
 }
@@ -396,7 +408,7 @@ body {
   gap: 1rem;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 1.5rem;
+  margin-top: clamp(0.5rem, 1vw, 1rem);
 }
 
 /* CTA Button */
@@ -553,20 +565,23 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
   .hero-section {
-    min-height: 90vh;
+    height: 100vh;
+    max-height: 100vh;
   }
 
   .content {
-    gap: 1.5rem;
-    padding: 2rem 1.5rem;
+    gap: 1rem;
+    padding: 0.5rem 1.5rem;
   }
 
   .hero-content-wrapper {
-    gap: 3rem;
+    gap: clamp(1rem, 2vw, 2rem);
+    padding: 1rem 0.5rem;
   }
 
   .hero-quote-container {
     padding: 0 1.5rem;
+    margin-top: 0.5rem;
   }
 
   .hero-organic-growth {
@@ -595,20 +610,23 @@ body {
 
 @media (max-width: 480px) {
   .hero-section {
-    min-height: 85vh;
+    height: 100vh;
+    max-height: 100vh;
   }
 
   .content {
-    gap: 1.25rem;
-    padding: 1.5rem 1rem;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
   }
 
   .hero-content-wrapper {
-    gap: 2.5rem;
+    gap: clamp(0.75rem, 1.5vw, 1.5rem);
+    padding: 0.5rem 0.25rem;
   }
 
   .hero-quote-container {
     padding: 0 1rem;
+    margin-top: 0.25rem;
   }
 
   .hero-organic-growth {
