@@ -195,7 +195,7 @@ export default function DemoRequestPage() {
   return (
     <div className="demo-request-page">
       <div className="sun"></div>
-      <FogEffect intensity="reduced" />
+      <FogEffect intensity="normal" />
       
       {/* Language Switcher */}
       <button onClick={toggleLanguage} className="language-switcher" aria-label="Switch language">

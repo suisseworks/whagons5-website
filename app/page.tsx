@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import SignupForm from './components/SignupForm';
 import { translations, Language } from './lib/i18n';
 import Link from 'next/link';
+import FogEffect from './components/FogEffect';
 
 export default function Home() {
   const [language, setLanguage] = useState<Language>('en');
@@ -24,6 +25,7 @@ export default function Home() {
     <div className="app">
       {/* Sun element - light is coming */}
       <div className="sun"></div>
+      <FogEffect intensity="reduced" />
       
       {/* Language Switcher */}
       <button onClick={toggleLanguage} className="language-switcher" aria-label="Switch language">

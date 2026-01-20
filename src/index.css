@@ -12,7 +12,7 @@
   --surface: rgba(10, 14, 24, 0.72);
   --surface-shadow: rgba(0, 0, 0, 0.45);
   --title-gradient-end: #9ca3af;
-  --hero-image-opacity: 0.4;
+  --hero-image-opacity: 0.6;
   --text-shadow-soft: rgba(0, 0, 0, 0.6);
 
   --primary-color: #cbd5e1;
@@ -170,7 +170,7 @@ body {
   object-position: center 35%;
   opacity: var(--hero-image-opacity);
   z-index: -1;
-  filter: saturate(1.0) contrast(1.05) brightness(1.15);
+  filter: saturate(1.0) contrast(1.05) brightness(1.4);
   transition: opacity 0.8s ease, filter 0.8s ease;
   will-change: opacity, filter;
 }

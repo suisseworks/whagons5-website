@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { translations, Language } from '../lib/i18n';
+import FogEffect from '../components/FogEffect';
 
 export default function WhatIsWhagons() {
   const [language, setLanguage] = useState<Language>('en');
@@ -20,8 +21,10 @@ export default function WhatIsWhagons() {
 
   return (
     <div className="what-is-whagons-page">
+      <div className="sun"></div>
       <div className="what-is-background-image"></div>
       <div className="what-is-overlay"></div>
+      <FogEffect intensity="normal" />
       
       {/* Language Switcher */}
       <button onClick={toggleLanguage} className="language-switcher" aria-label="Switch language">
