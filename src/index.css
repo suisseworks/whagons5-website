@@ -279,7 +279,7 @@ body {
 /* Typography - Title */
 .app h1,
 .title-animate {
-  font-size: clamp(4rem, 12vw, 10rem);
+  font-size: clamp(5rem, 14vw, 12rem);
   font-weight: 800;
   color: var(--text-primary);
   margin: 0;
