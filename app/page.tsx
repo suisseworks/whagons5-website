@@ -38,8 +38,8 @@ export default function Home() {
       {/* Hero Section with Mountain */}
       <section className="hero-section">
         <img 
-          src="https://images.unsplash.com/photo-1502126324834-38f8e02d7160?auto=format&fit=crop&w=1920&q=80" 
-          alt="Person climbing a mountain" 
+          src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80" 
+          alt="Team working together" 
           className="hero-background-image"
         />
         <div className="hero-content-wrapper">
