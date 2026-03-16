@@ -92,5 +92,5 @@ Gestión de flujos de trabajo, simplificada.
 
 - Imagen principal: Escena de escalada de montaña (similar al fondo del sitio web)
 - Elementos visuales: Incluir la insignia "10 Años en el Mercado"
-- Colores de marca: Colores de acento verde jade/verde azulado
+- Colores de marca: Rojo vermillón (#D4310A) como color de acento
 - Estética oscura y atmosférica que coincida con el diseño del sitio web

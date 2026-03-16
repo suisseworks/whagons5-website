@@ -5,8 +5,7 @@ html { font-size: 16px; scroll-behavior: smooth; }
   --cream: #F5F2EB;
   --ink:   #0A0A09;
   --mid:   #8A8680;
-  --jade:  #2B9E8F;
-  --jade-deep: #1F7A6E;
+  --red:   #D4310A;
   --rule:  rgba(10,10,9,0.1);
   --display: 'Bebas Neue', sans-serif;
   --serif: 'Cormorant Garamond', Georgia, serif;
@@ -25,7 +24,7 @@ body {
 #cur {
   position: fixed;
   width: 10px; height: 10px;
-  background: var(--jade);
+  background: var(--red);
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
@@ -52,9 +51,8 @@ nav {
   align-items: center;
   text-decoration: none;
 }
-.logo img {
-  height: 22px;
-  width: auto;
+.logo svg {
+  display: block;
 }
 .nav-r { display: flex; align-items: center; gap: 44px; }
 .nl {
@@ -76,7 +74,7 @@ nav {
   padding: 11px 24px;
   transition: background .2s;
 }
-.nd:hover { background: var(--jade); }
+.nd:hover { background: var(--red); }
 
 /* ══════════════════════════════════════════════
    HERO — THE IMPACT MOMENT
@@ -101,7 +99,7 @@ nav {
   letter-spacing: -0.02em;
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(43,158,143,0.08);
+  -webkit-text-stroke: 1px rgba(10,10,9,0.07);
   white-space: nowrap;
   pointer-events: none;
   user-select: none;
@@ -129,7 +127,7 @@ nav {
   white-space: nowrap;
   z-index: 1;
 }
-.ticker-dot { color: var(--jade); }
+.ticker-dot { color: var(--red); }
 
 /* Year stamp top right (below nav) */
 .hero-stamp {
@@ -168,7 +166,7 @@ nav {
 .hl-line:nth-child(2) span { animation-delay: .15s; }
 .hl-line:nth-child(3) span { animation-delay: .25s; }
 
-.hl-line.accent { color: var(--jade); }
+.hl-line.accent { color: var(--red); }
 .hl-line.outline {
   -webkit-text-stroke: 2px var(--ink);
   color: transparent;
@@ -219,7 +217,7 @@ nav {
   padding: 14px 32px;
   transition: background .2s;
 }
-.cta-primary:hover { background: var(--jade); }
+.cta-primary:hover { background: var(--red); }
 .cta-ghost {
   font-size: 0.72rem;
   letter-spacing: 0.12em;
@@ -327,7 +325,7 @@ nav {
 .hs-n {
   font-family: var(--display);
   font-size: 4rem;
-  color: rgba(43,158,143,0.15);
+  color: rgba(10,10,9,0.06);
   line-height: 1;
   margin-bottom: 28px;
 }
@@ -431,14 +429,14 @@ nav {
   display: flex;
   gap: 16px;
 }
-.brief-info li::before { content: '\2014'; color: var(--jade); }
+.brief-info li::before { content: '\2014'; color: var(--red); }
 .f-line { border-bottom: 1px solid var(--rule); margin-bottom: 0; position: relative; }
 .f-line::after {
   content: '';
   position: absolute;
   bottom: -1px; left: 0;
   width: 0; height: 1px;
-  background: var(--jade);
+  background: var(--red);
   transition: width .5s cubic-bezier(.16,1,.3,1);
 }
 .f-line:focus-within::after { width: 100%; }
@@ -483,7 +481,7 @@ nav {
   cursor: none;
   transition: background .2s;
 }
-.btn-black:hover { background: var(--jade); }
+.btn-black:hover { background: var(--red); }
 .f-success {
   font-family: var(--serif);
   font-size: 1.4rem;
@@ -567,7 +565,7 @@ nav {
   text-decoration: none;
   transition: color .2s;
 }
-.c-link:hover { color: var(--jade); }
+.c-link:hover { color: var(--red); }
 
 /* ── FOOTER ─────────────────────────────────── */
 footer {

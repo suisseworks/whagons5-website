@@ -2,6 +2,7 @@ import { useState, FormEvent } from 'react';
 import Nav from '../components/Nav';
 import CustomCursor from '../components/CustomCursor';
 import ScrollReveal from '../components/ScrollReveal';
+import WhagonsLogo from '../components/WhagonsLogo';
 
 const INDUSTRIES = [
   { n: '01', name: 'HOTELERIA', desc: 'Control de housekeeping, mantenimiento y solicitudes en tiempo real' },
@@ -303,7 +304,7 @@ export default function Home() {
       {/* ── FOOTER ─────────────────────────────── */}
       <footer>
         <div className="f-logo">
-          <img src="/whagons.svg" alt="Whagons" style={{ height: 16, width: 'auto', opacity: 0.6 }} />
+          <WhagonsLogo height={16} iconColor="var(--red)" textColor="var(--mid)" />
         </div>
         <div className="f-tag">Si se puede medir, se puede mejorar.</div>
         <div className="f-copy">&copy; 2025 Whagons International</div>

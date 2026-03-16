@@ -72,10 +72,10 @@ async function getSegmentIdByName(
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email, company, industry, country, language } = body;
+    const { name, email, company, industry, country, language, formType, phone, teamSize } = body;
 
-    // Validate required fields
-    if (!name || !email || !company || !industry) {
+    // Validate required fields (company is optional for brief form)
+    if (!name || !email || !industry) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -121,11 +121,14 @@ export async function POST(request: NextRequest) {
 
     // Add custom fields for additional data
     flodeskData.custom_fields = {
-      company: company.trim(),
+      company: company ? company.trim() : '',
       industry: industry,
       country: country || 'Unknown',
       language: language || 'en',
       source: 'whagons-website',
+      form_type: formType || 'waitlist',
+      ...(phone ? { phone: phone.trim() } : {}),
+      ...(teamSize ? { team_size: teamSize } : {}),
     };
 
     // Flodesk uses Basic Auth: username = API key, password = blank
