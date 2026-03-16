@@ -139,9 +139,12 @@ export const translations = {
       { value: '12', label: 'Países con operaciones activas' },
     ],
     testimonials: [
-      { text: 'Whagons transformó completamente nuestra operación hotelera. Pasamos de hojas de cálculo a tener visibilidad total en tiempo real.', name: 'María Rodríguez', role: 'Directora de Operaciones', company: 'Grupo Hotelero Pacífico' },
-      { text: 'La implementación fue increíblemente rápida. En menos de una semana todo nuestro equipo de mantenimiento estaba operando en la plataforma.', name: 'Carlos Méndez', role: 'Gerente de Planta', company: 'IndustrialTech CR' },
-      { text: 'El motor de SLAs nos ayudó a reducir los tiempos de respuesta en un 94%. Los datos hablan por sí solos.', name: 'Ana Sofía Vargas', role: 'VP de Calidad', company: 'FreshFoods Internacional' },
+      { text: 'Estoy muy satisfecho porque controlar más de 1,500 empleados en una disciplina no es fácil.', name: 'Guido Tenorio', role: 'Gerente de Operaciones', company: 'Grupo Lagar' },
+      { text: 'Recomiendo Whagons al 100%. Creo en la herramienta y en las personas detrás de Whagons.', name: 'Jorge Varela', role: 'Gerente General', company: 'Rhythmia' },
+      { text: 'Facilita el control de los procesos diarios. Es una herramienta muy útil y fácil de usar.', name: 'Leela Wernscheid', role: 'Gerente de Operaciones', company: 'Colegio Humboldt' },
+      { text: 'Con Whagons, la certificación ISO 9001:2015 se ha facilitado.', name: 'Isaac Mena Chacón', role: 'Gerente de Calidad', company: 'IQS' },
+      { text: 'Whagons ha sido de gran importancia porque nos permite monitorear las diferentes áreas de la empresa.', name: 'William Ulate Loaiza', role: 'Gerente de Operaciones', company: 'Grupo Colono' },
+      { text: 'Whagons es una herramienta que actualmente es indispensable en nuestras operaciones, ya que nos ayuda a controlar el flujo de trabajo y asegurar la finalización oportuna de las tareas asignadas por nuestros clientes. En Refritec estamos 100% satisfechos con Whagons por la experiencia vivida y las mejoras logradas con la implementación de esta herramienta.', name: 'Jonathan Gaitán', role: 'Gerente', company: 'Refritec' },
     ],
 
     // Closing / Motivational
@@ -305,9 +308,12 @@ export const translations = {
       { value: '12', label: 'Countries with active operations' },
     ],
     testimonials: [
-      { text: 'Whagons completely transformed our hotel operations. We went from spreadsheets to full real-time visibility.', name: 'Mar\u00EDa Rodr\u00EDguez', role: 'Director of Operations', company: 'Grupo Hotelero Pac\u00EDfico' },
-      { text: 'Implementation was incredibly fast. In less than a week our entire maintenance team was operating on the platform.', name: 'Carlos M\u00E9ndez', role: 'Plant Manager', company: 'IndustrialTech CR' },
-      { text: 'The SLA engine helped us reduce response times by 94%. The data speaks for itself.', name: 'Ana Sof\u00EDa Vargas', role: 'VP of Quality', company: 'FreshFoods International' },
+      { text: "I'm very satisfied because controlling more than 1,500 employees in one discipline is not easy.", name: 'Guido Tenorio', role: 'Operations Manager', company: 'Grupo Lagar' },
+      { text: 'I 100% recommend Whagons. I believe in the tool and the people behind Whagons.', name: 'Jorge Varela', role: 'General Manager', company: 'Rhythmia' },
+      { text: "It facilitates the control of daily processes. It's a very useful and easy-to-use tool.", name: 'Leela Wernscheid', role: 'Operations Manager', company: 'Colegio Humboldt' },
+      { text: 'With Whagons, the ISO 9001:2015 certification has been facilitated.', name: 'Isaac Mena Chacón', role: 'Quality Manager', company: 'IQS' },
+      { text: 'Whagons has been of great importance because it allows us to monitor the different areas of the company.', name: 'William Ulate Loaiza', role: 'Operations Manager', company: 'Grupo Colono' },
+      { text: 'Whagons is a tool that is currently indispensable in our operations, as it helps us control workflow and ensure timely completion of tasks assigned by our clients. At Refritec we are 100% satisfied with Whagons for the experience lived and the improvements achieved with the implementation of this tool.', name: 'Jonathan Gaitán', role: 'Manager', company: 'Refritec' },
     ],
 
     // Closing / Motivational
