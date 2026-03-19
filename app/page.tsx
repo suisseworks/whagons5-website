@@ -72,6 +72,11 @@ export default function Home() {
     setLanguage((prev) => (prev === 'en' ? 'es' : 'en'));
   };
 
+  // Dynamic lang attribute for SEO
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
+
   const t = translations[language];
 
   // Submit brief form
@@ -234,7 +239,7 @@ export default function Home() {
               <p className="cap-desc">{cap.desc}</p>
             </div>
           ))}
-          {/* 12th cell — branded filler */}
+          {/* 8th cell — branded filler */}
           <a href="#demo" className="cap-item cap-cta">
             <div
               className="cap-cta-logo"

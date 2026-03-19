@@ -8,44 +8,40 @@ export const translations = {
 
     // Hero
     heroBgWord: 'INTEL',
-    heroTicker1: 'Inteligencia operativa',
-    heroTicker2: 'Procesos físicos complejos',
-    heroTicker3: 'Decisiones en tiempo real',
+    heroTicker1: 'Inteligencia de negocio',
+    heroTicker2: 'Optimización operativa',
+    heroTicker3: 'Decisiones con IA',
     heroStamp: 'Est. 2021',
-    heroLine1: 'INTELIGENCIA',
-    heroLine2: 'OPERATIVA',
-    heroLine3: 'EN ACCIÓN.',
-    heroDesc: 'Whagons es una plataforma de inteligencia operativa para gestionar y optimizar operaciones en organizaciones con procesos físicos complejos.',
-    heroCta1: 'Obtén tu brief',
-    heroCta2: 'Solicitar demo',
+    heroLine1: 'DECISIONES',
+    heroLine2: 'QUE GENERAN',
+    heroLine3: 'RESULTADOS.',
+    heroDesc: 'Whagons es una plataforma impulsada por IA que transforma la complejidad operativa en claridad estratégica para tu organización.',
+    heroCta1: 'Descubre tu potencial',
+    heroCta2: 'Verlo en acción',
     heroScroll: 'Scroll',
 
     // Statement
-    statementEyebrow: 'El problema',
-    statementText: 'Las organizaciones con procesos físicos complejos operan con',
-    statementEmphasis: 'información fragmentada.',
-    statementText2: 'Equipos desconectados, decisiones tardías, sin trazabilidad. La operación ocurre — pero nadie la entiende en tiempo real.',
+    statementEyebrow: 'La brecha',
+    statementText: 'La mayoría de organizaciones toman decisiones críticas basándose en',
+    statementEmphasis: 'información incompleta.',
+    statementText2: 'Equipos desconectados, datos dispersos, sin visibilidad ejecutiva. La operación ocurre — pero el liderazgo no tiene la claridad para actuar.',
 
     // Manifesto
-    manifesto: 'Lo que no se mide, no existe. Lo que no se entiende, no se mejora. Lo que no se controla,',
-    manifestoAccent: 'se pierde.',
+    manifesto: 'La brecha entre lo que sucede y lo que el liderazgo ve es donde se pierde valor. Whagons cierra esa brecha —',
+    manifestoAccent: 'permanentemente.',
 
     // Platform / Capabilities
     capTitle: 'LA PLATAFORMA',
-    capSub: 'Modular. Extensible. Con IA.',
-    capMore: 'Y mucho m\u00E1s. Agenda un demo \u2192',
+    capSub: 'Inteligencia. Automatización. Escala.',
+    capMore: 'Y mucho más. Agenda un demo \u2192',
     capabilities: [
-      { num: '01', name: 'IA ASISTIDA', desc: 'Un asistente con contexto real de tu operación. Busca, analiza, ejecuta y navega la plataforma por ti.' },
-      { num: '02', name: 'WORKFLOWS Y APROBACIONES', desc: 'Flujos de trabajo con lógica real: aprobaciones unánimes, secuenciales o por mayoría. Delegación, escalamiento y timeouts automáticos.' },
-      { num: '03', name: 'MOTOR DE SLAs', desc: 'Tres niveles de escalamiento, runbooks, asignación automática y detección de incumplimiento por minuto. Con analítica P50/P90/P95.' },
-      { num: '04', name: 'ANALÍTICA EN TIEMPO REAL', desc: 'Dashboards con KPIs personalizados, 10 estilos de visualización y monitor de actividad. De la operación a la estrategia.' },
-      { num: '05', name: 'NORMAS Y CUMPLIMIENTO', desc: 'Estándares, auditorías, firmas digitales y retención de 7 años. Registros auditables para cualquier regulación.' },
-      { num: '06', name: 'GESTIÓN DE ACTIVOS', desc: 'Inspecciones, mantenimiento preventivo, depreciación, jerarquías y escaneo QR. Control total sobre lo físico.' },
-      { num: '07', name: 'DOCUMENTOS Y PROTOCOLOS', desc: 'SOPs, manuales, certificados y protocolos por departamento. Multimedia, multi-idioma, con confirmación de lectura.' },
-      { num: '08', name: 'GAMIFICACIÓN', desc: 'Puntos, insignias, niveles y rankings. Porque la operación también necesita motivación con propósito.' },
-      { num: '09', name: 'MODO OFFLINE', desc: 'Tus equipos ejecutan sin internet. Caché local, sincronización en segundo plano. La operación no espera por señal.' },
-      { num: '10', name: 'LIMPIEZA Y HOTELERÍA', desc: 'Housekeeping, rondas NFC, handovers digitales, integración PMS y control de minibar. Suite completa para hospitalidad.' },
-      { num: '11', name: 'EXTENSIBLE E INTEGRABLE', desc: '18+ powerups activables. API completa. SSO. White-label. Crece con tu operación sin límites artificiales.' },
+      { num: '01', name: 'COPILOTO IA', desc: 'Un asistente estratégico con contexto real de tu operación. Busca, analiza, recomienda y ejecuta — para que tu equipo se enfoque en decidir, no en buscar.' },
+      { num: '02', name: 'WORKFLOWS INTELIGENTES', desc: 'Automatiza decisiones, no solo tareas. Aprobaciones unánimes, secuenciales o por mayoría. Delegación, escalamiento y timeouts que se adaptan a tu lógica de negocio.' },
+      { num: '03', name: 'MOTOR DE RENDIMIENTO', desc: 'Visibilidad del piso al directorio. SLAs con tres niveles de escalamiento, analítica P50/P90/P95, dashboards con KPIs personalizados y monitor de actividad en tiempo real.' },
+      { num: '04', name: 'CUMPLIMIENTO Y AUDITORÍA', desc: 'Listo para auditoría sin papeleo. Estándares, firmas digitales, retención de 7 años y registros auditables para cualquier regulación — todo digital, todo trazable.' },
+      { num: '05', name: 'INTELIGENCIA DE ACTIVOS', desc: 'Sabe antes de que los problemas se conviertan en costos. Inspecciones, mantenimiento preventivo, depreciación, jerarquías y escaneo QR con analítica predictiva.' },
+      { num: '06', name: 'HUB DE CONOCIMIENTO', desc: 'SOPs, manuales, certificados y protocolos por departamento. Multimedia, multi-idioma, con confirmación de lectura — más gamificación para impulsar el compromiso operativo.' },
+      { num: '07', name: 'DISEÑADO PARA ESCALAR', desc: 'Offline-first para equipos sin conexión. API completa, SSO, white-label y 18+ powerups activables. Tu operación crece sin límites artificiales.' },
     ],
 
     // Colors / Customization
@@ -59,39 +55,39 @@ export const translations = {
     indTitle: 'INDUSTRIAS',
     indSub: '10+ sectores',
     industries: [
-      { num: '01', name: 'HOTELERÍA', desc: 'Visibilidad total sobre housekeeping, mantenimiento y servicio al huésped' },
-      { num: '02', name: 'RETAIL', desc: 'Coordinación de operaciones entre múltiples puntos de venta en tiempo real' },
-      { num: '03', name: 'MANTENIMIENTO INDUSTRIAL', desc: 'Gestión de activos críticos, órdenes de trabajo y mantenimiento preventivo' },
-      { num: '04', name: 'FARMA Y ALIMENTOS', desc: 'Trazabilidad, cumplimiento regulatorio y registros auditables digitales' },
-      { num: '05', name: 'SALUD Y EDUCACIÓN', desc: 'Protocolos operativos, rondas e inspecciones con evidencia estructurada' },
-      { num: '06', name: 'CONSTRUCCIÓN', desc: 'Seguimiento de avance, seguridad operacional y gestión de recursos en campo' },
+      { num: '01', name: 'HOTELERÍA', desc: 'Convierte la experiencia del huésped en una ventaja medible' },
+      { num: '02', name: 'RETAIL', desc: 'Unifica operaciones multi-sede bajo una sola capa de inteligencia' },
+      { num: '03', name: 'MANTENIMIENTO INDUSTRIAL', desc: 'Predice fallas antes de que se conviertan en costos' },
+      { num: '04', name: 'FARMA Y ALIMENTOS', desc: 'Trazabilidad auditable del origen al estante' },
+      { num: '05', name: 'SALUD Y EDUCACIÓN', desc: 'Protege a tu gente y tu reputación' },
+      { num: '06', name: 'CONSTRUCCIÓN', desc: 'Progreso en tiempo real desde los cimientos hasta la entrega' },
     ],
 
     // Brief
     briefTitle1: 'BRIEF',
     briefTitle2: 'GRATUITO',
-    briefSub: 'Recibe un análisis de cómo la inteligencia operativa se aplica a tu organización y sector.',
-    briefInfo: 'Entendemos que cada operación es distinta. El brief te muestra exactamente cómo Whagons se adapta a la complejidad de tu organización.',
+    briefSub: 'Recibe un blueprint de inteligencia adaptado a tu organización y sector.',
+    briefInfo: 'No es un brochure genérico. El brief analiza tu operación y te muestra exactamente dónde está el potencial sin capturar.',
     briefBullets: [
-      'Diagnóstico de tu proceso operativo actual',
-      'Módulos y flujos recomendados para tu sector',
-      'KPIs e impacto esperado con datos reales',
+      'Análisis de brechas en tu proceso operativo actual',
+      'Estimación de ROI con benchmarks de tu industria',
+      'Módulos y flujos recomendados para tu caso',
       'Sin reunión de ventas previa',
     ],
     briefEmailLabel: 'Correo electrónico',
     briefEmailPlaceholder: 'tu@empresa.com',
     briefIndustryLabel: 'Industria',
     briefIndustryPlaceholder: 'Selecciona',
-    briefSubmit: 'Recibir brief',
+    briefSubmit: 'Descubrir potencial',
     briefNote: 'Sin spam. Solo información relevante para tu industria.',
     briefSuccess: 'Perfecto — revisa tu correo en los próximos minutos.',
 
     // Demo
-    demoTitle1: 'SOLICITA',
-    demoTitle2: 'UN DEMO',
-    demoSub: 'Un especialista en inteligencia operativa te contacta con una sesión adaptada a la complejidad de tu organización.',
+    demoTitle1: 'VER',
+    demoTitle2: 'EN ACCIÓN',
+    demoSub: 'Una consulta a nivel ejecutivo, adaptada a tu industria, estructura de equipo y complejidad operativa.',
     demoPerks: [
-      'Sesión enfocada en los procesos físicos complejos de tu organización, no un demo genérico.',
+      'Sesión enfocada en los desafíos específicos de tu operación, no un demo genérico.',
       'Implementación en días, no meses. Sin dependencia de IT ni migraciones complicadas.',
       'Plataforma que escala con tu operación — desde 10 hasta miles de colaboradores en campo.',
       'Te contactamos en menos de 24 horas hábiles.',
@@ -106,7 +102,7 @@ export const translations = {
     demoPhonePlaceholder: '+506 8888 0000',
     demoIndustryLabel: 'Industria',
     demoTeamSizeLabel: 'Tamaño del equipo operativo',
-    demoSubmit: 'Solicitar demo',
+    demoSubmit: 'Ver en acción',
     demoNote: 'Te contactamos en menos de 24 horas hábiles.',
     demoSuccess: 'Recibido — un especialista se pondrá en contacto pronto.',
 
@@ -130,10 +126,10 @@ export const translations = {
     ],
 
     // Social Proof / Testimonials
-    socialProofTitle: 'RESULTADOS',
-    socialProofSub: 'Lo que dicen nuestros clientes',
+    socialProofTitle: 'IMPACTO',
+    socialProofSub: 'La confianza de líderes operativos en toda América Latina',
     socialProofMetrics: [
-      { value: '94%', label: 'Reducción en tiempos de respuesta' },
+      { value: '94%', label: 'Tiempos de respuesta más rápidos' },
       { value: '3x', label: 'Mayor visibilidad operativa' },
       { value: '60%', label: 'Menos incidentes sin resolver' },
       { value: '12', label: 'Países con operaciones activas' },
@@ -149,14 +145,14 @@ export const translations = {
 
     // Closing / Motivational
     closingQuotes: [
-      { text: 'La excelencia operativa no es un destino, es una disciplina diaria.', author: 'Whagons' },
-      { text: 'Lo que se mide, se mejora. Lo que se mejora, se transforma.', author: 'Whagons' },
-      { text: 'Cada proceso optimizado es una promesa cumplida a tu equipo.', author: 'Whagons' },
-      { text: 'La tecnolog\u00EDa correcta no reemplaza personas \u2014 las empodera.', author: 'Whagons' },
-      { text: 'El control no es restricci\u00F3n. Es claridad para actuar con confianza.', author: 'Whagons' },
-      { text: 'Grandes operaciones se construyen con peque\u00F1as decisiones inteligentes.', author: 'Whagons' },
+      { text: 'La diferencia entre reaccionar y anticipar es una decisión. Whagons te da la claridad para tomarla.', author: 'Whagons' },
+      { text: 'Cada dato que no capturaste ayer es una oportunidad que no verás mañana.', author: 'Whagons' },
+      { text: 'Las organizaciones que lideran no trabajan más duro — ven más claro.', author: 'Whagons' },
+      { text: 'La tecnología correcta no reemplaza personas — las empodera para tomar mejores decisiones.', author: 'Whagons' },
+      { text: 'Cuando tu operación habla, tu estrategia escucha. Esa es la inteligencia operativa.', author: 'Whagons' },
+      { text: 'Grandes operaciones se construyen con pequeñas decisiones inteligentes — tomadas en el momento correcto.', author: 'Whagons' },
     ],
-    closingImageAlt: 'Inspiraci\u00F3n operativa',
+    closingImageAlt: 'Inspiración operativa',
 
     // Contact
     contactTitle1: 'TIENES',
@@ -165,7 +161,7 @@ export const translations = {
     contactWhatsapp: 'WhatsApp',
 
     // Footer
-    footerTag: 'Inteligencia operativa para organizaciones complejas.',
+    footerTag: 'Inteligencia operativa para organizaciones que exigen más.',
     footerCopy: '\u00A9 2026 Whagons International',
   },
   en: {
@@ -177,44 +173,40 @@ export const translations = {
 
     // Hero
     heroBgWord: 'INTEL',
-    heroTicker1: 'Operational intelligence',
-    heroTicker2: 'Complex physical processes',
-    heroTicker3: 'Real-time decisions',
+    heroTicker1: 'Business intelligence',
+    heroTicker2: 'Operational optimization',
+    heroTicker3: 'AI-powered decisions',
     heroStamp: 'Est. 2021',
-    heroLine1: 'OPERATIONAL',
-    heroLine2: 'INTELLIGENCE',
-    heroLine3: 'IN ACTION.',
-    heroDesc: 'Whagons is an operational intelligence platform to manage and optimize operations in organizations with complex physical processes.',
-    heroCta1: 'Get your brief',
-    heroCta2: 'Request demo',
+    heroLine1: 'DECISIONS',
+    heroLine2: 'THAT DRIVE',
+    heroLine3: 'RESULTS.',
+    heroDesc: 'Whagons is an AI-powered platform that turns operational complexity into strategic clarity for your organization.',
+    heroCta1: 'Discover your potential',
+    heroCta2: 'See it in action',
     heroScroll: 'Scroll',
 
     // Statement
-    statementEyebrow: 'The problem',
-    statementText: 'Organizations with complex physical processes operate with',
-    statementEmphasis: 'fragmented information.',
-    statementText2: 'Disconnected teams, late decisions, no traceability. Operations happen \u2014 but no one understands them in real time.',
+    statementEyebrow: 'The gap',
+    statementText: 'Most organizations make critical decisions based on',
+    statementEmphasis: 'incomplete information.',
+    statementText2: 'Disconnected teams, scattered data, no executive visibility. Operations happen — but leadership lacks the clarity to act.',
 
     // Manifesto
-    manifesto: 'What isn\u2019t measured doesn\u2019t exist. What isn\u2019t understood can\u2019t improve. What isn\u2019t controlled,',
-    manifestoAccent: 'is lost.',
+    manifesto: 'The gap between what happens and what leadership sees is where value is lost. Whagons closes that gap —',
+    manifestoAccent: 'permanently.',
 
     // Platform / Capabilities
     capTitle: 'THE PLATFORM',
-    capSub: 'Modular. Extensible. AI-powered.',
+    capSub: 'Intelligence. Automation. Scale.',
     capMore: 'And much more. Book a demo \u2192',
     capabilities: [
-      { num: '01', name: 'ASSISTED AI', desc: 'An assistant with real context of your operation. It searches, analyzes, executes, and navigates the platform for you.' },
-      { num: '02', name: 'WORKFLOWS & APPROVALS', desc: 'Workflows with real logic: unanimous, sequential, or majority approvals. Delegation, escalation, and automatic timeouts.' },
-      { num: '03', name: 'SLA ENGINE', desc: 'Three escalation levels, runbooks, auto-assignment, and per-minute breach detection. With P50/P90/P95 analytics.' },
-      { num: '04', name: 'REAL-TIME ANALYTICS', desc: 'Dashboards with custom KPIs, 10 visualization styles, and activity monitor. From operations to strategy.' },
-      { num: '05', name: 'COMPLIANCE & STANDARDS', desc: 'Standards, audits, digital signatures, and 7-year retention. Auditable records for any regulation.' },
-      { num: '06', name: 'ASSET MANAGEMENT', desc: 'Inspections, preventive maintenance, depreciation, hierarchies, and QR scanning. Total control over the physical.' },
-      { num: '07', name: 'DOCUMENTS & PROTOCOLS', desc: 'SOPs, manuals, certificates, and department protocols. Multimedia, multilingual, with read confirmations.' },
-      { num: '08', name: 'GAMIFICATION', desc: 'Points, badges, levels, and leaderboards. Because operations also need motivation with purpose.' },
-      { num: '09', name: 'OFFLINE MODE', desc: 'Your teams execute without internet. Local cache, background sync. Operations don\u2019t wait for signal.' },
-      { num: '10', name: 'CLEANING & HOSPITALITY', desc: 'Housekeeping, NFC rounds, digital handovers, PMS integration, and minibar control. Full hospitality suite.' },
-      { num: '11', name: 'EXTENSIBLE & INTEGRABLE', desc: '18+ activatable powerups. Full API. SSO. White-label. Grow with your operation \u2014 no artificial limits.' },
+      { num: '01', name: 'AI COPILOT', desc: 'A strategic assistant with real context of your operation. It searches, analyzes, recommends, and executes — so your team focuses on deciding, not searching.' },
+      { num: '02', name: 'INTELLIGENT WORKFLOWS', desc: 'Automate decisions, not just tasks. Unanimous, sequential, or majority approvals. Delegation, escalation, and timeouts that adapt to your business logic.' },
+      { num: '03', name: 'PERFORMANCE ENGINE', desc: 'Visibility from floor to boardroom. SLAs with three escalation levels, P50/P90/P95 analytics, dashboards with custom KPIs, and real-time activity monitoring.' },
+      { num: '04', name: 'COMPLIANCE & AUDIT', desc: 'Audit-ready without the paperwork. Standards, digital signatures, 7-year retention, and auditable records for any regulation — all digital, all traceable.' },
+      { num: '05', name: 'ASSET INTELLIGENCE', desc: 'Know before problems become costs. Inspections, preventive maintenance, depreciation, hierarchies, and QR scanning with predictive analytics.' },
+      { num: '06', name: 'KNOWLEDGE HUB', desc: 'SOPs, manuals, certificates, and department protocols. Multimedia, multilingual, with read confirmations — plus gamification to drive operational engagement.' },
+      { num: '07', name: 'BUILT TO SCALE', desc: 'Offline-first for teams without connectivity. Full API, SSO, white-label, and 18+ activatable powerups. Your operation grows without artificial limits.' },
     ],
 
     // Colors / Customization
@@ -228,39 +220,39 @@ export const translations = {
     indTitle: 'INDUSTRIES',
     indSub: '10+ sectors',
     industries: [
-      { num: '01', name: 'HOSPITALITY', desc: 'Full visibility over housekeeping, maintenance, and guest service' },
-      { num: '02', name: 'RETAIL', desc: 'Coordination of operations across multiple points of sale in real time' },
-      { num: '03', name: 'INDUSTRIAL MAINTENANCE', desc: 'Critical asset management, work orders, and preventive maintenance' },
-      { num: '04', name: 'PHARMA & FOOD', desc: 'Traceability, regulatory compliance, and auditable digital records' },
-      { num: '05', name: 'HEALTH & EDUCATION', desc: 'Operational protocols, rounds, and inspections with structured evidence' },
-      { num: '06', name: 'CONSTRUCTION', desc: 'Progress tracking, operational safety, and field resource management' },
+      { num: '01', name: 'HOSPITALITY', desc: 'Turn guest experience into a measurable advantage' },
+      { num: '02', name: 'RETAIL', desc: 'Unify multi-location operations under one intelligence layer' },
+      { num: '03', name: 'INDUSTRIAL MAINTENANCE', desc: 'Predict failures before they cost you' },
+      { num: '04', name: 'PHARMA & FOOD', desc: 'Auditable traceability from origin to shelf' },
+      { num: '05', name: 'HEALTH & EDUCATION', desc: 'Protect your people and your reputation' },
+      { num: '06', name: 'CONSTRUCTION', desc: 'Real-time progress from foundation to handover' },
     ],
 
     // Brief
     briefTitle1: 'FREE',
     briefTitle2: 'BRIEF',
-    briefSub: 'Receive an analysis of how operational intelligence applies to your organization and sector.',
-    briefInfo: 'We understand that every operation is different. The brief shows you exactly how Whagons adapts to the complexity of your organization.',
+    briefSub: 'Receive an intelligence blueprint tailored to your organization and sector.',
+    briefInfo: 'This isn\u2019t a generic brochure. The brief analyzes your operation and shows you exactly where uncaptured potential lies.',
     briefBullets: [
-      'Diagnosis of your current operational process',
-      'Recommended modules and workflows for your sector',
-      'KPIs and expected impact with real data',
+      'Gap analysis of your current operational process',
+      'ROI estimation with industry benchmarks',
+      'Recommended modules and workflows for your case',
       'No prior sales meeting required',
     ],
     briefEmailLabel: 'Email',
     briefEmailPlaceholder: 'you@company.com',
     briefIndustryLabel: 'Industry',
     briefIndustryPlaceholder: 'Select',
-    briefSubmit: 'Receive brief',
+    briefSubmit: 'Discover potential',
     briefNote: 'No spam. Only information relevant to your industry.',
     briefSuccess: 'Perfect \u2014 check your email in the next few minutes.',
 
     // Demo
-    demoTitle1: 'REQUEST',
-    demoTitle2: 'A DEMO',
-    demoSub: 'An operational intelligence specialist will contact you with a session adapted to the complexity of your organization.',
+    demoTitle1: 'SEE IT',
+    demoTitle2: 'IN ACTION',
+    demoSub: 'An executive-level consultation, tailored to your industry, team structure, and operational complexity.',
     demoPerks: [
-      'Session focused on the complex physical processes of your organization, not a generic demo.',
+      'Session focused on your operation\u2019s specific challenges, not a generic demo.',
       'Implementation in days, not months. No IT dependency or complicated migrations.',
       'Platform that scales with your operation \u2014 from 10 to thousands of field collaborators.',
       'We contact you within 24 business hours.',
@@ -275,7 +267,7 @@ export const translations = {
     demoPhonePlaceholder: '+1 555 000 0000',
     demoIndustryLabel: 'Industry',
     demoTeamSizeLabel: 'Operational team size',
-    demoSubmit: 'Request demo',
+    demoSubmit: 'See it in action',
     demoNote: 'We contact you within 24 business hours.',
     demoSuccess: 'Received \u2014 a specialist will be in touch soon.',
 
@@ -299,10 +291,10 @@ export const translations = {
     ],
 
     // Social Proof / Testimonials
-    socialProofTitle: 'RESULTS',
-    socialProofSub: 'What our customers say',
+    socialProofTitle: 'IMPACT',
+    socialProofSub: 'Trusted by operations leaders across Latin America',
     socialProofMetrics: [
-      { value: '94%', label: 'Reduction in response times' },
+      { value: '94%', label: 'Faster response times' },
       { value: '3x', label: 'Greater operational visibility' },
       { value: '60%', label: 'Fewer unresolved incidents' },
       { value: '12', label: 'Countries with active operations' },
@@ -318,12 +310,12 @@ export const translations = {
 
     // Closing / Motivational
     closingQuotes: [
-      { text: 'Operational excellence is not a destination \u2014 it\u2019s a daily discipline.', author: 'Whagons' },
-      { text: 'What gets measured gets improved. What gets improved gets transformed.', author: 'Whagons' },
-      { text: 'Every optimized process is a promise kept to your team.', author: 'Whagons' },
-      { text: 'The right technology doesn\u2019t replace people \u2014 it empowers them.', author: 'Whagons' },
-      { text: 'Control isn\u2019t restriction. It\u2019s clarity to act with confidence.', author: 'Whagons' },
-      { text: 'Great operations are built from small, intelligent decisions.', author: 'Whagons' },
+      { text: 'The difference between reacting and anticipating is a decision. Whagons gives you the clarity to make it.', author: 'Whagons' },
+      { text: 'Every data point you didn\u2019t capture yesterday is an opportunity you won\u2019t see tomorrow.', author: 'Whagons' },
+      { text: 'Organizations that lead don\u2019t work harder \u2014 they see clearer.', author: 'Whagons' },
+      { text: 'The right technology doesn\u2019t replace people \u2014 it empowers them to make better decisions.', author: 'Whagons' },
+      { text: 'When your operation speaks, your strategy listens. That\u2019s operational intelligence.', author: 'Whagons' },
+      { text: 'Great operations are built from small, intelligent decisions \u2014 made at the right moment.', author: 'Whagons' },
     ],
     closingImageAlt: 'Operational inspiration',
 
@@ -334,7 +326,7 @@ export const translations = {
     contactWhatsapp: 'WhatsApp',
 
     // Footer
-    footerTag: 'Operational intelligence for complex organizations.',
+    footerTag: 'Operational intelligence for organizations that demand more.',
     footerCopy: '\u00A9 2026 Whagons International',
   },
 };
