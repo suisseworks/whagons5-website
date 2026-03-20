@@ -69,18 +69,45 @@ async function getSegmentIdByName(
   }
 }
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_FIELD_LENGTH = 200;
+
+function sanitize(value: unknown): string {
+  if (typeof value !== 'string') return '';
+  return value.trim().slice(0, MAX_FIELD_LENGTH);
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { name, email, company, industry, country, language, formType, phone, teamSize } = body;
 
-    // Validate required fields (company is optional for brief form)
+    // Validate required fields
     if (!name || !email || !industry) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
       );
     }
+
+    // Validate email format
+    const cleanEmail = sanitize(email);
+    if (!EMAIL_REGEX.test(cleanEmail)) {
+      return NextResponse.json(
+        { error: 'Invalid email address' },
+        { status: 400 }
+      );
+    }
+
+    // Sanitize all string inputs
+    const cleanName = sanitize(name);
+    const cleanCompany = sanitize(company);
+    const cleanIndustry = sanitize(industry);
+    const cleanCountry = sanitize(country) || 'Unknown';
+    const cleanLanguage = language === 'es' ? 'es' : 'en';
+    const cleanFormType = formType === 'brief' ? 'brief' : 'demo';
+    const cleanPhone = sanitize(phone);
+    const cleanTeamSize = sanitize(teamSize);
 
     // Get Flodesk API key from environment
     const apiKey = process.env.FLODESK_API_KEY;
@@ -99,7 +126,7 @@ export async function POST(request: NextRequest) {
     const segmentNameEnglish = 'Whagons5-waitlist-ENGLISH';
     const segmentNameSpanish = 'Whagons5-waitlist-ESPANOL';
     
-    const targetSegmentName = language === 'es' ? segmentNameSpanish : segmentNameEnglish;
+    const targetSegmentName = cleanLanguage === 'es' ? segmentNameSpanish : segmentNameEnglish;
     const segmentId = await getSegmentIdByName(apiKey, targetSegmentName);
     
     if (!segmentId) {
@@ -109,9 +136,9 @@ export async function POST(request: NextRequest) {
     // Prepare data for Flodesk API
     // Flodesk requires 'email' and optionally accepts first_name, last_name, custom_fields, segment_ids, etc.
     const flodeskData: any = {
-      email: email.trim(),
-      first_name: name.trim().split(' ')[0] || name.trim(),
-      last_name: name.trim().split(' ').slice(1).join(' ') || '',
+      email: cleanEmail,
+      first_name: cleanName.split(' ')[0] || cleanName,
+      last_name: cleanName.split(' ').slice(1).join(' ') || '',
     };
 
     // Add segment_ids if available
@@ -121,14 +148,14 @@ export async function POST(request: NextRequest) {
 
     // Add custom fields for additional data
     flodeskData.custom_fields = {
-      company: company ? company.trim() : '',
-      industry: industry,
-      country: country || 'Unknown',
-      language: language || 'en',
+      company: cleanCompany,
+      industry: cleanIndustry,
+      country: cleanCountry,
+      language: cleanLanguage,
       source: 'whagons-website',
-      form_type: formType || 'waitlist',
-      ...(phone ? { phone: phone.trim() } : {}),
-      ...(teamSize ? { team_size: teamSize } : {}),
+      form_type: cleanFormType,
+      ...(cleanPhone ? { phone: cleanPhone } : {}),
+      ...(cleanTeamSize ? { team_size: cleanTeamSize } : {}),
     };
 
     // Flodesk uses Basic Auth: username = API key, password = blank

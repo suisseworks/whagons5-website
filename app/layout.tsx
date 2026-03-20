@@ -1,5 +1,28 @@
 import type { Metadata } from 'next';
+import { Bebas_Neue, Cormorant_Garamond, Instrument_Sans } from 'next/font/google';
 import './globals.css';
+
+const bebasNeue = Bebas_Neue({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+});
+
+const cormorantGaramond = Cormorant_Garamond({
+  weight: ['300', '400'],
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
+  variable: '--font-serif',
+  display: 'swap',
+});
+
+const instrumentSans = Instrument_Sans({
+  weight: ['400', '500', '600'],
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Whagons — Operational Intelligence Platform | AI-Powered Business Optimization',
@@ -46,14 +69,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang="es" suppressHydrationWarning className={`${bebasNeue.variable} ${cormorantGaramond.variable} ${instrumentSans.variable}`}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Instrument+Sans:wght@400;500;600&display=swap"
-          rel="stylesheet"
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

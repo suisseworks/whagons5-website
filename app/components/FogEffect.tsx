@@ -70,7 +70,18 @@ export default function FogEffect({ intensity = 'reduced' }: FogEffectProps) {
     createFogLayers();
 
     let time = 0;
+    let paused = false;
+
+    const onVisibilityChange = () => {
+      paused = document.hidden;
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
     const animate = () => {
+      if (paused) {
+        animationFrameRef.current = requestAnimationFrame(animate);
+        return;
+      }
       time += 0.004;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -126,6 +137,7 @@ export default function FogEffect({ intensity = 'reduced' }: FogEffectProps) {
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }

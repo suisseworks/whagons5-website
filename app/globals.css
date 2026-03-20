@@ -7,9 +7,9 @@ html { font-size: 16px; scroll-behavior: smooth; }
   --mid:   #8A8680;
   --red:   #D4310A;
   --rule:  rgba(10,10,9,0.1);
-  --display: 'Bebas Neue', sans-serif;
-  --serif: 'Cormorant Garamond', Georgia, serif;
-  --sans:  'Instrument Sans', sans-serif;
+  --display: var(--font-display, 'Bebas Neue'), sans-serif;
+  --serif: var(--font-serif, 'Cormorant Garamond'), Georgia, serif;
+  --sans:  var(--font-sans, 'Instrument Sans'), sans-serif;
 }
 
 body {
@@ -62,7 +62,7 @@ nav {
 }
 .logo {
   font-family: var(--sans);
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -73,7 +73,7 @@ nav {
   gap: 10px;
 }
 .logo-ver {
-  font-size: 0.48rem;
+  font-size: 0.56rem;
   font-weight: 400;
   letter-spacing: 0.08em;
   color: var(--mid);
@@ -81,8 +81,8 @@ nav {
 }
 .logo-icon {
   display: inline-block;
-  height: 18px;
-  width: 47px;
+  height: 22px;
+  width: 60px;
   background-color: var(--red);
   mask: url(/whagons.svg) no-repeat center / contain;
   -webkit-mask: url(/whagons.svg) no-repeat center / contain;
@@ -611,7 +611,7 @@ nav {
   display: grid;
   grid-template-columns: 48px 1fr 1fr;
   align-items: center;
-  padding: 28px 0;
+  padding: 28px 24px 28px 0;
   border-bottom: 1px solid var(--rule);
   gap: 40px;
   position: relative;
@@ -632,14 +632,14 @@ nav {
 .ind-row:hover .i-name,
 .ind-row:hover .i-desc { color: rgba(245,242,235,0.5); }
 .ind-row:hover .i-name { color: var(--cream); }
-.i-n { font-family: var(--serif); font-style: italic; font-size: 0.8rem; color: var(--mid); transition: color .3s; }
+.i-n { font-family: var(--serif); font-style: italic; font-size: 1.1rem; color: var(--mid); transition: color .3s; }
 .i-name {
   font-family: var(--display);
   font-size: clamp(1.6rem, 3vw, 2.8rem);
   letter-spacing: 0.02em;
   transition: color .3s;
 }
-.i-desc { font-size: 0.8rem; color: var(--mid); line-height: 1.65; text-align: right; transition: color .3s; }
+.i-desc { font-size: 1rem; color: var(--mid); line-height: 1.65; text-align: right; transition: color .3s; }
 
 /* ── BRIEF ──────────────────────────────────── */
 #brief {
@@ -958,6 +958,41 @@ footer {
   font-style: italic;
   color: var(--mid);
   font-size: 1rem;
+}
+
+/* Award badge */
+.proof-award {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 36px 32px;
+  margin-bottom: 48px;
+  border: 1px solid var(--rule);
+  text-align: left;
+}
+.pa-icon {
+  font-size: 2.2rem;
+  color: var(--red);
+  line-height: 1;
+}
+.pa-title {
+  font-family: var(--display);
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+.pa-detail {
+  font-size: 0.82rem;
+  color: var(--mid);
+  margin-top: 4px;
+}
+.pa-note {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.78rem;
+  color: var(--mid);
+  margin-top: 2px;
 }
 
 /* Metrics strip */

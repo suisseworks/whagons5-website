@@ -1,15 +1,13 @@
 {
   "name": "whagons-website",
-  "version": "0.0.0",
+  "version": "5.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "dev:vite": "vite",
-    "build:vite": "tsc && vite build",
-    "preview:vite": "vite preview"
+    "lint": "next lint"
   },
   "dependencies": {
     "next": "^14.2.35",
@@ -20,8 +18,8 @@
     "@types/node": "^20.14.0",
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
-    "@vitejs/plugin-react": "^4.3.4",
-    "typescript": "^5.8.3",
-    "vite": "^6.0.0"
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.35",
+    "typescript": "^5.8.3"
   }
 }

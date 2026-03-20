@@ -129,11 +129,12 @@ export const translations = {
     socialProofTitle: 'IMPACTO',
     socialProofSub: 'La confianza de líderes operativos en toda América Latina',
     socialProofMetrics: [
-      { value: '94%', label: 'Tiempos de respuesta más rápidos' },
-      { value: '3x', label: 'Mayor visibilidad operativa' },
+      { value: '94%', label: 'Cumplimiento de SLAs operativos' },
+      { value: '3x', label: 'Más datos operativos capturados' },
       { value: '60%', label: 'Menos incidentes sin resolver' },
       { value: '12', label: 'Países con operaciones activas' },
     ],
+    award: { title: 'Producto Innovador del Año', event: 'Exphore Expo Hoteles & Restaurantes', year: '2017', note: 'Anteriormente DingDone' },
     testimonials: [
       { text: 'Estoy muy satisfecho porque controlar más de 1,500 empleados en una disciplina no es fácil.', name: 'Guido Tenorio', role: 'Gerente de Operaciones', company: 'Grupo Lagar' },
       { text: 'Recomiendo Whagons al 100%. Creo en la herramienta y en las personas detrás de Whagons.', name: 'Jorge Varela', role: 'Gerente General', company: 'Rhythmia' },
@@ -294,11 +295,12 @@ export const translations = {
     socialProofTitle: 'IMPACT',
     socialProofSub: 'Trusted by operations leaders across Latin America',
     socialProofMetrics: [
-      { value: '94%', label: 'Faster response times' },
-      { value: '3x', label: 'Greater operational visibility' },
+      { value: '94%', label: 'SLA compliance rate' },
+      { value: '3x', label: 'More operational data captured' },
       { value: '60%', label: 'Fewer unresolved incidents' },
       { value: '12', label: 'Countries with active operations' },
     ],
+    award: { title: 'Innovative Product of the Year', event: 'Exphore Expo Hoteles & Restaurantes', year: '2017', note: 'Formerly DingDone' },
     testimonials: [
       { text: "I'm very satisfied because controlling more than 1,500 employees in one discipline is not easy.", name: 'Guido Tenorio', role: 'Operations Manager', company: 'Grupo Lagar' },
       { text: 'I 100% recommend Whagons. I believe in the tool and the people behind Whagons.', name: 'Jorge Varela', role: 'General Manager', company: 'Rhythmia' },
