@@ -1,25 +1,28 @@
 'use client';
 
+import { Language } from '../lib/i18n';
+
 interface CapabilitiesSectionProps {
   t: any;
+  lang?: Language;
 }
 
-export default function CapabilitiesSection({ t }: CapabilitiesSectionProps) {
+export default function CapabilitiesSection({ t, lang = 'es' }: CapabilitiesSectionProps) {
   return (
     <section id="how">
       <div className="cap-top r">
-        <div className="cap-title">{t.capTitle}</div>
+        <h2 className="cap-title">{t.capTitle}</h2>
         <div className="cap-sub">{t.capSub}</div>
       </div>
       <div className="cap-grid">
         {t.capabilities.map((cap: any, i: number) => (
           <div className={`cap-item r${i > 0 && i <= 2 ? ` d${i}` : ''}`} key={cap.num}>
             <div className="cap-num">{cap.num}</div>
-            <div className="cap-name">{cap.name}</div>
+            <h3 className="cap-name">{cap.name}</h3>
             <p className="cap-desc">{cap.desc}</p>
           </div>
         ))}
-        <a href="#demo" className="cap-item cap-cta">
+        <a href={`/${lang}/demo`} className="cap-item cap-cta">
           <div
             className="cap-cta-logo"
             style={{

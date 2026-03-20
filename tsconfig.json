@@ -31,7 +31,9 @@
     ]
   },
   "include": [
-    "src",
+    "app",
+    "content",
+    "middleware.ts",
     ".next/types/**/*.ts"
   ],
   "exclude": [

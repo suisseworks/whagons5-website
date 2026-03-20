@@ -1,4 +1,3 @@
-import type { Metadata } from 'next';
 import { Bebas_Neue, Cormorant_Garamond, Instrument_Sans } from 'next/font/google';
 import './globals.css';
 
@@ -24,45 +23,6 @@ const instrumentSans = Instrument_Sans({
   display: 'swap',
 });
 
-export const metadata: Metadata = {
-  title: 'Whagons — Operational Intelligence Platform | AI-Powered Business Optimization',
-  description: 'Transform operational complexity into strategic clarity. AI-powered platform for workflow automation, real-time analytics, SLA management, and operational excellence across industries.',
-  icons: {
-    icon: '/whagons.svg',
-  },
-  openGraph: {
-    title: 'Whagons — Decisions That Drive Results',
-    description: 'AI-powered operational intelligence platform. Turn complexity into clarity with intelligent workflows, real-time analytics, and predictive asset management.',
-    siteName: 'Whagons',
-    type: 'website',
-    locale: 'en_US',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Whagons — Decisions That Drive Results',
-    description: 'AI-powered operational intelligence platform. Turn complexity into clarity with intelligent workflows, real-time analytics, and predictive asset management.',
-  },
-  keywords: [
-    'operational intelligence platform',
-    'business operations optimization',
-    'AI operations management',
-    'real-time operations analytics',
-    'workflow automation software',
-    'SLA management platform',
-    'asset management software',
-    'compliance management system',
-    'operational visibility',
-    'business process intelligence',
-    'field operations platform',
-    'multi-site operations management',
-    'operational excellence software',
-    'inteligencia operativa',
-    'optimización de operaciones',
-    'gestión de operaciones con IA',
-    'plataforma de inteligencia de negocio',
-  ],
-};
-
 export default function RootLayout({
   children,
 }: {
@@ -83,7 +43,7 @@ export default function RootLayout({
                   name: 'Whagons International',
                   url: 'https://whagons.com',
                   logo: 'https://whagons.com/whagons.svg',
-                  description: 'AI-powered operational intelligence platform for organizations with complex on-the-ground operations.',
+                  description: 'Software de gestión operativa con inteligencia artificial para empresas con operaciones complejas. AI-powered operations management software.',
                   foundingDate: '2021',
                   sameAs: [],
                 },
@@ -93,7 +53,7 @@ export default function RootLayout({
                   name: 'Whagons',
                   applicationCategory: 'BusinessApplication',
                   operatingSystem: 'Web, iOS, Android',
-                  description: 'Operational intelligence platform that transforms operational complexity into strategic clarity with AI-powered workflows, real-time analytics, and predictive asset management.',
+                  description: 'Software de gestión operativa y automatización de procesos empresariales. Plataforma con IA para control de operaciones, flujos de trabajo inteligentes y analítica en tiempo real.',
                   offers: {
                     '@type': 'Offer',
                     price: '0',
@@ -114,6 +74,7 @@ export default function RootLayout({
                     '@type': 'Organization',
                     '@id': 'https://whagons.com/#organization',
                   },
+                  inLanguage: ['es', 'en'],
                   potentialAction: {
                     '@type': 'SearchAction',
                     target: 'https://whagons.com/?q={search_term_string}',

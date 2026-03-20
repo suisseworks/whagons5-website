@@ -1,14 +1,17 @@
 'use client';
 
+import { Language } from '../lib/i18n';
+
 interface IndustriesSectionProps {
   t: any;
+  lang?: Language;
 }
 
-export default function IndustriesSection({ t }: IndustriesSectionProps) {
+export default function IndustriesSection({ t, lang = 'es' }: IndustriesSectionProps) {
   return (
     <section id="industries">
       <div className="ind-top r">
-        <div className="ind-title">{t.indTitle}</div>
+        <h2 className="ind-title">{t.indTitle}</h2>
         <div className="ind-sub">{t.indSub}</div>
       </div>
       <div className="r">

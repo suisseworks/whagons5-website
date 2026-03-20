@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(timeout 10 cat C:/Users/Matthias/AppData/Local/Temp/claude/C--Users-Matthias-Desktop-whagons-whagons-website/ec297bbb-4c50-4182-bf82-7fbad8843bd2/tasks/bn1uf5ab8.output)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(where node:*)",
+      "Bash(where npm:*)",
+      "Bash(where npx:*)"
+    ]
+  }
+}

@@ -6,41 +6,41 @@ export const translations = {
     navBrief: 'Brief',
     navDemo: 'Demo',
 
-    // Hero
+    // Hero — SEO: target "software de gestión operativa", "automatización de procesos"
     heroBgWord: 'INTEL',
-    heroTicker1: 'Inteligencia de negocio',
-    heroTicker2: 'Optimización operativa',
-    heroTicker3: 'Decisiones con IA',
+    heroTicker1: 'Software de gestión operativa',
+    heroTicker2: 'Automatización de procesos',
+    heroTicker3: 'Inteligencia artificial empresarial',
     heroStamp: 'Est. 2021',
     heroLine1: 'DECISIONES',
     heroLine2: 'QUE GENERAN',
     heroLine3: 'RESULTADOS.',
-    heroDesc: 'Whagons es una plataforma impulsada por IA que transforma la complejidad operativa en claridad estratégica para tu organización.',
+    heroDesc: 'Whagons es un software de gestión operativa con inteligencia artificial que automatiza procesos empresariales y transforma datos en decisiones estratégicas para tu organización.',
     heroCta1: 'Descubre tu potencial',
     heroCta2: 'Verlo en acción',
     heroScroll: 'Scroll',
 
-    // Statement
-    statementEyebrow: 'La brecha',
-    statementText: 'La mayoría de organizaciones toman decisiones críticas basándose en',
+    // Statement — SEO: target "control de operaciones", "gestión empresarial"
+    statementEyebrow: 'El desafío',
+    statementText: 'La mayoría de empresas toman decisiones críticas basándose en',
     statementEmphasis: 'información incompleta.',
-    statementText2: 'Equipos desconectados, datos dispersos, sin visibilidad ejecutiva. La operación ocurre — pero el liderazgo no tiene la claridad para actuar.',
+    statementText2: 'Equipos desconectados, datos dispersos, sin visibilidad ejecutiva. La operación ocurre — pero sin un software de control de operaciones, el liderazgo no tiene la claridad para actuar.',
 
     // Manifesto
     manifesto: 'La brecha entre lo que sucede y lo que el liderazgo ve es donde se pierde valor. Whagons cierra esa brecha —',
     manifestoAccent: 'permanentemente.',
 
-    // Platform / Capabilities
-    capTitle: 'LA PLATAFORMA',
-    capSub: 'Inteligencia. Automatización. Escala.',
+    // Platform / Capabilities — SEO: specific feature keywords
+    capTitle: 'PLATAFORMA DE GESTIÓN OPERATIVA',
+    capSub: 'Software con IA. Automatización. Escala.',
     capMore: 'Y mucho más. Agenda un demo \u2192',
     capabilities: [
-      { num: '01', name: 'COPILOTO IA', desc: 'Un asistente estratégico con contexto real de tu operación. Busca, analiza, recomienda y ejecuta — para que tu equipo se enfoque en decidir, no en buscar.' },
-      { num: '02', name: 'WORKFLOWS INTELIGENTES', desc: 'Automatiza decisiones, no solo tareas. Aprobaciones unánimes, secuenciales o por mayoría. Delegación, escalamiento y timeouts que se adaptan a tu lógica de negocio.' },
-      { num: '03', name: 'MOTOR DE RENDIMIENTO', desc: 'Visibilidad del piso al directorio. SLAs con tres niveles de escalamiento, analítica P50/P90/P95, dashboards con KPIs personalizados y monitor de actividad en tiempo real.' },
-      { num: '04', name: 'CUMPLIMIENTO Y AUDITORÍA', desc: 'Listo para auditoría sin papeleo. Estándares, firmas digitales, retención de 7 años y registros auditables para cualquier regulación — todo digital, todo trazable.' },
-      { num: '05', name: 'INTELIGENCIA DE ACTIVOS', desc: 'Sabe antes de que los problemas se conviertan en costos. Inspecciones, mantenimiento preventivo, depreciación, jerarquías y escaneo QR con analítica predictiva.' },
-      { num: '06', name: 'HUB DE CONOCIMIENTO', desc: 'SOPs, manuales, certificados y protocolos por departamento. Multimedia, multi-idioma, con confirmación de lectura — más gamificación para impulsar el compromiso operativo.' },
+      { num: '01', name: 'ASISTENTE CON INTELIGENCIA ARTIFICIAL', desc: 'Un copiloto estratégico con contexto real de tu operación. Busca, analiza, recomienda y ejecuta — una herramienta con inteligencia artificial para empresas que necesitan respuestas, no solo datos.' },
+      { num: '02', name: 'AUTOMATIZACIÓN DE FLUJOS DE TRABAJO', desc: 'Automatiza procesos empresariales, no solo tareas. Aprobaciones unánimes, secuenciales o por mayoría. Delegación, escalamiento y timeouts que se adaptan a tu lógica de negocio.' },
+      { num: '03', name: 'CONTROL DE OPERACIONES EN TIEMPO REAL', desc: 'Visibilidad del piso al directorio. SLAs con tres niveles de escalamiento, analítica P50/P90/P95, dashboards con KPIs personalizados y monitoreo de actividad en tiempo real.' },
+      { num: '04', name: 'SOFTWARE DE CUMPLIMIENTO Y AUDITORÍA', desc: 'Listo para auditoría sin papeleo. Estándares, firmas digitales, retención de 7 años y registros auditables para cualquier regulación — todo digital, todo trazable.' },
+      { num: '05', name: 'GESTIÓN DE ACTIVOS EMPRESARIALES', desc: 'Software de mantenimiento preventivo que detecta problemas antes de que se conviertan en costos. Inspecciones, depreciación, jerarquías y escaneo QR con analítica predictiva.' },
+      { num: '06', name: 'BASE DE CONOCIMIENTO OPERATIVO', desc: 'SOPs, manuales, certificados y protocolos por departamento. Multimedia, multi-idioma, con confirmación de lectura — más gamificación para impulsar el compromiso operativo.' },
       { num: '07', name: 'DISEÑADO PARA ESCALAR', desc: 'Offline-first para equipos sin conexión. API completa, SSO, white-label y 18+ powerups activables. Tu operación crece sin límites artificiales.' },
     ],
 
@@ -51,27 +51,32 @@ export const translations = {
     colorsCustom: 'Tu color',
     colorsDesc: 'Whagons se adapta a la identidad visual de tu organizaci\u00F3n. Elige cualquier color \u2014 sin l\u00EDmites \u2014 y haz que la plataforma se sienta tuya desde el primer d\u00EDa.',
 
-    // Industries
-    indTitle: 'INDUSTRIAS',
+    // Industries — SEO: "software para [industria]"
+    indTitle: 'SOFTWARE POR INDUSTRIA',
     indSub: '10+ sectores',
     industries: [
-      { num: '01', name: 'HOTELERÍA', desc: 'Convierte la experiencia del huésped en una ventaja medible' },
-      { num: '02', name: 'RETAIL', desc: 'Unifica operaciones multi-sede bajo una sola capa de inteligencia' },
-      { num: '03', name: 'MANTENIMIENTO INDUSTRIAL', desc: 'Predice fallas antes de que se conviertan en costos' },
-      { num: '04', name: 'FARMA Y ALIMENTOS', desc: 'Trazabilidad auditable del origen al estante' },
-      { num: '05', name: 'SALUD Y EDUCACIÓN', desc: 'Protege a tu gente y tu reputación' },
-      { num: '06', name: 'CONSTRUCCIÓN', desc: 'Progreso en tiempo real desde los cimientos hasta la entrega' },
+      { num: '01', name: 'HOTELERÍA', desc: 'Software para hoteles que convierte la experiencia del huésped en una ventaja medible', slug: 'hoteleria' },
+      { num: '02', name: 'RETAIL', desc: 'Software para retail que unifica operaciones multi-sede bajo una sola capa de inteligencia', slug: 'retail' },
+      { num: '03', name: 'MANTENIMIENTO INDUSTRIAL', desc: 'Software de mantenimiento preventivo que predice fallas antes de que se conviertan en costos', slug: 'mantenimiento' },
+      { num: '04', name: 'FARMA Y ALIMENTOS', desc: 'Software para farmacéuticas con trazabilidad auditable del origen al estante', slug: 'farmaceutica' },
+      { num: '05', name: 'SALUD Y EDUCACIÓN', desc: 'Software de gestión para instituciones educativas y de salud que protege a tu gente y tu reputación', slug: 'salud-educacion' },
+      { num: '06', name: 'CONSTRUCCIÓN', desc: 'Software para construcción con progreso en tiempo real desde los cimientos hasta la entrega', slug: 'construccion' },
     ],
+
+    // Industries page content
+    indPageTitle: 'Software de Gestión Operativa por Industria',
+    indPageDesc: 'Whagons se adapta a las necesidades específicas de tu sector. Descubre cómo nuestro software de gestión operativa resuelve los desafíos únicos de tu industria.',
+    indPageCta: 'Solicitar demo para mi industria',
 
     // Brief
     briefTitle1: 'BRIEF',
     briefTitle2: 'GRATUITO',
-    briefSub: 'Recibe un blueprint de inteligencia adaptado a tu organización y sector.',
-    briefInfo: 'No es un brochure genérico. El brief analiza tu operación y te muestra exactamente dónde está el potencial sin capturar.',
+    briefSub: 'Recibe un análisis de inteligencia operativa adaptado a tu organización y sector.',
+    briefInfo: 'No es un brochure genérico. El brief analiza tu operación y te muestra exactamente dónde un software de gestión operativa puede capturar valor sin explotar.',
     briefBullets: [
       'Análisis de brechas en tu proceso operativo actual',
       'Estimación de ROI con benchmarks de tu industria',
-      'Módulos y flujos recomendados para tu caso',
+      'Módulos y flujos de automatización recomendados para tu caso',
       'Sin reunión de ventas previa',
     ],
     briefEmailLabel: 'Correo electrónico',
@@ -85,7 +90,7 @@ export const translations = {
     // Demo
     demoTitle1: 'VER',
     demoTitle2: 'EN ACCIÓN',
-    demoSub: 'Una consulta a nivel ejecutivo, adaptada a tu industria, estructura de equipo y complejidad operativa.',
+    demoSub: 'Una demostración personalizada del software de gestión operativa, adaptada a tu industria, estructura de equipo y complejidad operativa.',
     demoPerks: [
       'Sesión enfocada en los desafíos específicos de tu operación, no un demo genérico.',
       'Implementación en días, no meses. Sin dependencia de IT ni migraciones complicadas.',
@@ -105,6 +110,10 @@ export const translations = {
     demoSubmit: 'Ver en acción',
     demoNote: 'Te contactamos en menos de 24 horas hábiles.',
     demoSuccess: 'Recibido — un especialista se pondrá en contacto pronto.',
+
+    // Demo page
+    demoPageTitle: 'Demo del Software de Gestión Operativa',
+    demoPageDesc: 'Agenda una demostración personalizada de Whagons. Te mostramos cómo nuestro software de automatización de procesos se adapta a tu industria y operación.',
 
     // Industry options (shared by forms)
     industryOptions: [
@@ -127,7 +136,7 @@ export const translations = {
 
     // Social Proof / Testimonials
     socialProofTitle: 'IMPACTO',
-    socialProofSub: 'La confianza de líderes operativos en toda América Latina',
+    socialProofSub: 'Empresas en América Latina confían en nuestro software de gestión operativa',
     socialProofMetrics: [
       { value: '94%', label: 'Cumplimiento de SLAs operativos' },
       { value: '3x', label: 'Más datos operativos capturados' },
@@ -162,8 +171,22 @@ export const translations = {
     contactWhatsapp: 'WhatsApp',
 
     // Footer
-    footerTag: 'Inteligencia operativa para organizaciones que exigen más.',
+    footerTag: 'Software de gestión operativa para organizaciones que exigen más.',
     footerCopy: '\u00A9 2026 Whagons International',
+
+    // Platform page
+    platformPageTitle: 'Software de Gestión Operativa con Inteligencia Artificial',
+    platformPageDesc: 'Conoce cada módulo de Whagons: desde automatización de flujos de trabajo hasta gestión de activos y cumplimiento normativo. Un software completo para el control de operaciones de tu empresa.',
+    platformPageHero: 'Un software de gestión operativa completo para empresas que necesitan control, automatización y visibilidad de sus operaciones.',
+
+    // Blog
+    blogTitle: 'BLOG',
+    blogSub: 'Artículos sobre gestión operativa, automatización de procesos y tecnología empresarial',
+    blogReadMore: 'Leer artículo',
+    blogReadTime: 'min de lectura',
+    blogBack: '\u2190 Volver al blog',
+    blogPageTitle: 'Blog — Gestión Operativa, Automatización y Tecnología Empresarial',
+    blogPageDesc: 'Artículos, guías y mejores prácticas sobre gestión operativa, automatización de procesos empresariales, control de operaciones con IA y eficiencia operativa.',
   },
   en: {
     // Nav
@@ -172,41 +195,41 @@ export const translations = {
     navBrief: 'Brief',
     navDemo: 'Demo',
 
-    // Hero
+    // Hero — SEO: target "operations management software", "business process automation"
     heroBgWord: 'INTEL',
-    heroTicker1: 'Business intelligence',
-    heroTicker2: 'Operational optimization',
-    heroTicker3: 'AI-powered decisions',
+    heroTicker1: 'Operations management software',
+    heroTicker2: 'Business process automation',
+    heroTicker3: 'AI-powered business tools',
     heroStamp: 'Est. 2021',
     heroLine1: 'DECISIONS',
     heroLine2: 'THAT DRIVE',
     heroLine3: 'RESULTS.',
-    heroDesc: 'Whagons is an AI-powered platform that turns operational complexity into strategic clarity for your organization.',
+    heroDesc: 'Whagons is an AI-powered operations management software that automates business processes and turns operational data into strategic decisions for your organization.',
     heroCta1: 'Discover your potential',
     heroCta2: 'See it in action',
     heroScroll: 'Scroll',
 
-    // Statement
-    statementEyebrow: 'The gap',
-    statementText: 'Most organizations make critical decisions based on',
+    // Statement — SEO: "operations control", "business management"
+    statementEyebrow: 'The challenge',
+    statementText: 'Most businesses make critical decisions based on',
     statementEmphasis: 'incomplete information.',
-    statementText2: 'Disconnected teams, scattered data, no executive visibility. Operations happen — but leadership lacks the clarity to act.',
+    statementText2: 'Disconnected teams, scattered data, no executive visibility. Operations happen — but without an operations control platform, leadership lacks the clarity to act.',
 
     // Manifesto
     manifesto: 'The gap between what happens and what leadership sees is where value is lost. Whagons closes that gap —',
     manifestoAccent: 'permanently.',
 
-    // Platform / Capabilities
-    capTitle: 'THE PLATFORM',
-    capSub: 'Intelligence. Automation. Scale.',
+    // Platform / Capabilities — SEO: specific feature keywords
+    capTitle: 'OPERATIONS MANAGEMENT PLATFORM',
+    capSub: 'AI-powered software. Automation. Scale.',
     capMore: 'And much more. Book a demo \u2192',
     capabilities: [
-      { num: '01', name: 'AI COPILOT', desc: 'A strategic assistant with real context of your operation. It searches, analyzes, recommends, and executes — so your team focuses on deciding, not searching.' },
-      { num: '02', name: 'INTELLIGENT WORKFLOWS', desc: 'Automate decisions, not just tasks. Unanimous, sequential, or majority approvals. Delegation, escalation, and timeouts that adapt to your business logic.' },
-      { num: '03', name: 'PERFORMANCE ENGINE', desc: 'Visibility from floor to boardroom. SLAs with three escalation levels, P50/P90/P95 analytics, dashboards with custom KPIs, and real-time activity monitoring.' },
-      { num: '04', name: 'COMPLIANCE & AUDIT', desc: 'Audit-ready without the paperwork. Standards, digital signatures, 7-year retention, and auditable records for any regulation — all digital, all traceable.' },
-      { num: '05', name: 'ASSET INTELLIGENCE', desc: 'Know before problems become costs. Inspections, preventive maintenance, depreciation, hierarchies, and QR scanning with predictive analytics.' },
-      { num: '06', name: 'KNOWLEDGE HUB', desc: 'SOPs, manuals, certificates, and department protocols. Multimedia, multilingual, with read confirmations — plus gamification to drive operational engagement.' },
+      { num: '01', name: 'AI-POWERED BUSINESS ASSISTANT', desc: 'A strategic copilot with real context of your operation. It searches, analyzes, recommends, and executes — an AI tool for businesses that need answers, not just data.' },
+      { num: '02', name: 'WORKFLOW AUTOMATION SOFTWARE', desc: 'Automate business processes, not just tasks. Unanimous, sequential, or majority approvals. Delegation, escalation, and timeouts that adapt to your business logic.' },
+      { num: '03', name: 'REAL-TIME OPERATIONS CONTROL', desc: 'Visibility from floor to boardroom. SLAs with three escalation levels, P50/P90/P95 analytics, dashboards with custom KPIs, and real-time activity monitoring.' },
+      { num: '04', name: 'COMPLIANCE & AUDIT SOFTWARE', desc: 'Audit-ready without the paperwork. Standards, digital signatures, 7-year retention, and auditable records for any regulation — all digital, all traceable.' },
+      { num: '05', name: 'ENTERPRISE ASSET MANAGEMENT', desc: 'Preventive maintenance software that detects problems before they become costs. Inspections, depreciation, hierarchies, and QR scanning with predictive analytics.' },
+      { num: '06', name: 'OPERATIONAL KNOWLEDGE BASE', desc: 'SOPs, manuals, certificates, and department protocols. Multimedia, multilingual, with read confirmations — plus gamification to drive operational engagement.' },
       { num: '07', name: 'BUILT TO SCALE', desc: 'Offline-first for teams without connectivity. Full API, SSO, white-label, and 18+ activatable powerups. Your operation grows without artificial limits.' },
     ],
 
@@ -217,27 +240,32 @@ export const translations = {
     colorsCustom: 'Your color',
     colorsDesc: 'Whagons adapts to your organization\u2019s visual identity. Pick any color \u2014 no limits \u2014 and make the platform feel yours from day one.',
 
-    // Industries
-    indTitle: 'INDUSTRIES',
+    // Industries — SEO: "software for [industry]"
+    indTitle: 'SOFTWARE BY INDUSTRY',
     indSub: '10+ sectors',
     industries: [
-      { num: '01', name: 'HOSPITALITY', desc: 'Turn guest experience into a measurable advantage' },
-      { num: '02', name: 'RETAIL', desc: 'Unify multi-location operations under one intelligence layer' },
-      { num: '03', name: 'INDUSTRIAL MAINTENANCE', desc: 'Predict failures before they cost you' },
-      { num: '04', name: 'PHARMA & FOOD', desc: 'Auditable traceability from origin to shelf' },
-      { num: '05', name: 'HEALTH & EDUCATION', desc: 'Protect your people and your reputation' },
-      { num: '06', name: 'CONSTRUCTION', desc: 'Real-time progress from foundation to handover' },
+      { num: '01', name: 'HOSPITALITY', desc: 'Hotel management software that turns guest experience into a measurable advantage', slug: 'hoteleria' },
+      { num: '02', name: 'RETAIL', desc: 'Retail operations software that unifies multi-location operations under one intelligence layer', slug: 'retail' },
+      { num: '03', name: 'INDUSTRIAL MAINTENANCE', desc: 'Preventive maintenance software that predicts failures before they cost you', slug: 'mantenimiento' },
+      { num: '04', name: 'PHARMA & FOOD', desc: 'Pharmaceutical traceability software with auditable tracking from origin to shelf', slug: 'farmaceutica' },
+      { num: '05', name: 'HEALTH & EDUCATION', desc: 'Management software for educational and health institutions that protects your people and reputation', slug: 'salud-educacion' },
+      { num: '06', name: 'CONSTRUCTION', desc: 'Construction management software with real-time progress from foundation to handover', slug: 'construccion' },
     ],
+
+    // Industries page content
+    indPageTitle: 'Operations Management Software by Industry',
+    indPageDesc: 'Whagons adapts to your sector\'s specific needs. Discover how our operations management software solves the unique challenges of your industry.',
+    indPageCta: 'Request a demo for my industry',
 
     // Brief
     briefTitle1: 'FREE',
     briefTitle2: 'BRIEF',
-    briefSub: 'Receive an intelligence blueprint tailored to your organization and sector.',
-    briefInfo: 'This isn\u2019t a generic brochure. The brief analyzes your operation and shows you exactly where uncaptured potential lies.',
+    briefSub: 'Receive an operational intelligence analysis tailored to your organization and sector.',
+    briefInfo: 'This isn\u2019t a generic brochure. The brief analyzes your operation and shows you exactly where operations management software can capture untapped value.',
     briefBullets: [
       'Gap analysis of your current operational process',
       'ROI estimation with industry benchmarks',
-      'Recommended modules and workflows for your case',
+      'Recommended automation modules and workflows for your case',
       'No prior sales meeting required',
     ],
     briefEmailLabel: 'Email',
@@ -251,7 +279,7 @@ export const translations = {
     // Demo
     demoTitle1: 'SEE IT',
     demoTitle2: 'IN ACTION',
-    demoSub: 'An executive-level consultation, tailored to your industry, team structure, and operational complexity.',
+    demoSub: 'A personalized demo of the operations management software, tailored to your industry, team structure, and operational complexity.',
     demoPerks: [
       'Session focused on your operation\u2019s specific challenges, not a generic demo.',
       'Implementation in days, not months. No IT dependency or complicated migrations.',
@@ -271,6 +299,10 @@ export const translations = {
     demoSubmit: 'See it in action',
     demoNote: 'We contact you within 24 business hours.',
     demoSuccess: 'Received \u2014 a specialist will be in touch soon.',
+
+    // Demo page
+    demoPageTitle: 'Operations Management Software Demo',
+    demoPageDesc: 'Schedule a personalized demo of Whagons. We\'ll show you how our business process automation software adapts to your industry and operation.',
 
     // Industry options (shared by forms)
     industryOptions: [
@@ -293,7 +325,7 @@ export const translations = {
 
     // Social Proof / Testimonials
     socialProofTitle: 'IMPACT',
-    socialProofSub: 'Trusted by operations leaders across Latin America',
+    socialProofSub: 'Businesses across Latin America trust our operations management software',
     socialProofMetrics: [
       { value: '94%', label: 'SLA compliance rate' },
       { value: '3x', label: 'More operational data captured' },
@@ -328,8 +360,22 @@ export const translations = {
     contactWhatsapp: 'WhatsApp',
 
     // Footer
-    footerTag: 'Operational intelligence for organizations that demand more.',
+    footerTag: 'Operations management software for organizations that demand more.',
     footerCopy: '\u00A9 2026 Whagons International',
+
+    // Platform page
+    platformPageTitle: 'AI-Powered Operations Management Software',
+    platformPageDesc: 'Explore every module of Whagons: from workflow automation to asset management and regulatory compliance. A complete software solution for enterprise operations control.',
+    platformPageHero: 'A complete operations management software for businesses that need control, automation, and visibility over their operations.',
+
+    // Blog
+    blogTitle: 'BLOG',
+    blogSub: 'Articles on operations management, business process automation, and enterprise technology',
+    blogReadMore: 'Read article',
+    blogReadTime: 'min read',
+    blogBack: '\u2190 Back to blog',
+    blogPageTitle: 'Blog — Operations Management, Automation & Enterprise Technology',
+    blogPageDesc: 'Articles, guides, and best practices on operations management, business process automation, AI-powered operations control, and operational efficiency.',
   },
 };
 
