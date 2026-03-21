@@ -53,6 +53,7 @@ export default function NavBar({ lang }: NavBarProps) {
         <a href={`/${lang}/plataforma`} className="nl" onClick={() => setMenuOpen(false)}>{t.navPlatform}</a>
         <a href={`/${lang}/industrias`} className="nl" onClick={() => setMenuOpen(false)}>{t.navIndustries}</a>
         <a href={`/${lang}/blog`} className="nl" onClick={() => setMenuOpen(false)}>Blog</a>
+        <a href="https://whagons5.whagons.com/" className="nl" target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)}>{t.navLogin}</a>
         <a href={`/${lang}/demo`} className="nd" onClick={() => setMenuOpen(false)}>{t.navDemo} &rarr;</a>
         <ThemeToggle onThemeChange={handleThemeChange} />
         <button onClick={switchLanguage} className="lang-btn" aria-label="Switch language">

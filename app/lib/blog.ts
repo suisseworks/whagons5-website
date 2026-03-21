@@ -13,6 +13,7 @@ export interface BlogPost {
   date: string;
   author: string;
   tags: string[];
+  coverImage?: string;
   readingTime: string;
   content: string;
   lang: Language;
@@ -25,6 +26,7 @@ export interface BlogPostMeta {
   date: string;
   author: string;
   tags: string[];
+  coverImage?: string;
   readingTime: string;
   lang: Language;
 }
@@ -52,6 +54,7 @@ export function getBlogPosts(lang: Language): BlogPostMeta[] {
       date: data.date || '',
       author: data.author || 'Whagons',
       tags: data.tags || [],
+      coverImage: data.coverImage || undefined,
       readingTime: Math.ceil(stats.minutes).toString(),
       lang,
     };
@@ -78,6 +81,7 @@ export function getBlogPost(lang: Language, slug: string): BlogPost | null {
     date: data.date || '',
     author: data.author || 'Whagons',
     tags: data.tags || [],
+    coverImage: data.coverImage || undefined,
     readingTime: Math.ceil(stats.minutes).toString(),
     content,
     lang,

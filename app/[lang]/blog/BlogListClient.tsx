@@ -11,6 +11,7 @@ interface BlogListClientProps {
 
 export default function BlogListClient({ lang, posts }: BlogListClientProps) {
   const t = translations[lang];
+  const [featured, ...rest] = posts;
 
   return (
     <>
@@ -31,28 +32,74 @@ export default function BlogListClient({ lang, posts }: BlogListClientProps) {
               : 'Coming soon — articles on operations management and business process automation.'}
           </p>
         ) : (
-          <div className="blog-grid">
-            {posts.map((post, i) => (
+          <>
+            {featured && (
               <a
-                href={`/${lang}/blog/${post.slug}`}
-                className={`blog-card r${i > 0 ? ` d${Math.min(i, 2)}` : ''}`}
-                key={post.slug}
+                href={`/${lang}/blog/${featured.slug}`}
+                className="blog-featured r"
               >
-                <div className="blog-card-tags">
-                  {post.tags.map((tag) => (
-                    <span className="blog-tag" key={tag}>{tag}</span>
-                  ))}
+                {featured.coverImage && (
+                  <div className="blog-featured-img">
+                    <img
+                      src={featured.coverImage}
+                      alt={featured.title}
+                      loading="eager"
+                    />
+                  </div>
+                )}
+                <div className="blog-featured-content">
+                  <div className="blog-card-tags">
+                    {featured.tags.map((tag) => (
+                      <span className="blog-tag" key={tag}>{tag}</span>
+                    ))}
+                  </div>
+                  <h2 className="blog-featured-title">{featured.title}</h2>
+                  <p className="blog-featured-desc">{featured.description}</p>
+                  <div className="blog-card-meta">
+                    <span>{new Date(featured.date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                    <span>{featured.readingTime} {t.blogReadTime}</span>
+                  </div>
+                  <span className="blog-card-cta">{t.blogReadMore} &rarr;</span>
                 </div>
-                <h2 className="blog-card-title">{post.title}</h2>
-                <p className="blog-card-desc">{post.description}</p>
-                <div className="blog-card-meta">
-                  <span>{new Date(post.date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                  <span>{post.readingTime} {t.blogReadTime}</span>
-                </div>
-                <span className="blog-card-cta">{t.blogReadMore} &rarr;</span>
               </a>
-            ))}
-          </div>
+            )}
+
+            {rest.length > 0 && (
+              <div className="blog-grid">
+                {rest.map((post, i) => (
+                  <a
+                    href={`/${lang}/blog/${post.slug}`}
+                    className={`blog-card r${i > 0 ? ` d${Math.min(i, 2)}` : ''}`}
+                    key={post.slug}
+                  >
+                    {post.coverImage && (
+                      <div className="blog-card-img">
+                        <img
+                          src={post.coverImage}
+                          alt={post.title}
+                          loading="lazy"
+                        />
+                      </div>
+                    )}
+                    <div className="blog-card-body">
+                      <div className="blog-card-tags">
+                        {post.tags.map((tag) => (
+                          <span className="blog-tag" key={tag}>{tag}</span>
+                        ))}
+                      </div>
+                      <h2 className="blog-card-title">{post.title}</h2>
+                      <p className="blog-card-desc">{post.description}</p>
+                      <div className="blog-card-meta">
+                        <span>{new Date(post.date).toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                        <span>{post.readingTime} {t.blogReadTime}</span>
+                      </div>
+                      <span className="blog-card-cta">{t.blogReadMore} &rarr;</span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            )}
+          </>
         )}
       </section>
     </>

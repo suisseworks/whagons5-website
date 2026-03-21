@@ -4,6 +4,7 @@ export const translations = {
     navPlatform: 'Plataforma',
     navIndustries: 'Industrias',
     navBrief: 'Brief',
+    navLogin: 'Iniciar sesión',
     navDemo: 'Demo',
 
     // Hero — SEO: target "software de gestión operativa", "automatización de procesos"
@@ -185,6 +186,8 @@ export const translations = {
     blogReadMore: 'Leer artículo',
     blogReadTime: 'min de lectura',
     blogBack: '\u2190 Volver al blog',
+    blogShare: 'Compartir',
+    blogCopied: 'Enlace copiado',
     blogPageTitle: 'Blog — Gestión Operativa, Automatización y Tecnología Empresarial',
     blogPageDesc: 'Artículos, guías y mejores prácticas sobre gestión operativa, automatización de procesos empresariales, control de operaciones con IA y eficiencia operativa.',
   },
@@ -193,6 +196,7 @@ export const translations = {
     navPlatform: 'Platform',
     navIndustries: 'Industries',
     navBrief: 'Brief',
+    navLogin: 'Log in',
     navDemo: 'Demo',
 
     // Hero — SEO: target "operations management software", "business process automation"
@@ -374,6 +378,8 @@ export const translations = {
     blogReadMore: 'Read article',
     blogReadTime: 'min read',
     blogBack: '\u2190 Back to blog',
+    blogShare: 'Share',
+    blogCopied: 'Link copied',
     blogPageTitle: 'Blog — Operations Management, Automation & Enterprise Technology',
     blogPageDesc: 'Articles, guides, and best practices on operations management, business process automation, AI-powered operations control, and operational efficiency.',
   },
