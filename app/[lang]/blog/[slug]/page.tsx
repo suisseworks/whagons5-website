@@ -39,6 +39,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
     alternates: {
       canonical: `https://whagons.com/${lang}/blog/${params.slug}`,
+      languages: post.translationSlug
+        ? {
+            [lang === 'es' ? 'en' : 'es']: `https://whagons.com/${lang === 'es' ? 'en' : 'es'}/blog/${post.translationSlug}`,
+            [lang]: `https://whagons.com/${lang}/blog/${params.slug}`,
+          }
+        : undefined,
     },
   };
 }

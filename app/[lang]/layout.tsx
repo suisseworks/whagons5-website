@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Language } from '../lib/i18n';
+import { getSlugTranslationMap } from '../lib/blog';
 import NavBar from '../components/NavBar';
 import FooterBar from '../components/FooterBar';
 
@@ -108,6 +109,7 @@ export async function generateMetadata({ params }: LangLayoutProps): Promise<Met
 
 export default function LangLayout({ children, params }: LangLayoutProps) {
   const lang = (SUPPORTED_LANGS.includes(params.lang as any) ? params.lang : 'es') as Language;
+  const blogSlugMap = getSlugTranslationMap();
 
   return (
     <>
@@ -116,7 +118,7 @@ export default function LangLayout({ children, params }: LangLayoutProps) {
           __html: `document.documentElement.lang="${lang}";`,
         }}
       />
-      <NavBar lang={lang} />
+      <NavBar lang={lang} blogSlugMap={blogSlugMap} />
       {children}
       <FooterBar lang={lang} />
     </>

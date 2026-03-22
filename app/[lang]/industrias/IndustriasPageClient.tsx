@@ -1,8 +1,17 @@
 'use client';
 
+import Image from 'next/image';
 import { translations, Language } from '../../lib/i18n';
 import ScrollReveal from '../../components/ScrollReveal';
-import ProofSection from '../../components/ProofSection';
+
+const INDUSTRY_IMAGES: Record<string, string> = {
+  hoteleria: '/images/industries/hoteleria.jpg',
+  retail: '/images/industries/retail.jpg',
+  mantenimiento: '/images/industries/mantenimiento.jpg',
+  farmaceutica: '/images/industries/farmaceutica.jpg',
+  'salud-educacion': '/images/industries/salud-educacion.jpg',
+  construccion: '/images/industries/construccion.jpg',
+};
 
 const INDUSTRY_DETAILS: Record<string, { es: { features: string[]; useCases: string[] }; en: { features: string[]; useCases: string[] } }> = {
   hoteleria: {
@@ -82,41 +91,58 @@ export default function IndustriasPageClient({ lang }: { lang: Language }) {
       </section>
 
       <section className="industries-detail">
-        {t.industries.map((ind: any) => {
+        {t.industries.map((ind: any, idx: number) => {
           const details = INDUSTRY_DETAILS[ind.slug]?.[lang];
+          const imageSrc = INDUSTRY_IMAGES[ind.slug];
+          const isReversed = idx % 2 === 1;
           return (
-            <div className="ind-detail-card r" key={ind.num} id={ind.slug}>
-              <div className="ind-detail-header">
-                <span className="ind-detail-num">{ind.num}</span>
-                <h2 className="ind-detail-name">{ind.name}</h2>
+            <div
+              className={`ind-detail-card r${isReversed ? ' ind-detail-card--reverse' : ''}`}
+              key={ind.num}
+              id={ind.slug}
+            >
+              <div className="ind-detail-text">
+                <div className="ind-detail-header">
+                  <span className="ind-detail-num">{ind.num}</span>
+                  <h2 className="ind-detail-name">{ind.name}</h2>
+                </div>
+                <p className="ind-detail-desc">{ind.desc}</p>
+                {details && (
+                  <div className="ind-detail-grid">
+                    <div className="ind-detail-col">
+                      <h3 className="ind-detail-subtitle">
+                        {lang === 'es' ? 'Funcionalidades clave' : 'Key features'}
+                      </h3>
+                      <ul className="ind-detail-list">
+                        {details.features.map((f, i) => <li key={i}>{f}</li>)}
+                      </ul>
+                    </div>
+                    <div className="ind-detail-col">
+                      <h3 className="ind-detail-subtitle">
+                        {lang === 'es' ? 'Casos de uso' : 'Use cases'}
+                      </h3>
+                      <ul className="ind-detail-list">
+                        {details.useCases.map((u, i) => <li key={i}>{u}</li>)}
+                      </ul>
+                    </div>
+                  </div>
+                )}
               </div>
-              <p className="ind-detail-desc">{ind.desc}</p>
-              {details && (
-                <div className="ind-detail-grid">
-                  <div className="ind-detail-col">
-                    <h3 className="ind-detail-subtitle">
-                      {lang === 'es' ? 'Funcionalidades clave' : 'Key features'}
-                    </h3>
-                    <ul className="ind-detail-list">
-                      {details.features.map((f, i) => <li key={i}>{f}</li>)}
-                    </ul>
-                  </div>
-                  <div className="ind-detail-col">
-                    <h3 className="ind-detail-subtitle">
-                      {lang === 'es' ? 'Casos de uso' : 'Use cases'}
-                    </h3>
-                    <ul className="ind-detail-list">
-                      {details.useCases.map((u, i) => <li key={i}>{u}</li>)}
-                    </ul>
-                  </div>
+              {imageSrc && (
+                <div className="ind-detail-img-wrap">
+                  <Image
+                    src={imageSrc}
+                    alt={ind.name}
+                    width={600}
+                    height={400}
+                    className="ind-detail-img"
+                  />
                 </div>
               )}
             </div>
           );
         })}
       </section>
-
-      <ProofSection t={t} />
 
       <section className="cta-bottom-section">
         <div className="cta-bottom-inner r">
