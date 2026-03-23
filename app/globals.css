@@ -206,7 +206,7 @@ nav {
 .hl-line {
   display: block;
   font-family: var(--display);
-  font-size: clamp(80px, 14vw, 175px);
+  font-size: clamp(80px, min(14vw, 18vh), 175px);
   line-height: 0.88;
   letter-spacing: -0.01em;
   color: var(--ink);
@@ -1173,10 +1173,21 @@ footer {
 
 @media (max-width: 480px) {
   .hl-line {
-    font-size: clamp(48px, 12vw, 80px);
+    font-size: clamp(48px, min(12vw, 16vh), 80px);
   }
   .hero-bg-word {
     font-size: clamp(120px, 25vw, 200px);
+  }
+}
+
+@media (max-height: 700px) {
+  .hl-line {
+    font-size: clamp(60px, 14vh, 120px);
+  }
+  .hero-foot {
+    padding-top: 24px;
+    padding-bottom: 32px;
+    margin-top: 24px;
   }
 }
 
