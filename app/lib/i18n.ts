@@ -36,13 +36,13 @@ export const translations = {
     capSub: 'Software con IA. Automatización. Escala.',
     capMore: 'Y mucho más. Agenda un demo \u2192',
     capabilities: [
-      { num: '01', name: 'ASISTENTE CON INTELIGENCIA ARTIFICIAL', desc: 'Un copiloto estratégico con contexto real de tu operación. Busca, analiza, recomienda y ejecuta — una herramienta con inteligencia artificial para empresas que necesitan respuestas, no solo datos.' },
-      { num: '02', name: 'AUTOMATIZACIÓN DE FLUJOS DE TRABAJO', desc: 'Automatiza procesos empresariales, no solo tareas. Aprobaciones unánimes, secuenciales o por mayoría. Delegación, escalamiento y timeouts que se adaptan a tu lógica de negocio.' },
-      { num: '03', name: 'CONTROL DE OPERACIONES EN TIEMPO REAL', desc: 'Visibilidad del piso al directorio. SLAs con tres niveles de escalamiento, analítica P50/P90/P95, dashboards con KPIs personalizados y monitoreo de actividad en tiempo real.' },
-      { num: '04', name: 'SOFTWARE DE CUMPLIMIENTO Y AUDITORÍA', desc: 'Listo para auditoría sin papeleo. Estándares, firmas digitales, retención de 7 años y registros auditables para cualquier regulación — todo digital, todo trazable.' },
-      { num: '05', name: 'GESTIÓN DE ACTIVOS EMPRESARIALES', desc: 'Software de mantenimiento preventivo que detecta problemas antes de que se conviertan en costos. Inspecciones, depreciación, jerarquías y escaneo QR con analítica predictiva.' },
-      { num: '06', name: 'BASE DE CONOCIMIENTO OPERATIVO', desc: 'SOPs, manuales, certificados y protocolos por departamento. Multimedia, multi-idioma, con confirmación de lectura — más gamificación para impulsar el compromiso operativo.' },
-      { num: '07', name: 'DISEÑADO PARA ESCALAR', desc: 'Offline-first para equipos sin conexión. API completa, SSO, white-label y 18+ powerups activables. Tu operación crece sin límites artificiales.' },
+      { num: '01', name: 'ASISTENTE CON INTELIGENCIA ARTIFICIAL', desc: 'Un copiloto estratégico que busca, analiza y recomienda acciones con contexto real de tu operación. Toma decisiones basadas en datos, no en suposiciones.' },
+      { num: '02', name: 'FLUJOS DE TRABAJO Y AUTOMATIZACIONES', desc: 'Automatiza aprobaciones, flujos secuenciales o por mayoría, broadcasts y escalamientos con SLAs configurables. Los workflows se adaptan a tu lógica de negocio, no al revés.' },
+      { num: '03', name: 'INTEGRACIONES', desc: 'Conecta Whagons con tus sistemas existentes vía API completa. ERP, CRM, herramientas de comunicación y más — todo en una sola plataforma operativa.' },
+      { num: '04', name: 'PLANES DE TRABAJO Y PROGRAMACIÓN', desc: 'Crea planes de trabajo, asigna tareas recurrentes, gestiona horarios y controla costos operativos. Todo trazable, todo medible.' },
+      { num: '05', name: 'FORMULARIOS, FIRMAS Y APROBACIONES', desc: 'Captura datos en campo con formularios digitales, firmas electrónicas y flujos de aprobación. Compatible con escaneo QR, códigos de barra y geolocalización GPS.' },
+      { num: '06', name: 'DOCUMENTACIÓN, SOPS Y CUMPLIMIENTO', desc: 'Centraliza manuales, normas ISO, procedimientos operativos y materiales de entrenamiento. Multimedia, multi-idioma, con confirmación de lectura y registros auditables.' },
+      { num: '07', name: 'CONTROL OPERATIVO EN TIEMPO REAL', desc: 'Visibilidad total del piso al directorio. Dashboards con KPIs personalizados, analítica P50/P90/P95, SLAs con escalamiento y monitoreo de actividad en tiempo real.' },
     ],
 
     // Colors / Customization
@@ -228,13 +228,13 @@ export const translations = {
     capSub: 'AI-powered software. Automation. Scale.',
     capMore: 'And much more. Book a demo \u2192',
     capabilities: [
-      { num: '01', name: 'AI-POWERED BUSINESS ASSISTANT', desc: 'A strategic copilot with real context of your operation. It searches, analyzes, recommends, and executes — an AI tool for businesses that need answers, not just data.' },
-      { num: '02', name: 'WORKFLOW AUTOMATION SOFTWARE', desc: 'Automate business processes, not just tasks. Unanimous, sequential, or majority approvals. Delegation, escalation, and timeouts that adapt to your business logic.' },
-      { num: '03', name: 'REAL-TIME OPERATIONS CONTROL', desc: 'Visibility from floor to boardroom. SLAs with three escalation levels, P50/P90/P95 analytics, dashboards with custom KPIs, and real-time activity monitoring.' },
-      { num: '04', name: 'COMPLIANCE & AUDIT SOFTWARE', desc: 'Audit-ready without the paperwork. Standards, digital signatures, 7-year retention, and auditable records for any regulation — all digital, all traceable.' },
-      { num: '05', name: 'ENTERPRISE ASSET MANAGEMENT', desc: 'Preventive maintenance software that detects problems before they become costs. Inspections, depreciation, hierarchies, and QR scanning with predictive analytics.' },
-      { num: '06', name: 'OPERATIONAL KNOWLEDGE BASE', desc: 'SOPs, manuals, certificates, and department protocols. Multimedia, multilingual, with read confirmations — plus gamification to drive operational engagement.' },
-      { num: '07', name: 'BUILT TO SCALE', desc: 'Offline-first for teams without connectivity. Full API, SSO, white-label, and 18+ activatable powerups. Your operation grows without artificial limits.' },
+      { num: '01', name: 'AI-POWERED ASSISTANT', desc: 'A strategic copilot that searches, analyzes, and recommends actions with real context from your operation. Make decisions based on data, not assumptions.' },
+      { num: '02', name: 'WORKFLOWS & AUTOMATIONS', desc: 'Automate approvals, sequential or majority flows, broadcasts, and escalations with configurable SLAs. Workflows adapt to your business logic, not the other way around.' },
+      { num: '03', name: 'INTEGRATIONS', desc: 'Connect Whagons with your existing systems via a full API. ERP, CRM, communication tools, and more — all in one operational platform.' },
+      { num: '04', name: 'WORK PLANS & SCHEDULING', desc: 'Create work plans, assign recurring tasks, manage schedules, and control operational costs. Fully traceable, fully measurable.' },
+      { num: '05', name: 'FORMS, SIGNATURES & APPROVALS', desc: 'Capture field data with digital forms, electronic signatures, and approval workflows. Compatible with QR scanning, barcodes, and GPS geolocation.' },
+      { num: '06', name: 'DOCUMENTATION, SOPS & COMPLIANCE', desc: 'Centralize manuals, ISO standards, operating procedures, and training materials. Multimedia, multilingual, with read confirmations and auditable records.' },
+      { num: '07', name: 'REAL-TIME OPERATIONS CONTROL', desc: 'Full visibility from floor to boardroom. Dashboards with custom KPIs, P50/P90/P95 analytics, SLAs with escalation, and real-time activity monitoring.' },
     ],
 
     // Colors / Customization
