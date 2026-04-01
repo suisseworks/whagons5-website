@@ -11,6 +11,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/industrias', priority: 0.9, freq: 'monthly' as const },
     { path: '/demo', priority: 0.9, freq: 'monthly' as const },
     { path: '/blog', priority: 0.8, freq: 'weekly' as const },
+    { path: '/privacy', priority: 0.4, freq: 'monthly' as const },
+    { path: '/terms', priority: 0.4, freq: 'monthly' as const },
+    { path: '/security', priority: 0.4, freq: 'monthly' as const },
   ];
 
   const langs = ['es', 'en'];

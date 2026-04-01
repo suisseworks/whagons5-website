@@ -1591,6 +1591,78 @@ nav,
   gap: 24px;
 }
 
+/* ── LEGAL PAGES ───────────────────────────── */
+.legal-hero {
+  padding-bottom: 56px;
+}
+
+.legal-hero-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.legal-eyebrow {
+  margin-bottom: 6px;
+}
+
+.legal-intro {
+  max-width: 760px;
+}
+
+.legal-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+
+.legal-page {
+  padding: 0 56px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.legal-content {
+  border-top: 1px solid var(--rule);
+}
+
+.legal-section {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 24px 56px;
+  padding: 40px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.legal-section-title {
+  font-family: var(--display);
+  font-size: clamp(1.2rem, 2vw, 1.7rem);
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+}
+
+.legal-prose {
+  max-width: none;
+  font-size: 1.05rem;
+}
+
+.legal-prose p:last-child,
+.legal-prose ul:last-child {
+  margin-bottom: 0;
+}
+
+.legal-cta {
+  padding-top: 0;
+}
+
+.legal-cta-links {
+  margin-top: 12px;
+}
+
 /* ── CTA BOTTOM (shared) ──────────────────── */
 .cta-bottom-section {
   padding: 0 56px 100px;
@@ -2227,6 +2299,9 @@ nav,
 @media (max-width: 860px) {
   .page-hero { padding: 120px 24px 48px; }
   .cta-bottom-section { padding-left: 24px; padding-right: 24px; }
+  .legal-page { padding-left: 24px; padding-right: 24px; }
+  .legal-section { grid-template-columns: 1fr; gap: 18px; padding: 28px 0; }
+  .legal-prose { font-size: 1rem; }
   .industries-detail { padding-left: 24px; padding-right: 24px; }
   .ind-detail-card { grid-template-columns: 1fr; gap: 32px; padding: 40px 0; }
   .ind-detail-card--reverse { grid-template-columns: 1fr; }
