@@ -20,6 +20,15 @@ export default function CapabilitiesSection({ t, lang = 'es' }: CapabilitiesSect
             <div className="cap-num">{cap.num}</div>
             <h3 className="cap-name">{cap.name}</h3>
             <p className="cap-desc">{cap.desc}</p>
+            {cap.tags?.length ? (
+              <div className="cap-tags" aria-label={`${cap.name} capabilities`}>
+                {cap.tags.map((tag: string) => (
+                  <span className="cap-tag" key={tag}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            ) : null}
           </div>
         ))}
         <a href={`/${lang}/demo`} className="cap-item cap-cta">

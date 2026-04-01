@@ -2,39 +2,41 @@
 
 import Image from 'next/image';
 
-const CLOSING_IMAGES = [
-  '/images/costa-rica-beach.jpg',
-  '/images/tropical-waterfall.jpg',
-  '/images/colorful-toucan.jpg',
-  '/images/golden-sunset.jpg',
-  '/images/toucan-portrait.jpg',
-  '/images/coffee-beans.jpg',
-];
-
 interface ClosingSectionProps {
   t: any;
   quoteIndex: number;
-  imageIndex: number;
 }
 
-export default function ClosingSection({ t, quoteIndex, imageIndex }: ClosingSectionProps) {
-  const closingImageUrl = CLOSING_IMAGES[imageIndex];
-
+export default function ClosingSection({ t, quoteIndex }: ClosingSectionProps) {
   return (
     <section id="closing">
       <div className="closing-inner r">
-        <div className="closing-img-wrap">
-          <Image
-            src={closingImageUrl}
-            alt={t.closingImageAlt}
-            className="closing-img"
-            width={1200}
-            height={675}
-            loading="lazy"
-          />
-          <div className="closing-overlay" />
+        <div className="closing-panel">
+          <div className="closing-glow closing-glow--one" />
+          <div className="closing-glow closing-glow--two" />
+          <div className="closing-grid" />
+          <div className="closing-topline">
+            <div className="closing-brand">
+              <Image
+                src="/whagons.svg"
+                alt="Whagons"
+                className="closing-logo"
+                width={55}
+                height={21}
+                loading="lazy"
+              />
+              <span className="closing-brand-name">Whagons</span>
+            </div>
+            <div className="closing-tags" aria-hidden="true">
+              <span>KPI</span>
+              <span>SLA</span>
+              <span>AI</span>
+              <span>API</span>
+            </div>
+          </div>
           <blockquote className="closing-quote">
             <p className="closing-text">&ldquo;{t.closingQuotes[quoteIndex].text}&rdquo;</p>
+            <cite className="closing-author">{t.closingQuotes[quoteIndex].author}</cite>
           </blockquote>
         </div>
       </div>
