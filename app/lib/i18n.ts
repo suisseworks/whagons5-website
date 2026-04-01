@@ -36,13 +36,13 @@ export const translations = {
     capSub: 'Software con IA. Automatización. Escala.',
     capMore: 'Y mucho más. Agenda un demo \u2192',
     capabilities: [
-      { num: '01', name: 'ASISTENTE CON INTELIGENCIA ARTIFICIAL', desc: 'Un copiloto estratégico que busca, analiza y recomienda acciones con contexto real de tu operación. Toma decisiones basadas en datos, no en suposiciones.' },
-      { num: '02', name: 'FLUJOS DE TRABAJO Y AUTOMATIZACIONES', desc: 'Automatiza aprobaciones, flujos secuenciales o por mayoría, broadcasts y escalamientos con SLAs configurables. Los workflows se adaptan a tu lógica de negocio, no al revés.' },
-      { num: '03', name: 'INTEGRACIONES', desc: 'Conecta Whagons con tus sistemas existentes vía API completa. ERP, CRM, herramientas de comunicación y más — todo en una sola plataforma operativa.' },
-      { num: '04', name: 'PLANES DE TRABAJO Y PROGRAMACIÓN', desc: 'Crea planes de trabajo, asigna tareas recurrentes, gestiona horarios y controla costos operativos. Todo trazable, todo medible.' },
-      { num: '05', name: 'FORMULARIOS, FIRMAS Y APROBACIONES', desc: 'Captura datos en campo con formularios digitales, firmas electrónicas y flujos de aprobación. Compatible con escaneo QR, códigos de barra y geolocalización GPS.' },
+      { num: '01', name: 'ASISTENTE CON INTELIGENCIA ARTIFICIAL', desc: 'Un copiloto estratégico que busca, analiza y recomienda acciones con contexto real de tu operación. Habla para crear, actualizar o cerrar tareas al instante y toma decisiones basadas en datos, no en suposiciones.', tags: ['IA', 'VOZ', 'TAREAS'] },
+      { num: '02', name: 'FLUJOS DE TRABAJO Y AUTOMATIZACIONES', desc: 'Automatiza aprobaciones, flujos secuenciales o por mayoría, broadcasts y escalamientos con SLAs configurables. Los workflows se adaptan a tu lógica de negocio, no al revés.', tags: ['WORKFLOWS', 'SLAs', 'ESCALAMIENTO'] },
+      { num: '03', name: 'INTEGRACIONES', desc: 'Conecta Whagons con tus sistemas existentes vía API completa. ERP, CRM, herramientas de comunicación y más — todo en una sola plataforma operativa.', tags: ['API', 'ERP', 'CRM'] },
+      { num: '04', name: 'PLANES DE TRABAJO Y PROGRAMACIÓN', desc: 'Crea planes de trabajo, asigna tareas recurrentes, gestiona horarios y controla costos operativos. Ideal para programar personal de hotelería por turno, área u ocupación. Todo trazable, todo medible.', tags: ['TURNOS', 'PERSONAL', 'OCUPACIÓN'] },
+      { num: '05', name: 'FORMULARIOS, FIRMAS Y APROBACIONES', desc: 'Captura datos en campo con formularios digitales, firmas electrónicas y flujos de aprobación. Compatible con escaneo QR, códigos de barra, geolocalización GPS y toques NFC para iniciar, finalizar o validar tareas en sitio.', tags: ['QR', 'FIRMAS', 'GPS', 'NFC'] },
       { num: '06', name: 'DOCUMENTACIÓN, SOPS Y CUMPLIMIENTO', desc: 'Centraliza manuales, normas ISO, procedimientos operativos y materiales de entrenamiento. Multimedia, multi-idioma, con confirmación de lectura y registros auditables.' },
-      { num: '07', name: 'CONTROL OPERATIVO EN TIEMPO REAL', desc: 'Visibilidad total del piso al directorio. Dashboards con KPIs personalizados, analítica P50/P90/P95, SLAs con escalamiento y monitoreo de actividad en tiempo real.' },
+      { num: '07', name: 'CONTROL OPERATIVO EN TIEMPO REAL', desc: 'Visibilidad total del piso al directorio. Dashboards con KPIs personalizados, analítica P50/P90/P95, SLAs con escalamiento y monitoreo de actividad en tiempo real.', tags: ['KPIs', 'SLAs', 'TIEMPO REAL'] },
     ],
 
     // Colors / Customization
@@ -56,7 +56,7 @@ export const translations = {
     indTitle: 'SOFTWARE POR INDUSTRIA',
     indSub: '10+ sectores',
     industries: [
-      { num: '01', name: 'HOTELERÍA', desc: 'Software para hoteles que convierte la experiencia del huésped en una ventaja medible', slug: 'hoteleria' },
+      { num: '01', name: 'HOTELERÍA', desc: 'Software para hoteles que convierte la experiencia del huésped en una ventaja medible con programación de personal, turnos y coordinación operativa en tiempo real', slug: 'hoteleria' },
       { num: '02', name: 'RETAIL', desc: 'Software para retail que unifica operaciones multi-sede bajo una sola capa de inteligencia', slug: 'retail' },
       { num: '03', name: 'MANTENIMIENTO INDUSTRIAL', desc: 'Software de mantenimiento preventivo que predice fallas antes de que se conviertan en costos', slug: 'mantenimiento' },
       { num: '04', name: 'FARMA Y ALIMENTOS', desc: 'Software para farmacéuticas con trazabilidad auditable del origen al estante', slug: 'farmaceutica' },
@@ -163,7 +163,7 @@ export const translations = {
       { text: 'Cuando tu operación habla, tu estrategia escucha. Esa es la inteligencia operativa.', author: 'Whagons' },
       { text: 'Grandes operaciones se construyen con pequeñas decisiones inteligentes — tomadas en el momento correcto.', author: 'Whagons' },
     ],
-    closingImageAlt: 'Inspiración operativa',
+    closingImageAlt: 'Vista de la plataforma Whagons',
 
     // Contact
     contactTitle1: 'TIENES',
@@ -228,13 +228,13 @@ export const translations = {
     capSub: 'AI-powered software. Automation. Scale.',
     capMore: 'And much more. Book a demo \u2192',
     capabilities: [
-      { num: '01', name: 'AI-POWERED ASSISTANT', desc: 'A strategic copilot that searches, analyzes, and recommends actions with real context from your operation. Make decisions based on data, not assumptions.' },
-      { num: '02', name: 'WORKFLOWS & AUTOMATIONS', desc: 'Automate approvals, sequential or majority flows, broadcasts, and escalations with configurable SLAs. Workflows adapt to your business logic, not the other way around.' },
-      { num: '03', name: 'INTEGRATIONS', desc: 'Connect Whagons with your existing systems via a full API. ERP, CRM, communication tools, and more — all in one operational platform.' },
-      { num: '04', name: 'WORK PLANS & SCHEDULING', desc: 'Create work plans, assign recurring tasks, manage schedules, and control operational costs. Fully traceable, fully measurable.' },
-      { num: '05', name: 'FORMS, SIGNATURES & APPROVALS', desc: 'Capture field data with digital forms, electronic signatures, and approval workflows. Compatible with QR scanning, barcodes, and GPS geolocation.' },
+      { num: '01', name: 'AI-POWERED ASSISTANT', desc: 'A strategic copilot that searches, analyzes, and recommends actions with real context from your operation. Speak to create, update, or close tasks instantly and make decisions based on data, not assumptions.', tags: ['AI', 'VOICE', 'TASKS'] },
+      { num: '02', name: 'WORKFLOWS & AUTOMATIONS', desc: 'Automate approvals, sequential or majority flows, broadcasts, and escalations with configurable SLAs. Workflows adapt to your business logic, not the other way around.', tags: ['WORKFLOWS', 'SLAs', 'ESCALATION'] },
+      { num: '03', name: 'INTEGRATIONS', desc: 'Connect Whagons with your existing systems via a full API. ERP, CRM, communication tools, and more — all in one operational platform.', tags: ['API', 'ERP', 'CRM'] },
+      { num: '04', name: 'WORK PLANS & SCHEDULING', desc: 'Create work plans, assign recurring tasks, manage schedules, and control operational costs. Ideal for hotel staff scheduling by shift, department, or occupancy. Fully traceable, fully measurable.', tags: ['SHIFTS', 'STAFF', 'OCCUPANCY'] },
+      { num: '05', name: 'FORMS, SIGNATURES & APPROVALS', desc: 'Capture field data with digital forms, electronic signatures, and approval workflows. Compatible with QR scanning, barcodes, GPS geolocation, and NFC taps to start, finish, or validate work on site.', tags: ['QR', 'E-SIGN', 'GPS', 'NFC'] },
       { num: '06', name: 'DOCUMENTATION, SOPS & COMPLIANCE', desc: 'Centralize manuals, ISO standards, operating procedures, and training materials. Multimedia, multilingual, with read confirmations and auditable records.' },
-      { num: '07', name: 'REAL-TIME OPERATIONS CONTROL', desc: 'Full visibility from floor to boardroom. Dashboards with custom KPIs, P50/P90/P95 analytics, SLAs with escalation, and real-time activity monitoring.' },
+      { num: '07', name: 'REAL-TIME OPERATIONS CONTROL', desc: 'Full visibility from floor to boardroom. Dashboards with custom KPIs, P50/P90/P95 analytics, SLAs with escalation, and real-time activity monitoring.', tags: ['KPIs', 'SLAs', 'REAL-TIME'] },
     ],
 
     // Colors / Customization
@@ -248,7 +248,7 @@ export const translations = {
     indTitle: 'SOFTWARE BY INDUSTRY',
     indSub: '10+ sectors',
     industries: [
-      { num: '01', name: 'HOSPITALITY', desc: 'Hotel management software that turns guest experience into a measurable advantage', slug: 'hoteleria' },
+      { num: '01', name: 'HOSPITALITY', desc: 'Hotel management software that turns guest experience into a measurable advantage with staff scheduling, shift planning, and real-time operational coordination', slug: 'hoteleria' },
       { num: '02', name: 'RETAIL', desc: 'Retail operations software that unifies multi-location operations under one intelligence layer', slug: 'retail' },
       { num: '03', name: 'INDUSTRIAL MAINTENANCE', desc: 'Preventive maintenance software that predicts failures before they cost you', slug: 'mantenimiento' },
       { num: '04', name: 'PHARMA & FOOD', desc: 'Pharmaceutical traceability software with auditable tracking from origin to shelf', slug: 'farmaceutica' },
@@ -355,7 +355,7 @@ export const translations = {
       { text: 'When your operation speaks, your strategy listens. That\u2019s operational intelligence.', author: 'Whagons' },
       { text: 'Great operations are built from small, intelligent decisions \u2014 made at the right moment.', author: 'Whagons' },
     ],
-    closingImageAlt: 'Operational inspiration',
+    closingImageAlt: 'Whagons platform dashboard preview',
 
     // Contact
     contactTitle1: 'HAVE',

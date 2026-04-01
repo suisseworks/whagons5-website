@@ -43,11 +43,9 @@ export default function Home() {
   }, []);
 
   const [quoteIndex, setQuoteIndex] = useState(0);
-  const [imageIndex, setImageIndex] = useState(0);
 
   useEffect(() => {
     setQuoteIndex(Math.floor(Math.random() * translations.es.closingQuotes.length));
-    setImageIndex(Math.floor(Math.random() * 6));
   }, []);
 
   const selectAccentColor = useCallback((color: string) => {
@@ -78,7 +76,7 @@ export default function Home() {
       <ProofSection t={t} />
       <BriefSection t={t} language={lang} />
       <ContactSection t={t} language={lang} />
-      <ClosingSection t={t} quoteIndex={quoteIndex} imageIndex={imageIndex} />
+      <ClosingSection t={t} quoteIndex={quoteIndex} />
     </>
   );
 }
