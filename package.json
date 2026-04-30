@@ -2,9 +2,9 @@
   "name": "whagons-website",
   "version": "5.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "next dev",
+    "dev:clean": "node -e \"try{require('fs').rmSync('.next',{recursive:true,force:true})}catch(e){}\" && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

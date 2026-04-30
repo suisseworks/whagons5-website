@@ -42,7 +42,7 @@ export default function RootLayout({
                   '@id': 'https://whagons.com/#organization',
                   name: 'Whagons International',
                   url: 'https://whagons.com',
-                  logo: 'https://whagons.com/whagons.svg',
+                  logo: 'https://whagons.com/images/logo-whagons-horizontal-red.svg',
                   description: 'Software de gestión operativa con inteligencia artificial para empresas con operaciones complejas. AI-powered operations management software.',
                   foundingDate: '2021',
                   sameAs: [],
@@ -86,7 +86,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>{children}</body>
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }

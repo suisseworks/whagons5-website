@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { Language } from '../lib/i18n';
 
 interface CapabilitiesSectionProps {
@@ -32,13 +33,15 @@ export default function CapabilitiesSection({ t, lang = 'es' }: CapabilitiesSect
           </div>
         ))}
         <a href={`/${lang}/demo`} className="cap-item cap-cta">
-          <div
-            className="cap-cta-logo"
-            style={{
-              mask: 'url(/whagons.svg) no-repeat center / contain',
-              WebkitMask: 'url(/whagons.svg) no-repeat center / contain',
-            }}
-          />
+          <div className="cap-cta-logo">
+            <Image
+              src="/images/logo-whagons-mark.png"
+              alt=""
+              width={256}
+              height={128}
+              className="cap-cta-logo-img"
+            />
+          </div>
           <div className="cap-cta-text">{t.capMore}</div>
         </a>
       </div>

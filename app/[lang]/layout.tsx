@@ -18,7 +18,7 @@ const metadataByLang: Record<string, Metadata> = {
       template: '%s | Whagons',
     },
     description: 'Software de gestión operativa para empresas. Plataforma con inteligencia artificial para automatización de procesos, control de operaciones, flujos de trabajo y analítica en tiempo real.',
-    icons: { icon: '/whagons.svg' },
+    icons: '/favicon.svg',
     openGraph: {
       title: 'Whagons — Software de Gestión Operativa con Inteligencia Artificial',
       description: 'Plataforma de gestión operativa para empresas. Automatiza procesos, controla operaciones en tiempo real y toma decisiones con IA.',
@@ -60,7 +60,7 @@ const metadataByLang: Record<string, Metadata> = {
       template: '%s | Whagons',
     },
     description: 'Operations management software for businesses. AI-powered platform for business process automation, workflow management, real-time analytics, and operational control across industries.',
-    icons: { icon: '/whagons.svg' },
+    icons: '/favicon.svg',
     openGraph: {
       title: 'Whagons — Operations Management Software with AI',
       description: 'Operations management platform for businesses. Automate processes, control operations in real time, and make decisions powered by AI.',

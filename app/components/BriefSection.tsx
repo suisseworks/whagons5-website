@@ -12,14 +12,16 @@ export default function BriefSection({ t, language }: BriefSectionProps) {
   const [briefIndustry, setBriefIndustry] = useState('');
   const [briefSubmitting, setBriefSubmitting] = useState(false);
   const [briefSuccess, setBriefSuccess] = useState(false);
+  const [briefError, setBriefError] = useState(false);
 
   const submitBrief = async (e: FormEvent) => {
     e.preventDefault();
     if (!briefEmail || !briefIndustry) return;
 
     setBriefSubmitting(true);
+    setBriefError(false);
     try {
-      await fetch('/api/flodesk', {
+      const res = await fetch('/api/flodesk', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -27,14 +29,18 @@ export default function BriefSection({ t, language }: BriefSectionProps) {
           email: briefEmail.trim(),
           company: '',
           industry: briefIndustry,
-          country: 'Unknown',
           language,
           formType: 'brief',
         }),
       });
-      setBriefSuccess(true);
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data?.success) {
+        setBriefSuccess(true);
+      } else {
+        setBriefError(true);
+      }
     } catch {
-      setBriefSuccess(true);
+      setBriefError(true);
     } finally {
       setBriefSubmitting(false);
     }
@@ -91,7 +97,11 @@ export default function BriefSection({ t, language }: BriefSectionProps) {
                 <button type="submit" className="btn-black" disabled={briefSubmitting}>
                   {briefSubmitting ? '...' : `${t.briefSubmit} \u2192`}
                 </button>
-                <p className="f-note">{t.briefNote}</p>
+                {briefError ? (
+                  <p className="f-note" role="alert">{t.briefError}</p>
+                ) : (
+                  <p className="f-note">{t.briefNote}</p>
+                )}
               </div>
             </form>
           ) : (

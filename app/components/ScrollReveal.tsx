@@ -17,10 +17,21 @@ export default function ScrollReveal() {
           }
         });
       },
-      { threshold: 0.08 }
+      { threshold: 0.08, rootMargin: '0px 0px 12% 0px' }
     );
 
-    document.querySelectorAll('.r').forEach((el) => observer.observe(el));
+    const vh = window.innerHeight;
+
+    document.querySelectorAll('.r').forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      const fullyAbove = rect.bottom <= 0;
+      const intersectsViewport = rect.top < vh && rect.bottom > 0;
+      if (fullyAbove || intersectsViewport) {
+        el.classList.add('in');
+      } else {
+        observer.observe(el);
+      }
+    });
 
     return () => observer.disconnect();
   }, []);

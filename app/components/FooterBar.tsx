@@ -14,7 +14,13 @@ export default function FooterBar({ lang }: FooterBarProps) {
 
   return (
     <footer>
-      <div className="f-logo">Whagons <span className="logo-ver">5.0.0</span></div>
+      <a href={`/${lang}`} className="f-logo" aria-label="Whagons">
+        <div className="f-logo-stack">
+          <span className="f-logo-icon" aria-hidden="true" />
+          <span className="f-logo-name">Whagons</span>
+        </div>
+        <span className="logo-ver">5.0.0</span>
+      </a>
       <div className="f-links">
         <a href={`/${lang}/plataforma`}>{t.navPlatform}</a>
         <a href={`/${lang}/industrias`}>{t.navIndustries}</a>

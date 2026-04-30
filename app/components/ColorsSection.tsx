@@ -25,29 +25,14 @@ export default function ColorsSection({ t, language, accentColor, accentColors, 
           >
             <div
               className="swatch-icon"
-              style={{ backgroundColor: ac.color }}
-            >
-              <div
-                className="swatch-mask"
-                style={{
-                  mask: 'url(/whagons.svg) no-repeat center / contain',
-                  WebkitMask: 'url(/whagons.svg) no-repeat center / contain',
-                  backgroundColor: '#fff',
-                }}
-              />
-            </div>
+              style={{ backgroundColor: ac.color, color: ac.color }}
+            />
             <span className="swatch-label">{ac.name}</span>
           </button>
         ))}
         <label className="color-swatch swatch-add-wrap">
           <div className="swatch-add">
-            <div
-              className="swatch-add-logo"
-              style={{
-                mask: 'url(/whagons.svg) no-repeat center / contain',
-                WebkitMask: 'url(/whagons.svg) no-repeat center / contain',
-              }}
-            />
+            <span className="swatch-add-mark" aria-hidden="true" />
             <input
               type="color"
               className="color-input"

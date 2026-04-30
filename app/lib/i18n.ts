@@ -20,6 +20,8 @@ export const translations = {
     heroCta1: 'Descubre tu potencial',
     heroCta2: 'Verlo en acción',
     heroScroll: 'Scroll',
+    heroLiveLabel: 'Actividad en vivo',
+    heroPreviewAria: 'Ver demo y captura ampliada de la plataforma',
 
     // Statement — SEO: target "control de operaciones", "gestión empresarial"
     statementEyebrow: 'El desafío',
@@ -87,6 +89,7 @@ export const translations = {
     briefSubmit: 'Descubrir potencial',
     briefNote: 'Sin spam. Solo información relevante para tu industria.',
     briefSuccess: 'Perfecto — revisa tu correo en los próximos minutos.',
+    briefError: 'No pudimos enviar tu solicitud. Inténtalo de nuevo en unos minutos o escribe a info@whagons.com.',
 
     // Demo
     demoTitle1: 'VER',
@@ -111,6 +114,9 @@ export const translations = {
     demoSubmit: 'Ver en acción',
     demoNote: 'Te contactamos en menos de 24 horas hábiles.',
     demoSuccess: 'Recibido — un especialista se pondrá en contacto pronto.',
+    demoError: 'No pudimos enviar tu solicitud. Inténtalo de nuevo en unos minutos o escribe a info@whagons.com.',
+    demoPreviewAlt:
+      'Vista de Analítica en Whagons: KPIs de tareas, tendencia y distribución por estado.',
 
     // Demo page
     demoPageTitle: 'Demo del Software de Gestión Operativa',
@@ -164,6 +170,7 @@ export const translations = {
       { text: 'Grandes operaciones se construyen con pequeñas decisiones inteligentes — tomadas en el momento correcto.', author: 'Whagons' },
     ],
     closingImageAlt: 'Vista de la plataforma Whagons',
+    closingLiveLabel: 'Actividad en tiempo real',
 
     // Contact
     contactTitle1: 'TIENES',
@@ -212,6 +219,8 @@ export const translations = {
     heroCta1: 'Discover your potential',
     heroCta2: 'See it in action',
     heroScroll: 'Scroll',
+    heroLiveLabel: 'Live activity',
+    heroPreviewAria: 'Open demo page with a larger product preview',
 
     // Statement — SEO: "operations control", "business management"
     statementEyebrow: 'The challenge',
@@ -279,6 +288,7 @@ export const translations = {
     briefSubmit: 'Discover potential',
     briefNote: 'No spam. Only information relevant to your industry.',
     briefSuccess: 'Perfect \u2014 check your email in the next few minutes.',
+    briefError: 'We couldn\u2019t submit your request. Please try again in a few minutes or email info@whagons.com.',
 
     // Demo
     demoTitle1: 'SEE IT',
@@ -303,6 +313,9 @@ export const translations = {
     demoSubmit: 'See it in action',
     demoNote: 'We contact you within 24 business hours.',
     demoSuccess: 'Received \u2014 a specialist will be in touch soon.',
+    demoError: 'We couldn\u2019t submit your request. Please try again in a few minutes or email info@whagons.com.',
+    demoPreviewAlt:
+      'Whagons Analytics view: task KPIs, trends, and distribution by status.',
 
     // Demo page
     demoPageTitle: 'Operations Management Software Demo',
@@ -356,6 +369,7 @@ export const translations = {
       { text: 'Great operations are built from small, intelligent decisions \u2014 made at the right moment.', author: 'Whagons' },
     ],
     closingImageAlt: 'Whagons platform dashboard preview',
+    closingLiveLabel: 'Live activity',
 
     // Contact
     contactTitle1: 'HAVE',

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
+import Image from 'next/image';
 
 interface DemoSectionProps {
   t: any;
@@ -16,31 +17,40 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
   const [demoTeamSize, setDemoTeamSize] = useState('');
   const [demoSubmitting, setDemoSubmitting] = useState(false);
   const [demoSuccess, setDemoSuccess] = useState(false);
+  const [demoError, setDemoError] = useState(false);
 
   const submitDemo = async (e: FormEvent) => {
     e.preventDefault();
-    if (!demoName || !demoEmail || !demoIndustry) return;
+    const name = demoName.trim();
+    const email = demoEmail.trim();
+    const company = demoCompany.trim();
+    if (!name || !email || !company || !demoIndustry || !demoTeamSize) return;
 
     setDemoSubmitting(true);
+    setDemoError(false);
     try {
-      await fetch('/api/flodesk', {
+      const res = await fetch('/api/flodesk', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: demoName.trim(),
-          email: demoEmail.trim(),
-          company: demoCompany.trim(),
+          name,
+          email,
+          company,
           industry: demoIndustry,
-          country: 'Unknown',
           language,
           formType: 'demo',
           phone: demoPhone.trim(),
           teamSize: demoTeamSize,
         }),
       });
-      setDemoSuccess(true);
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data?.success) {
+        setDemoSuccess(true);
+      } else {
+        setDemoError(true);
+      }
     } catch {
-      setDemoSuccess(true);
+      setDemoError(true);
     } finally {
       setDemoSubmitting(false);
     }
@@ -53,17 +63,30 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
         <p className="demo-sub">{t.demoSub}</p>
       </div>
       <div className="demo-body">
-        <div className="r">
-          <ul className="demo-perks">
-            {t.demoPerks.map((perk: string, i: number) => (
-              <li className="demo-perk" key={i}>
-                <span className="dp-n">0{i + 1}</span>
-                <span className="dp-t">{perk}</span>
-              </li>
-            ))}
-          </ul>
+        <div className="demo-left">
+          <div className="r">
+            <ul className="demo-perks">
+              {t.demoPerks.map((perk: string, i: number) => (
+                <li className="demo-perk" key={i}>
+                  <span className="dp-n">0{i + 1}</span>
+                  <span className="dp-t">{perk}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <figure className="demo-preview r d1">
+            <Image
+              src="/images/whagons-analytics-dashboard.png"
+              alt={t.demoPreviewAlt}
+              width={1024}
+              height={515}
+              sizes="(max-width: 860px) 100vw, 50vw"
+              className="demo-preview-img"
+              priority={false}
+            />
+          </figure>
         </div>
-        <div className="r d1">
+        <div className="r d2">
           {!demoSuccess ? (
             <form onSubmit={submitDemo}>
               <div className="demo-form-grid">
@@ -139,10 +162,12 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
                   <select
                     className="f-inp"
                     id="d-teamsize"
+                    required
                     value={demoTeamSize}
                     onChange={(e) => setDemoTeamSize(e.target.value)}
                     disabled={demoSubmitting}
                   >
+                    <option value="" disabled>{t.briefIndustryPlaceholder}</option>
                     {t.teamSizeOptions.map((opt: string) => (
                       <option key={opt} value={opt}>{opt}</option>
                     ))}
@@ -153,7 +178,11 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
                 <button type="submit" className="btn-black" disabled={demoSubmitting}>
                   {demoSubmitting ? '...' : `${t.demoSubmit} \u2192`}
                 </button>
-                <p className="f-note">{t.demoNote}</p>
+                {demoError ? (
+                  <p className="f-note" role="alert">{t.demoError}</p>
+                ) : (
+                  <p className="f-note">{t.demoNote}</p>
+                )}
               </div>
             </form>
           ) : (
