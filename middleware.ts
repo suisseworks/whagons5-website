@@ -2,9 +2,18 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const SUPPORTED_LANGS = ['es', 'en'];
 const DEFAULT_LANG = 'es';
+const BRIEF_PDF_PATH = '/9af3877fd2b65a3c/whagons-brief-2026.pdf';
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  if (pathname === BRIEF_PDF_PATH) {
+    return NextResponse.next();
+  }
+
+  if (pathname === `/en${BRIEF_PDF_PATH}` || pathname === `/es${BRIEF_PDF_PATH}`) {
+    return NextResponse.rewrite(new URL(BRIEF_PDF_PATH, request.url));
+  }
 
   // Skip internal paths, API routes, static files
   if (
