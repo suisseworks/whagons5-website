@@ -8,7 +8,7 @@ export const translations = {
     navDemo: 'Demo',
 
     // Hero — SEO: target "software de gestión operativa", "automatización de procesos"
-    heroBgWord: 'INTEL',
+    heroBgWord: 'SIGNAL',
     heroTicker1: 'Software de gestión operativa',
     heroTicker2: 'Automatización de procesos',
     heroTicker3: 'Inteligencia artificial empresarial',
@@ -207,7 +207,7 @@ export const translations = {
     navDemo: 'Demo',
 
     // Hero — SEO: target "operations management software", "business process automation"
-    heroBgWord: 'INTEL',
+    heroBgWord: 'SIGNAL',
     heroTicker1: 'Operations management software',
     heroTicker2: 'Business process automation',
     heroTicker3: 'AI-powered business tools',
