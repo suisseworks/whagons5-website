@@ -1,19 +1,20 @@
 # syntax=docker/dockerfile:1
 
 # ---- Build stage ----
-FROM node:23-alpine AS builder
+FROM node:22-alpine AS builder
 WORKDIR /app
 
-# Install dependencies (use lockfile when available)
-COPY package*.json ./
-RUN npm ci --no-audit --no-fund
+# Install the exact pnpm version declared in package.json.
+RUN corepack enable
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+RUN pnpm install --frozen-lockfile
 
 # Copy source and build
 COPY . .
-RUN npm run build
+RUN pnpm build
 
 # ---- Runtime stage ----
-FROM node:23-alpine AS runner
+FROM node:22-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
