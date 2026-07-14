@@ -21,25 +21,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: 'Política de Seguridad',
       description:
         'Conoce el enfoque de Whagons para seguridad, control de acceso, protección de datos, monitoreo e incident response.',
-      alternates: {
-        canonical: 'https://whagons.com/es/security',
-        languages: {
-          es: 'https://whagons.com/es/security',
-          en: 'https://whagons.com/en/security',
-        },
-      },
+      alternates: { canonical: 'https://whagons.com/es/security' },
     },
     en: {
       title: 'Security Policy',
       description:
-        'Learn about Whagons approach to security, access control, data protection, monitoring, and incident response.',
-      alternates: {
-        canonical: 'https://whagons.com/en/security',
-        languages: {
-          es: 'https://whagons.com/es/security',
-          en: 'https://whagons.com/en/security',
-        },
-      },
+        'Learn about Whagons Systems LLC security practices for the U.S. hospitality website and Whagons operations platform.',
+      alternates: { canonical: 'https://whagons.com/en/security' },
     },
   };
 

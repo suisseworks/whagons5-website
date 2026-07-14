@@ -387,15 +387,15 @@ export const translations = {
     platformPageHero: 'A complete operations management software for businesses that need control, automation, and visibility over their operations.',
 
     // Blog
-    blogTitle: 'BLOG',
-    blogSub: 'Articles on operations management, business process automation, and enterprise technology',
+    blogTitle: 'HOTEL OPERATIONS RESOURCES',
+    blogSub: 'Practical guides for hotel handoffs, frontline adoption, and manager visibility',
     blogReadMore: 'Read article',
     blogReadTime: 'min read',
-    blogBack: '\u2190 Back to blog',
+    blogBack: '\u2190 Back to resources',
     blogShare: 'Share',
     blogCopied: 'Link copied',
-    blogPageTitle: 'Blog — Operations Management, Automation & Enterprise Technology',
-    blogPageDesc: 'Articles, guides, and best practices on operations management, business process automation, AI-powered operations control, and operational efficiency.',
+    blogPageTitle: 'Hotel Operations Resources',
+    blogPageDesc: 'Practical guides for hotel shift handoffs, guest-issue ownership, maintenance response, room readiness, and manager visibility.',
   },
 };
 

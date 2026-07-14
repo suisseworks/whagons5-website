@@ -15,7 +15,8 @@ A Next.js website for Whagons 5, featuring a modern design with fog effects and 
 
 1. Install dependencies:
 ```bash
-npm install
+corepack enable
+pnpm install --frozen-lockfile
 ```
 
 2. Create a `.env.local` file in the root directory:
@@ -30,7 +31,7 @@ FLODESK_API_URL=https://api.flodesk.com/v1/subscribers  # Optional, defaults to 
 
 3. Run the development server:
 ```bash
-npm run dev
+pnpm dev
 ```
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser.
@@ -72,14 +73,23 @@ app/
 ## Building for Production
 
 ```bash
-npm run build
-npm start
+pnpm build
+pnpm start
 ```
 
 ## Environment Variables
 
 - `FLODESK_API_KEY` (required): Your Flodesk API key
 - `FLODESK_API_URL` (optional): Flodesk API endpoint URL (defaults to `https://api.flodesk.com/v1/subscribers`)
+- `FLODESK_SEGMENT_HANDOFF_SCAN_ID` (required before publishing the U.S. hospitality scan form): monitored Flodesk segment for hotel handoff scan requests
+- `WHAGONS_US_SCAN_OWNER` (required before publishing the U.S. hospitality scan form): named internal owner recorded on every U.S. scan request
+
+The full English market is the U.S. hospitality site. Its canonical routes are
+`/en`, `/en/platform`, `/en/hotel-operations`, `/en/handoff-scan`, and
+`/en/resources`. U.S. country-level edge headers route `/` to `/en`. Existing
+English campaign and generic-product URLs redirect to the appropriate canonical
+hospitality route. The `/es` market remains the Latin American site and direct
+language-prefixed visits are never overridden.
 
 ## Notes
 

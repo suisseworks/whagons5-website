@@ -68,19 +68,20 @@ function ShareButtons({ title, lang }: { title: string; lang: Language }) {
 
 export default function BlogPostClient({ post, lang }: BlogPostClientProps) {
   const t = translations[lang];
+  const blogHome = lang === 'en' ? '/en/resources' : `/${lang}/blog`;
 
   const formattedDate = new Date(post.date).toLocaleDateString(
     lang === 'es' ? 'es-ES' : 'en-US',
-    { year: 'numeric', month: 'long', day: 'numeric' }
+    { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }
   );
 
   return (
     <>
       <ScrollReveal />
 
-      <article className="blog-post">
+      <article className={`blog-post${lang === 'en' ? ' hospitality-article' : ''}`}>
         <header className="blog-post-header r">
-          <a href={`/${lang}/blog`} className="blog-back">{t.blogBack}</a>
+          <a href={blogHome} className="blog-back">{t.blogBack}</a>
           <div className="blog-post-tags">
             {post.tags.map((tag) => (
               <span className="blog-tag" key={tag}>{tag}</span>
@@ -113,10 +114,10 @@ export default function BlogPostClient({ post, lang }: BlogPostClientProps) {
         </div>
 
         <footer className="blog-post-footer r d2">
-          <a href={`/${lang}/blog`} className="blog-back">{t.blogBack}</a>
+          <a href={blogHome} className="blog-back">{t.blogBack}</a>
           <ShareButtons title={post.title} lang={lang} />
-          <a href={`/${lang}/demo`} className="cta-primary">
-            {lang === 'es' ? 'Solicitar demo' : 'Request demo'} &rarr;
+          <a href={lang === 'en' ? '/en/handoff-scan' : `/${lang}/demo`} className="cta-primary">
+            {lang === 'es' ? 'Solicitar demo' : 'Request a handoff scan'} &rarr;
           </a>
         </footer>
       </article>

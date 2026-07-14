@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import { translations, Language } from '../../lib/i18n';
 import { getBlogPosts } from '../../lib/blog';
 import BlogListClient from './BlogListClient';
@@ -28,6 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default function BlogPage({ params }: PageProps) {
+  if (params.lang === 'en') redirect('/en/resources');
   const lang = (SUPPORTED_LANGS.includes(params.lang as any) ? params.lang : 'es') as Language;
   const posts = getBlogPosts(lang);
 

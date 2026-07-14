@@ -21,25 +21,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: 'Política de Privacidad',
       description:
         'Conoce cómo Whagons recopila, utiliza y protege datos del sitio web, formularios de demo y brief, y de la plataforma de gestión operativa.',
-      alternates: {
-        canonical: 'https://whagons.com/es/privacy',
-        languages: {
-          es: 'https://whagons.com/es/privacy',
-          en: 'https://whagons.com/en/privacy',
-        },
-      },
+      alternates: { canonical: 'https://whagons.com/es/privacy' },
     },
     en: {
       title: 'Privacy Policy',
       description:
-        'Learn how Whagons collects, uses, and protects data from the website, demo and brief forms, and the operations management platform.',
-      alternates: {
-        canonical: 'https://whagons.com/en/privacy',
-        languages: {
-          es: 'https://whagons.com/es/privacy',
-          en: 'https://whagons.com/en/privacy',
-        },
-      },
+        'Learn how Whagons Systems LLC collects, uses, and protects information from the U.S. hospitality website, Hotel Handoff Leak Scan, and operations platform.',
+      alternates: { canonical: 'https://whagons.com/en/privacy' },
     },
   };
 

@@ -9,7 +9,7 @@ interface LegalPageProps {
 
 export default function LegalPage({ lang, content }: LegalPageProps) {
   return (
-    <>
+    <div className={lang === 'en' ? 'hospitality-legal-page' : undefined}>
       <section className="page-hero legal-hero">
         <div className="page-hero-inner legal-hero-inner">
           <p className="eyebrow legal-eyebrow">{content.eyebrow}</p>
@@ -49,8 +49,8 @@ export default function LegalPage({ lang, content }: LegalPageProps) {
           <h2 className="cta-bottom-title">{content.ctaTitle}</h2>
           <p className="cta-bottom-desc">{content.ctaDescription}</p>
           <div className="page-hero-ctas legal-cta-links">
-            <Link href={`/${lang}/demo`} className="cta-primary">
-              {content.primaryCta} &rarr;
+            <Link href={lang === 'en' ? '/en/handoff-scan' : `/${lang}/demo`} className="cta-primary">
+              {lang === 'en' ? 'Request a hotel handoff scan' : content.primaryCta} &rarr;
             </Link>
             <a href="mailto:info@whagons.com" className="cta-ghost">
               {content.secondaryCta} {'\u2197'}
@@ -58,6 +58,6 @@ export default function LegalPage({ lang, content }: LegalPageProps) {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

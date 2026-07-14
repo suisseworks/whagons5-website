@@ -16,6 +16,7 @@ import ProofSection from '../components/ProofSection';
 import BriefSection from '../components/BriefSection';
 import ContactSection from '../components/ContactSection';
 import ClosingSection from '../components/ClosingSection';
+import HospitalityPage from '../components/hospitality/HospitalityPage';
 
 const ACCENT_COLORS = [
   { color: '#D4310A', name: 'Vermillion' },
@@ -27,6 +28,14 @@ const ACCENT_COLORS = [
 export default function Home() {
   const params = useParams();
   const lang = (params.lang as Language) || 'es';
+
+  if (lang === 'en') return <HospitalityPage />;
+
+  return <LatamHome />;
+}
+
+function LatamHome() {
+  const lang: Language = 'es';
   const [theme, setTheme] = useState<Theme>('light');
   const [accentColor, setAccentColor] = useState(ACCENT_COLORS[0].color);
 

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import { translations, Language } from '../../lib/i18n';
 import DemoPageClient from './DemoPageClient';
 
@@ -50,6 +51,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default function DemoPage({ params }: PageProps) {
+  if (params.lang === 'en') redirect('/en/handoff-scan');
   const lang = (SUPPORTED_LANGS.includes(params.lang as any) ? params.lang : 'es') as Language;
   return <DemoPageClient lang={lang} />;
 }

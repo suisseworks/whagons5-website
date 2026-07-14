@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import { translations, Language } from '../../lib/i18n';
 import PlatformPageClient from './PlatformPageClient';
 
@@ -63,6 +64,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default function PlatformPage({ params }: PageProps) {
+  if (params.lang === 'en') redirect('/en/platform');
   const lang = (SUPPORTED_LANGS.includes(params.lang as any) ? params.lang : 'es') as Language;
   return <PlatformPageClient lang={lang} />;
 }

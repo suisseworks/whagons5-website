@@ -30,62 +30,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" suppressHydrationWarning className={`${bebasNeue.variable} ${cormorantGaramond.variable} ${instrumentSans.variable}`}>
-      <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@graph': [
-                {
-                  '@type': 'Organization',
-                  '@id': 'https://whagons.com/#organization',
-                  name: 'Whagons International',
-                  url: 'https://whagons.com',
-                  logo: 'https://whagons.com/images/logo-whagons-horizontal-red.svg',
-                  description: 'Software de gestión operativa con inteligencia artificial para empresas con operaciones complejas. AI-powered operations management software.',
-                  foundingDate: '2021',
-                  sameAs: [],
-                },
-                {
-                  '@type': 'SoftwareApplication',
-                  '@id': 'https://whagons.com/#software',
-                  name: 'Whagons',
-                  applicationCategory: 'BusinessApplication',
-                  operatingSystem: 'Web, iOS, Android',
-                  description: 'Software de gestión operativa y automatización de procesos empresariales. Plataforma con IA para control de operaciones, flujos de trabajo inteligentes y analítica en tiempo real.',
-                  offers: {
-                    '@type': 'Offer',
-                    price: '0',
-                    priceCurrency: 'USD',
-                    description: 'Contact for pricing',
-                  },
-                  provider: {
-                    '@type': 'Organization',
-                    '@id': 'https://whagons.com/#organization',
-                  },
-                },
-                {
-                  '@type': 'WebSite',
-                  '@id': 'https://whagons.com/#website',
-                  url: 'https://whagons.com',
-                  name: 'Whagons',
-                  publisher: {
-                    '@type': 'Organization',
-                    '@id': 'https://whagons.com/#organization',
-                  },
-                  inLanguage: ['es', 'en'],
-                  potentialAction: {
-                    '@type': 'SearchAction',
-                    target: 'https://whagons.com/?q={search_term_string}',
-                    'query-input': 'required name=search_term_string',
-                  },
-                },
-              ],
-            }),
-          }}
-        />
-      </head>
       <body suppressHydrationWarning>{children}</body>
     </html>
   );

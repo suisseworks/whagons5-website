@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Language } from '../lib/i18n';
-import { getSlugTranslationMap } from '../lib/blog';
 import NavBar from '../components/NavBar';
 import FooterBar from '../components/FooterBar';
 
@@ -56,44 +55,37 @@ const metadataByLang: Record<string, Metadata> = {
   },
   en: {
     title: {
-      default: 'Whagons — Operations Management Software with AI | Business Process Automation',
-      template: '%s | Whagons',
+      default: 'Whagons Hospitality — Hotel Operations and Handoff Control',
+      template: '%s | Whagons Hospitality',
     },
-    description: 'Operations management software for businesses. AI-powered platform for business process automation, workflow management, real-time analytics, and operational control across industries.',
+    description: 'Hotel operations software for visible ownership, due times, escalation, completion proof, and manager visibility without replacing the property management system.',
     icons: '/favicon.svg',
     openGraph: {
-      title: 'Whagons — Operations Management Software with AI',
-      description: 'Operations management platform for businesses. Automate processes, control operations in real time, and make decisions powered by AI.',
-      siteName: 'Whagons',
+      title: 'Whagons Hospitality — Hotel Operations Under Control',
+      description: 'Know what is owned, what is late, and what is done to standard across hotel handoffs.',
+      url: 'https://whagons.com/en',
+      siteName: 'Whagons Hospitality',
       type: 'website',
       locale: 'en_US',
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Whagons — Operations Management Software with AI',
-      description: 'Operations management platform for businesses. Automate processes, control operations in real time, and make decisions powered by AI.',
+      title: 'Whagons Hospitality — Hotel Operations Under Control',
+      description: 'Control hotel handoffs with ownership, due times, escalation, proof, and manager visibility.',
     },
     keywords: [
-      'operations management software',
-      'business process automation platform',
-      'workflow automation software',
-      'AI operations management',
-      'operations control platform',
-      'AI-powered business software',
-      'task management software',
-      'workflow management system',
-      'preventive maintenance software',
-      'SLA management platform',
-      'enterprise asset management',
-      'compliance and audit software',
-      'real-time operational analytics',
-      'hotel management software',
-      'retail operations software',
-      'multi-site management',
+      'hotel operations software',
+      'hotel workflow software',
+      'hotel handoff management',
+      'hotel maintenance workflow',
+      'hotel shift handoff',
+      'hotel task escalation',
+      'room readiness workflow',
+      'hotel operations Sacramento',
     ],
     alternates: {
       canonical: 'https://whagons.com/en',
-      languages: { 'en': 'https://whagons.com/en', 'es': 'https://whagons.com/es' },
+      languages: { 'en-US': 'https://whagons.com/en', 'es-419': 'https://whagons.com/es', 'x-default': 'https://whagons.com/en' },
     },
   },
 };
@@ -109,7 +101,46 @@ export async function generateMetadata({ params }: LangLayoutProps): Promise<Met
 
 export default function LangLayout({ children, params }: LangLayoutProps) {
   const lang = (SUPPORTED_LANGS.includes(params.lang as any) ? params.lang : 'es') as Language;
-  const blogSlugMap = getSlugTranslationMap();
+  const structuredData = lang === 'en'
+    ? {
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'Organization',
+            '@id': 'https://whagons.com/en#organization',
+            name: 'Whagons Systems LLC',
+            alternateName: 'Whagons Hospitality',
+            url: 'https://whagons.com/en',
+            logo: 'https://whagons.com/images/logo-whagons-horizontal-red.svg',
+            areaServed: 'US',
+            description: 'Hotel operations and handoff control software for U.S. hospitality teams.',
+          },
+          {
+            '@type': 'SoftwareApplication',
+            '@id': 'https://whagons.com/en#software',
+            name: 'Whagons Hospitality',
+            applicationCategory: 'BusinessApplication',
+            operatingSystem: 'Web',
+            description: 'Hotel workflow control for ownership, due times, escalation, completion proof, and manager visibility.',
+            provider: { '@id': 'https://whagons.com/en#organization' },
+          },
+          {
+            '@type': 'WebSite',
+            '@id': 'https://whagons.com/en#website',
+            url: 'https://whagons.com/en',
+            name: 'Whagons Hospitality',
+            inLanguage: 'en-US',
+            publisher: { '@id': 'https://whagons.com/en#organization' },
+          },
+        ],
+      }
+    : {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        url: 'https://whagons.com/es',
+        name: 'Whagons',
+        inLanguage: 'es-419',
+      };
 
   return (
     <>
@@ -118,7 +149,11 @@ export default function LangLayout({ children, params }: LangLayoutProps) {
           __html: `document.documentElement.lang="${lang}";`,
         }}
       />
-      <NavBar lang={lang} blogSlugMap={blogSlugMap} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      <NavBar lang={lang} />
       {children}
       <FooterBar lang={lang} />
     </>

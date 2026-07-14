@@ -94,6 +94,15 @@ nav {
   transition: background-color .4s ease;
 }
 .nav-r { display: flex; align-items: center; gap: 44px; }
+.logo-market {
+  color: var(--red);
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.hospitality-nav .nav-r { gap: 30px; }
+.market-btn { width: auto; padding: 0 10px; white-space: nowrap; }
 .nl {
   font-size: 0.7rem;
   letter-spacing: 0.1em;
@@ -1391,6 +1400,11 @@ footer {
   align-items: center;
   justify-content: space-between;
 }
+.hospitality-footer { background: #0a0a09; color: #f5f2eb; }
+.hospitality-footer .f-logo-name,
+.hospitality-footer .f-links a { color: #f5f2eb; }
+.hospitality-footer .f-tag,
+.hospitality-footer .f-copy { color: rgba(245,242,235,0.66); }
 .f-logo {
   display: inline-flex;
   align-items: center;
@@ -2731,6 +2745,35 @@ nav,
   align-items: center;
 }
 
+/* U.S. hospitality resources and legal surfaces */
+.hospitality-article {
+  max-width: none;
+  padding-right: 56px;
+  padding-left: 56px;
+  background:
+    linear-gradient(rgba(10, 10, 9, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 10, 9, 0.025) 1px, transparent 1px),
+    #f5f2eb;
+  background-size: 48px 48px;
+}
+.hospitality-article > * { max-width: 1088px; margin-right: auto; margin-left: auto; }
+.hospitality-article .blog-post-title { max-width: 900px; font-size: clamp(3.2rem, 6vw, 6.2rem); line-height: 0.92; }
+.hospitality-article .blog-post-desc { max-width: 760px; }
+.hospitality-article .blog-tag { border-color: rgba(10, 10, 9, 0.16); background: rgba(245, 242, 235, 0.8); }
+.hospitality-article .prose { font-family: var(--sans); font-size: 1rem; line-height: 1.8; }
+.hospitality-article .prose h2,
+.hospitality-article .prose h3 { font-family: var(--display); font-weight: 400; }
+.hospitality-article .blog-post-footer { margin-top: 72px; }
+
+.hospitality-legal-page {
+  background:
+    linear-gradient(rgba(10, 10, 9, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 10, 9, 0.025) 1px, transparent 1px),
+    #f5f2eb;
+  background-size: 48px 48px;
+}
+.hospitality-legal-page .legal-eyebrow { color: #d4310a; }
+
 /* ── FOOTER LINKS ──────────────────────────── */
 .f-links {
   display: flex;
@@ -2766,6 +2809,8 @@ nav,
   .blog-grid { grid-template-columns: 1fr; gap: 24px; }
   .blog-card-body { padding: 24px 20px; }
   .blog-post { padding-left: 24px; padding-right: 24px; }
+  .hospitality-article { padding-right: 24px; padding-left: 24px; }
+  .hospitality-article .blog-post-title { font-size: clamp(3rem, 15vw, 4.8rem); }
   .blog-post-hero { margin-top: 32px; margin-bottom: 32px; }
   .blog-post-meta-row { flex-direction: column; align-items: flex-start; }
   .blog-post-footer { flex-direction: column; gap: 24px; align-items: flex-start; }

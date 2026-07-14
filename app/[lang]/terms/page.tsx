@@ -21,25 +21,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: 'Términos y Condiciones',
       description:
         'Revisa los términos aplicables al uso del sitio web de Whagons y de la plataforma de gestión operativa, automatización e inteligencia artificial.',
-      alternates: {
-        canonical: 'https://whagons.com/es/terms',
-        languages: {
-          es: 'https://whagons.com/es/terms',
-          en: 'https://whagons.com/en/terms',
-        },
-      },
+      alternates: { canonical: 'https://whagons.com/es/terms' },
     },
     en: {
       title: 'Terms & Conditions',
       description:
-        'Review the terms that apply to using the Whagons website and its operations management, automation, and AI platform.',
-      alternates: {
-        canonical: 'https://whagons.com/en/terms',
-        languages: {
-          es: 'https://whagons.com/es/terms',
-          en: 'https://whagons.com/en/terms',
-        },
-      },
+        'Review the terms that apply to the U.S. Whagons Hospitality website and the Whagons operations platform offered by Whagons Systems LLC.',
+      alternates: { canonical: 'https://whagons.com/en/terms' },
     },
   };
 

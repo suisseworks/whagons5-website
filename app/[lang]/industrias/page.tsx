@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import { translations, Language } from '../../lib/i18n';
 import IndustriasPageClient from './IndustriasPageClient';
 
@@ -58,6 +59,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default function IndustriasPage({ params }: PageProps) {
+  if (params.lang === 'en') redirect('/en/hotel-operations');
   const lang = (SUPPORTED_LANGS.includes(params.lang as any) ? params.lang : 'es') as Language;
   return <IndustriasPageClient lang={lang} />;
 }

@@ -140,14 +140,14 @@ export const privacyContent: Record<Language, LegalPageContent> = {
     eyebrow: 'Legal',
     title: 'Privacy Policy',
     intro:
-      'This Privacy Policy explains how Whagons collects, uses, protects, and shares information when you visit our website, request a brief or demo, or use the Whagons platform to manage operations, automations, documentation, and enterprise workflows.',
+      'This Privacy Policy explains how Whagons Systems LLC (Whagons, we, or us) collects, uses, protects, and shares information when you visit the U.S. website, request a Hotel Handoff Leak Scan, or use the Whagons platform.',
     updatedLabel: 'Last updated',
-    updatedDate: 'April 1, 2026',
+    updatedDate: 'July 13, 2026',
     sections: [
       {
         title: '1. Scope',
         body: [
-          'This policy applies to https://whagons.com, the forms and commercial communications associated with the site, and use of the Whagons platform, including its operations management modules, AI assistant, workflows, integrations, forms, signatures, and mobile or web features.',
+          'This policy applies to the English-language U.S. market at https://whagons.com/en, its Hotel Handoff Leak Scan and related commercial communications, and use of the Whagons platform, including workflow, form, documentation, analytics, integration, AI-assisted, and web features.',
           'If your organization has a separate order form, master services agreement, or services contract with Whagons, that document may supplement this policy for enterprise use of the platform.',
         ],
       },
@@ -155,7 +155,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         title: '2. Information we collect',
         body: ['We may collect the following categories of information:'],
         bullets: [
-          'Contact and business information you submit when requesting a demo or brief, such as name, email address, company, industry, phone number, and operational team size.',
+          'Contact and business information you submit when requesting a Hotel Handoff Leak Scan, such as name, work email address, hotel or management company, role, phone number, property count, workflow category, and preferred contact method.',
           'Account and administration information when an organization implements Whagons, such as authorized users, roles, locations, teams, and configuration preferences.',
           'Operational data uploaded to or generated within the platform, including tasks, workflows, approvals, forms, documentation, logs, metrics, comments, and files related to the customer’s operations.',
           'Technical and usage information such as IP address, browser type, device information, visited pages, access times, language, and logs needed for security, support, and performance.',
@@ -168,7 +168,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         body: ['We use information to:'],
         bullets: [
           'Operate, maintain, and improve the website and the Whagons platform.',
-          'Respond to commercial inquiries, coordinate demos, send briefs, and follow up on business opportunities.',
+          'Respond to commercial inquiries, coordinate Hotel Handoff Leak Scans, prepare requested scorecards, and follow up on hotel pilot opportunities.',
           'Provision accounts, authenticate users, enable automations, integrations, reporting, and AI assistant functionality.',
           'Monitor security, prevent misuse, investigate incidents, and protect the integrity of our systems.',
           'Comply with legal, regulatory, contractual, and audit-related obligations.',
@@ -196,7 +196,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
       {
         title: '6. Website forms and marketing communications',
         body: [
-          'When you complete a demo or brief form, the submitted information may be used to contact you, classify business interest, and send Whagons-related follow-up communications.',
+          'When you request a Hotel Handoff Leak Scan, the submitted information may be used to review the request, contact you using the selected method, prepare the working session, and send follow-up related to the scan or a potential hotel pilot.',
           'We currently use automation and lead-management providers to process these submissions. If you no longer want to receive marketing communications, you can unsubscribe or request removal by contacting info@whagons.com.',
         ],
       },
@@ -242,7 +242,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
       {
         title: '13. Contact',
         body: [
-          'If you have questions about this Privacy Policy or how Whagons handles information, you can contact us at info@whagons.com.',
+          'Whagons Systems LLC is a California limited liability company. If you have questions about this Privacy Policy or how Whagons handles information, contact us at info@whagons.com.',
         ],
       },
     ],
@@ -391,14 +391,14 @@ export const termsContent: Record<Language, LegalPageContent> = {
     eyebrow: 'Legal',
     title: 'Terms & Conditions',
     intro:
-      'These Terms & Conditions govern access to and use of the Whagons website and the Whagons platform. By accessing the website, requesting commercial information, or using the services, you accept these terms on your own behalf or on behalf of the organization you represent.',
+      'These Terms & Conditions govern access to and use of the U.S. Whagons Hospitality website and the Whagons platform offered by Whagons Systems LLC. By accessing the website, requesting commercial information, or using the services, you accept these terms on your own behalf or on behalf of the organization you represent.',
     updatedLabel: 'Last updated',
-    updatedDate: 'April 1, 2026',
+    updatedDate: 'July 13, 2026',
     sections: [
       {
         title: '1. Who we are',
         body: [
-          'Whagons provides operations management software for organizations that need control, automation, and visibility across their operations. The platform may include task management, work plans, documentation, analytics, forms, approvals, integrations, and AI-assisted features.',
+          'Whagons Systems LLC is a California limited liability company. It offers Whagons Hospitality to U.S. hotels as a configured use of the Whagons operations platform for workflow ownership, due times, escalation, completion evidence, and manager visibility. The platform may also include task management, work plans, documentation, analytics, forms, approvals, integrations, and AI-assisted features.',
         ],
       },
       {
@@ -496,8 +496,8 @@ export const termsContent: Record<Language, LegalPageContent> = {
       {
         title: '15. Governing law and disputes',
         body: [
-          'Unless a written commercial agreement states otherwise, these terms are governed by the laws of Costa Rica, without regard to conflict-of-law rules.',
-          'The parties will first attempt to resolve disputes in good faith. If that is not possible, the dispute will be submitted to the competent courts of Costa Rica unless otherwise agreed in writing.',
+          'Unless a written commercial agreement states otherwise, these terms are governed by the laws of the State of California, without regard to conflict-of-law rules.',
+          'The parties will first attempt to resolve disputes in good faith. If that is not possible, the dispute will be submitted to the state or federal courts located in California unless otherwise agreed in writing.',
         ],
       },
       {
@@ -513,9 +513,9 @@ export const termsContent: Record<Language, LegalPageContent> = {
         ],
       },
     ],
-    ctaTitle: 'Want to review Whagons for your company?',
+    ctaTitle: 'Want to review one hotel handoff?',
     ctaDescription:
-      'We can walk you through how the platform fits your industry, operating model, and implementation requirements.',
+      'Start with one real workflow and determine whether Whagons fits the hotel before discussing a broader implementation.',
     primaryCta: 'Book a demo',
     secondaryCta: 'Talk to Whagons',
   },
@@ -619,9 +619,9 @@ export const securityContent: Record<Language, LegalPageContent> = {
     eyebrow: 'Legal',
     title: 'Security Policy',
     intro:
-      'This Security Policy summarizes the practices Whagons applies to protect its website, infrastructure, and the operations management platform used by customers. It describes general controls and operating principles and may be supplemented by customer-specific agreements.',
+      'This Security Policy summarizes the practices Whagons Systems LLC applies to protect the U.S. website, infrastructure, and Whagons operations platform used by customers. It describes general controls and operating principles and may be supplemented by customer-specific agreements.',
     updatedLabel: 'Last updated',
-    updatedDate: 'April 1, 2026',
+    updatedDate: 'July 13, 2026',
     sections: [
       {
         title: '1. Security approach',
