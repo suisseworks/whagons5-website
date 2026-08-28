@@ -202,124 +202,124 @@ export const translations = {
     // Nav
     navPlatform: 'Platform',
     navIndustries: 'Industries',
-    navBrief: 'Brief',
+    navBrief: 'Scan',
     navLogin: 'Log in',
-    navDemo: 'Demo',
+    navDemo: 'Start',
 
-    // Hero — SEO: target "operations management software", "business process automation"
-    heroBgWord: 'SIGNAL',
-    heroTicker1: 'Operations management software',
-    heroTicker2: 'Business process automation',
-    heroTicker3: 'AI-powered business tools',
+    // Hero
+    heroBgWord: 'DONE',
+    heroTicker1: 'Hotel operations',
+    heroTicker2: 'Guest issues that close',
+    heroTicker3: 'Who owns the job',
     heroStamp: 'Est. 2021',
-    heroLine1: 'DECISIONS',
-    heroLine2: 'THAT DRIVE',
-    heroLine3: 'RESULTS.',
-    heroDesc: 'Whagons is an AI-powered operations management software that automates business processes and turns operational data into strategic decisions for your organization.',
-    heroCta1: 'Discover your potential',
-    heroCta2: 'See it in action',
+    heroLine1: 'THE GUEST',
+    heroLine2: 'CALLED.',
+    heroLine3: 'DID IT GET DONE?',
+    heroDesc: 'A 45-day hotel pilot. Managers see who owns the job, whether it is late, and whether it closed. Your reservation system stays.',
+    heroCta1: 'Start with one issue',
+    heroCta2: 'See the 45-day pilot',
     heroScroll: 'Scroll',
     heroLiveLabel: 'Live activity',
-    heroPreviewAria: 'Open demo page with a larger product preview',
+    heroPreviewAria: 'Open a larger product preview',
 
-    // Statement — SEO: "operations control", "business management"
-    statementEyebrow: 'The challenge',
-    statementText: 'Most businesses make critical decisions based on',
-    statementEmphasis: 'incomplete information.',
-    statementText2: 'Disconnected teams, scattered data, no executive visibility. Operations happen — but without an operations control platform, leadership lacks the clarity to act.',
+    // Statement
+    statementEyebrow: 'On the floor',
+    statementText: 'Front desk radios maintenance. Then it sits until the next shift, or until',
+    statementEmphasis: 'the guest calls again.',
+    statementText2: 'A manager should see who owns it, when it is due, whether it is late, and whether it closed. Without chasing the radio.',
 
     // Manifesto
-    manifesto: 'The gap between what happens and what leadership sees is where value is lost. Whagons closes that gap —',
-    manifestoAccent: 'permanently.',
+    manifesto: 'Staff use Whagons on a phone or a computer. The reservation system stays.',
+    manifestoAccent: 'No extra hardware.',
 
-    // Platform / Capabilities — SEO: specific feature keywords
-    capTitle: 'OPERATIONS MANAGEMENT PLATFORM',
-    capSub: 'AI-powered software. Automation. Scale.',
-    capMore: 'And much more. Book a demo \u2192',
+    // Platform / Capabilities
+    capTitle: 'WHAT THE PILOT COVERS',
+    capSub: 'One hotel. Two jobs. Forty people.',
+    capMore: 'See the 45-day pilot \u2192',
     capabilities: [
-      { num: '01', name: 'AI-POWERED ASSISTANT', desc: 'A strategic copilot that searches, analyzes, and recommends actions with real context from your operation. Speak to create, update, or close tasks instantly and make decisions based on data, not assumptions.', tags: ['AI', 'VOICE', 'TASKS'] },
-      { num: '02', name: 'WORKFLOWS & AUTOMATIONS', desc: 'Automate approvals, sequential or majority flows, broadcasts, and escalations with configurable SLAs. Workflows adapt to your business logic, not the other way around.', tags: ['WORKFLOWS', 'SLAs', 'ESCALATION'] },
-      { num: '03', name: 'INTEGRATIONS', desc: 'Connect Whagons with your existing systems via a full API. ERP, CRM, communication tools, and more — all in one operational platform.', tags: ['API', 'ERP', 'CRM'] },
-      { num: '04', name: 'WORK PLANS & SCHEDULING', desc: 'Create work plans, assign recurring tasks, manage schedules, and control operational costs. Ideal for hotel staff scheduling by shift, department, or occupancy. Fully traceable, fully measurable.', tags: ['SHIFTS', 'STAFF', 'OCCUPANCY'] },
-      { num: '05', name: 'FORMS, SIGNATURES & APPROVALS', desc: 'Capture field data with digital forms, electronic signatures, and approval workflows. Compatible with QR scanning, barcodes, GPS geolocation, and NFC taps to start, finish, or validate work on site.', tags: ['QR', 'E-SIGN', 'GPS', 'NFC'] },
-      { num: '06', name: 'DOCUMENTATION, SOPS & COMPLIANCE', desc: 'Centralize manuals, ISO standards, operating procedures, and training materials. Multimedia, multilingual, with read confirmations and auditable records.' },
-      { num: '07', name: 'REAL-TIME OPERATIONS CONTROL', desc: 'Full visibility from floor to boardroom. Dashboards with custom KPIs, P50/P90/P95 analytics, SLAs with escalation, and real-time activity monitoring.', tags: ['KPIs', 'SLAs', 'REAL-TIME'] },
+      { num: '01', name: 'WHO OWNS THE JOB', desc: 'A guest complaint, a work order, or a room that is not ready gets a name. The next shift can see it without asking around.', tags: ['OWNER', 'SHIFT', 'CLOSE'] },
+      { num: '02', name: 'LATE OR DONE', desc: 'Due time is on the job. If it slips, a manager can see it. If it closed, there is a record, not a radio promise.', tags: ['DUE', 'LATE', 'EVIDENCE'] },
+      { num: '03', name: 'YOUR PMS STAYS', desc: 'We do not replace the reservation system. Staff work in Whagons on a phone or a computer. No extra hardware.', tags: ['PMS', 'PHONE', 'WEB'] },
+      { num: '04', name: 'TWO JOBS YOU PICK', desc: 'Typical start: guest issue to a verified close, maintenance to evidence, or rooms ready across departments and shifts.', tags: ['GUEST', 'MAINTENANCE', 'ROOMS'] },
+      { num: '05', name: 'FIRST JOB IN SEVEN DAYS', desc: 'If the hotel gives us a sponsor, the workflow, users, and decisions on time, the first agreed job is live in seven business days.', tags: ['7 DAYS', 'KICKOFF'] },
+      { num: '06', name: 'TRAINING ON THE FLOOR', desc: 'We train managers in person, run two staff sessions, and meet every week. For these first hotels the founder is on setup and the weekly call.', tags: ['TRAINING', 'WEEKLY'] },
+      { num: '07', name: 'ONE PAGE AFTER 20 MINUTES', desc: 'We spend 20 minutes on one real issue. The next business day you get a one-page map of where it stalled. You keep it. Not a free trial. Not a free install.', tags: ['20 MIN', 'ONE PAGE'] },
     ],
 
     // Colors / Customization
-    colorsTitle: 'YOUR IDENTITY.',
-    colorsTitle2: 'YOUR PLATFORM.',
-    colorsSub: 'White-label. Customizable.',
+    colorsTitle: 'YOUR HOTEL.',
+    colorsTitle2: 'YOUR FLOOR.',
+    colorsSub: 'Phone and web. No extra hardware.',
     colorsCustom: 'Your color',
-    colorsDesc: 'Whagons adapts to your organization\u2019s visual identity. Pick any color \u2014 no limits \u2014 and make the platform feel yours from day one.',
+    colorsDesc: 'The hotel keeps its name on the work. Staff are not learning a new brand. They are closing the job they already have.',
 
-    // Industries — SEO: "software for [industry]"
-    indTitle: 'SOFTWARE BY INDUSTRY',
-    indSub: '10+ sectors',
+    // Industries
+    indTitle: 'BUILT FOR HOTELS',
+    indSub: 'Independents first',
     industries: [
-      { num: '01', name: 'HOSPITALITY', desc: 'Hotel management software that turns guest experience into a measurable advantage with staff scheduling, shift planning, and real-time operational coordination', slug: 'hoteleria' },
-      { num: '02', name: 'RETAIL', desc: 'Retail operations software that unifies multi-location operations under one intelligence layer', slug: 'retail' },
-      { num: '03', name: 'INDUSTRIAL MAINTENANCE', desc: 'Preventive maintenance software that predicts failures before they cost you', slug: 'mantenimiento' },
-      { num: '04', name: 'PHARMA & FOOD', desc: 'Pharmaceutical traceability software with auditable tracking from origin to shelf', slug: 'farmaceutica' },
-      { num: '05', name: 'HEALTH & EDUCATION', desc: 'Management software for educational and health institutions that protects your people and reputation', slug: 'salud-educacion' },
-      { num: '06', name: 'CONSTRUCTION', desc: 'Construction management software with real-time progress from foundation to handover', slug: 'construccion' },
+      { num: '01', name: 'HOSPITALITY', desc: 'Independent hotels and small groups. Guest issues, maintenance, and rooms that have to be ready between shifts.', slug: 'hoteleria' },
+      { num: '02', name: 'RETAIL', desc: 'Multi-location work that still needs an owner when the shift changes.', slug: 'retail' },
+      { num: '03', name: 'INDUSTRIAL MAINTENANCE', desc: 'Work orders that have to close with evidence, not a radio call.', slug: 'mantenimiento' },
+      { num: '04', name: 'PHARMA & FOOD', desc: 'Checks and closeout with a record you can show later.', slug: 'farmaceutica' },
+      { num: '05', name: 'HEALTH & EDUCATION', desc: 'Work that moves across teams and still has to get done.', slug: 'salud-educacion' },
+      { num: '06', name: 'CONSTRUCTION', desc: 'Jobs on a site that need an owner, a due time, and a close.', slug: 'construccion' },
     ],
 
     // Industries page content
-    indPageTitle: 'Operations Management Software by Industry',
-    indPageDesc: 'Whagons adapts to your sector\'s specific needs. Discover how our operations management software solves the unique challenges of your industry.',
-    indPageCta: 'Request a demo for my industry',
+    indPageTitle: 'Hotels first. Other floors later.',
+    indPageDesc: 'The U.S. program is hotels. The same idea, an owner, a due time, a close, is how Whagons already runs work in Latin America.',
+    indPageCta: 'Start with one hotel issue',
 
     // Brief
-    briefTitle1: 'FREE',
-    briefTitle2: 'BRIEF',
-    briefSub: 'Receive an operational intelligence analysis tailored to your organization and sector.',
-    briefInfo: 'This isn\u2019t a generic brochure. The brief analyzes your operation and shows you exactly where operations management software can capture untapped value.',
+    briefTitle1: 'ONE',
+    briefTitle2: 'ISSUE',
+    briefSub: 'Twenty minutes on one real guest or maintenance issue at your hotel.',
+    briefInfo: 'The next business day you get a one-page map of where it stalled. You keep it even if we are not a fit. This is not a free trial and not a free install.',
     briefBullets: [
-      'Gap analysis of your current operational process',
-      'ROI estimation with industry benchmarks',
-      'Recommended automation modules and workflows for your case',
-      'No prior sales meeting required',
+      'One real issue, not a product tour',
+      'Who owns it, when it is due, whether it is late, whether it closed',
+      'A page you keep the next business day',
+      'Then, if it fits, a 45-day pilot on one hotel',
     ],
     briefEmailLabel: 'Email',
-    briefEmailPlaceholder: 'you@company.com',
+    briefEmailPlaceholder: 'you@hotel.com',
     briefIndustryLabel: 'Industry',
     briefIndustryPlaceholder: 'Select',
-    briefSubmit: 'Discover potential',
-    briefNote: 'No spam. Only information relevant to your industry.',
-    briefSuccess: 'Perfect \u2014 check your email in the next few minutes.',
-    briefError: 'We couldn\u2019t submit your request. Please try again in a few minutes or email info@whagons.com.',
+    briefSubmit: 'Name two times this week',
+    briefNote: 'We reply so you can pick two times this week. No list blast.',
+    briefSuccess: 'We got it. We will email you to set the 20 minutes.',
+    briefError: 'That did not send. Try again or email info@whagons.com.',
 
     // Demo
-    demoTitle1: 'SEE IT',
-    demoTitle2: 'IN ACTION',
-    demoSub: 'A personalized demo of the operations management software, tailored to your industry, team structure, and operational complexity.',
+    demoTitle1: 'START WITH',
+    demoTitle2: 'ONE ISSUE',
+    demoSub: 'Name two times this week. We spend 20 minutes on one guest or maintenance issue. The next business day you get a one-page map of where it stalled.',
     demoPerks: [
-      'Session focused on your operation\u2019s specific challenges, not a generic demo.',
-      'Implementation in days, not months. No IT dependency or complicated migrations.',
-      'Platform that scales with your operation \u2014 from 10 to thousands of field collaborators.',
-      'We contact you within 24 business hours.',
+      'Not a generic demo. One real issue from your hotel.',
+      'First agreed job live in seven business days if you give us a sponsor, the workflow, users, and decisions on time.',
+      'One hotel, up to 40 people, two jobs you pick. Reservation system stays.',
+      'We reply within one business day.',
     ],
     demoNameLabel: 'Name',
-    demoNamePlaceholder: 'John Smith',
-    demoCompanyLabel: 'Company',
-    demoCompanyPlaceholder: 'Acme Corp',
+    demoNamePlaceholder: 'Your name',
+    demoCompanyLabel: 'Hotel',
+    demoCompanyPlaceholder: 'Hotel name',
     demoEmailLabel: 'Email',
-    demoEmailPlaceholder: 'john@company.com',
+    demoEmailPlaceholder: 'you@hotel.com',
     demoPhoneLabel: 'Phone',
     demoPhonePlaceholder: '+1 555 000 0000',
     demoIndustryLabel: 'Industry',
-    demoTeamSizeLabel: 'Operational team size',
-    demoSubmit: 'See it in action',
-    demoNote: 'We contact you within 24 business hours.',
-    demoSuccess: 'Received \u2014 a specialist will be in touch soon.',
-    demoError: 'We couldn\u2019t submit your request. Please try again in a few minutes or email info@whagons.com.',
+    demoTeamSizeLabel: 'People on the floor',
+    demoSubmit: 'Request the first step',
+    demoNote: 'We reply within one business day.',
+    demoSuccess: 'We got it. We will email you to set the 20 minutes.',
+    demoError: 'That did not send. Try again or email info@whagons.com.',
     demoPreviewAlt:
-      'Whagons Analytics view: task KPIs, trends, and distribution by status.',
+      'Whagons view of jobs: who owns them, what is late, what closed.',
 
     // Demo page
-    demoPageTitle: 'Operations Management Software Demo',
-    demoPageDesc: 'Schedule a personalized demo of Whagons. We\'ll show you how our business process automation software adapts to your industry and operation.',
+    demoPageTitle: 'Start with one hotel issue',
+    demoPageDesc: 'Twenty minutes on one guest or maintenance issue. The next business day you get a one-page map of where it stalled. You keep it.',
 
     // Industry options (shared by forms)
     industryOptions: [
@@ -334,20 +334,20 @@ export const translations = {
 
     // Team size options
     teamSizeOptions: [
-      '1\u201310 people',
-      '11\u201350 people',
-      '51\u2013200 people',
+      '1 to 10 people',
+      '11 to 50 people',
+      '51 to 200 people',
       '200+ people',
     ],
 
     // Social Proof / Testimonials
-    socialProofTitle: 'IMPACT',
-    socialProofSub: 'Businesses across Latin America trust our operations management software',
+    socialProofTitle: 'LATAM',
+    socialProofSub: 'Whagons already runs operations in Latin America. The U.S. hotel program is opening now.',
     socialProofMetrics: [
-      { value: '94%', label: 'SLA compliance rate' },
-      { value: '3x', label: 'More operational data captured' },
-      { value: '60%', label: 'Fewer unresolved incidents' },
-      { value: '12', label: 'Countries with active operations' },
+      { value: '12', label: 'Countries with live operations' },
+      { value: '2017', label: 'Exphore award, as DingDone' },
+      { value: '45', label: 'Day hotel pilot' },
+      { value: '40', label: 'People on one hotel' },
     ],
     award: { title: 'Innovative Product of the Year', event: 'Exphore Expo Hoteles & Restaurantes', year: '2017', note: 'Formerly DingDone' },
     testimonials: [
@@ -359,16 +359,16 @@ export const translations = {
       { text: 'Whagons is a tool that is currently indispensable in our operations, as it helps us control workflow and ensure timely completion of tasks assigned by our clients. At Refritec we are 100% satisfied with Whagons for the experience lived and the improvements achieved with the implementation of this tool.', name: 'Jonathan Gaitán', role: 'Manager', company: 'Refritec' },
     ],
 
-    // Closing / Motivational
+    // Closing
     closingQuotes: [
-      { text: 'The difference between reacting and anticipating is a decision. Whagons gives you the clarity to make it.', author: 'Whagons' },
-      { text: 'Every data point you didn\u2019t capture yesterday is an opportunity you won\u2019t see tomorrow.', author: 'Whagons' },
-      { text: 'Organizations that lead don\u2019t work harder \u2014 they see clearer.', author: 'Whagons' },
-      { text: 'The right technology doesn\u2019t replace people \u2014 it empowers them to make better decisions.', author: 'Whagons' },
-      { text: 'When your operation speaks, your strategy listens. That\u2019s operational intelligence.', author: 'Whagons' },
-      { text: 'Great operations are built from small, intelligent decisions \u2014 made at the right moment.', author: 'Whagons' },
+      { text: 'The guest called. Did it actually get done?', author: 'Whagons' },
+      { text: 'Who owns it. What is late. What closed.', author: 'Whagons' },
+      { text: 'Your reservation system stays. Staff work on a phone or a computer.', author: 'Whagons' },
+      { text: 'Twenty minutes on one real issue. A page you keep the next business day.', author: 'Whagons' },
+      { text: 'One hotel. Forty people. Two jobs. Forty-five days.', author: 'Whagons' },
+      { text: 'Latin America is live. U.S. hotels are opening now.', author: 'Whagons' },
     ],
-    closingImageAlt: 'Whagons platform dashboard preview',
+    closingImageAlt: 'Whagons jobs on a hotel floor',
     closingLiveLabel: 'Live activity',
 
     // Contact
@@ -378,24 +378,24 @@ export const translations = {
     contactWhatsapp: 'WhatsApp',
 
     // Footer
-    footerTag: 'Operations management software for organizations that demand more.',
+    footerTag: 'Hotel operations. Who owns the job, what is late, what closed.',
     footerCopy: '\u00A9 2026 Whagons International',
 
     // Platform page
-    platformPageTitle: 'AI-Powered Operations Management Software',
-    platformPageDesc: 'Explore every module of Whagons: from workflow automation to asset management and regulatory compliance. A complete software solution for enterprise operations control.',
-    platformPageHero: 'A complete operations management software for businesses that need control, automation, and visibility over their operations.',
+    platformPageTitle: 'Hotel operations, without replacing the PMS',
+    platformPageDesc: 'One hotel, up to 40 people, two jobs you pick. First job live in seven business days if you give us what we need. Managers see owner, due time, late, and closed.',
+    platformPageHero: 'A 45-day hotel pilot so managers can see who owns the job, whether it is late, and whether it closed. The reservation system stays.',
 
     // Blog
     blogTitle: 'HOTEL OPERATIONS RESOURCES',
-    blogSub: 'Practical guides for hotel handoffs, frontline adoption, and manager visibility',
+    blogSub: 'Shift handoffs, guest issues, maintenance, rooms ready, and what a manager can see.',
     blogReadMore: 'Read article',
     blogReadTime: 'min read',
     blogBack: '\u2190 Back to resources',
     blogShare: 'Share',
     blogCopied: 'Link copied',
-    blogPageTitle: 'Hotel Operations Resources',
-    blogPageDesc: 'Practical guides for hotel shift handoffs, guest-issue ownership, maintenance response, room readiness, and manager visibility.',
+    blogPageTitle: 'Hotel operations resources',
+    blogPageDesc: 'Shift handoffs, guest-issue ownership, maintenance response, room readiness, and manager visibility.',
   },
 };
 
