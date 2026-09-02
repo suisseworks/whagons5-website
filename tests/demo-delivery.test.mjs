@@ -7,6 +7,7 @@ import {
   FLODESK_SEGMENTS_URL,
   FLODESK_SUBSCRIBERS_URL,
   RESEND_EMAILS_URL,
+  buildFlodeskCustomFields,
   findFlodeskSegmentId,
   resolveLeadDeliveryOutcome,
   sendDemoNotification,
@@ -29,6 +30,37 @@ test('uses distinct exact demo segments for English and Spanish', () => {
     en: 'Whagons-Demo-EN',
     es: 'Whagons-Demo-ES',
   });
+});
+
+test('maps website lead data to the exact Flodesk custom field keys', () => {
+  assert.deepEqual(
+    buildFlodeskCustomFields({
+      company: 'Hotel 5',
+      industry: 'Hospitality',
+      country: 'MX',
+      phone: '+506 7071-7099',
+    }),
+    {
+      empresa: 'Hotel 5',
+      sector: 'Hospitality',
+      pais: 'MX',
+      telFono: '+506 7071-7099',
+    }
+  );
+
+  assert.deepEqual(
+    buildFlodeskCustomFields({
+      company: 'Hotel 5',
+      industry: 'Hospitality',
+      country: 'MX',
+      phone: '',
+    }),
+    {
+      empresa: 'Hotel 5',
+      sector: 'Hospitality',
+      pais: 'MX',
+    }
+  );
 });
 
 test('retries a transient Flodesk 502 and always uses the official endpoint', async () => {

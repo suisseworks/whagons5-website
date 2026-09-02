@@ -3,6 +3,7 @@ import { createHash, randomBytes, randomUUID } from 'node:crypto';
 
 import {
   DEMO_SEGMENT_NAMES,
+  buildFlodeskCustomFields,
   findFlodeskSegmentId,
   resolveLeadDeliveryOutcome,
   sendDemoNotification,
@@ -245,16 +246,7 @@ export async function POST(request: NextRequest) {
       email: cleanEmail,
       first_name: nameParts[0] || subscriberName,
       last_name: nameParts.slice(1).join(' '),
-      custom_fields: {
-        company: cleanCompany,
-        industry: cleanIndustry,
-        country: cleanCountry,
-        language: cleanLanguage,
-        source: 'whagons-website',
-        form_type: cleanFormType,
-        ...(cleanPhone ? { phone: cleanPhone } : {}),
-        ...(cleanTeamSize ? { team_size: cleanTeamSize } : {}),
-      },
+      custom_fields: buildFlodeskCustomFields(lead),
     };
 
     let flodeskPayload = targetSegment

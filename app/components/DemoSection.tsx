@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useEffect, useRef, useState, FormEvent } from 'react';
 import Image from 'next/image';
 
 interface DemoSectionProps {
@@ -19,6 +19,17 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
   const [demoSubmitting, setDemoSubmitting] = useState(false);
   const [demoSuccess, setDemoSuccess] = useState(false);
   const [demoError, setDemoError] = useState(false);
+  const successRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!demoSuccess || !successRef.current) return;
+
+    successRef.current.focus({ preventScroll: true });
+    successRef.current.scrollIntoView({
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      block: 'center',
+    });
+  }, [demoSuccess]);
 
   const submitDemo = async (e: FormEvent) => {
     e.preventDefault();
@@ -198,7 +209,23 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
               </div>
             </form>
           ) : (
-            <div className="f-success show" role="status" aria-live="polite">{t.demoSuccess}</div>
+            <div
+              ref={successRef}
+              className="f-success show"
+              role="status"
+              aria-live="polite"
+              tabIndex={-1}
+            >
+              <span className="f-success-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img">
+                  <path d="m6.5 12.5 3.4 3.4 7.6-8" />
+                </svg>
+              </span>
+              <div className="f-success-copy">
+                <span className="f-success-eyebrow">{t.demoSuccessEyebrow}</span>
+                <p>{t.demoSuccess}</p>
+              </div>
+            </div>
           )}
         </div>
       </div>

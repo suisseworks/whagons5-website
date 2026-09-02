@@ -14,6 +14,24 @@ export const DEMO_NOTIFICATION_RECIPIENTS = Object.freeze([
   'business@whagons.com',
 ]);
 
+export function buildFlodeskCustomFields({ company, industry, country, phone }) {
+  const fields = {};
+  const cleanCompany = typeof company === 'string' ? company.trim() : '';
+  const cleanIndustry = typeof industry === 'string' ? industry.trim() : '';
+  const cleanCountry = typeof country === 'string' ? country.trim() : '';
+  const cleanPhone = typeof phone === 'string' ? phone.trim() : '';
+
+  // These keys come from the Whagons Flodesk account's custom-field API.
+  // Flodesk accepts unknown keys without updating the visible custom fields,
+  // so their spelling and capitalization are intentionally explicit here.
+  if (cleanCompany) fields.empresa = cleanCompany;
+  if (cleanIndustry) fields.sector = cleanIndustry;
+  if (cleanCountry) fields.pais = cleanCountry;
+  if (cleanPhone) fields.telFono = cleanPhone;
+
+  return fields;
+}
+
 export function resolveLeadDeliveryOutcome({ formType, flodeskResult, emailResult }) {
   const emailApplies = formType === 'demo';
   const success = Boolean(flodeskResult?.ok || (emailApplies && emailResult?.ok));

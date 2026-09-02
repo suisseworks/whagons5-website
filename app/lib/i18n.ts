@@ -113,7 +113,8 @@ export const translations = {
     demoTeamSizeLabel: 'Tamaño del equipo operativo',
     demoSubmit: 'Ver en acción',
     demoNote: 'Te contactamos en menos de 24 horas hábiles.',
-    demoSuccess: 'Recibido — un especialista se pondrá en contacto pronto.',
+    demoSuccessEyebrow: 'Solicitud recibida',
+    demoSuccess: '¡Listo! Te escribiremos para coordinar tu demo.',
     demoError: 'No pudimos enviar tu solicitud. Inténtalo de nuevo en unos minutos o escribe a hello@whagons.com.',
     demoPreviewAlt:
       'Vista de Analítica en Whagons: KPIs de tareas, tendencia y distribución por estado.',
@@ -311,6 +312,7 @@ export const translations = {
     demoTeamSizeLabel: 'People on the floor',
     demoSubmit: 'Request my demo',
     demoNote: 'We reply within one business day.',
+    demoSuccessEyebrow: 'Request received',
     demoSuccess: 'We got it. We will email you to schedule the demo.',
     demoError: 'That did not send. Try again or email hello@whagons.com.',
     demoPreviewAlt:
