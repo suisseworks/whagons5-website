@@ -53,7 +53,7 @@ export default function FooterBar({ lang }: { lang: Language }) {
         <a href={hrefs.markets}>{t.markets}</a>
         <a href={hrefs.resources}>{t.resources}</a>
         <a href={hrefs.demo}>{t.demo}</a>
-        <a href="mailto:info@whagons.com">{t.email} ↗</a>
+        <a href="mailto:hello@whagons.com">{t.email} ↗</a>
         <a href="https://www.linkedin.com/company/whagons/">LinkedIn ↗</a>
         <a href="https://wa.me/50684102321">WhatsApp ↗</a>
         <a href={`/${lang}/privacy`}>{t.privacy}</a>

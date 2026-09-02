@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: 'The scan request route is not available yet. Please email info@whagons.com.',
+          message: 'The scan request route is not available yet. Please email hello@whagons.com.',
         },
         { status: 503 }
       );
@@ -133,7 +133,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Your request could not be submitted. Please email info@whagons.com.',
+          message: 'Your request could not be submitted. Please email hello@whagons.com.',
         },
         { status: 502 }
       );
@@ -148,7 +148,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        message: 'Your request could not be submitted. Please email info@whagons.com.',
+        message: 'Your request could not be submitted. Please email hello@whagons.com.',
       },
       { status: 500 }
     );

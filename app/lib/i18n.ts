@@ -89,7 +89,7 @@ export const translations = {
     briefSubmit: 'Descubrir potencial',
     briefNote: 'Sin spam. Solo información relevante para tu industria.',
     briefSuccess: 'Perfecto — revisa tu correo en los próximos minutos.',
-    briefError: 'No pudimos enviar tu solicitud. Inténtalo de nuevo en unos minutos o escribe a info@whagons.com.',
+    briefError: 'No pudimos enviar tu solicitud. Inténtalo de nuevo en unos minutos o escribe a hello@whagons.com.',
 
     // Demo
     demoTitle1: 'TU HOTEL.',
@@ -114,7 +114,7 @@ export const translations = {
     demoSubmit: 'Ver en acción',
     demoNote: 'Te contactamos en menos de 24 horas hábiles.',
     demoSuccess: 'Recibido — un especialista se pondrá en contacto pronto.',
-    demoError: 'No pudimos enviar tu solicitud. Inténtalo de nuevo en unos minutos o escribe a info@whagons.com.',
+    demoError: 'No pudimos enviar tu solicitud. Inténtalo de nuevo en unos minutos o escribe a hello@whagons.com.',
     demoPreviewAlt:
       'Vista de Analítica en Whagons: KPIs de tareas, tendencia y distribución por estado.',
 
@@ -174,7 +174,7 @@ export const translations = {
     // Contact
     contactTitle1: 'TIENES',
     contactTitle2: 'PREGUNTAS?',
-    contactEmail: 'info@whagons.com',
+    contactEmail: 'hello@whagons.com',
     contactWhatsapp: 'WhatsApp',
 
     // Footer
@@ -287,7 +287,7 @@ export const translations = {
     briefSubmit: 'Name two times this week',
     briefNote: 'We reply so you can pick two times this week. No list blast.',
     briefSuccess: 'We got it. We will email you to set the 20 minutes.',
-    briefError: 'That did not send. Try again or email info@whagons.com.',
+    briefError: 'That did not send. Try again or email hello@whagons.com.',
 
     // Demo
     demoTitle1: 'YOUR HOTEL.',
@@ -312,7 +312,7 @@ export const translations = {
     demoSubmit: 'Request my demo',
     demoNote: 'We reply within one business day.',
     demoSuccess: 'We got it. We will email you to schedule the demo.',
-    demoError: 'That did not send. Try again or email info@whagons.com.',
+    demoError: 'That did not send. Try again or email hello@whagons.com.',
     demoPreviewAlt:
       'Whagons view of jobs: who owns them, what is late, what closed.',
 
@@ -372,7 +372,7 @@ export const translations = {
     // Contact
     contactTitle1: 'HAVE',
     contactTitle2: 'QUESTIONS?',
-    contactEmail: 'info@whagons.com',
+    contactEmail: 'hello@whagons.com',
     contactWhatsapp: 'WhatsApp',
 
     // Footer

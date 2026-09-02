@@ -53,7 +53,7 @@ export default function LegalPage({ lang, content }: LegalPageProps) {
               <Link href={lang === 'en' ? '/en/handoff-scan' : `/${lang}/demo`} className="cta-primary">
                 {lang === 'en' ? 'Request a hotel handoff scan' : content.primaryCta} &rarr;
               </Link>
-              <a href="mailto:info@whagons.com" className="cta-ghost">
+              <a href="mailto:hello@whagons.com" className="cta-ghost">
                 {content.secondaryCta} {'\u2197'}
               </a>
             </div>

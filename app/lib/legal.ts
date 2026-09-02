@@ -63,7 +63,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         title: '4. Base legal y permisos',
         body: [
           'Dependiendo de tu relación con Whagons y de tu jurisdicción, tratamos información para ejecutar un contrato, responder a una solicitud previa a la contratación, cumplir obligaciones legales, proteger intereses legítimos del negocio o con base en tu consentimiento.',
-          'Cuando el tratamiento dependa de tu consentimiento, puedes retirarlo en cualquier momento para futuros tratamientos escribiéndonos a info@whagons.com.',
+          'Cuando el tratamiento dependa de tu consentimiento, puedes retirarlo en cualquier momento para futuros tratamientos escribiéndonos a hello@whagons.com.',
         ],
       },
       {
@@ -81,7 +81,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         title: '6. Marketing y formularios del sitio',
         body: [
           'Cuando completas un formulario de demo o brief, la información enviada puede utilizarse para contactarte, clasificar tu interés comercial y enviarte seguimiento relacionado con Whagons.',
-          'Actualmente utilizamos proveedores de automatización y gestión de leads para procesar estos envíos. Si no deseas recibir futuras comunicaciones comerciales, puedes darte de baja o solicitar la exclusión escribiéndonos a info@whagons.com.',
+          'Actualmente utilizamos proveedores de automatización y gestión de leads para procesar estos envíos. Si no deseas recibir futuras comunicaciones comerciales, puedes darte de baja o solicitar la exclusión escribiéndonos a hello@whagons.com.',
         ],
       },
       {
@@ -108,7 +108,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         title: '10. Tus derechos',
         body: [
           'Según tu jurisdicción, podrías tener derecho a solicitar acceso, corrección, actualización, portabilidad, limitación, objeción o eliminación de tu información personal.',
-          'Si deseas ejercer alguno de estos derechos, escríbenos a info@whagons.com. Podremos solicitar información adicional para verificar tu identidad y procesar la solicitud de forma segura.',
+          'Si deseas ejercer alguno de estos derechos, escríbenos a hello@whagons.com. Podremos solicitar información adicional para verificar tu identidad y procesar la solicitud de forma segura.',
         ],
       },
       {
@@ -126,7 +126,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
       {
         title: '13. Contacto',
         body: [
-          'Si tienes preguntas sobre esta Política de Privacidad o sobre cómo Whagons trata información, puedes escribirnos a info@whagons.com.',
+          'Si tienes preguntas sobre esta Política de Privacidad o sobre cómo Whagons trata información, puedes escribirnos a hello@whagons.com.',
         ],
       },
     ],
@@ -179,7 +179,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         title: '4. Legal bases and permissions',
         body: [
           'Depending on your relationship with Whagons and your jurisdiction, we process information to perform a contract, respond to pre-contract requests, comply with legal obligations, pursue legitimate business interests, or based on your consent.',
-          'Where processing depends on consent, you may withdraw it at any time for future processing by contacting us at info@whagons.com.',
+          'Where processing depends on consent, you may withdraw it at any time for future processing by contacting us at hello@whagons.com.',
         ],
       },
       {
@@ -197,7 +197,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         title: '6. Website forms and marketing communications',
         body: [
           'When you request a Hotel Handoff Leak Scan, the submitted information may be used to review the request, contact you using the selected method, prepare the working session, and send follow-up related to the scan or a potential hotel pilot.',
-          'We currently use automation and lead-management providers to process these submissions. If you no longer want to receive marketing communications, you can unsubscribe or request removal by contacting info@whagons.com.',
+          'We currently use automation and lead-management providers to process these submissions. If you no longer want to receive marketing communications, you can unsubscribe or request removal by contacting hello@whagons.com.',
         ],
       },
       {
@@ -224,7 +224,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         title: '10. Your rights',
         body: [
           'Depending on your jurisdiction, you may have rights to request access, correction, updating, portability, restriction, objection, or deletion of personal information.',
-          'To exercise any applicable rights, contact us at info@whagons.com. We may request additional information to verify identity and process the request securely.',
+          'To exercise any applicable rights, contact us at hello@whagons.com. We may request additional information to verify identity and process the request securely.',
         ],
       },
       {
@@ -242,7 +242,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
       {
         title: '13. Contact',
         body: [
-          'Whagons Systems LLC is a California limited liability company. If you have questions about this Privacy Policy or how Whagons handles information, contact us at info@whagons.com.',
+          'Whagons Systems LLC is a California limited liability company. If you have questions about this Privacy Policy or how Whagons handles information, contact us at hello@whagons.com.',
         ],
       },
     ],
@@ -377,7 +377,7 @@ export const termsContent: Record<Language, LegalPageContent> = {
       {
         title: '17. Contacto',
         body: [
-          'Si tienes preguntas sobre estos Términos y Condiciones, escríbenos a info@whagons.com.',
+          'Si tienes preguntas sobre estos Términos y Condiciones, escríbenos a hello@whagons.com.',
         ],
       },
     ],
@@ -509,7 +509,7 @@ export const termsContent: Record<Language, LegalPageContent> = {
       {
         title: '17. Contact',
         body: [
-          'If you have questions about these Terms & Conditions, contact us at info@whagons.com.',
+          'If you have questions about these Terms & Conditions, contact us at hello@whagons.com.',
         ],
       },
     ],
@@ -599,7 +599,7 @@ export const securityContent: Record<Language, LegalPageContent> = {
         title: '9. Solicitudes y reporte de vulnerabilidades',
         body: [
           'Si eres cliente y necesitas información adicional sobre prácticas de seguridad aplicables a tu cuenta o implementación, puedes solicitarla a través de tu canal comercial o de soporte.',
-          'Si deseas reportar una posible vulnerabilidad o incidente, escríbenos a info@whagons.com con la mayor cantidad de contexto posible para que podamos investigarlo de manera responsable.',
+          'Si deseas reportar una posible vulnerabilidad o incidente, escríbenos a hello@whagons.com con la mayor cantidad de contexto posible para que podamos investigarlo de manera responsable.',
         ],
       },
       {
@@ -692,7 +692,7 @@ export const securityContent: Record<Language, LegalPageContent> = {
         title: '9. Requests and vulnerability reporting',
         body: [
           'If you are a customer and need more information about security practices relevant to your account or implementation, you may request it through your commercial or support channel.',
-          'If you want to report a possible vulnerability or incident, contact us at info@whagons.com with as much context as possible so we can investigate responsibly.',
+          'If you want to report a possible vulnerability or incident, contact us at hello@whagons.com with as much context as possible so we can investigate responsibly.',
         ],
       },
       {

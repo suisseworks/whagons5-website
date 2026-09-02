@@ -77,7 +77,7 @@ export default function HandoffScanForm() {
       setErrorMessage(
         error instanceof Error
           ? error.message
-          : 'Your request could not be submitted. Please email info@whagons.com.'
+          : 'Your request could not be submitted. Please email hello@whagons.com.'
       );
       trackHospitalityEvent('handoff_scan_form_error', { page: 'handoff_scan' });
     }
@@ -159,7 +159,7 @@ export default function HandoffScanForm() {
 
       {status === 'error' && (
         <p className={styles.formError} role="alert">
-          {errorMessage} If the problem continues, email <a href="mailto:info@whagons.com">info@whagons.com</a>.
+          {errorMessage} If the problem continues, email <a href="mailto:hello@whagons.com">hello@whagons.com</a>.
         </p>
       )}
     </form>
