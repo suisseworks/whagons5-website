@@ -26,6 +26,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { path: '', priority: 1, freq: 'weekly' as const },
         { path: '/platform', priority: 0.9, freq: 'monthly' as const },
         { path: '/hotel-operations', priority: 0.9, freq: 'monthly' as const },
+        { path: '/industries', priority: 0.7, freq: 'monthly' as const },
+        { path: '/demo', priority: 0.9, freq: 'monthly' as const },
         { path: '/handoff-scan', priority: 0.9, freq: 'monthly' as const },
         { path: '/resources', priority: 0.8, freq: 'weekly' as const },
         { path: '/privacy', priority: 0.4, freq: 'monthly' as const },

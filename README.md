@@ -84,12 +84,14 @@ pnpm start
 - `FLODESK_SEGMENT_HANDOFF_SCAN_ID` (required before publishing the U.S. hospitality scan form): monitored Flodesk segment for hotel handoff scan requests
 - `WHAGONS_US_SCAN_OWNER` (required before publishing the U.S. hospitality scan form): named internal owner recorded on every U.S. scan request
 
-The full English market is the U.S. hospitality site. Its canonical routes are
-`/en`, `/en/platform`, `/en/hotel-operations`, `/en/handoff-scan`, and
-`/en/resources`. U.S. country-level edge headers route `/` to `/en`. Existing
-English campaign and generic-product URLs redirect to the appropriate canonical
-hospitality route. The `/es` market remains the Latin American site and direct
-language-prefixed visits are never overridden.
+The English and Spanish homepages share the same hotel-first content and page
+structure. Canonical English routes include `/en`, `/en/platform`,
+`/en/hotel-operations`, `/en/industries`, `/en/demo`, and `/en/resources`.
+Spanish equivalents include `/es`, `/es/plataforma`, `/es/industrias`,
+`/es/demo`, and `/es/blog`. The homepage prioritizes hospitality while the
+industry pages preserve direct paths to retail, industrial maintenance, pharma
+and food, health and education, and construction. Country and language signals
+only choose the initial language; direct language-prefixed visits are preserved.
 
 ## Notes
 

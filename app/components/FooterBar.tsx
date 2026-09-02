@@ -1,49 +1,63 @@
 'use client';
 
-import { translations, Language } from '../lib/i18n';
+import { Language } from '../lib/i18n';
 
-interface FooterBarProps {
-  lang: Language;
-}
+const footerContent = {
+  en: {
+    market: 'Hotel operations',
+    platform: 'Platform',
+    hotels: 'Hotels',
+    markets: 'Other markets',
+    resources: 'Resources',
+    demo: 'Request demo',
+    privacy: 'Privacy',
+    terms: 'Terms',
+    security: 'Security',
+    tag: 'Make every hotel handoff visible.',
+  },
+  es: {
+    market: 'Operaciones hoteleras',
+    platform: 'Plataforma',
+    hotels: 'Hoteles',
+    markets: 'Otros mercados',
+    resources: 'Recursos',
+    demo: 'Solicitar demo',
+    privacy: 'Privacidad',
+    terms: 'Términos',
+    security: 'Seguridad',
+    tag: 'Haz visible cada entrega operativa del hotel.',
+  },
+} as const;
 
-export default function FooterBar({ lang }: FooterBarProps) {
-  const t = translations[lang];
-  const isHospitality = lang === 'en';
-  const privacyLabel = lang === 'es' ? 'Privacidad' : 'Privacy';
-  const termsLabel = lang === 'es' ? 'Términos' : 'Terms';
-  const securityLabel = lang === 'es' ? 'Seguridad' : 'Security';
+export default function FooterBar({ lang }: { lang: Language }) {
+  const t = footerContent[lang];
+  const hrefs = lang === 'en'
+    ? { home: '/en', platform: '/en/platform', hotels: '/en/hotel-operations', markets: '/en/industries', resources: '/en/resources', demo: '/en/demo' }
+    : { home: '/es', platform: '/es/plataforma', hotels: '/es/industrias#hoteleria', markets: '/es/industrias', resources: '/es/blog', demo: '/es/demo' };
 
   return (
-    <footer className={isHospitality ? 'hospitality-footer' : undefined}>
-      <a href={isHospitality ? '/en' : `/${lang}`} className="f-logo" aria-label={isHospitality ? 'Whagons Hospitality' : 'Whagons'}>
+    <footer className="hospitality-footer">
+      <a href={hrefs.home} className="f-logo" aria-label={`Whagons — ${t.market}`}>
         <div className="f-logo-stack">
           <span className="f-logo-icon" aria-hidden="true" />
           <span className="f-logo-name">Whagons</span>
         </div>
-        <span className={isHospitality ? 'logo-market' : 'logo-ver'}>{isHospitality ? 'Hospitality' : '5.0.0'}</span>
+        <span className="logo-market">{t.market}</span>
       </a>
       <div className="f-links">
-        {isHospitality ? (
-          <>
-            <a href="/en/platform">Platform</a>
-            <a href="/en/hotel-operations">Hotel operations</a>
-            <a href="/en/resources">Resources</a>
-            <a href="/en/handoff-scan">Free scan</a>
-          </>
-        ) : (
-          <>
-            <a href={`/${lang}/plataforma`}>{t.navPlatform}</a>
-            <a href={`/${lang}/industrias`}>{t.navIndustries}</a>
-            <a href={`/${lang}/blog`}>Blog</a>
-            <a href={`/${lang}/demo`}>{t.navDemo}</a>
-          </>
-        )}
-        <a href={`/${lang}/privacy`}>{privacyLabel}</a>
-        <a href={`/${lang}/terms`}>{termsLabel}</a>
-        <a href={`/${lang}/security`}>{securityLabel}</a>
+        <a href={hrefs.platform}>{t.platform}</a>
+        <a href={hrefs.hotels}>{t.hotels}</a>
+        <a href={hrefs.markets}>{t.markets}</a>
+        <a href={hrefs.resources}>{t.resources}</a>
+        <a href={hrefs.demo}>{t.demo}</a>
+        <a href="https://www.linkedin.com/company/whagons/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+        <a href="https://wa.me/50684102321" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a>
+        <a href={`/${lang}/privacy`}>{t.privacy}</a>
+        <a href={`/${lang}/terms`}>{t.terms}</a>
+        <a href={`/${lang}/security`}>{t.security}</a>
       </div>
-      <div className="f-tag">{isHospitality ? 'Hotel operations under control. Powered by Whagons.' : t.footerTag}</div>
-      <div className="f-copy">{isHospitality ? '\u00A9 2026 Whagons Systems LLC' : t.footerCopy}</div>
+      <div className="f-tag">{t.tag}</div>
+      <div className="f-copy">© 2026 Whagons International</div>
     </footer>
   );
 }

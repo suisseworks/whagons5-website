@@ -3,7 +3,6 @@
 import { translations, Language } from '../../lib/i18n';
 import ScrollReveal from '../../components/ScrollReveal';
 import DemoSection from '../../components/DemoSection';
-import ProofSection from '../../components/ProofSection';
 import ContactSection from '../../components/ContactSection';
 
 export default function DemoPageClient({ lang }: { lang: Language }) {
@@ -21,7 +20,6 @@ export default function DemoPageClient({ lang }: { lang: Language }) {
       </section>
 
       <DemoSection t={t} language={lang} />
-      <ProofSection t={t} />
       <ContactSection t={t} language={lang} />
     </>
   );

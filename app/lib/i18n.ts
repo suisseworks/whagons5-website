@@ -67,9 +67,9 @@ export const translations = {
     ],
 
     // Industries page content
-    indPageTitle: 'Software de Gestión Operativa por Industria',
-    indPageDesc: 'Whagons se adapta a las necesidades específicas de tu sector. Descubre cómo nuestro software de gestión operativa resuelve los desafíos únicos de tu industria.',
-    indPageCta: 'Solicitar demo para mi industria',
+    indPageTitle: 'Hoteles primero. Un estándar operativo para cada mercado.',
+    indPageDesc: 'Whagons está enfocado en la operación hotelera. El mismo sistema de responsables, tiempos, escalamientos y evidencia también coordina trabajo complejo en otras industrias.',
+    indPageCta: 'Ver Whagons en mi operación',
 
     // Brief
     briefTitle1: 'BRIEF',
@@ -92,14 +92,14 @@ export const translations = {
     briefError: 'No pudimos enviar tu solicitud. Inténtalo de nuevo en unos minutos o escribe a info@whagons.com.',
 
     // Demo
-    demoTitle1: 'VER',
-    demoTitle2: 'EN ACCIÓN',
-    demoSub: 'Una demostración personalizada del software de gestión operativa, adaptada a tu industria, estructura de equipo y complejidad operativa.',
+    demoTitle1: 'TU HOTEL.',
+    demoTitle2: 'TU FLUJO.',
+    demoSub: 'Una demostración personalizada alrededor de un proceso real de tu hotel, tus equipos y el resultado operativo que necesitas.',
     demoPerks: [
-      'Sesión enfocada en los desafíos específicos de tu operación, no un demo genérico.',
-      'Implementación en días, no meses. Sin dependencia de IT ni migraciones complicadas.',
-      'Plataforma que escala con tu operación — desde 10 hasta miles de colaboradores en campo.',
-      'Te contactamos en menos de 24 horas hábiles.',
+      'Revisamos un flujo real: huéspedes, habitaciones, mantenimiento, inspecciones o turnos.',
+      'Mostramos responsables, plazos, escalamientos y evidencia sobre tu caso.',
+      'Tu PMS y tus sistemas actuales permanecen; Whagons coordina el trabajo entre ellos.',
+      'Si no eres un hotel, también podemos enfocar el demo en tu mercado.',
     ],
     demoNameLabel: 'Nombre',
     demoNamePlaceholder: 'Juan García',
@@ -119,8 +119,8 @@ export const translations = {
       'Vista de Analítica en Whagons: KPIs de tareas, tendencia y distribución por estado.',
 
     // Demo page
-    demoPageTitle: 'Demo del Software de Gestión Operativa',
-    demoPageDesc: 'Agenda una demostración personalizada de Whagons. Te mostramos cómo nuestro software de automatización de procesos se adapta a tu industria y operación.',
+    demoPageTitle: 'Mira Whagons aplicado a la operación de tu hotel',
+    demoPageDesc: 'Agenda un demo personalizado alrededor de un flujo real de tu equipo. Sin recorrido genérico y sin reemplazar tu PMS.',
 
     // Industry options (shared by forms)
     industryOptions: [
@@ -152,7 +152,6 @@ export const translations = {
     ],
     award: { title: 'Producto Innovador del Año', event: 'Exphore Expo Hoteles & Restaurantes', year: '2017', note: 'Anteriormente DingDone' },
     testimonials: [
-      { text: 'Estoy muy satisfecho porque controlar más de 1,500 empleados en una disciplina no es fácil.', name: 'Guido Tenorio', role: 'Gerente de Operaciones', company: 'Grupo Lagar' },
       { text: 'Recomiendo Whagons al 100%. Creo en la herramienta y en las personas detrás de Whagons.', name: 'Jorge Varela', role: 'Gerente General', company: 'Rhythmia' },
       { text: 'Facilita el control de los procesos diarios. Es una herramienta muy útil y fácil de usar.', name: 'Leela Wernscheid', role: 'Gerente de Operaciones', company: 'Colegio Humboldt' },
       { text: 'Con Whagons, la certificación ISO 9001:2015 se ha facilitado.', name: 'Isaac Mena Chacón', role: 'Gerente de Calidad', company: 'IQS' },
@@ -266,9 +265,9 @@ export const translations = {
     ],
 
     // Industries page content
-    indPageTitle: 'Hotels first. Other floors later.',
-    indPageDesc: 'The U.S. program is hotels. The same idea, an owner, a due time, a close, is how Whagons already runs work in Latin America.',
-    indPageCta: 'Start with one hotel issue',
+    indPageTitle: 'Hotels first. One operating standard across every market.',
+    indPageDesc: 'Whagons is focused on hotel operations. The same system of ownership, timing, escalation, and evidence also coordinates complex work in other industries.',
+    indPageCta: 'See Whagons in my operation',
 
     // Brief
     briefTitle1: 'ONE',
@@ -291,14 +290,14 @@ export const translations = {
     briefError: 'That did not send. Try again or email info@whagons.com.',
 
     // Demo
-    demoTitle1: 'START WITH',
-    demoTitle2: 'ONE ISSUE',
-    demoSub: 'Name two times this week. We spend 20 minutes on one guest or maintenance issue. The next business day you get a one-page map of where it stalled.',
+    demoTitle1: 'YOUR HOTEL.',
+    demoTitle2: 'YOUR WORKFLOW.',
+    demoSub: 'A tailored demonstration built around one real hotel process, your teams, and the operational result you need.',
     demoPerks: [
-      'Not a generic demo. One real issue from your hotel.',
-      'First agreed job live in seven business days if you give us a sponsor, the workflow, users, and decisions on time.',
-      'One hotel, up to 40 people, two jobs you pick. Reservation system stays.',
-      'We reply within one business day.',
+      'Review a real workflow across guests, rooms, maintenance, inspections, or shifts.',
+      'See ownership, due times, escalation, and evidence applied to your case.',
+      'Keep your PMS and current systems; Whagons coordinates the work between them.',
+      'If you are not a hotel, we can focus the demo on your market too.',
     ],
     demoNameLabel: 'Name',
     demoNamePlaceholder: 'Your name',
@@ -310,16 +309,16 @@ export const translations = {
     demoPhonePlaceholder: '+1 555 000 0000',
     demoIndustryLabel: 'Industry',
     demoTeamSizeLabel: 'People on the floor',
-    demoSubmit: 'Request the first step',
+    demoSubmit: 'Request my demo',
     demoNote: 'We reply within one business day.',
-    demoSuccess: 'We got it. We will email you to set the 20 minutes.',
+    demoSuccess: 'We got it. We will email you to schedule the demo.',
     demoError: 'That did not send. Try again or email info@whagons.com.',
     demoPreviewAlt:
       'Whagons view of jobs: who owns them, what is late, what closed.',
 
     // Demo page
-    demoPageTitle: 'Start with one hotel issue',
-    demoPageDesc: 'Twenty minutes on one guest or maintenance issue. The next business day you get a one-page map of where it stalled. You keep it.',
+    demoPageTitle: 'See Whagons around your hotel operation',
+    demoPageDesc: 'Schedule a tailored demo around one real workflow from your team. No generic product tour and no PMS replacement.',
 
     // Industry options (shared by forms)
     industryOptions: [
@@ -351,7 +350,6 @@ export const translations = {
     ],
     award: { title: 'Innovative Product of the Year', event: 'Exphore Expo Hoteles & Restaurantes', year: '2017', note: 'Formerly DingDone' },
     testimonials: [
-      { text: "I'm very satisfied because controlling more than 1,500 employees in one discipline is not easy.", name: 'Guido Tenorio', role: 'Operations Manager', company: 'Grupo Lagar' },
       { text: 'I 100% recommend Whagons. I believe in the tool and the people behind Whagons.', name: 'Jorge Varela', role: 'General Manager', company: 'Rhythmia' },
       { text: "It facilitates the control of daily processes. It's a very useful and easy-to-use tool.", name: 'Leela Wernscheid', role: 'Operations Manager', company: 'Colegio Humboldt' },
       { text: 'With Whagons, the ISO 9001:2015 certification has been facilitated.', name: 'Isaac Mena Chacón', role: 'Quality Manager', company: 'IQS' },

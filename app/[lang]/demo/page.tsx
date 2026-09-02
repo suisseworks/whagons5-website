@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { redirect } from 'next/navigation';
 import { translations, Language } from '../../lib/i18n';
 import DemoPageClient from './DemoPageClient';
 
@@ -18,13 +17,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const meta: Record<string, Metadata> = {
     es: {
-      title: 'Solicitar Demo — Software de Gestión Operativa con IA',
-      description: 'Agenda una demostración personalizada del software de gestión operativa Whagons. Te mostramos cómo automatizar procesos empresariales y controlar operaciones con inteligencia artificial.',
+      title: 'Solicitar Demo — Software de Operaciones Hoteleras',
+      description: 'Agenda un demo de Whagons enfocado en un flujo real de tu hotel: huéspedes, habitaciones, mantenimiento, inspecciones o turnos.',
       keywords: [
-        'demo software de gestión operativa',
-        'demostración plataforma de operaciones',
-        'probar software de automatización',
-        'demo software empresarial con IA',
+        'demo software de operaciones hoteleras',
+        'plataforma de operaciones para hoteles',
+        'software de mantenimiento hotelero',
+        'gestión de solicitudes de huéspedes',
       ],
       alternates: {
         canonical: 'https://whagons.com/es/demo',
@@ -32,13 +31,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       },
     },
     en: {
-      title: 'Request a Demo — AI-Powered Operations Management Software',
-      description: 'Schedule a personalized demo of Whagons operations management software. We\'ll show you how to automate business processes and control operations with AI.',
+      title: 'Request a Demo — Hotel Operations Software',
+      description: 'Schedule a Whagons demo focused on one real hotel workflow across guest requests, rooms, maintenance, inspections, or shifts.',
       keywords: [
-        'operations management software demo',
-        'operations platform demonstration',
-        'try automation software',
-        'AI business software demo',
+        'hotel operations software demo',
+        'hotel workflow platform demo',
+        'hotel maintenance software',
+        'guest request management software',
       ],
       alternates: {
         canonical: 'https://whagons.com/en/demo',
@@ -51,7 +50,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default function DemoPage({ params }: PageProps) {
-  if (params.lang === 'en') redirect('/en/handoff-scan');
   const lang = (SUPPORTED_LANGS.includes(params.lang as any) ? params.lang : 'es') as Language;
   return <DemoPageClient lang={lang} />;
 }

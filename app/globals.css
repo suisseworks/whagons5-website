@@ -93,7 +93,7 @@ nav {
   -webkit-mask: url(/whagons.svg) no-repeat center / contain;
   transition: background-color .4s ease;
 }
-.nav-r { display: flex; align-items: center; gap: 44px; }
+.nav-r { display: flex; align-items: center; gap: clamp(16px, 1.9vw, 30px); }
 .logo-market {
   color: var(--red);
   font-size: 0.58rem;
@@ -101,7 +101,7 @@ nav {
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
-.hospitality-nav .nav-r { gap: 30px; }
+.hospitality-nav .nav-r { gap: clamp(14px, 1.65vw, 26px); }
 .market-btn { width: auto; padding: 0 10px; white-space: nowrap; }
 .nl {
   font-size: 0.7rem;
@@ -127,6 +127,9 @@ nav {
 
 /* Language switcher in nav */
 .lang-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: 0.7rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -135,6 +138,8 @@ nav {
   border: 1px solid var(--rule);
   padding: 8px 16px;
   font-family: var(--sans);
+  text-decoration: none;
+  cursor: pointer;
   transition: color .2s, border-color .2s;
 }
 .lang-btn:hover {
@@ -1400,7 +1405,28 @@ footer {
   align-items: center;
   justify-content: space-between;
 }
-.hospitality-footer { background: #0a0a09; color: #f5f2eb; }
+.hospitality-footer { background: #0a0a09; color: #f5f2eb; border-top-color: rgba(245,242,235,0.14); }
+.hospitality-footer {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 28px 48px;
+  padding-top: 46px;
+  padding-bottom: 42px;
+}
+
+@media (max-width: 1080px) and (min-width: 861px) {
+  .hospitality-nav .logo-market { display: none; }
+  .hospitality-nav .nav-r { gap: 13px; }
+  .hospitality-nav { padding-right: 34px; padding-left: 34px; }
+}
+.hospitality-footer .f-tag { justify-self: center; }
+.hospitality-footer .f-links {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  justify-content: center;
+  padding-top: 26px;
+  border-top: 1px solid rgba(245,242,235,0.12);
+}
 .hospitality-footer .f-logo-name,
 .hospitality-footer .f-links a { color: #f5f2eb; }
 .hospitality-footer .f-tag,
@@ -1705,6 +1731,19 @@ footer {
   .ind-row { grid-template-columns: 40px 1fr; }
   .i-desc { display: none; }
   footer { flex-direction: column; gap: 10px; text-align: center; padding: 24px; }
+  .hospitality-footer {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding: 38px 24px;
+    text-align: left;
+  }
+  .hospitality-footer .f-tag { justify-self: start; }
+  .hospitality-footer .f-links {
+    grid-column: 1;
+    grid-row: auto;
+    justify-content: flex-start;
+    padding-top: 22px;
+  }
   .contact-links { align-items: flex-start; }
   .hero-ctas { flex-direction: column; align-items: flex-start; gap: 16px; }
 

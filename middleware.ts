@@ -73,8 +73,7 @@ export function middleware(request: NextRequest) {
     '/en/hospitality': '/en',
     '/en/hospitality/handoff-scan': '/en/handoff-scan',
     '/en/plataforma': '/en/platform',
-    '/en/industrias': '/en/hotel-operations',
-    '/en/demo': '/en/handoff-scan',
+    '/en/industrias': '/en/industries',
     '/en/blog': '/en/resources',
   };
 

@@ -13,40 +13,33 @@ interface LangLayoutProps {
 const metadataByLang: Record<string, Metadata> = {
   es: {
     title: {
-      default: 'Whagons — Software de Gestión Operativa con IA | Automatización de Procesos Empresariales',
+      default: 'Whagons — Software de Operaciones Hoteleras',
       template: '%s | Whagons',
     },
-    description: 'Software de gestión operativa para empresas. Plataforma con inteligencia artificial para automatización de procesos, control de operaciones, flujos de trabajo y analítica en tiempo real.',
+    description: 'Conecta solicitudes de huéspedes, habitaciones, mantenimiento, inspecciones y turnos en una plataforma de operaciones hoteleras con responsables, plazos y evidencia.',
     icons: '/favicon.svg',
     openGraph: {
-      title: 'Whagons — Software de Gestión Operativa con Inteligencia Artificial',
-      description: 'Plataforma de gestión operativa para empresas. Automatiza procesos, controla operaciones en tiempo real y toma decisiones con IA.',
+      title: 'Whagons — Cada entrega operativa del hotel bajo control',
+      description: 'Coordina solicitudes, habitaciones, mantenimiento e inspecciones entre equipos, turnos y propiedades.',
+      url: 'https://whagons.com/es',
       siteName: 'Whagons',
       type: 'website',
       locale: 'es_419',
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Whagons — Software de Gestión Operativa con IA',
-      description: 'Plataforma de gestión operativa para empresas. Automatiza procesos, controla operaciones en tiempo real y toma decisiones con IA.',
+      title: 'Whagons — Operaciones hoteleras bajo control',
+      description: 'Haz visible cada responsable, plazo, escalamiento y cierre en la operación del hotel.',
     },
     keywords: [
-      'software de gestión operativa',
-      'plataforma de gestión de operaciones',
-      'automatización de procesos empresariales',
-      'control de operaciones',
-      'software para gestionar operaciones de empresas',
-      'herramienta con inteligencia artificial para empresas',
-      'software de gestión de tareas',
-      'automatización de flujos de trabajo',
-      'software de mantenimiento preventivo',
-      'plataforma SLA empresarial',
-      'gestión de activos empresariales',
-      'software de cumplimiento y auditoría',
-      'analítica operativa en tiempo real',
+      'software de operaciones hoteleras',
       'software para hoteles',
-      'software para retail',
-      'gestión multi-sede',
+      'gestión de solicitudes de huéspedes',
+      'mantenimiento hotelero',
+      'alistamiento de habitaciones',
+      'gestión de turnos hoteleros',
+      'inspecciones hoteleras',
+      'automatización de procesos hoteleros',
     ],
     alternates: {
       canonical: 'https://whagons.com/es',
@@ -55,23 +48,23 @@ const metadataByLang: Record<string, Metadata> = {
   },
   en: {
     title: {
-      default: 'Whagons Hospitality — Hotel Operations and Handoff Control',
-      template: '%s | Whagons Hospitality',
+      default: 'Whagons — Hotel Operations Software',
+      template: '%s | Whagons',
     },
-    description: 'Hotel operations software for visible ownership, due times, escalation, completion proof, and manager visibility without replacing the property management system.',
+    description: 'Connect guest requests, room readiness, maintenance, inspections, and shifts in one hotel operations platform with owners, due times, escalation, and evidence.',
     icons: '/favicon.svg',
     openGraph: {
-      title: 'Whagons Hospitality — Hotel Operations Under Control',
-      description: 'Know what is owned, what is late, and what is done to standard across hotel handoffs.',
+      title: 'Whagons — Every Hotel Handoff Under Control',
+      description: 'Coordinate guest requests, rooms, maintenance, and inspections across teams, shifts, and properties.',
       url: 'https://whagons.com/en',
-      siteName: 'Whagons Hospitality',
+      siteName: 'Whagons',
       type: 'website',
       locale: 'en_US',
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Whagons Hospitality — Hotel Operations Under Control',
-      description: 'Control hotel handoffs with ownership, due times, escalation, proof, and manager visibility.',
+      title: 'Whagons — Hotel Operations Under Control',
+      description: 'Make every owner, due time, escalation, and verified completion visible.',
     },
     keywords: [
       'hotel operations software',
@@ -81,7 +74,7 @@ const metadataByLang: Record<string, Metadata> = {
       'hotel shift handoff',
       'hotel task escalation',
       'room readiness workflow',
-      'hotel operations Sacramento',
+      'hotel inspections software',
     ],
     alternates: {
       canonical: 'https://whagons.com/en',
@@ -101,46 +94,40 @@ export async function generateMetadata({ params }: LangLayoutProps): Promise<Met
 
 export default function LangLayout({ children, params }: LangLayoutProps) {
   const lang = (SUPPORTED_LANGS.includes(params.lang as any) ? params.lang : 'es') as Language;
-  const structuredData = lang === 'en'
-    ? {
-        '@context': 'https://schema.org',
-        '@graph': [
-          {
-            '@type': 'Organization',
-            '@id': 'https://whagons.com/en#organization',
-            name: 'Whagons Systems LLC',
-            alternateName: 'Whagons Hospitality',
-            url: 'https://whagons.com/en',
-            logo: 'https://whagons.com/images/logo-whagons-horizontal-red.svg',
-            areaServed: 'US',
-            description: 'Hotel operations and handoff control software for U.S. hospitality teams.',
-          },
-          {
-            '@type': 'SoftwareApplication',
-            '@id': 'https://whagons.com/en#software',
-            name: 'Whagons Hospitality',
-            applicationCategory: 'BusinessApplication',
-            operatingSystem: 'Web',
-            description: 'Hotel workflow control for ownership, due times, escalation, completion proof, and manager visibility.',
-            provider: { '@id': 'https://whagons.com/en#organization' },
-          },
-          {
-            '@type': 'WebSite',
-            '@id': 'https://whagons.com/en#website',
-            url: 'https://whagons.com/en',
-            name: 'Whagons Hospitality',
-            inLanguage: 'en-US',
-            publisher: { '@id': 'https://whagons.com/en#organization' },
-          },
-        ],
-      }
-    : {
-        '@context': 'https://schema.org',
-        '@type': 'WebSite',
-        url: 'https://whagons.com/es',
+  const pageUrl = `https://whagons.com/${lang}`;
+  const description = lang === 'es'
+    ? 'Software de operaciones hoteleras para coordinar responsables, plazos, escalamientos y evidencia entre equipos y turnos.'
+    : 'Hotel operations software for coordinating owners, due times, escalation, and completion evidence across teams and shifts.';
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Organization',
+        '@id': `${pageUrl}#organization`,
         name: 'Whagons',
-        inLanguage: 'es-419',
-      };
+        url: pageUrl,
+        logo: 'https://whagons.com/images/logo-whagons-horizontal-red.svg',
+        description,
+      },
+      {
+        '@type': 'SoftwareApplication',
+        '@id': `${pageUrl}#software`,
+        name: 'Whagons',
+        applicationCategory: 'BusinessApplication',
+        operatingSystem: 'Web',
+        description,
+        provider: { '@id': `${pageUrl}#organization` },
+      },
+      {
+        '@type': 'WebSite',
+        '@id': `${pageUrl}#website`,
+        url: pageUrl,
+        name: 'Whagons',
+        inLanguage: lang === 'es' ? 'es-419' : 'en-US',
+        publisher: { '@id': `${pageUrl}#organization` },
+      },
+    ],
+  };
 
   return (
     <>
