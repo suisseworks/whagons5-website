@@ -14,6 +14,7 @@ export interface BlogPost {
   author: string;
   tags: string[];
   coverImage?: string;
+  coverImageAlt?: string;
   readingTime: string;
   content: string;
   lang: Language;
@@ -28,6 +29,7 @@ export interface BlogPostMeta {
   author: string;
   tags: string[];
   coverImage?: string;
+  coverImageAlt?: string;
   readingTime: string;
   lang: Language;
   translationSlug?: string;
@@ -57,6 +59,7 @@ export function getBlogPosts(lang: Language): BlogPostMeta[] {
       author: data.author || 'Whagons',
       tags: data.tags || [],
       coverImage: data.coverImage || undefined,
+      coverImageAlt: data.coverImageAlt || undefined,
       readingTime: Math.ceil(stats.minutes).toString(),
       lang,
       translationSlug: data.translationSlug || undefined,
@@ -85,6 +88,7 @@ export function getBlogPost(lang: Language, slug: string): BlogPost | null {
     author: data.author || 'Whagons',
     tags: data.tags || [],
     coverImage: data.coverImage || undefined,
+    coverImageAlt: data.coverImageAlt || undefined,
     readingTime: Math.ceil(stats.minutes).toString(),
     content,
     lang,
@@ -92,25 +96,9 @@ export function getBlogPost(lang: Language, slug: string): BlogPost | null {
   };
 }
 
-export function getAllBlogSlugs(): { lang: Language; slug: string }[] {
-  const slugs: { lang: Language; slug: string }[] = [];
-
-  for (const lang of ['es', 'en'] as Language[]) {
-    const langDir = path.join(CONTENT_DIR, lang);
-    if (!fs.existsSync(langDir)) continue;
-
-    const files = fs.readdirSync(langDir).filter((f) => f.endsWith('.mdx'));
-    for (const file of files) {
-      slugs.push({ lang, slug: file.replace('.mdx', '') });
-    }
-  }
-
-  return slugs;
-}
-
 /**
- * Builds a bidirectional slug translation map from frontmatter `translationSlug` fields.
- * Keys are "{lang}/{slug}", values are "/{otherLang}/blog/{translatedSlug}".
+ * Builds a bidirectional route map from frontmatter `translationSlug` fields.
+ * English resources use `/en/resources`; Spanish articles use `/es/blog`.
  */
 export function getSlugTranslationMap(): Record<string, string> {
   const map: Record<string, string> = {};
@@ -128,7 +116,19 @@ export function getSlugTranslationMap(): Record<string, string> {
       const { data } = matter(fileContent);
 
       if (data.translationSlug) {
-        map[`${lang}/${slug}`] = `/${otherLang}/blog/${data.translationSlug}`;
+        const targetFile = path.join(CONTENT_DIR, otherLang, `${data.translationSlug}.mdx`);
+        if (!fs.existsSync(targetFile)) continue;
+
+        const targetData = matter(fs.readFileSync(targetFile, 'utf-8')).data;
+        if (targetData.translationSlug !== slug) continue;
+
+        const sourcePath = lang === 'en' ? `/en/resources/${slug}` : `/es/blog/${slug}`;
+        const targetPath = otherLang === 'en'
+          ? `/en/resources/${data.translationSlug}`
+          : `/es/blog/${data.translationSlug}`;
+
+        map[sourcePath] = targetPath;
+        if (!map[targetPath]) map[targetPath] = sourcePath;
       }
     }
   }

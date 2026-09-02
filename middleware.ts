@@ -82,6 +82,16 @@ export function middleware(request: NextRequest) {
     return redirectPreservingQuery(request, legacyDestination, 308);
   }
 
+  const legacySpanishArticles: Record<string, string> = {
+    '/es/blog/errores-comunes-gestion-operaciones': '/es/blog/errores-en-entregas-operativas-hoteleras',
+    '/es/blog/como-automatizar-procesos-empresas': '/es/blog/como-automatizar-un-flujo-operativo-hotelero',
+    '/es/blog/como-mejorar-eficiencia-operativa': '/es/blog/visibilidad-operativa-hotelera-tablero-gerencial',
+  };
+  const legacySpanishArticleDestination = legacySpanishArticles[pathname];
+  if (legacySpanishArticleDestination) {
+    return redirectPreservingQuery(request, legacySpanishArticleDestination, 308);
+  }
+
   if (pathname.startsWith('/en/blog/')) {
     return redirectPreservingQuery(
       request,
@@ -99,10 +109,10 @@ export function middleware(request: NextRequest) {
 
   // Legacy redirects
   if (pathname === '/demow5') {
-    return NextResponse.redirect(new URL(`/${DEFAULT_LANG}/demo`, request.url));
+    return redirectPreservingQuery(request, `/${DEFAULT_LANG}/demo`, 308);
   }
   if (pathname === '/what-is-whagons') {
-    return NextResponse.redirect(new URL(`/${DEFAULT_LANG}`, request.url));
+    return redirectPreservingQuery(request, `/${DEFAULT_LANG}`, 308);
   }
 
   // Detect preferred language from Accept-Language header

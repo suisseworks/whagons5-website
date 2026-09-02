@@ -19,8 +19,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const meta: Record<string, Metadata> = {
     es: {
-      title: 'Software de Gestión Operativa con IA — Módulos y Funcionalidades',
-      description: 'Conoce todos los módulos de Whagons: automatización de flujos de trabajo, control de operaciones en tiempo real, gestión de activos, cumplimiento normativo, asistente con inteligencia artificial y más.',
+      title: 'Plataforma y Automatización para Hoteles',
+      description: 'Conecta solicitudes, mantenimiento, inspecciones y turnos con flujos, responsables, plazos, automatizaciones, evidencia y visibilidad gerencial.',
       keywords: [
         'software de gestión operativa',
         'automatización de procesos empresariales',
@@ -35,12 +35,26 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       ],
       alternates: {
         canonical: 'https://whagons.com/es/plataforma',
-        languages: { en: 'https://whagons.com/en/plataforma', es: 'https://whagons.com/es/plataforma' },
+        languages: { 'en-US': 'https://whagons.com/en/platform', 'es-419': 'https://whagons.com/es/plataforma' },
+      },
+      openGraph: {
+        title: 'Plataforma de control para operaciones hoteleras',
+        description: 'Coordina responsables, plazos, escalamientos y evidencia sin reemplazar el PMS del hotel.',
+        url: 'https://whagons.com/es/plataforma',
+        locale: 'es_419',
+        type: 'website',
+        images: ['/images/industries/hoteleria.jpg'],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: 'Plataforma de Operaciones Hoteleras | Whagons',
+        description: 'Coordina responsables, plazos, escalamientos y evidencia sin reemplazar el PMS.',
+        images: ['/images/industries/hoteleria.jpg'],
       },
     },
     en: {
-      title: 'AI-Powered Operations Management Software — Modules & Features',
-      description: 'Explore all Whagons modules: workflow automation, real-time operations control, asset management, compliance, AI business assistant and more.',
+      title: 'Hotel Operations Platform & Workflow Automation',
+      description: 'Connect guest requests, maintenance, inspections, and shifts with workflows, owners, due times, automation, evidence, and manager visibility.',
       keywords: [
         'operations management software',
         'business process automation',
@@ -54,8 +68,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         'task management software',
       ],
       alternates: {
-        canonical: 'https://whagons.com/en/plataforma',
-        languages: { en: 'https://whagons.com/en/plataforma', es: 'https://whagons.com/es/plataforma' },
+        canonical: 'https://whagons.com/en/platform',
+        languages: { 'en-US': 'https://whagons.com/en/platform', 'es-419': 'https://whagons.com/es/plataforma' },
+      },
+      openGraph: {
+        title: 'Hotel Workflow Control Platform',
+        description: 'Coordinate owners, due times, escalation, and evidence without replacing the hotel PMS.',
+        url: 'https://whagons.com/en/platform',
+        locale: 'en_US',
+        type: 'website',
+        images: ['/images/industries/hoteleria.jpg'],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: 'Hotel Workflow Control Platform | Whagons',
+        description: 'Coordinate owners, due times, escalation, and evidence without replacing the PMS.',
+        images: ['/images/industries/hoteleria.jpg'],
       },
     },
   };

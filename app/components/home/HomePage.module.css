@@ -3,7 +3,7 @@
   --paper-deep: #e8e2d7;
   --ink: #11110f;
   --muted: #68645d;
-  --red: #d63a18;
+  --red: #b83216;
   --line: rgba(17, 17, 15, 0.14);
   background: var(--paper);
   color: var(--ink);
@@ -275,9 +275,11 @@
 .finalCta > p:not(.eyebrow) { color: var(--muted); font-size: 0.95rem; line-height: 1.75; }
 
 .momentsGrid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.momentCard { position: relative; min-height: 370px; padding: 28px 26px 32px; border-right: 1px solid var(--line); transition: background 180ms ease, transform 180ms ease; }
+.momentCard { position: relative; display: block; min-height: 370px; padding: 28px 26px 32px; border-right: 1px solid var(--line); color: inherit; text-decoration: none; transition: background 180ms ease, transform 180ms ease; }
 .momentCard:last-child { border-right: 0; }
-.momentCard:hover { background: #ece7de; transform: translateY(-4px); }
+.momentCard:hover,
+.momentCard:focus-visible { background: #ece7de; transform: translateY(-4px); }
+.momentCard:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
 .momentTop { display: flex; justify-content: space-between; gap: 14px; }
 .momentTop > span { color: var(--red); font-size: 0.68rem; letter-spacing: 0.12em; }
 .momentTop small { color: var(--muted); font-size: 0.59rem; letter-spacing: 0.09em; text-align: right; text-transform: uppercase; }
@@ -346,6 +348,12 @@
 .capabilityGrid article > span { color: var(--red); font-size: 0.61rem; letter-spacing: 0.11em; }
 .capabilityGrid h3 { margin: 42px 0 0; font-family: var(--serif); font-size: 1.45rem; font-weight: 400; line-height: 1.05; }
 .capabilityGrid p { margin: 12px 0 0; color: var(--muted); font-size: 0.72rem; line-height: 1.58; }
+.featuresExplore { display: flex; align-items: center; justify-content: flex-end; gap: 24px; margin-top: 30px; }
+.featuresExplore > span { color: var(--muted); font-size: 0.78rem; }
+.featuresExplore a { display: inline-flex; align-items: center; gap: 24px; min-height: 48px; padding: 0 18px; border: 1px solid var(--ink); color: var(--ink); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-decoration: none; text-transform: uppercase; transition: color 180ms ease, background 180ms ease, transform 180ms ease; }
+.featuresExplore a:hover,
+.featuresExplore a:focus-visible { color: var(--paper); background: var(--ink); transform: translateY(-2px); }
+.featuresExplore a span { color: var(--red); }
 
 .proofSection { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(420px, 0.85fr); gap: 110px; align-items: end; padding: 132px max(56px, calc((100vw - 1440px) / 2 + 56px)); border-top: 1px solid var(--line); background: var(--paper-deep); }
 .proofCopy > p:not(.eyebrow) { max-width: 630px; margin: 28px 0 0; }
@@ -398,7 +406,7 @@
 .finalCta > p:not(.eyebrow) { max-width: 590px; margin: 28px auto 0; }
 .finalCta .primaryButton { margin-top: 38px; }
 
-@media (max-width: 1100px) {
+@media (max-width: 1260px) {
   .heroCopy { max-width: 670px; padding-left: 40px; padding-right: 40px; }
   .heroCopy::before { display: none; }
   .hero h1 { font-size: clamp(5rem, 10vw, 7rem); }
@@ -416,12 +424,18 @@
   .capabilityGrid article { min-height: 170px; }
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1260px) {
   .hero { min-height: 1080px; padding-top: 78px; }
-  .heroCopy { min-height: 1002px; max-width: 720px; padding: 82px 24px 500px; }
+  .heroCopy { min-height: 1002px; max-width: 720px; padding: 82px 24px 440px; }
   .hero h1 { font-size: clamp(3.8rem, 15vw, 6.3rem); }
   .photoWash { background: linear-gradient(180deg, rgba(10,10,9,.92) 0%, rgba(10,10,9,.62) 48%, rgba(10,10,9,.34) 70%, rgba(10,10,9,.58) 100%); }
-  .workflowCard { right: 18px; bottom: 24px; width: calc(100% - 36px); }
+  .workflowCard {
+    left: 50%;
+    right: auto;
+    bottom: 24px;
+    width: min(960px, calc(100% - 48px));
+    translate: -50% 0;
+  }
   .signalStrip { grid-template-columns: repeat(2, 1fr); padding: 0 24px; }
   .signalStrip > div:nth-child(2) { border-right: 1px solid var(--line); }
   .signalStrip > div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
@@ -441,6 +455,7 @@
   .heroActions { align-items: stretch; flex-direction: column; }
   .primaryButton { width: 100%; }
   .textButton { padding: 10px 0; }
+  .workflowCard { width: calc(100% - 36px); }
   .workflowHead { flex-direction: column; }
   .workflowRow { grid-template-columns: 26px 1fr; padding-left: 18px; padding-right: 18px; }
   .workflowRow > .status,
@@ -463,10 +478,25 @@
   .feedRow small { display: none; }
   .capabilityGrid { grid-template-columns: 1fr; }
   .capabilityGrid article { min-height: 160px; }
+  .featuresExplore { align-items: stretch; flex-direction: column; }
+  .featuresExplore a { justify-content: space-between; width: 100%; }
   .proofCard { min-height: 420px; padding: 34px 28px; }
   .featuredMarket { min-height: 500px; padding: 26px; }
   .otherMarkets a { grid-template-columns: 28px 1fr; }
   .otherMarkets a > strong { grid-column: 2; }
+  .momentCard p,
+  .steps p,
+  .capabilityGrid p,
+  .otherMarkets p { font-size: 0.875rem; }
+  .workflowHead div > span,
+  .workflowHead small,
+  .liveStatus,
+  .workflowFoot { font-size: 0.72rem; }
+  .workflowRow small { font-size: 0.75rem; }
+  .status,
+  .statusWarm,
+  .momentTop small,
+  .otherMarkets a > strong { font-size: 0.7rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

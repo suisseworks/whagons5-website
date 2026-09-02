@@ -83,14 +83,15 @@ export default function IndustriasPageClient({ lang }: { lang: Language }) {
     <>
       <ScrollReveal />
 
-      <section className="page-hero">
+      <main>
+        <section className="page-hero">
         <div className="page-hero-inner r">
           <h1 className="page-hero-title">{t.indPageTitle}</h1>
           <p className="page-hero-desc">{t.indPageDesc}</p>
         </div>
-      </section>
+        </section>
 
-      <section className="industries-detail">
+        <section className="industries-detail">
         {t.industries.map((ind: any, idx: number) => {
           const details = INDUSTRY_DETAILS[ind.slug]?.[lang];
           const imageSrc = INDUSTRY_IMAGES[ind.slug];
@@ -142,14 +143,15 @@ export default function IndustriasPageClient({ lang }: { lang: Language }) {
             </div>
           );
         })}
-      </section>
+        </section>
 
-      <section className="cta-bottom-section">
+        <section className="cta-bottom-section">
         <div className="cta-bottom-inner r">
           <h2 className="cta-bottom-title">{t.indPageCta}</h2>
           <a href={`/${lang}/demo`} className="cta-primary">{t.demoSubmit} &rarr;</a>
         </div>
-      </section>
+        </section>
+      </main>
     </>
   );
 }

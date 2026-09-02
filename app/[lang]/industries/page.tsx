@@ -3,9 +3,9 @@ import { redirect } from 'next/navigation';
 import IndustriasPageClient from '../industrias/IndustriasPageClient';
 
 export const metadata: Metadata = {
-  title: 'Operations Software by Industry — Hospitality, Retail, Maintenance and More',
+  title: 'Operations Software for Hotels & Other Industries',
   description:
-    'Explore Whagons for hospitality, retail, industrial maintenance, pharma and food, health and education, and construction operations.',
+    'Explore hotel-first Whagons workflows for hospitality, retail, industrial maintenance, regulated operations, health, education, and construction.',
   keywords: [
     'hotel operations software',
     'retail operations software',
@@ -15,7 +15,21 @@ export const metadata: Metadata = {
   ],
   alternates: {
     canonical: 'https://whagons.com/en/industries',
-    languages: { en: 'https://whagons.com/en/industries', es: 'https://whagons.com/es/industrias' },
+    languages: { 'en-US': 'https://whagons.com/en/industries', 'es-419': 'https://whagons.com/es/industrias' },
+  },
+  openGraph: {
+    title: 'Operations Software by Industry',
+    description: 'Hotel-first operations software that also supports complex work across retail, maintenance, regulated industries, health, education, and construction.',
+    url: 'https://whagons.com/en/industries',
+    locale: 'en_US',
+    type: 'website',
+    images: ['/images/industries/hoteleria.jpg'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Operations Software by Industry | Whagons',
+    description: 'Hotel-first operations software for hospitality and other complex operating teams.',
+    images: ['/images/industries/hoteleria.jpg'],
   },
 };
 

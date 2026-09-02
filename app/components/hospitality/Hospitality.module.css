@@ -677,6 +677,7 @@
 .controlCards article,
 .departmentGrid article,
 .momentGrid article {
+  scroll-margin-top: 110px;
   padding: 34px;
   background: rgba(245, 242, 235, 0.96);
 }
@@ -772,11 +773,11 @@
 }
 .resourceCard > div { display: grid; grid-template-columns: minmax(180px, 0.45fr) minmax(320px, 1.15fr) minmax(280px, 1fr) 150px; gap: 28px; align-items: start; }
 .resourceCard p { margin: 3px 0 0; color: var(--h-red); font-size: 0.64rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
-.resourceCard h2 { margin: 0; font-size: clamp(1.9rem, 3vw, 3rem); transition: color 160ms ease; }
+.resourceCard h3 { margin: 0; font-size: clamp(1.9rem, 3vw, 3rem); transition: color 160ms ease; }
 .resourceCard strong { color: var(--h-muted); font-size: 0.8rem; font-weight: 400; line-height: 1.65; }
 .resourceCard small { color: var(--h-muted); font-size: 0.66rem; line-height: 1.5; }
-.resourceCard:hover h2,
-.resourceCard:focus-visible h2 { color: var(--h-red); }
+.resourceCard:hover h3,
+.resourceCard:focus-visible h3 { color: var(--h-red); }
 
 @media (max-width: 1040px) {
   .hero { grid-template-columns: 1fr; min-height: 0; }

@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const meta: Record<string, Metadata> = {
     es: {
-      title: 'Solicitar Demo — Software de Operaciones Hoteleras',
+      title: 'Demo de Software para Operaciones Hoteleras',
       description: 'Agenda un demo de Whagons enfocado en un flujo real de tu hotel: huéspedes, habitaciones, mantenimiento, inspecciones o turnos.',
       keywords: [
         'demo software de operaciones hoteleras',
@@ -27,11 +27,25 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       ],
       alternates: {
         canonical: 'https://whagons.com/es/demo',
-        languages: { en: 'https://whagons.com/en/demo', es: 'https://whagons.com/es/demo' },
+        languages: { 'en-US': 'https://whagons.com/en/demo', 'es-419': 'https://whagons.com/es/demo' },
+      },
+      openGraph: {
+        title: 'Mira Whagons aplicado a la operación de tu hotel',
+        description: 'Agenda un demo alrededor de un flujo real de huéspedes, habitaciones, mantenimiento, inspecciones o turnos.',
+        url: 'https://whagons.com/es/demo',
+        locale: 'es_419',
+        type: 'website',
+        images: ['/images/industries/hoteleria.jpg'],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: 'Demo de operaciones hoteleras | Whagons',
+        description: 'Mira Whagons aplicado a un flujo real de tu hotel.',
+        images: ['/images/industries/hoteleria.jpg'],
       },
     },
     en: {
-      title: 'Request a Demo — Hotel Operations Software',
+      title: 'Hotel Operations Software Demo',
       description: 'Schedule a Whagons demo focused on one real hotel workflow across guest requests, rooms, maintenance, inspections, or shifts.',
       keywords: [
         'hotel operations software demo',
@@ -41,7 +55,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       ],
       alternates: {
         canonical: 'https://whagons.com/en/demo',
-        languages: { en: 'https://whagons.com/en/demo', es: 'https://whagons.com/es/demo' },
+        languages: { 'en-US': 'https://whagons.com/en/demo', 'es-419': 'https://whagons.com/es/demo' },
+      },
+      openGraph: {
+        title: 'See Whagons Around Your Hotel Operation',
+        description: 'Schedule a demo around one real guest, room, maintenance, inspection, or shift workflow.',
+        url: 'https://whagons.com/en/demo',
+        locale: 'en_US',
+        type: 'website',
+        images: ['/images/industries/hoteleria.jpg'],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: 'Hotel Operations Demo | Whagons',
+        description: 'See Whagons applied to one real workflow from your hotel.',
+        images: ['/images/industries/hoteleria.jpg'],
       },
     },
   };

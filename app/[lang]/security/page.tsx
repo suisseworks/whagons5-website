@@ -21,17 +21,45 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: 'Política de Seguridad',
       description:
         'Conoce el enfoque de Whagons para seguridad, control de acceso, protección de datos, monitoreo e incident response.',
-      alternates: { canonical: 'https://whagons.com/es/security' },
+      alternates: {
+        canonical: 'https://whagons.com/es/security',
+        languages: { 'en-US': 'https://whagons.com/en/security', 'es-419': 'https://whagons.com/es/security' },
+      },
     },
     en: {
       title: 'Security Policy',
       description:
         'Learn about Whagons Systems LLC security practices for the U.S. hospitality website and Whagons operations platform.',
-      alternates: { canonical: 'https://whagons.com/en/security' },
+      alternates: {
+        canonical: 'https://whagons.com/en/security',
+        languages: { 'en-US': 'https://whagons.com/en/security', 'es-419': 'https://whagons.com/es/security' },
+      },
     },
   };
 
-  return meta[lang];
+  const selected = meta[lang];
+  const title = selected.title as string;
+  const description = selected.description as string;
+  const url = `https://whagons.com/${lang}/security`;
+  const imageAlt = lang === 'es' ? 'Áreas de huéspedes de un hotel al atardecer' : 'Hotel guest areas at sunset';
+
+  return {
+    ...selected,
+    openGraph: {
+      title,
+      description,
+      url,
+      locale: lang === 'es' ? 'es_419' : 'en_US',
+      type: 'website',
+      images: [{ url: '/images/industries/hoteleria.jpg', width: 800, height: 533, alt: imageAlt }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [{ url: '/images/industries/hoteleria.jpg', alt: imageAlt }],
+    },
+  };
 }
 
 export default function SecurityPage({ params }: PageProps) {

@@ -58,12 +58,12 @@ export const translations = {
     indTitle: 'SOFTWARE POR INDUSTRIA',
     indSub: '10+ sectores',
     industries: [
-      { num: '01', name: 'HOTELERÍA', desc: 'Software para hoteles que convierte la experiencia del huésped en una ventaja medible con programación de personal, turnos y coordinación operativa en tiempo real', slug: 'hoteleria' },
-      { num: '02', name: 'RETAIL', desc: 'Software para retail que unifica operaciones multi-sede bajo una sola capa de inteligencia', slug: 'retail' },
-      { num: '03', name: 'MANTENIMIENTO INDUSTRIAL', desc: 'Software de mantenimiento preventivo que predice fallas antes de que se conviertan en costos', slug: 'mantenimiento' },
-      { num: '04', name: 'FARMA Y ALIMENTOS', desc: 'Software para farmacéuticas con trazabilidad auditable del origen al estante', slug: 'farmaceutica' },
-      { num: '05', name: 'SALUD Y EDUCACIÓN', desc: 'Software de gestión para instituciones educativas y de salud que protege a tu gente y tu reputación', slug: 'salud-educacion' },
-      { num: '06', name: 'CONSTRUCCIÓN', desc: 'Software para construcción con progreso en tiempo real desde los cimientos hasta la entrega', slug: 'construccion' },
+      { num: '01', name: 'HOTELERÍA', desc: 'Hoteles independientes y grupos pequeños. Solicitudes de huéspedes, mantenimiento y habitaciones que deben quedar listas entre turnos.', slug: 'hoteleria' },
+      { num: '02', name: 'RETAIL', desc: 'Trabajo en múltiples sedes que necesita un responsable visible cuando cambia el turno.', slug: 'retail' },
+      { num: '03', name: 'MANTENIMIENTO INDUSTRIAL', desc: 'Órdenes de trabajo que deben cerrarse con evidencia, no solo con una llamada por radio.', slug: 'mantenimiento' },
+      { num: '04', name: 'FARMA Y ALIMENTOS', desc: 'Controles y cierres con un registro que puedes consultar y demostrar después.', slug: 'farmaceutica' },
+      { num: '05', name: 'SALUD Y EDUCACIÓN', desc: 'Trabajo que cruza equipos y aun así debe completarse con claridad y trazabilidad.', slug: 'salud-educacion' },
+      { num: '06', name: 'CONSTRUCCIÓN', desc: 'Trabajo en obra con responsable, plazo y cierre verificable.', slug: 'construccion' },
     ],
 
     // Industries page content
@@ -128,7 +128,7 @@ export const translations = {
       'Retail / Comercio',
       'Mantenimiento Industrial',
       'Farma / Alimentos',
-      'Educación',
+      'Salud / Educación',
       'Construcción',
       'Otra',
     ],
@@ -187,15 +187,15 @@ export const translations = {
     platformPageHero: 'Un software de gestión operativa completo para empresas que necesitan control, automatización y visibilidad de sus operaciones.',
 
     // Blog
-    blogTitle: 'BLOG',
-    blogSub: 'Artículos sobre gestión operativa, automatización de procesos y tecnología empresarial',
+    blogTitle: 'RECURSOS DE OPERACIONES HOTELERAS',
+    blogSub: 'Entregas de turno, solicitudes de huéspedes, mantenimiento, habitaciones listas y visibilidad gerencial.',
     blogReadMore: 'Leer artículo',
     blogReadTime: 'min de lectura',
     blogBack: '\u2190 Volver al blog',
     blogShare: 'Compartir',
     blogCopied: 'Enlace copiado',
-    blogPageTitle: 'Blog — Gestión Operativa, Automatización y Tecnología Empresarial',
-    blogPageDesc: 'Artículos, guías y mejores prácticas sobre gestión operativa, automatización de procesos empresariales, control de operaciones con IA y eficiencia operativa.',
+    blogPageTitle: 'Recursos de operaciones hoteleras',
+    blogPageDesc: 'Guías sobre entregas de turno, solicitudes de huéspedes, mantenimiento, habitaciones listas y visibilidad para gerentes de hotel.',
   },
   en: {
     // Nav
@@ -326,7 +326,7 @@ export const translations = {
       'Retail / Commerce',
       'Industrial Maintenance',
       'Pharma / Food',
-      'Education',
+      'Health / Education',
       'Construction',
       'Other',
     ],

@@ -17,14 +17,15 @@ export default function BlogListClient({ lang, posts }: BlogListClientProps) {
     <>
       <ScrollReveal />
 
-      <section className="page-hero">
-        <div className="page-hero-inner r">
-          <h1 className="page-hero-title">{t.blogTitle}</h1>
-          <p className="page-hero-desc">{t.blogSub}</p>
-        </div>
-      </section>
+      <main>
+        <section className="page-hero">
+          <div className="page-hero-inner r">
+            <h1 className="page-hero-title">{t.blogTitle}</h1>
+            <p className="page-hero-desc">{t.blogSub}</p>
+          </div>
+        </section>
 
-      <section className="blog-list">
+        <section className="blog-list">
         {posts.length === 0 ? (
           <p className="blog-empty">
             {lang === 'es'
@@ -42,7 +43,7 @@ export default function BlogListClient({ lang, posts }: BlogListClientProps) {
                   <div className="blog-featured-img">
                     <img
                       src={featured.coverImage}
-                      alt={featured.title}
+                      alt={featured.coverImageAlt || ''}
                       loading="eager"
                     />
                   </div>
@@ -76,7 +77,7 @@ export default function BlogListClient({ lang, posts }: BlogListClientProps) {
                       <div className="blog-card-img">
                         <img
                           src={post.coverImage}
-                          alt={post.title}
+                          alt={post.coverImageAlt || ''}
                           loading="lazy"
                         />
                       </div>
@@ -101,7 +102,8 @@ export default function BlogListClient({ lang, posts }: BlogListClientProps) {
             )}
           </>
         )}
-      </section>
+        </section>
+      </main>
     </>
   );
 }

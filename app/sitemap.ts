@@ -1,9 +1,8 @@
 import { MetadataRoute } from 'next';
-import { getAllBlogSlugs } from './lib/blog';
+import { getBlogPosts, getSlugTranslationMap } from './lib/blog';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://whagons.com';
-  const now = new Date();
   const entries: MetadataRoute.Sitemap = [];
 
   const markets = [
@@ -12,6 +11,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       pages: [
         { path: '', priority: 1, freq: 'weekly' as const },
         { path: '/plataforma', priority: 0.9, freq: 'monthly' as const },
+        { path: '/funcionalidades', priority: 0.9, freq: 'monthly' as const },
+        { path: '/operaciones-hoteleras', priority: 0.9, freq: 'monthly' as const },
         { path: '/industrias', priority: 0.9, freq: 'monthly' as const },
         { path: '/demo', priority: 0.9, freq: 'monthly' as const },
         { path: '/blog', priority: 0.8, freq: 'weekly' as const },
@@ -25,6 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       pages: [
         { path: '', priority: 1, freq: 'weekly' as const },
         { path: '/platform', priority: 0.9, freq: 'monthly' as const },
+        { path: '/features', priority: 0.9, freq: 'monthly' as const },
         { path: '/hotel-operations', priority: 0.9, freq: 'monthly' as const },
         { path: '/industries', priority: 0.7, freq: 'monthly' as const },
         { path: '/demo', priority: 0.9, freq: 'monthly' as const },
@@ -41,20 +43,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     for (const page of market.pages) {
       entries.push({
         url: `${baseUrl}/${market.lang}${page.path}`,
-        lastModified: now,
         changeFrequency: page.freq,
         priority: page.priority,
       });
     }
   }
 
-  const blogSlugs = getAllBlogSlugs();
-  for (const { lang, slug } of blogSlugs) {
+  const blogPosts = [...getBlogPosts('en'), ...getBlogPosts('es')];
+  const translationMap = getSlugTranslationMap();
+  for (const post of blogPosts) {
+    const articlePath = post.lang === 'en' ? `/en/resources/${post.slug}` : `/es/blog/${post.slug}`;
+    if (post.lang === 'es' && !translationMap[articlePath]) continue;
+
     entries.push({
-      url: lang === 'en'
-        ? `${baseUrl}/en/resources/${slug}`
-        : `${baseUrl}/es/blog/${slug}`,
-      lastModified: now,
+      url: `${baseUrl}${articlePath}`,
+      lastModified: post.date,
       changeFrequency: 'monthly',
       priority: 0.7,
     });

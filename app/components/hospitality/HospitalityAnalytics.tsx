@@ -10,13 +10,14 @@ declare global {
 
 export function trackHospitalityEvent(
   event: string,
-  properties: Record<string, unknown> = {}
+  properties: Record<string, unknown> = {},
+  market = 'us'
 ) {
   if (typeof window === 'undefined') return;
 
   const payload = {
     event,
-    market: 'us',
+    market,
     industry: 'hospitality',
     ...properties,
   };
@@ -25,9 +26,9 @@ export function trackHospitalityEvent(
   window.dispatchEvent(new CustomEvent('whagons:analytics', { detail: payload }));
 }
 
-export default function HospitalityAnalytics({ page }: { page: string }) {
+export default function HospitalityAnalytics({ page, market = 'us' }: { page: string; market?: string }) {
   useEffect(() => {
-    trackHospitalityEvent('hospitality_page_view', { page });
+    trackHospitalityEvent('hospitality_page_view', { page }, market);
 
     const handleClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null;
@@ -37,12 +38,12 @@ export default function HospitalityAnalytics({ page }: { page: string }) {
       trackHospitalityEvent(trackedElement.dataset.track || 'hospitality_click', {
         page,
         label: trackedElement.textContent?.trim().slice(0, 120) || '',
-      });
+      }, market);
     };
 
     document.addEventListener('click', handleClick);
     return () => document.removeEventListener('click', handleClick);
-  }, [page]);
+  }, [market, page]);
 
   return null;
 }

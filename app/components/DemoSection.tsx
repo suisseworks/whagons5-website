@@ -59,7 +59,7 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
   return (
     <section id="demo">
       <div className="demo-top r">
-        <div className="demo-title">{t.demoTitle1}<br />{t.demoTitle2}</div>
+        <h2 className="demo-title">{t.demoTitle1}<br />{t.demoTitle2}</h2>
         <p className="demo-sub">{t.demoSub}</p>
       </div>
       <div className="demo-body">

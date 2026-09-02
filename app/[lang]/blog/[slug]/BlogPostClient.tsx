@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import Image from 'next/image';
 import { translations, Language } from '../../../lib/i18n';
 import ScrollReveal from '../../../components/ScrollReveal';
 import type { BlogPost } from '../../../lib/blog';
@@ -69,6 +70,7 @@ function ShareButtons({ title, lang }: { title: string; lang: Language }) {
 export default function BlogPostClient({ post, lang }: BlogPostClientProps) {
   const t = translations[lang];
   const blogHome = lang === 'en' ? '/en/resources' : `/${lang}/blog`;
+  const isHospitalityArticle = post.author === 'Whagons Hospitality';
 
   const formattedDate = new Date(post.date).toLocaleDateString(
     lang === 'es' ? 'es-ES' : 'en-US',
@@ -79,7 +81,8 @@ export default function BlogPostClient({ post, lang }: BlogPostClientProps) {
     <>
       <ScrollReveal />
 
-      <article className={`blog-post${lang === 'en' ? ' hospitality-article' : ''}`}>
+      <main>
+        <article className={`blog-post${isHospitalityArticle ? ' hospitality-article' : ''}`}>
         <header className="blog-post-header r">
           <a href={blogHome} className="blog-back">{t.blogBack}</a>
           <div className="blog-post-tags">
@@ -101,10 +104,13 @@ export default function BlogPostClient({ post, lang }: BlogPostClientProps) {
 
         {post.coverImage && (
           <div className="blog-post-hero r d1">
-            <img
+            <Image
               src={post.coverImage}
-              alt={post.title}
-              loading="eager"
+              alt={post.coverImageAlt || ''}
+              width={800}
+              height={533}
+              sizes="(max-width: 860px) 100vw, 1200px"
+              priority
             />
           </div>
         )}
@@ -116,11 +122,12 @@ export default function BlogPostClient({ post, lang }: BlogPostClientProps) {
         <footer className="blog-post-footer r d2">
           <a href={blogHome} className="blog-back">{t.blogBack}</a>
           <ShareButtons title={post.title} lang={lang} />
-          <a href={lang === 'en' ? '/en/handoff-scan' : `/${lang}/demo`} className="cta-primary">
-            {lang === 'es' ? 'Solicitar demo' : 'Request a handoff scan'} &rarr;
+          <a href={`/${lang}/demo`} className="cta-primary">
+            {lang === 'es' ? 'Solicitar demo' : 'Request a demo'} &rarr;
           </a>
         </footer>
-      </article>
+        </article>
+      </main>
     </>
   );
 }
@@ -132,7 +139,9 @@ function BlogContent({ content }: { content: string }) {
 }
 
 function mdxToHtml(mdx: string): string {
-  let html = mdx;
+  // Normalize repository line endings so multiline Markdown constructs behave
+  // identically in English and Spanish on every build platform.
+  let html = mdx.replace(/\r\n?/g, '\n');
 
   // Images — must come before links to avoid conflict with ![...](...)
   html = html.replace(
@@ -153,12 +162,13 @@ function mdxToHtml(mdx: string): string {
   // Links
   html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
 
-  // Unordered lists
-  html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
-  html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
-
-  // Ordered lists
-  html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+  // Lists — wrap consecutive items so numbering and list semantics are preserved.
+  html = html.replace(/(?:^\d+\. .+(?:\n|$))+/gm, (list) => (
+    `<ol>${list.replace(/^\d+\. (.+)$/gm, '<li>$1</li>')}</ol>`
+  ));
+  html = html.replace(/(?:^- .+(?:\n|$))+/gm, (list) => (
+    `<ul>${list.replace(/^- (.+)$/gm, '<li>$1</li>')}</ul>`
+  ));
 
   // Blockquotes
   html = html.replace(/^> (.+)$/gm, '<blockquote><p>$1</p></blockquote>');

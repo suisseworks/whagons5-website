@@ -12,15 +12,17 @@ export default function DemoPageClient({ lang }: { lang: Language }) {
     <>
       <ScrollReveal />
 
-      <section className="page-hero">
-        <div className="page-hero-inner r">
-          <h1 className="page-hero-title">{t.demoPageTitle}</h1>
-          <p className="page-hero-desc">{t.demoPageDesc}</p>
-        </div>
-      </section>
+      <main>
+        <section className="page-hero">
+          <div className="page-hero-inner r">
+            <h1 className="page-hero-title">{t.demoPageTitle}</h1>
+            <p className="page-hero-desc">{t.demoPageDesc}</p>
+          </div>
+        </section>
 
-      <DemoSection t={t} language={lang} />
-      <ContactSection t={t} language={lang} />
+        <DemoSection t={t} language={lang} />
+        <ContactSection t={t} language={lang} />
+      </main>
     </>
   );
 }

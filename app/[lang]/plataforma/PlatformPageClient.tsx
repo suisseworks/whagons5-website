@@ -87,8 +87,8 @@ const MODULES: Record<Language, {
         'Biblioteca organizada por departamento, rol y sede',
         'Documentos multimedia: video, PDF, imágenes, listas de verificación',
         'Confirmación de lectura con registro de quién leyó qué y cuándo',
-        'Cumplimiento ISO, FDA, HACCP con registros 100% digitales y trazables',
-        'Retención configurable de registros (hasta 7+ años) con auditoría de cambios',
+        'Registros digitales y trazables para apoyar programas ISO, FDA o HACCP',
+        'Retención configurable de registros con historial de cambios',
       ],
     },
     {
@@ -182,8 +182,8 @@ const MODULES: Record<Language, {
         'Library organized by department, role, and location',
         'Multimedia documents: video, PDF, images, checklists',
         'Read confirmation with records of who read what and when',
-        'ISO, FDA, HACCP compliance with 100% digital, traceable records',
-        'Configurable record retention (up to 7+ years) with change auditing',
+        'Digital, traceable records to support ISO, FDA, or HACCP programs',
+        'Configurable record retention with change history',
       ],
     },
     {
@@ -206,7 +206,7 @@ const DIFFERENTIATORS: Record<Language, { title: string; items: { icon: string; 
   es: {
     title: '¿Por qué Whagons y no otra plataforma?',
     items: [
-      { icon: '⚡', title: 'Implementación en días, no meses', desc: 'Sin migraciones complejas ni dependencia de IT. Tu equipo puede estar operando en Whagons en menos de una semana.' },
+      { icon: '⚡', title: 'Implementación por etapas', desc: 'Empieza con un flujo prioritario, valida la adopción con el equipo y amplía desde un resultado operativo real.' },
       { icon: '🌐', title: 'Offline-first por diseño', desc: 'Diseñado para equipos en campo sin conexión estable. Opera normalmente offline y sincroniza cuando hay red.' },
       { icon: '🎨', title: 'White-label completo', desc: 'No es solo cambiar un logo. Tu dominio, tus colores, tu marca — la plataforma se siente 100% tuya.' },
       { icon: '🔌', title: 'API abierta e integraciones', desc: 'Se conecta con tu ERP, CRM, BI y cualquier sistema existente. No reemplaza tu stack — lo complementa.' },
@@ -217,7 +217,7 @@ const DIFFERENTIATORS: Record<Language, { title: string; items: { icon: string; 
   en: {
     title: 'Why Whagons over other platforms?',
     items: [
-      { icon: '⚡', title: 'Implementation in days, not months', desc: 'No complex migrations or IT dependency. Your team can be operating on Whagons in less than a week.' },
+      { icon: '⚡', title: 'Phased implementation', desc: 'Start with one priority workflow, validate adoption with the team, and expand from a real operating result.' },
       { icon: '🌐', title: 'Offline-first by design', desc: 'Built for field teams without stable connectivity. Operate fully offline and sync when back online.' },
       { icon: '🎨', title: 'Full white-label', desc: 'It\'s not just swapping a logo. Your domain, your colors, your brand — the platform feels 100% yours.' },
       { icon: '🔌', title: 'Open API & integrations', desc: 'Connects with your ERP, CRM, BI, and any existing system. It doesn\'t replace your stack — it complements it.' },
@@ -235,31 +235,32 @@ export default function PlatformPageClient({ lang }: { lang: Language }) {
     <>
       <ScrollReveal />
 
-      <section className="page-hero">
+      <main>
+        <section className="page-hero">
         <div className="page-hero-inner r">
           <h1 className="page-hero-title">
             {lang === 'es'
-              ? 'Software de Gestión Operativa con Inteligencia Artificial'
-              : 'AI-Powered Operations Management Software'}
+              ? 'Plataforma de Operaciones Hoteleras con Inteligencia Artificial'
+              : 'AI-Powered Hotel Operations Platform'}
           </h1>
           <p className="page-hero-desc">
             {lang === 'es'
-              ? '7 módulos integrados para controlar, automatizar y escalar las operaciones de tu empresa. Cada módulo funciona de forma independiente o como parte de una plataforma unificada.'
-              : '7 integrated modules to control, automate, and scale your business operations. Each module works independently or as part of a unified platform.'}
+              ? '7 módulos integrados para coordinar, automatizar y hacer visible el trabajo del hotel. Cada módulo funciona de forma independiente o como parte de una plataforma unificada.'
+              : '7 integrated modules to coordinate, automate, and make hotel work visible. Each module works independently or as part of one unified platform.'}
           </p>
           <div className="page-hero-ctas">
             <a href={`/${lang}/demo`} className="cta-primary">
               {lang === 'es' ? 'Ver en acción' : 'See it in action'} &rarr;
             </a>
-            <a href={`/${lang}/industrias`} className="cta-ghost">
-              {lang === 'es' ? 'Por industria' : 'By industry'} {'\u2197'}
+            <a href={lang === 'en' ? '/en/features' : '/es/funcionalidades'} className="cta-ghost">
+              {lang === 'es' ? 'Ver funcionalidades' : 'View features'} {'\u2192'}
             </a>
           </div>
         </div>
-      </section>
+        </section>
 
       {/* Deep-dive modules */}
-      <section className="platform-modules">
+        <section className="platform-modules">
         {modules.map((mod, i) => (
           <div className={`plat-module r${i % 2 === 1 ? ' plat-module--alt' : ''}`} key={mod.num} id={`modulo-${mod.num}`}>
             <div className="plat-module-header">
@@ -275,10 +276,10 @@ export default function PlatformPageClient({ lang }: { lang: Language }) {
             </ul>
           </div>
         ))}
-      </section>
+        </section>
 
       {/* Differentiators */}
-      <section className="platform-diff">
+        <section className="platform-diff">
         <h2 className="platform-diff-title r">{diff.title}</h2>
         <div className="platform-diff-grid">
           {diff.items.map((item, i) => (
@@ -289,10 +290,10 @@ export default function PlatformPageClient({ lang }: { lang: Language }) {
             </div>
           ))}
         </div>
-      </section>
+        </section>
 
       {/* CTA */}
-      <section className="cta-bottom-section">
+        <section className="cta-bottom-section">
         <div className="cta-bottom-inner r">
           <h2 className="cta-bottom-title">
             {lang === 'es'
@@ -308,7 +309,8 @@ export default function PlatformPageClient({ lang }: { lang: Language }) {
             {lang === 'es' ? 'Solicitar demo' : 'Request demo'} &rarr;
           </a>
         </div>
-      </section>
+        </section>
+      </main>
     </>
   );
 }

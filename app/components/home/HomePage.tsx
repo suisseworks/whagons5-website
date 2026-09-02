@@ -93,6 +93,8 @@ const content = {
       ['SOPs & knowledge', 'Keep procedures and training where the work happens.'],
       ['API & integrations', 'Connect the hotel systems your teams already rely on.'],
     ],
+    featuresPrompt: 'Need the complete capability map?',
+    featuresCta: 'Explore all features',
     proofEyebrow: 'Experience beyond the hotel lobby',
     proofTitle: 'Built on years of real operational work.',
     proofText:
@@ -213,6 +215,8 @@ const content = {
       ['SOPs y conocimiento', 'Ubica procedimientos y capacitación donde ocurre el trabajo.'],
       ['API e integraciones', 'Conecta los sistemas que los equipos del hotel ya utilizan.'],
     ],
+    featuresPrompt: '¿Necesitas el mapa completo de capacidades?',
+    featuresCta: 'Explorar todas las funcionalidades',
     proofEyebrow: 'Experiencia más allá del lobby',
     proofTitle: 'Construido sobre años de trabajo operativo real.',
     proofText:
@@ -246,12 +250,14 @@ const content = {
 } as const;
 
 const marketSlugs = ['retail', 'mantenimiento', 'farmaceutica', 'salud-educacion', 'construccion'];
+const hotelMomentAnchors = ['guest-requests', 'room-readiness', 'engineering', 'inspection-correction'];
 
 export default function HomePage({ lang }: { lang: Language }) {
   const t = content[lang];
   const demoHref = `/${lang}/demo`;
   const platformHref = lang === 'en' ? '/en/platform' : '/es/plataforma';
-  const hotelHref = lang === 'en' ? '/en/hotel-operations' : '/es/industrias#hoteleria';
+  const featuresHref = lang === 'en' ? '/en/features' : '/es/funcionalidades';
+  const hotelHref = lang === 'en' ? '/en/hotel-operations' : '/es/operaciones-hoteleras';
   const industriesHref = lang === 'en' ? '/en/industries' : '/es/industrias';
 
   return (
@@ -262,7 +268,7 @@ export default function HomePage({ lang }: { lang: Language }) {
           <h1>{t.heroTitle}</h1>
           <p className={styles.heroLead}>{t.heroLead}</p>
           <div className={styles.heroActions}>
-            <a className={styles.primaryButton} href={demoHref}>{t.primaryCta}<span aria-hidden="true">↗</span></a>
+            <a className={styles.primaryButton} href={demoHref}>{t.primaryCta}<span aria-hidden="true">→</span></a>
             <a className={styles.textButton} href="#how-it-works">{t.secondaryCta}<span aria-hidden="true">↓</span></a>
           </div>
           <div className={styles.heroPoints}>
@@ -276,7 +282,7 @@ export default function HomePage({ lang }: { lang: Language }) {
             alt={t.heroAlt}
             fill
             priority
-            sizes="(max-width: 900px) 100vw, 50vw"
+            sizes="100vw"
             className={styles.heroImage}
           />
           <div className={styles.photoWash} />
@@ -318,13 +324,13 @@ export default function HomePage({ lang }: { lang: Language }) {
           <p>{t.problemText}</p>
         </div>
         <div className={styles.momentsGrid}>
-          {t.moments.map((moment) => (
-            <article className={styles.momentCard} key={moment.number}>
+          {t.moments.map((moment, index) => (
+            <a className={styles.momentCard} href={`${hotelHref}#${hotelMomentAnchors[index]}`} key={moment.number}>
               <div className={styles.momentTop}><span>{moment.number}</span><small>{moment.tag}</small></div>
               <h3>{moment.title}</h3>
               <p>{moment.text}</p>
-              <span className={styles.cardArrow} aria-hidden="true">↗</span>
-            </article>
+              <span className={styles.cardArrow} aria-hidden="true">→</span>
+            </a>
           ))}
         </div>
       </section>
@@ -334,7 +340,7 @@ export default function HomePage({ lang }: { lang: Language }) {
           <p className={styles.eyebrow}>{t.processEyebrow}</p>
           <h2>{t.processTitle}</h2>
           <p>{t.processLead}</p>
-          <a className={styles.lightButton} href={platformHref}>{lang === 'es' ? 'Explorar la plataforma' : 'Explore the platform'}<span aria-hidden="true">↗</span></a>
+          <a className={styles.lightButton} href={platformHref}>{lang === 'es' ? 'Explorar la plataforma' : 'Explore the platform'}<span aria-hidden="true">→</span></a>
         </div>
         <div className={styles.steps}>
           {t.steps.map(([title, text], index) => (
@@ -353,7 +359,7 @@ export default function HomePage({ lang }: { lang: Language }) {
           <p>{t.productText}</p>
         </div>
         <div className={styles.productGrid}>
-          <div className={styles.dashboard} aria-label={t.dashboardTitle}>
+          <div className={styles.dashboard} role="img" aria-label={t.dashboardTitle}>
             <div className={styles.dashboardNav}>
               <span className={styles.dashboardMark} aria-hidden="true" />
               <div><strong>{t.dashboardTitle}</strong><small>{t.dashboardSubtitle}</small></div>
@@ -379,6 +385,10 @@ export default function HomePage({ lang }: { lang: Language }) {
               <article key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></article>
             ))}
           </div>
+        </div>
+        <div className={styles.featuresExplore}>
+          <span>{t.featuresPrompt}</span>
+          <a href={featuresHref}>{t.featuresCta}<span aria-hidden="true">→</span></a>
         </div>
       </section>
 
@@ -413,12 +423,12 @@ export default function HomePage({ lang }: { lang: Language }) {
           <a className={styles.featuredMarket} href={hotelHref}>
             <span>01 / {lang === 'es' ? 'Mercado prioritario' : 'Priority market'}</span>
             <div><h3>{t.featuredMarket[0]}</h3><p>{t.featuredMarket[1]}</p></div>
-            <strong>{t.featuredLink}<span aria-hidden="true">↗</span></strong>
+            <strong>{t.featuredLink}<span aria-hidden="true">→</span></strong>
           </a>
           <div className={styles.otherMarkets}>
             {t.markets.map(([title, text], index) => (
               <a href={`${industriesHref}#${marketSlugs[index]}`} key={title}>
-                <span>0{index + 2}</span><div><h3>{title}</h3><p>{text}</p></div><strong>{t.exploreMarket} ↗</strong>
+                <span>0{index + 2}</span><div><h3>{title}</h3><p>{text}</p></div><strong>{t.exploreMarket} →</strong>
               </a>
             ))}
           </div>
@@ -429,7 +439,7 @@ export default function HomePage({ lang }: { lang: Language }) {
         <p className={styles.eyebrow}>{t.finalEyebrow}</p>
         <h2>{t.finalTitle}</h2>
         <p>{t.finalText}</p>
-        <a className={styles.primaryButton} href={demoHref}>{t.finalCta}<span aria-hidden="true">↗</span></a>
+        <a className={styles.primaryButton} href={demoHref}>{t.finalCta}<span aria-hidden="true">→</span></a>
       </section>
     </main>
   );
