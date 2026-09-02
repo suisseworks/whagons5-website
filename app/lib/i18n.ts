@@ -67,8 +67,8 @@ export const translations = {
     ],
 
     // Industries page content
-    indPageTitle: 'Hoteles primero. Un estándar operativo para cada mercado.',
-    indPageDesc: 'Whagons está enfocado en la operación hotelera. El mismo sistema de responsables, tiempos, escalamientos y evidencia también coordina trabajo complejo en otras industrias.',
+    indPageTitle: 'Operaciones complejas. Un estándar claro.',
+    indPageDesc: 'Coordina responsables, tiempos, escalamientos y evidencia en retail, mantenimiento industrial, sectores regulados, salud, educación y construcción.',
     indPageCta: 'Ver Whagons en mi operación',
 
     // Brief
@@ -265,8 +265,8 @@ export const translations = {
     ],
 
     // Industries page content
-    indPageTitle: 'Hotels first. One operating standard across every market.',
-    indPageDesc: 'Whagons is focused on hotel operations. The same system of ownership, timing, escalation, and evidence also coordinates complex work in other industries.',
+    indPageTitle: 'Complex operations. One clear standard.',
+    indPageDesc: 'Coordinate ownership, timing, escalation, and evidence across retail, industrial maintenance, regulated sectors, health, education, and construction.',
     indPageCta: 'See Whagons in my operation',
 
     // Brief

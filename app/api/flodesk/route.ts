@@ -1,25 +1,46 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createHash, randomBytes, randomUUID } from 'node:crypto';
 
-const APP_USER_AGENT = 'Whagons Website (whagons.com)';
-const COMMON_HEADERS = { 'User-Agent': APP_USER_AGENT } as const;
+import {
+  DEMO_SEGMENT_NAMES,
+  findFlodeskSegmentId,
+  resolveLeadDeliveryOutcome,
+  sendDemoNotification,
+  upsertFlodeskSubscriber,
+} from '../../lib/demo-delivery.mjs';
 
-// Cache for segment IDs to avoid fetching on every request
-let segmentCache: { [key: string]: string | null } = {};
-let segmentCacheTimestamp = 0;
-const SEGMENT_CACHE_TTL = 60 * 60 * 1000; // 1 hour cache
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 type FormType = 'brief' | 'demo';
+type Language = 'en' | 'es';
 
-function resolvedSegmentIdFromEnv(formType: FormType, lang: 'en' | 'es'): string | undefined {
+const BRIEF_SEGMENT_NAME = 'Whagons5-Brief';
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_FIELD_LENGTH = 200;
+const SEGMENT_CACHE_TTL = 60 * 60 * 1000;
+const FAILED_SEGMENT_CACHE_TTL = 5 * 60 * 1000;
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
+const RATE_LIMIT_MAX_REQUESTS = 8;
+const RATE_LIMIT_MAX_BUCKETS = 5000;
+const RATE_LIMIT_SALT = randomBytes(32);
+
+const segmentCache = new Map<string, { id: string | null; expiresAt: number }>();
+const requestBuckets = new Map<string, { count: number; resetAt: number }>();
+let rateLimitChecks = 0;
+
+function sanitize(value: unknown, maxLength = MAX_FIELD_LENGTH): string {
+  if (typeof value !== 'string') return '';
+  return value.trim().slice(0, maxLength);
+}
+
+function resolvedSegmentIdFromEnv(formType: FormType, lang: Language): string | undefined {
   if (formType === 'brief') {
-    const briefAll = process.env.FLODESK_SEGMENT_BRIEF_ID?.trim();
-    if (briefAll) return briefAll;
+    const sharedBrief = process.env.FLODESK_SEGMENT_BRIEF_ID?.trim();
+    if (sharedBrief) return sharedBrief;
   }
-  if (formType === 'demo') {
-    const demoAll = process.env.FLODESK_SEGMENT_DEMO_ID?.trim();
-    if (demoAll) return demoAll;
-  }
-  const id =
+
+  const localized =
     lang === 'es'
       ? formType === 'brief'
         ? process.env.FLODESK_SEGMENT_BRIEF_ES_ID
@@ -27,302 +48,290 @@ function resolvedSegmentIdFromEnv(formType: FormType, lang: 'en' | 'es'): string
       : formType === 'brief'
         ? process.env.FLODESK_SEGMENT_BRIEF_EN_ID
         : process.env.FLODESK_SEGMENT_DEMO_EN_ID;
-  const trimmed = id?.trim();
-  return trimmed || undefined;
+
+  return localized?.trim() || undefined;
 }
 
-const BRIEF_SEGMENT_NAME = 'Whagons5-Brief';
-const DEMO_SEGMENT_NAME = 'Whagons5-Demo';
-
-function resolvedSegmentName(formType: FormType, lang: 'en' | 'es'): string {
+function resolvedSegmentName(formType: FormType, lang: Language): string {
   if (formType === 'brief') {
-    const name =
+    const localized =
       lang === 'es'
         ? process.env.FLODESK_SEGMENT_BRIEF_ES?.trim()
         : process.env.FLODESK_SEGMENT_BRIEF_EN?.trim();
-    return name || BRIEF_SEGMENT_NAME;
+    return localized || BRIEF_SEGMENT_NAME;
   }
 
-  const unified = process.env.FLODESK_SEGMENT_DEMO?.trim();
-  if (unified) return unified;
-
-  const name =
-    lang === 'es'
-      ? process.env.FLODESK_SEGMENT_DEMO_ES?.trim()
-      : process.env.FLODESK_SEGMENT_DEMO_EN?.trim();
-  return name || DEMO_SEGMENT_NAME;
+  return DEMO_SEGMENT_NAMES[lang];
 }
 
-function getClientIp(request: NextRequest): string | null {
-  const forwarded = request.headers.get('x-forwarded-for');
-  if (forwarded) {
-    const first = forwarded.split(',')[0]?.trim();
-    if (first) return first;
+function requestCountry(request: NextRequest, submittedCountry: string): string {
+  const edgeCountry =
+    request.headers.get('cf-ipcountry') || request.headers.get('x-vercel-ip-country');
+  const normalized = edgeCountry?.trim().toUpperCase();
+  if (normalized && /^[A-Z]{2}$/.test(normalized) && normalized !== 'XX') {
+    return normalized;
   }
-  const realIp = request.headers.get('x-real-ip')?.trim();
-  if (realIp) return realIp;
-  return null;
+
+  return sanitize(submittedCountry, 60) || 'Unknown';
 }
 
-async function resolveCountryFromRequest(request: NextRequest): Promise<string> {
-  const cf = request.headers.get('cf-ipcountry')?.trim();
-  if (cf && cf.length === 2 && cf.toUpperCase() !== 'XX') {
-    return cf.toUpperCase();
+function requestId(request: NextRequest): string {
+  const cloudflareRay = request.headers.get('cf-ray')?.split('-')[0]?.trim();
+  if (cloudflareRay && /^[a-zA-Z0-9-]{8,64}$/.test(cloudflareRay)) {
+    return cloudflareRay;
   }
+  return randomUUID();
+}
 
-  const vercel = request.headers.get('x-vercel-ip-country')?.trim();
-  if (vercel && vercel.length === 2) {
-    return vercel.toUpperCase();
-  }
+function clientAddressKey(request: NextRequest): string | null {
+  const cloudflare = request.headers.get('cf-connecting-ip')?.trim();
+  const forwarded = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
+  const address = cloudflare || forwarded || request.headers.get('x-real-ip')?.trim();
+  if (!address) return null;
+  return createHash('sha256')
+    .update(RATE_LIMIT_SALT)
+    .update(address)
+    .digest('hex')
+    .slice(0, 32);
+}
 
-  const ip = getClientIp(request);
-  if (
-    !ip ||
-    ip === '::1' ||
-    ip === '127.0.0.1' ||
-    ip.startsWith('127.') ||
-    ip === '0.0.0.0'
-  ) {
-    return 'Unknown';
-  }
+function isRateLimited(request: NextRequest): boolean {
+  const addressKey = clientAddressKey(request);
+  if (!addressKey) return false;
 
-  try {
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 2500);
-    const res = await fetch(
-      `https://ipwho.is/${encodeURIComponent(ip)}?fields=success,country_code`,
-      { signal: ctrl.signal, headers: { ...COMMON_HEADERS } }
-    );
-    clearTimeout(timer);
-    if (!res.ok) return 'Unknown';
-    const data = (await res.json()) as { success?: boolean; country_code?: string };
-    if (data.success && data.country_code && typeof data.country_code === 'string') {
-      return data.country_code.toUpperCase();
+  const now = Date.now();
+  rateLimitChecks += 1;
+  if (rateLimitChecks % 100 === 0) {
+    for (const [key, value] of requestBuckets) {
+      if (now >= value.resetAt) requestBuckets.delete(key);
     }
-  } catch {
-    // ignore — optional enrichment
+  }
+  const bucket = requestBuckets.get(addressKey);
+  if (!bucket || now >= bucket.resetAt) {
+    if (!bucket && requestBuckets.size >= RATE_LIMIT_MAX_BUCKETS) {
+      const oldestKey = requestBuckets.keys().next().value;
+      if (oldestKey) requestBuckets.delete(oldestKey);
+    }
+    requestBuckets.set(addressKey, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return false;
   }
 
-  return 'Unknown';
+  bucket.count += 1;
+  return bucket.count > RATE_LIMIT_MAX_REQUESTS;
 }
 
-/**
- * Fetch segment ID by name from Flodesk API
- */
-async function getSegmentIdByName(
+function logDelivery(
+  id: string,
+  channel: 'segment' | 'flodesk' | 'email',
+  result: { ok?: boolean; code?: string; status?: number; attempts?: number },
+  elapsedMs: number
+) {
+  console.info(
+    JSON.stringify({
+      event: 'lead_delivery',
+      requestId: id,
+      channel,
+      ok: Boolean(result.ok),
+      code: result.code || null,
+      status: result.status || null,
+      attempts: result.attempts || null,
+      elapsedMs,
+    })
+  );
+}
+
+async function resolveSegmentId(
   apiKey: string,
-  segmentName: string
-): Promise<string | null> {
-  // Check cache first
-  if (segmentCache[segmentName] && Date.now() - segmentCacheTimestamp < SEGMENT_CACHE_TTL) {
-    return segmentCache[segmentName];
+  formType: FormType,
+  lang: Language,
+  id: string
+): Promise<string | undefined> {
+  const configured = resolvedSegmentIdFromEnv(formType, lang);
+  if (configured) return configured;
+
+  const name = resolvedSegmentName(formType, lang);
+  const cached = segmentCache.get(name);
+  if (cached && Date.now() < cached.expiresAt) {
+    return cached.id || undefined;
   }
 
-  try {
-    const authHeader = `Basic ${Buffer.from(`${apiKey}:`).toString('base64')}`;
-    const segmentsUrl = 'https://api.flodesk.com/v1/segments';
-    
-    // Fetch all segments (may need pagination for many segments)
-    let allSegments: any[] = [];
-    let page = 1;
-    let hasMore = true;
+  const startedAt = Date.now();
+  const result = await findFlodeskSegmentId({
+    apiKey,
+    segmentName: name,
+    timeoutMs: 900,
+  });
+  logDelivery(id, 'segment', result, Date.now() - startedAt);
 
-    while (hasMore) {
-      const response = await fetch(`${segmentsUrl}?page=${page}&per_page=50`, {
-        headers: {
-          'Authorization': authHeader,
-          'Content-Type': 'application/json',
-          ...COMMON_HEADERS,
-        },
-      });
-
-      if (!response.ok) {
-        console.error(`Failed to fetch segments: ${response.status}`);
-        break;
-      }
-
-      const data = await response.json();
-      if (data.data && Array.isArray(data.data)) {
-        allSegments = allSegments.concat(data.data);
-        
-        // Check if there are more pages
-        if (data.meta && page < data.meta.total_pages) {
-          page++;
-        } else {
-          hasMore = false;
-        }
-      } else {
-        hasMore = false;
-      }
-    }
-
-    // Find segment by name
-    const segment = allSegments.find((s: any) => s.name === segmentName);
-    const segmentId = segment?.id || null;
-
-    // Update cache
-    segmentCache[segmentName] = segmentId;
-    segmentCacheTimestamp = Date.now();
-
-    return segmentId;
-  } catch (error) {
-    console.error(`Error fetching segment "${segmentName}":`, error);
-    return null;
-  }
+  segmentCache.set(name, {
+    id: result.id,
+    expiresAt:
+      Date.now() + (result.ok ? SEGMENT_CACHE_TTL : FAILED_SEGMENT_CACHE_TTL),
+  });
+  return result.id || undefined;
 }
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const MAX_FIELD_LENGTH = 200;
-
-function sanitize(value: unknown): string {
-  if (typeof value !== 'string') return '';
-  return value.trim().slice(0, MAX_FIELD_LENGTH);
+function noStoreJson(body: Record<string, unknown>, status = 200) {
+  return NextResponse.json(body, {
+    status,
+    headers: { 'Cache-Control': 'no-store' },
+  });
 }
 
 export async function POST(request: NextRequest) {
+  const id = requestId(request);
+
   try {
     const body = await request.json();
-    const { name, email, company, industry, country, language, formType, phone, teamSize } = body;
 
-    const cleanEmail = sanitize(email);
+    // Quietly accept bot submissions so the honeypot cannot be used to probe validation.
+    if (sanitize(body.website)) {
+      return noStoreJson({ success: true });
+    }
 
+    const cleanEmail = sanitize(body.email).toLowerCase();
     if (!cleanEmail || !EMAIL_REGEX.test(cleanEmail)) {
-      return NextResponse.json(
+      return noStoreJson(
         { error: cleanEmail ? 'Invalid email address' : 'Missing required fields' },
-        { status: 400 }
+        400
       );
     }
 
-    const cleanName = sanitize(name);
-    const cleanCompany = sanitize(company);
-    const cleanIndustry = sanitize(industry);
-    const cleanLanguage = language === 'es' ? 'es' : 'en';
-    const cleanFormType: FormType = formType === 'brief' ? 'brief' : 'demo';
-    const cleanPhone = sanitize(phone);
-    const cleanTeamSize = sanitize(teamSize);
+    const cleanName = sanitize(body.name);
+    const cleanCompany = sanitize(body.company);
+    const cleanIndustry = sanitize(body.industry);
+    const cleanLanguage: Language = body.language === 'es' ? 'es' : 'en';
+    const cleanFormType: FormType = body.formType === 'brief' ? 'brief' : 'demo';
+    const cleanPhone = sanitize(body.phone, 60);
+    const cleanTeamSize = sanitize(body.teamSize);
 
     if (cleanFormType === 'demo') {
       if (!cleanName || !cleanCompany || !cleanIndustry || !cleanTeamSize) {
-        return NextResponse.json(
-          { error: 'Missing required fields' },
-          { status: 400 }
-        );
+        return noStoreJson({ error: 'Missing required fields' }, 400);
       }
-    } else {
-      if (!cleanIndustry) {
-        return NextResponse.json(
-          { error: 'Missing required fields' },
-          { status: 400 }
-        );
-      }
+    } else if (!cleanIndustry) {
+      return noStoreJson({ error: 'Missing required fields' }, 400);
     }
 
-    const geoCountry = await resolveCountryFromRequest(request);
-    const bodyCountry = sanitize(country);
-    const cleanCountry =
-      geoCountry !== 'Unknown' ? geoCountry : bodyCountry || 'Unknown';
-
-    // Get Flodesk API key from environment
-    const apiKey = process.env.FLODESK_API_KEY;
-    if (!apiKey) {
-      console.error('FLODESK_API_KEY is not set');
+    if (isRateLimited(request)) {
       return NextResponse.json(
-        { error: 'Server configuration error' },
-        { status: 500 }
+        { success: false, message: 'Please wait a few minutes before trying again.' },
+        {
+          status: 429,
+          headers: { 'Cache-Control': 'no-store', 'Retry-After': '600' },
+        }
       );
     }
 
-    // Flodesk API endpoint - https://api.flodesk.com/v1/subscribers
-    const flodeskUrl = process.env.FLODESK_API_URL || 'https://api.flodesk.com/v1/subscribers';
-
-    const lang: 'en' | 'es' = cleanLanguage === 'es' ? 'es' : 'en';
-
-    let segmentId = resolvedSegmentIdFromEnv(cleanFormType, lang);
-    const targetSegmentName = resolvedSegmentName(cleanFormType, lang);
-
-    if (!segmentId) {
-      segmentId = (await getSegmentIdByName(apiKey, targetSegmentName)) ?? undefined;
-    }
-
-    if (!segmentId) {
-      console.warn(
-        `Flodesk segment not resolved for "${targetSegmentName}" (form=${cleanFormType}, lang=${lang}). Subscriber will be created without that segment assignment.`
-      );
-    }
-
-    // Prepare data for Flodesk API
-    // Flodesk requires 'email' and optionally accepts first_name, last_name, custom_fields, segment_ids, etc.
-    const subscriberName =
-      cleanName || cleanEmail.split('@')[0] || 'Subscriber';
-
-    const flodeskData: any = {
+    const cleanCountry = requestCountry(request, sanitize(body.country, 60));
+    const apiKey = process.env.FLODESK_API_KEY?.trim() || '';
+    const targetSegment = apiKey
+      ? await resolveSegmentId(apiKey, cleanFormType, cleanLanguage, id)
+      : undefined;
+    const subscriberName = cleanName || cleanEmail.split('@')[0] || 'Subscriber';
+    const nameParts = subscriberName.split(/\s+/);
+    const lead = {
+      name: cleanName,
       email: cleanEmail,
-      first_name: subscriberName.split(/\s+/)[0] || subscriberName,
-      last_name: subscriberName.split(/\s+/).slice(1).join(' ') || '',
-    };
-
-    // Add segment_ids if available (subscriber is enrolled in Audiences segments)
-    if (segmentId) {
-      flodeskData.segment_ids = [segmentId];
-    }
-
-    // Add custom fields for additional data
-    flodeskData.custom_fields = {
       company: cleanCompany,
       industry: cleanIndustry,
       country: cleanCountry,
       language: cleanLanguage,
-      source: 'whagons-website',
-      form_type: cleanFormType,
-      ...(cleanPhone ? { phone: cleanPhone } : {}),
-      ...(cleanTeamSize ? { team_size: cleanTeamSize } : {}),
+      phone: cleanPhone,
+      teamSize: cleanTeamSize,
     };
 
-    // Flodesk uses Basic Auth: username = API key, password = blank
-    const authHeader = `Basic ${Buffer.from(`${apiKey}:`).toString('base64')}`;
-
-    // Call Flodesk API
-    const response = await fetch(flodeskUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': authHeader,
-        ...COMMON_HEADERS,
+    const baseFlodeskPayload = {
+      email: cleanEmail,
+      first_name: nameParts[0] || subscriberName,
+      last_name: nameParts.slice(1).join(' '),
+      custom_fields: {
+        company: cleanCompany,
+        industry: cleanIndustry,
+        country: cleanCountry,
+        language: cleanLanguage,
+        source: 'whagons-website',
+        form_type: cleanFormType,
+        ...(cleanPhone ? { phone: cleanPhone } : {}),
+        ...(cleanTeamSize ? { team_size: cleanTeamSize } : {}),
       },
-      body: JSON.stringify(flodeskData),
+    };
+
+    let flodeskPayload = targetSegment
+      ? { ...baseFlodeskPayload, segment_ids: [targetSegment] }
+      : baseFlodeskPayload;
+    let startedAt = Date.now();
+    let flodeskResult = await upsertFlodeskSubscriber({
+      apiKey,
+      payload: flodeskPayload,
     });
+    logDelivery(id, 'flodesk', flodeskResult, Date.now() - startedAt);
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Flodesk API error:', response.status, errorText);
-
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'Submission could not be completed. Please try again in a few minutes.',
-          ...(process.env.NODE_ENV === 'development' && { debug: errorText }),
-        },
-        { status: 502 }
-      );
+    // A stale segment ID must not discard an otherwise valid lead.
+    if (!flodeskResult.ok && flodeskResult.status === 400 && targetSegment) {
+      flodeskPayload = baseFlodeskPayload;
+      startedAt = Date.now();
+      flodeskResult = await upsertFlodeskSubscriber({
+        apiKey,
+        payload: flodeskPayload,
+        maxAttempts: 1,
+      });
+      logDelivery(id, 'flodesk', flodeskResult, Date.now() - startedAt);
     }
 
-    const result = await response.json().catch(() => ({}));
+    const emailResult =
+      cleanFormType === 'demo'
+        ? await (async () => {
+            const emailStartedAt = Date.now();
+            const result = await sendDemoNotification({
+              resendApiKey: process.env.RESEND_API_KEY,
+              from: process.env.DEMO_NOTIFICATION_FROM,
+              lead,
+              flodeskOk: flodeskResult.ok,
+              requestId: id,
+            });
+            logDelivery(id, 'email', result, Date.now() - emailStartedAt);
+            return result;
+          })()
+        : { ok: false, configured: false, code: 'EMAIL_NOT_APPLICABLE' };
 
-    return NextResponse.json({
-      success: true,
-      message: 'Thank you! We\'ll be in touch soon.',
-      data: result,
+    const deliveryOutcome = resolveLeadDeliveryOutcome({
+      formType: cleanFormType,
+      flodeskResult,
+      emailResult,
     });
-  } catch (error) {
-    console.error('Error submitting to Flodesk:', error);
 
-    return NextResponse.json(
+    if (deliveryOutcome.success) {
+      return noStoreJson({
+        success: true,
+        message: "Thank you! We'll be in touch soon.",
+        requestId: id,
+      });
+    }
+
+    return noStoreJson(
       {
         success: false,
         message: 'Submission could not be completed. Please try again in a few minutes.',
-        ...(process.env.NODE_ENV === 'development' && { error: String(error) }),
+        requestId: id,
       },
-      { status: 500 }
+      deliveryOutcome.status
+    );
+  } catch (error) {
+    console.error(
+      JSON.stringify({
+        event: 'lead_delivery_unhandled',
+        requestId: id,
+        error: error instanceof Error ? error.name : 'UnknownError',
+      })
+    );
+    return noStoreJson(
+      {
+        success: false,
+        message: 'Submission could not be completed. Please try again in a few minutes.',
+        requestId: id,
+      },
+      500
     );
   }
 }

@@ -1,105 +1,70 @@
 # Whagons Website
 
-A Next.js website for Whagons 5, featuring a modern design with fog effects and multi-language support.
+Hotel-first, bilingual marketing site for Whagons 5, built with Next.js 14 and the App Router.
 
-## Features
+## Local development
 
-- Next.js 14 with App Router
-- TypeScript
-- Multi-language support (English/Spanish)
-- Flodesk API integration for lead capture
-- Responsive design
-- Dark mode theme
-
-## Setup
-
-1. Install dependencies:
 ```bash
 corepack enable
 pnpm install --frozen-lockfile
-```
-
-2. Create a `.env.local` file in the root directory:
-```env
-FLODESK_API_KEY=your_flodesk_api_key_here
-FLODESK_API_URL=https://api.flodesk.com/v1/subscribers  # Optional, defaults to this URL
-```
-
-**Note:** The segment IDs are automatically fetched from Flodesk API by name. Make sure you have segments named:
-- "Whagons5-waitlist-ENGLISH" (for English subscribers)
-- "Whagons5-waitlist-ESPANOL" (for Spanish subscribers)
-
-3. Run the development server:
-```bash
 pnpm dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open `http://localhost:3000`. English and Spanish routes live under `/en` and `/es`.
 
-## Flodesk API Integration
+## Lead delivery
 
-The signup form submits data to `/api/flowdesk` which then forwards it to the Flodesk API. The API route handles:
+The homepage brief and demo forms post to `/api/flodesk`. The server:
 
-- Subscriber creation with name, email, company, industry, country, and language
-- Automatic assignment to language-specific segments (English or Spanish)
-- Error handling and graceful degradation
-- Environment variable configuration for API key and segment IDs
+1. validates and sanitizes the submission;
+2. sends it to Flodesk through the fixed official API endpoint;
+3. assigns demo leads to `Whagons-Demo-EN` or `Whagons-Demo-ES` according to the page language, and brief leads to `Whagons5-Brief`;
+4. for demo requests, sends one internal email to both `hello@whagons.com` and `business@whagons.com` when Resend is configured.
 
-### API Endpoint
+Flodesk and email are independent delivery channels. A temporary email failure does not discard a lead already captured in Flodesk, and an internal email can preserve a demo request if Flodesk is temporarily unavailable. The visitor only sees an error when every applicable delivery channel fails.
 
-The Flodesk API endpoint can be configured via the `FLODESK_API_URL` environment variable. Default is `https://api.flodesk.com/v1/subscribers`.
+The route uses bounded timeouts, one retry for transient failures, a honeypot, basic per-IP throttling, safe request IDs, and logs that omit lead data and credentials. Upstream subscriber and email-provider responses are never returned to the browser.
 
-The API uses Basic Auth authentication (username = API key, password blank) using the `FLODESK_API_KEY` environment variable.
+See [DEMO_REQUEST_SETUP.md](./DEMO_REQUEST_SETUP.md) for production setup and verification.
 
-## Project Structure
+## Environment variables
 
+```env
+# Required for Flodesk lead capture
+FLODESK_API_KEY=
+
+# Recommended in production to avoid a segment lookup during a cold start
+FLODESK_SEGMENT_DEMO_EN_ID=
+FLODESK_SEGMENT_DEMO_ES_ID=
+FLODESK_SEGMENT_BRIEF_ID=
+
+# Required for internal demo-request email notifications
+RESEND_API_KEY=
+DEMO_NOTIFICATION_FROM=Whagons Website <website@notify.whagons.com>
+
+# Required before publishing the U.S. hospitality scan form
+FLODESK_SEGMENT_HANDOFF_SCAN_ID=
+WHAGONS_US_SCAN_OWNER=
 ```
-app/
-  ├── api/
-  │   └── flowdesk/
-  │       └── route.ts          # Flodesk API integration
-  ├── components/
-  │   ├── FogEffect.tsx          # Animated fog background
-  │   └── SignupForm.tsx         # Lead capture form
-  ├── lib/
-  │   └── i18n.ts                # Translations
-  ├── what-is-whagons/
-  │   └── page.tsx               # What is Whagons page
-  ├── layout.tsx                 # Root layout
-  ├── page.tsx                   # Home page
-  └── globals.css                # Global styles
-```
 
-## Building for Production
+`FLODESK_API_URL` is intentionally unsupported. All Flodesk traffic is pinned to `https://api.flodesk.com` so a stale or recursive deployment value cannot break the form.
+
+If the shared segment IDs are omitted, the server resolves these exact names and caches the result:
+
+- `Whagons-Demo-EN`
+- `Whagons-Demo-ES`
+- `Whagons5-Brief`
+
+The language-specific demo segment IDs are optional but recommended in production. The server uses the exact names above when those IDs are omitted.
+
+## Quality checks
 
 ```bash
+pnpm test
+pnpm lint
 pnpm build
-pnpm start
 ```
 
-## Environment Variables
+## Production
 
-- `FLODESK_API_KEY` (required): Your Flodesk API key
-- `FLODESK_API_URL` (optional): Flodesk API endpoint URL (defaults to `https://api.flodesk.com/v1/subscribers`)
-- `FLODESK_SEGMENT_HANDOFF_SCAN_ID` (required before publishing the U.S. hospitality scan form): monitored Flodesk segment for hotel handoff scan requests
-- `WHAGONS_US_SCAN_OWNER` (required before publishing the U.S. hospitality scan form): named internal owner recorded on every U.S. scan request
-
-The English and Spanish homepages share the same hotel-first content and page
-structure. Canonical English routes include `/en`, `/en/platform`,
-`/en/hotel-operations`, `/en/industries`, `/en/demo`, and `/en/resources`.
-Spanish equivalents include `/es`, `/es/plataforma`, `/es/industrias`,
-`/es/demo`, and `/es/blog`. The homepage prioritizes hospitality while the
-industry pages preserve direct paths to retail, industrial maintenance, pharma
-and food, health and education, and construction. Country and language signals
-only choose the initial language; direct language-prefixed visits are preserved.
-
-## Notes
-
-- The Flodesk API integration uses Basic Auth authentication (username = API key, password blank)
-- Custom fields (company, industry, country, language, source) are sent in the `custom_fields` object
-- Subscribers are automatically added to the appropriate segment based on their selected language
-- **Segment IDs are automatically fetched from Flodesk API** by searching for segments named:
-  - "Whagons5-waitlist-ENGLISH" (for English subscribers)
-  - "Whagons5-waitlist-ESPANOL" (for Spanish subscribers)
-- Segment IDs are cached for 1 hour to improve performance and reduce API calls
-- Make sure these segments exist in your Flodesk account with the exact names above
+The Docker image uses Node 22 and the Next.js standalone server. Secrets are runtime environment variables and must not be copied into the image or committed. Recreate the container after changing an environment variable.

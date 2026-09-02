@@ -3,11 +3,10 @@ import { redirect } from 'next/navigation';
 import IndustriasPageClient from '../industrias/IndustriasPageClient';
 
 export const metadata: Metadata = {
-  title: 'Operations Software for Hotels & Other Industries',
+  title: 'Operations Software for Retail, Maintenance & More',
   description:
-    'Explore hotel-first Whagons workflows for hospitality, retail, industrial maintenance, regulated operations, health, education, and construction.',
+    'Coordinate ownership, timing, escalation, and evidence across retail, industrial maintenance, regulated sectors, health, education, and construction.',
   keywords: [
-    'hotel operations software',
     'retail operations software',
     'industrial maintenance software',
     'pharma compliance workflows',
@@ -19,17 +18,17 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Operations Software by Industry',
-    description: 'Hotel-first operations software that also supports complex work across retail, maintenance, regulated industries, health, education, and construction.',
+    description: 'One clear operating standard for retail, maintenance, regulated industries, health, education, and construction.',
     url: 'https://whagons.com/en/industries',
     locale: 'en_US',
     type: 'website',
-    images: ['/images/industries/hoteleria.jpg'],
+    images: ['/images/industries/retail.jpg'],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Operations Software by Industry | Whagons',
-    description: 'Hotel-first operations software for hospitality and other complex operating teams.',
-    images: ['/images/industries/hoteleria.jpg'],
+    description: 'Complex operations coordinated through ownership, timing, escalation, and evidence.',
+    images: ['/images/industries/retail.jpg'],
   },
 };
 

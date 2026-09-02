@@ -13,6 +13,7 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
   const [demoCompany, setDemoCompany] = useState('');
   const [demoEmail, setDemoEmail] = useState('');
   const [demoPhone, setDemoPhone] = useState('');
+  const [demoWebsite, setDemoWebsite] = useState('');
   const [demoIndustry, setDemoIndustry] = useState('');
   const [demoTeamSize, setDemoTeamSize] = useState('');
   const [demoSubmitting, setDemoSubmitting] = useState(false);
@@ -41,6 +42,7 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
           formType: 'demo',
           phone: demoPhone.trim(),
           teamSize: demoTeamSize,
+          website: demoWebsite,
         }),
       });
       const data = await res.json().catch(() => ({}));
@@ -89,6 +91,16 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
         <div className="r d2">
           {!demoSuccess ? (
             <form onSubmit={submitDemo}>
+              <label className="hp-field" aria-hidden="true">
+                Website
+                <input
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={demoWebsite}
+                  onChange={(e) => setDemoWebsite(e.target.value)}
+                />
+              </label>
               <div className="demo-form-grid">
                 <div className="f-line">
                   <label className="f-lbl" htmlFor="d-name">{t.demoNameLabel}</label>

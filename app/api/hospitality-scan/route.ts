@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { upsertFlodeskSubscriber } from '../../lib/demo-delivery.mjs';
+
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_FIELD_LENGTH = 240;
-const APP_USER_AGENT = 'Whagons Website (whagons.com)';
 
 function clean(value: unknown, maxLength = MAX_FIELD_LENGTH): string {
   return typeof value === 'string' ? value.trim().slice(0, maxLength) : '';
@@ -116,20 +117,17 @@ export async function POST(request: NextRequest) {
       },
     };
 
-    const flodeskUrl = process.env.FLODESK_API_URL || 'https://api.flodesk.com/v1/subscribers';
-    const authorization = `Basic ${Buffer.from(`${apiKey}:`).toString('base64')}`;
-    const response = await fetch(flodeskUrl, {
-      method: 'POST',
-      headers: {
-        Authorization: authorization,
-        'Content-Type': 'application/json',
-        'User-Agent': APP_USER_AGENT,
-      },
-      body: JSON.stringify(flodeskPayload),
+    const result = await upsertFlodeskSubscriber({
+      apiKey,
+      payload: flodeskPayload,
     });
 
-    if (!response.ok) {
-      console.error('U.S. hospitality scan submission failed', response.status);
+    if (!result.ok) {
+      console.error('U.S. hospitality scan submission failed', {
+        code: result.code,
+        status: result.status,
+        attempts: result.attempts,
+      });
       return NextResponse.json(
         {
           success: false,

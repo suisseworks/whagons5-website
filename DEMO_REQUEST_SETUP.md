@@ -1,103 +1,49 @@
-# Demo Request Landing Page Setup
+# Demo request setup
 
-## Overview
-The demo request landing page is available at: **`/demo`**
+The public form is available at `/en/demo` and `/es/demo`. It captures name, hotel/company, email, optional phone, industry, team size, language, and country when the edge provides a country header.
 
-This page allows visitors to request a Whagons 5 demo by filling out a form with:
-- Name
-- Email
-- Company Name
-- Industry (dropdown)
+## 1. Flodesk
 
-The form automatically captures the visitor's country and integrates with Flodesk API to:
-1. Create/update the subscriber in Flodesk
-2. Add them to the "WHAGONS-5-DEMO-REQUEST" segment
-
-## Environment Variables Required
-
-Add these to your `.env` file (or `.env.local` for local development):
+Configure the production runtime with:
 
 ```env
-VITE_FLODESK_API_KEY=your_flodesk_api_key_here
-VITE_FLODESK_SEGMENT_ID=your_segment_id_here  # Optional - will auto-detect if not provided
+FLODESK_API_KEY=your_server_side_key
+FLODESK_SEGMENT_DEMO_EN_ID=the_id_for_Whagons-Demo-EN
+FLODESK_SEGMENT_DEMO_ES_ID=the_id_for_Whagons-Demo-ES
+FLODESK_SEGMENT_BRIEF_ID=the_id_for_Whagons5-Brief
 ```
 
-## Getting Your Flodesk API Key
+The IDs are recommended for the shortest cold-start path. If omitted, the server searches for the exact segment names `Whagons-Demo-EN`, `Whagons-Demo-ES`, and `Whagons5-Brief` with a short timeout, then caches the result. English demo requests go only to the English segment; Spanish demo requests go only to the Spanish segment.
 
-1. Log in to your Flodesk account
-2. Go to Settings → Integrations → API
-3. Generate or copy your API key
-4. Add it to your `.env` file as `VITE_FLODESK_API_KEY`
+Do not configure `FLODESK_API_URL`; the server always uses Flodesk's official HTTPS API. Keep all credentials in the deployment platform's secret store and recreate the running container after a change.
 
-## Getting Your Segment ID
+## 2. Internal email notifications
 
-### Option 1: Auto-Detection (Recommended)
-The code will automatically search for a segment named "WHAGONS-5-DEMO-REQUEST" and use its ID. Just make sure the segment exists in Flodesk with that exact name.
+Create a Resend API key with sending-only access restricted to a verified subdomain such as `notify.whagons.com`. Verifying that subdomain does not change the Microsoft 365 MX records used by `whagons.com`.
 
-### Option 2: Manual Configuration
-1. In Flodesk, go to Segments
-2. Find or create the segment "WHAGONS-5-DEMO-REQUEST"
-3. Copy the segment ID from the URL or segment details
-4. Add it to your `.env` file as `VITE_FLODESK_SEGMENT_ID`
+Configure:
 
-## Creating the Segment in Flodesk
-
-1. Log in to Flodesk
-2. Navigate to **Segments**
-3. Click **Create Segment**
-4. Name it: **WHAGONS-5-DEMO-REQUEST**
-5. Save the segment
-6. Note the segment ID (found in the URL or segment settings)
-
-## Link to Share
-
-Once deployed, share this link in your emails:
-```
-https://yourdomain.com/demo
+```env
+RESEND_API_KEY=your_server_side_sending_key
+DEMO_NOTIFICATION_FROM=Whagons Website <website@notify.whagons.com>
 ```
 
-Or for local testing:
-```
-http://localhost:5175/demo
-```
+Every demo request produces one message addressed to both:
 
-## Custom Fields in Flodesk
+- `hello@whagons.com`
+- `business@whagons.com`
 
-Make sure your Flodesk account has these custom fields set up:
-- `company` (Text)
-- `industry` (Text)
-- `country` (Text)
+The prospect's email is set as `Reply-To`. Recipients are fixed in server code and cannot be changed by form input.
 
-These will be automatically populated when someone submits the demo request form.
+## 3. Verification
 
-## Testing
+After deployment:
 
-1. Start your development server
-2. Navigate to `/demo`
-3. Fill out the form
-4. Check your Flodesk account to verify:
-   - The subscriber was created/updated
-   - They were added to the "WHAGONS-5-DEMO-REQUEST" segment
-   - Custom fields are populated correctly
+1. submit a uniquely tagged address you control through `/en/demo`;
+2. confirm the page displays the success message;
+3. confirm the contact is in `Whagons-Demo-EN` or `Whagons-Demo-ES`, matching the page language;
+4. confirm the same notification arrived at both internal addresses;
+5. reply to the notification and confirm it targets the prospect address;
+6. check server logs using the returned request ID if either delivery is missing.
 
-## Troubleshooting
-
-### API Key Issues
-- Make sure `VITE_FLODESK_API_KEY` is set correctly
-- Verify the API key has the necessary permissions
-- Check browser console for error messages
-
-### Segment Issues
-- Ensure the segment "WHAGONS-5-DEMO-REQUEST" exists in Flodesk
-- Verify the segment ID if using `VITE_FLODESK_SEGMENT_ID`
-- Check that the segment name matches exactly (case-sensitive)
-
-### CORS Issues
-- Flodesk API should handle CORS correctly
-- If issues persist, check Flodesk API documentation for CORS settings
-
-## API Endpoints Used
-
-1. **Create/Update Subscriber**: `POST https://api.flodesk.com/v1/subscribers`
-2. **Get Segments**: `GET https://api.flodesk.com/v1/segments`
-3. **Add to Segment**: `POST https://api.flodesk.com/v1/subscribers/{email}/segments`
+Automated tests can be run with `pnpm test`. They mock both providers and never create a real subscriber or send a real email.

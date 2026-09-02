@@ -78,6 +78,7 @@ const INDUSTRY_DETAILS: Record<string, { es: { features: string[]; useCases: str
 
 export default function IndustriasPageClient({ lang }: { lang: Language }) {
   const t = translations[lang];
+  const otherMarkets = t.industries.filter((industry: any) => industry.slug !== 'hoteleria');
 
   return (
     <>
@@ -92,7 +93,7 @@ export default function IndustriasPageClient({ lang }: { lang: Language }) {
         </section>
 
         <section className="industries-detail">
-        {t.industries.map((ind: any, idx: number) => {
+        {otherMarkets.map((ind: any, idx: number) => {
           const details = INDUSTRY_DETAILS[ind.slug]?.[lang];
           const imageSrc = INDUSTRY_IMAGES[ind.slug];
           const isReversed = idx % 2 === 1;
@@ -104,7 +105,7 @@ export default function IndustriasPageClient({ lang }: { lang: Language }) {
             >
               <div className="ind-detail-text">
                 <div className="ind-detail-header">
-                  <span className="ind-detail-num">{ind.num}</span>
+                  <span className="ind-detail-num">{String(idx + 1).padStart(2, '0')}</span>
                   <h2 className="ind-detail-name">{ind.name}</h2>
                 </div>
                 <p className="ind-detail-desc">{ind.desc}</p>

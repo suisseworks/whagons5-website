@@ -10,6 +10,7 @@ interface BriefSectionProps {
 export default function BriefSection({ t, language }: BriefSectionProps) {
   const [briefEmail, setBriefEmail] = useState('');
   const [briefIndustry, setBriefIndustry] = useState('');
+  const [briefWebsite, setBriefWebsite] = useState('');
   const [briefSubmitting, setBriefSubmitting] = useState(false);
   const [briefSuccess, setBriefSuccess] = useState(false);
   const [briefError, setBriefError] = useState(false);
@@ -31,6 +32,7 @@ export default function BriefSection({ t, language }: BriefSectionProps) {
           industry: briefIndustry,
           language,
           formType: 'brief',
+          website: briefWebsite,
         }),
       });
       const data = await res.json().catch(() => ({}));
@@ -64,6 +66,16 @@ export default function BriefSection({ t, language }: BriefSectionProps) {
         <div className="r d1">
           {!briefSuccess ? (
             <form onSubmit={submitBrief}>
+              <label className="hp-field" aria-hidden="true">
+                Website
+                <input
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={briefWebsite}
+                  onChange={(e) => setBriefWebsite(e.target.value)}
+                />
+              </label>
               <div className="f-line">
                 <label className="f-lbl" htmlFor="b-email">{t.briefEmailLabel}</label>
                 <input
