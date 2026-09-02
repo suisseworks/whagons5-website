@@ -14,7 +14,7 @@ export default function ContactSection({ t, language }: ContactSectionProps) {
         </h2>
         <div className="contact-links">
           <a href={`mailto:${t.contactEmail}`} className="c-link">&#9993; {t.contactEmail}</a>
-          <a href="https://wa.me/50684102321" className="c-link">{'\u2197'} {t.contactWhatsapp}</a>
+          <a href="https://wa.me/50670717099" className="c-link">{'\u2197'} {t.contactWhatsapp}</a>
         </div>
       </div>
     </section>

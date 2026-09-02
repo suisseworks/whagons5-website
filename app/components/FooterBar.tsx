@@ -55,7 +55,12 @@ export default function FooterBar({ lang }: { lang: Language }) {
         <a href={hrefs.demo}>{t.demo}</a>
         <a href="mailto:hello@whagons.com">{t.email} ↗</a>
         <a href="https://www.linkedin.com/company/whagons/">LinkedIn ↗</a>
-        <a href="https://wa.me/50684102321">WhatsApp ↗</a>
+        <a
+          href="https://wa.me/50670717099"
+          aria-label={lang === 'es' ? 'WhatsApp de ventas: +506 7071-7099' : 'Sales WhatsApp: +506 7071-7099'}
+        >
+          WhatsApp ↗
+        </a>
         <a href={`/${lang}/privacy`}>{t.privacy}</a>
         <a href={`/${lang}/terms`}>{t.terms}</a>
         <a href={`/${lang}/security`}>{t.security}</a>

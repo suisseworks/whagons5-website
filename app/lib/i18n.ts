@@ -175,7 +175,7 @@ export const translations = {
     contactTitle1: 'TIENES',
     contactTitle2: 'PREGUNTAS?',
     contactEmail: 'hello@whagons.com',
-    contactWhatsapp: 'WhatsApp',
+    contactWhatsapp: 'WhatsApp · +506 7071-7099',
 
     // Footer
     footerTag: 'Software de gestión operativa para organizaciones que exigen más.',
@@ -373,7 +373,7 @@ export const translations = {
     contactTitle1: 'HAVE',
     contactTitle2: 'QUESTIONS?',
     contactEmail: 'hello@whagons.com',
-    contactWhatsapp: 'WhatsApp',
+    contactWhatsapp: 'WhatsApp · +506 7071-7099',
 
     // Footer
     footerTag: 'Hotel operations. Who owns the job, what is late, what closed.',
