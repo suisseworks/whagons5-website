@@ -40,18 +40,19 @@ function resolvedSegmentIdFromEnv(formType: FormType, lang: Language): string | 
   if (formType === 'brief') {
     const sharedBrief = process.env.FLODESK_SEGMENT_BRIEF_ID?.trim();
     if (sharedBrief) return sharedBrief;
+    const localizedBrief = lang === 'es'
+      ? process.env.FLODESK_SEGMENT_BRIEF_ES_ID
+      : process.env.FLODESK_SEGMENT_BRIEF_EN_ID;
+    return localizedBrief?.trim() || undefined;
   }
 
-  const localized =
-    lang === 'es'
-      ? formType === 'brief'
-        ? process.env.FLODESK_SEGMENT_BRIEF_ES_ID
-        : process.env.FLODESK_SEGMENT_DEMO_ES_ID
-      : formType === 'brief'
-        ? process.env.FLODESK_SEGMENT_BRIEF_EN_ID
-        : process.env.FLODESK_SEGMENT_DEMO_EN_ID;
+  const localizedDemo = lang === 'es'
+    ? process.env.FLODESK_SEGMENT_DEMO_ES_ID
+    : lang === 'en'
+      ? process.env.FLODESK_SEGMENT_DEMO_EN_ID
+      : process.env.FLODESK_SEGMENT_DEMO_OTHER_ID;
 
-  return localized?.trim() || undefined;
+  return localizedDemo?.trim() || undefined;
 }
 
 function resolvedSegmentName(formType: FormType, lang: Language): string {

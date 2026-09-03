@@ -27,13 +27,13 @@ const lead = {
   teamSize: '1 to 10 people',
 };
 
-test('routes Spanish separately and all other supported languages to the English demo segment', () => {
+test('routes English, Spanish, and the shared additional-language group to distinct demo segments', () => {
   assert.deepEqual(DEMO_SEGMENT_NAMES, {
     en: 'Whagons-Demo-EN',
     es: 'Whagons-Demo-ES',
-    pt: 'Whagons-Demo-EN',
-    de: 'Whagons-Demo-EN',
-    it: 'Whagons-Demo-EN',
+    pt: 'Whagons-Demo-OTHER',
+    de: 'Whagons-Demo-OTHER',
+    it: 'Whagons-Demo-OTHER',
   });
 });
 

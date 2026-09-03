@@ -11,9 +11,9 @@ export const RESEND_EMAILS_URL = 'https://api.resend.com/emails';
 export const DEMO_SEGMENT_NAMES = Object.freeze({
   en: 'Whagons-Demo-EN',
   es: 'Whagons-Demo-ES',
-  pt: 'Whagons-Demo-EN',
-  de: 'Whagons-Demo-EN',
-  it: 'Whagons-Demo-EN',
+  pt: 'Whagons-Demo-OTHER',
+  de: 'Whagons-Demo-OTHER',
+  it: 'Whagons-Demo-OTHER',
 });
 export const DEMO_NOTIFICATION_RECIPIENTS = Object.freeze([
   'hello@whagons.com',
