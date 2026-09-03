@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 
 import {
-  DEMO_SEGMENT_NAMES,
   buildFlodeskCustomFields,
+  demoSegmentName,
   findFlodeskSegmentId,
   resolveApproximateLocation,
   resolveLeadDeliveryOutcome,
@@ -15,7 +15,7 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 type FormType = 'brief' | 'demo';
-type Language = 'en' | 'es' | 'pt' | 'de' | 'it';
+type Language = string;
 
 const BRIEF_SEGMENT_NAME = 'Whagons5-Brief';
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -64,7 +64,7 @@ function resolvedSegmentName(formType: FormType, lang: Language): string {
     return localized || BRIEF_SEGMENT_NAME;
   }
 
-  return DEMO_SEGMENT_NAMES[lang];
+  return demoSegmentName(lang);
 }
 
 function requestId(request: NextRequest): string {
@@ -197,10 +197,10 @@ export async function POST(request: NextRequest) {
     const cleanName = sanitize(body.name);
     const cleanCompany = sanitize(body.company);
     const cleanIndustry = sanitize(body.industry);
-    const submittedLanguage = sanitize(body.language, 2).toLowerCase();
-    const cleanLanguage: Language = ['en', 'es', 'pt', 'de', 'it'].includes(submittedLanguage)
-      ? submittedLanguage as Language
-      : 'en';
+    const submittedLanguage = sanitize(body.language, 24).toLowerCase();
+    const cleanLanguage: Language = /^[a-z]{2,3}(?:-[a-z0-9]{2,8})*$/.test(submittedLanguage)
+      ? submittedLanguage
+      : 'other';
     const cleanFormType: FormType = body.formType === 'brief' ? 'brief' : 'demo';
     const cleanPhone = sanitize(body.phone, 60);
     const cleanTeamSize = sanitize(body.teamSize);

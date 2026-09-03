@@ -8,6 +8,7 @@ import {
   FLODESK_SUBSCRIBERS_URL,
   RESEND_EMAILS_URL,
   buildFlodeskCustomFields,
+  demoSegmentName,
   findFlodeskSegmentId,
   resolveApproximateLocation,
   resolveLeadDeliveryOutcome,
@@ -31,10 +32,15 @@ test('routes English, Spanish, and the shared additional-language group to disti
   assert.deepEqual(DEMO_SEGMENT_NAMES, {
     en: 'Whagons-Demo-EN',
     es: 'Whagons-Demo-ES',
-    pt: 'Whagons-Demo-OTHER',
-    de: 'Whagons-Demo-OTHER',
-    it: 'Whagons-Demo-OTHER',
+    other: 'Whagons-Demo-OTHER',
   });
+  assert.equal(demoSegmentName('en'), 'Whagons-Demo-EN');
+  assert.equal(demoSegmentName('es'), 'Whagons-Demo-ES');
+  assert.equal(demoSegmentName('pt'), 'Whagons-Demo-OTHER');
+  assert.equal(demoSegmentName('de'), 'Whagons-Demo-OTHER');
+  assert.equal(demoSegmentName('it'), 'Whagons-Demo-OTHER');
+  assert.equal(demoSegmentName('fr'), 'Whagons-Demo-OTHER');
+  assert.equal(demoSegmentName('ja'), 'Whagons-Demo-OTHER');
 });
 
 test('maps website lead data to the exact Flodesk custom field keys', () => {
