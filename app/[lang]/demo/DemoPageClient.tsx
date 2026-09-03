@@ -1,6 +1,7 @@
 'use client';
 
-import { translations, Language } from '../../lib/i18n';
+import { translations } from '../../lib/i18n';
+import { Language } from '../../lib/locales';
 import ScrollReveal from '../../components/ScrollReveal';
 import DemoSection from '../../components/DemoSection';
 import ContactSection from '../../components/ContactSection';

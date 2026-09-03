@@ -1,7 +1,7 @@
-import { Language } from '../lib/i18n';
+import { Language, isLanguage } from '../lib/locales';
 import HomePage from '../components/home/HomePage';
 
 export default function Home({ params }: { params: { lang: string } }) {
-  const lang: Language = params.lang === 'en' ? 'en' : 'es';
+  const lang: Language = isLanguage(params.lang) ? params.lang : 'es';
   return <HomePage lang={lang} />;
 }

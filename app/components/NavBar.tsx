@@ -2,7 +2,14 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { Language } from '../lib/i18n';
+import {
+  Language,
+  LANGUAGE_LABELS,
+  SUPPORTED_LANGS,
+  legalRouteFor,
+  routeFor,
+  routeKeyFromPath,
+} from '../lib/locales';
 
 interface NavBarProps {
   lang: Language;
@@ -11,30 +18,29 @@ interface NavBarProps {
 
 const navContent = {
   en: {
-    market: 'Hotel operations',
-    platform: 'Platform',
-    hotels: 'Hotels',
-    markets: 'Other markets',
-    resources: 'Resources',
-    login: 'Log in',
-    demo: 'Request demo',
-    menu: 'Toggle menu',
-    closeMenu: 'Close menu',
-    primaryNav: 'Primary navigation',
-    language: 'Cambiar a español',
+    market: 'Hotel operations', platform: 'Platform', hotels: 'Hotels', markets: 'Other markets',
+    resources: 'Resources', login: 'Log in', demo: 'Request demo', menu: 'Toggle menu',
+    closeMenu: 'Close menu', primaryNav: 'Primary navigation', language: 'Choose language',
   },
   es: {
-    market: 'Operaciones hoteleras',
-    platform: 'Plataforma',
-    hotels: 'Hoteles',
-    markets: 'Otros mercados',
-    resources: 'Recursos',
-    login: 'Iniciar sesión',
-    demo: 'Solicitar demo',
-    menu: 'Abrir o cerrar menú',
-    closeMenu: 'Cerrar menú',
-    primaryNav: 'Navegación principal',
-    language: 'Switch to English',
+    market: 'Operaciones hoteleras', platform: 'Plataforma', hotels: 'Hoteles', markets: 'Otros mercados',
+    resources: 'Recursos', login: 'Iniciar sesión', demo: 'Solicitar demo', menu: 'Abrir o cerrar menú',
+    closeMenu: 'Cerrar menú', primaryNav: 'Navegación principal', language: 'Elegir idioma',
+  },
+  pt: {
+    market: 'Operações hoteleiras', platform: 'Plataforma', hotels: 'Hotéis', markets: 'Outros mercados',
+    resources: 'Recursos (EN)', login: 'Entrar', demo: 'Solicitar demo', menu: 'Abrir ou fechar menu',
+    closeMenu: 'Fechar menu', primaryNav: 'Navegação principal', language: 'Escolher idioma',
+  },
+  de: {
+    market: 'Hotelbetrieb', platform: 'Plattform', hotels: 'Hotels', markets: 'Weitere Märkte',
+    resources: 'Ressourcen (EN)', login: 'Anmelden', demo: 'Demo anfordern', menu: 'Menü öffnen oder schließen',
+    closeMenu: 'Menü schließen', primaryNav: 'Hauptnavigation', language: 'Sprache auswählen',
+  },
+  it: {
+    market: 'Operazioni alberghiere', platform: 'Piattaforma', hotels: 'Hotel', markets: 'Altri mercati',
+    resources: 'Risorse (EN)', login: 'Accedi', demo: 'Richiedi demo', menu: 'Apri o chiudi menu',
+    closeMenu: 'Chiudi menu', primaryNav: 'Navigazione principale', language: 'Scegli la lingua',
   },
 } as const;
 
@@ -45,40 +51,31 @@ export default function NavBar({ lang, blogSlugMap = {} }: NavBarProps) {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const menuPanelRef = useRef<HTMLDivElement>(null);
 
-  const hrefs = lang === 'en'
-    ? { home: '/en', platform: '/en/platform', hotels: '/en/hotel-operations', markets: '/en/industries', resources: '/en/resources', demo: '/en/demo' }
-    : { home: '/es', platform: '/es/plataforma', hotels: '/es/operaciones-hoteleras', markets: '/es/industrias', resources: '/es/blog', demo: '/es/demo' };
+  const hrefs = {
+    home: routeFor(lang, 'home'),
+    platform: routeFor(lang, 'platform'),
+    hotels: routeFor(lang, 'hotels'),
+    markets: routeFor(lang, 'markets'),
+    resources: routeFor(lang, 'resources'),
+    demo: routeFor(lang, 'demo'),
+  };
 
-  const languageRoutes: Record<string, string> = lang === 'en'
-    ? {
-        '/en': '/es',
-        '/en/platform': '/es/plataforma',
-        '/en/features': '/es/funcionalidades',
-        '/en/hotel-operations': '/es/operaciones-hoteleras',
-        '/en/industries': '/es/industrias',
-        '/en/resources': '/es/blog',
-        '/en/handoff-scan': '/es/demo',
-        '/en/demo': '/es/demo',
+  const languageDestination = (nextLang: Language) => {
+    const legalMatch = pathname.match(/^\/(?:en|es|pt|de|it)\/(privacy|terms|security)$/);
+    if (legalMatch) {
+      return legalRouteFor(nextLang, legalMatch[1] as 'privacy' | 'terms' | 'security');
+    }
+
+    const isResource = pathname.startsWith('/en/resources') || pathname.startsWith('/es/blog');
+    if (isResource) {
+      if ((nextLang === 'en' || nextLang === 'es') && blogSlugMap[pathname]) {
+        return blogSlugMap[pathname];
       }
-    : {
-        '/es': '/en',
-        '/es/plataforma': '/en/platform',
-        '/es/funcionalidades': '/en/features',
-        '/es/operaciones-hoteleras': '/en/hotel-operations',
-        '/es/industrias': '/en/industries',
-        '/es/blog': '/en/resources',
-        '/es/demo': '/en/demo',
-      };
-  const legalMatch = pathname.match(/^\/(?:en|es)\/(privacy|terms|security)$/);
-  const articleLibrary = pathname.startsWith('/en/resources/')
-    ? '/es/blog'
-    : pathname.startsWith('/es/blog/')
-      ? '/en/resources'
-      : undefined;
-  const languageHref = blogSlugMap[pathname]
-    || languageRoutes[pathname]
-    || articleLibrary
-    || (legalMatch ? `/${lang === 'en' ? 'es' : 'en'}/${legalMatch[1]}` : `/${lang === 'en' ? 'es' : 'en'}`);
+      return routeFor(nextLang, 'resources');
+    }
+
+    return routeFor(nextLang, routeKeyFromPath(pathname) || 'home');
+  };
 
   const closeMenu = useCallback(() => {
     if (menuOpen) {
@@ -87,8 +84,9 @@ export default function NavBar({ lang, blogSlugMap = {} }: NavBarProps) {
     setMenuOpen(false);
   }, [menuOpen]);
 
-  const rememberLanguage = () => {
-    document.cookie = `whagons-market=${lang === 'en' ? 'latam-es' : 'global-en'}; path=/; max-age=31536000; samesite=lax`;
+  const changeLanguage = (nextLang: Language) => {
+    document.cookie = `whagons-lang=${nextLang}; path=/; max-age=31536000; samesite=lax`;
+    window.location.assign(languageDestination(nextLang));
   };
 
   useEffect(() => {
@@ -100,9 +98,8 @@ export default function NavBar({ lang, blogSlugMap = {} }: NavBarProps) {
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-
     const focusable = Array.from(
-      menuPanelRef.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])') ?? []
+      menuPanelRef.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), select:not([disabled])') ?? []
     );
     const focusFrame = window.requestAnimationFrame(() => focusable[0]?.focus());
 
@@ -112,11 +109,9 @@ export default function NavBar({ lang, blogSlugMap = {} }: NavBarProps) {
         closeMenu();
         return;
       }
-
       if (event.key !== 'Tab' || focusable.length === 0) return;
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
-
       if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();
         last.focus();
@@ -127,7 +122,6 @@ export default function NavBar({ lang, blogSlugMap = {} }: NavBarProps) {
     };
 
     window.addEventListener('keydown', containFocus);
-
     return () => {
       window.cancelAnimationFrame(focusFrame);
       window.removeEventListener('keydown', containFocus);
@@ -140,12 +134,15 @@ export default function NavBar({ lang, blogSlugMap = {} }: NavBarProps) {
     const closeAtDesktopWidth = (event: MediaQueryListEvent) => {
       if (event.matches) setMenuOpen(false);
     };
-
     desktopQuery.addEventListener('change', closeAtDesktopWidth);
     return () => desktopQuery.removeEventListener('change', closeAtDesktopWidth);
   }, []);
 
-  const isActive = (href: string) => pathname === href || (href !== `/${lang}` && pathname.startsWith(href));
+  const isActive = (href: string) => {
+    const pathOnly = href.split('#')[0];
+    return pathOnly !== `/${lang}` &&
+      (pathname === pathOnly || pathname.startsWith(`${pathOnly}/`));
+  };
 
   return (
     <nav className="hospitality-nav" aria-label={t.primaryNav}>
@@ -181,17 +178,19 @@ export default function NavBar({ lang, blogSlugMap = {} }: NavBarProps) {
         <a href={hrefs.resources} onClick={closeMenu} aria-current={isActive(hrefs.resources) ? 'page' : undefined} className={`nl${isActive(hrefs.resources) ? ' nl-active' : ''}`}>{t.resources}</a>
         <a href="https://app.whagons.com/" onClick={closeMenu} className="nl">{t.login}</a>
         <a href={hrefs.demo} onClick={closeMenu} className="nd">{t.demo} <span aria-hidden="true">→</span></a>
-        <a
-          href={languageHref}
-          onClick={() => {
-            rememberLanguage();
-            closeMenu();
-          }}
-          className="lang-btn market-btn"
-          aria-label={t.language}
-        >
-          {lang === 'es' ? 'EN' : 'ES'}
-        </a>
+        <label className="language-picker">
+          <span className="sr-only">{t.language}</span>
+          <select
+            className="lang-btn market-btn"
+            value={lang}
+            onChange={(event) => changeLanguage(event.target.value as Language)}
+            aria-label={t.language}
+          >
+            {SUPPORTED_LANGS.map((language) => (
+              <option key={language} value={language}>{LANGUAGE_LABELS[language]}</option>
+            ))}
+          </select>
+        </label>
       </div>
     </nav>
   );

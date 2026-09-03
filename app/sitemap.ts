@@ -37,6 +37,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { path: '/security', priority: 0.4, freq: 'monthly' as const },
       ],
     },
+    {
+      lang: 'pt',
+      pages: [
+        { path: '', priority: 1, freq: 'weekly' as const },
+        { path: '/demo', priority: 0.9, freq: 'monthly' as const },
+      ],
+    },
+    {
+      lang: 'de',
+      pages: [
+        { path: '', priority: 1, freq: 'weekly' as const },
+        { path: '/demo', priority: 0.9, freq: 'monthly' as const },
+      ],
+    },
+    {
+      lang: 'it',
+      pages: [
+        { path: '', priority: 1, freq: 'weekly' as const },
+        { path: '/demo', priority: 0.9, freq: 'monthly' as const },
+      ],
+    },
   ];
 
   for (const market of markets) {

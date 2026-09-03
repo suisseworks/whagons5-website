@@ -1,13 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const SUPPORTED_LANGS = ['es', 'en'];
+const SUPPORTED_LANGS = ['es', 'en', 'pt', 'de', 'it'] as const;
+type Language = (typeof SUPPORTED_LANGS)[number];
 const DEFAULT_LANG = 'es';
 const BRIEF_PDF_PATH = '/9af3877fd2b65a3c/whagons-brief-2026.pdf';
 const MARKET_COOKIE = 'whagons-market';
+const LANGUAGE_COOKIE = 'whagons-lang';
 const LATAM_SPANISH_COUNTRIES = new Set([
   'AR', 'BO', 'CL', 'CO', 'CR', 'CU', 'DO', 'EC', 'SV', 'GT',
   'HN', 'MX', 'NI', 'PA', 'PY', 'PE', 'PR', 'UY', 'VE',
 ]);
+const PORTUGUESE_COUNTRIES = new Set(['BR', 'PT', 'AO', 'MZ', 'CV', 'GW', 'ST', 'TL']);
+const GERMAN_COUNTRIES = new Set(['DE', 'AT', 'LI']);
+const ITALIAN_COUNTRIES = new Set(['IT', 'SM', 'VA']);
 
 function countryCode(request: NextRequest): string {
   return (
@@ -17,21 +22,45 @@ function countryCode(request: NextRequest): string {
   ).trim().toUpperCase();
 }
 
-function rootDestination(request: NextRequest): string {
+function preferredLanguage(request: NextRequest): Language {
+  const savedLanguage = request.cookies.get(LANGUAGE_COOKIE)?.value || '';
+  if (SUPPORTED_LANGS.includes(savedLanguage as Language)) return savedLanguage as Language;
+
   const savedMarket = request.cookies.get(MARKET_COOKIE)?.value;
-  if (savedMarket === 'us-hospitality') return '/en';
-  if (savedMarket === 'latam-es') return '/es';
-  if (savedMarket === 'global-en') return '/en';
+  if (savedMarket === 'us-hospitality') return 'en';
+  if (savedMarket === 'latam-es') return 'es';
+  if (savedMarket === 'global-en') return 'en';
 
   const userAgent = request.headers.get('user-agent') || '';
-  if (/bot|crawler|spider|slurp/i.test(userAgent)) return '/en';
+  if (/bot|crawler|spider|slurp/i.test(userAgent)) return 'en';
+
+  const acceptedLanguages = (request.headers.get('accept-language') || '')
+    .split(',')
+    .map((entry, index) => {
+      const [tag, ...parameters] = entry.trim().toLowerCase().split(';');
+      const qualityParameter = parameters.find((parameter) => parameter.trim().startsWith('q='));
+      const quality = qualityParameter ? Number.parseFloat(qualityParameter.split('=')[1]) : 1;
+      return { language: tag.split('-')[0], quality: Number.isFinite(quality) ? quality : 0, index };
+    })
+    .filter((entry) => entry.language && entry.quality > 0)
+    .sort((a, b) => b.quality - a.quality || a.index - b.index);
+  const accepted = acceptedLanguages.find((entry) =>
+    SUPPORTED_LANGS.includes(entry.language as Language)
+  );
+  if (accepted) return accepted.language as Language;
 
   const country = countryCode(request);
-  if (country === 'US') return '/en';
-  if (LATAM_SPANISH_COUNTRIES.has(country)) return '/es';
+  if (PORTUGUESE_COUNTRIES.has(country)) return 'pt';
+  if (GERMAN_COUNTRIES.has(country)) return 'de';
+  if (ITALIAN_COUNTRIES.has(country)) return 'it';
+  if (country === 'US') return 'en';
+  if (LATAM_SPANISH_COUNTRIES.has(country)) return 'es';
 
-  const acceptLang = request.headers.get('accept-language') || '';
-  return acceptLang.toLowerCase().startsWith('en') ? '/en' : `/${DEFAULT_LANG}`;
+  return DEFAULT_LANG;
+}
+
+function rootDestination(request: NextRequest): string {
+  return `/${preferredLanguage(request)}`;
 }
 
 function redirectPreservingQuery(request: NextRequest, pathname: string, status = 307) {
@@ -45,6 +74,13 @@ function redirectPreservingQuery(request: NextRequest, pathname: string, status 
   return response;
 }
 
+function redirectToHomeSection(request: NextRequest, lang: string, hash: string) {
+  const destination = request.nextUrl.clone();
+  destination.pathname = `/${lang}`;
+  destination.hash = hash;
+  return NextResponse.redirect(destination, 308);
+}
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -52,7 +88,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (pathname === `/en${BRIEF_PDF_PATH}` || pathname === `/es${BRIEF_PDF_PATH}`) {
+  if (SUPPORTED_LANGS.some((lang) => pathname === `/${lang}${BRIEF_PDF_PATH}`)) {
     return NextResponse.rewrite(new URL(BRIEF_PDF_PATH, request.url));
   }
 
@@ -100,10 +136,43 @@ export function middleware(request: NextRequest) {
     );
   }
 
+  // Portuguese, German, and Italian launch as fully localized commercial
+  // homepages plus demo pages. Keep direct legacy/deep URLs in the same language
+  // instead of allowing their English-only route components to fall back to Spanish.
+  const newLocaleMatch = pathname.match(/^\/(pt|de|it)(\/.*)?$/);
+  if (newLocaleMatch) {
+    const [, lang, suffix = ''] = newLocaleMatch;
+    const sectionByPath: Record<string, string> = {
+      '/platform': 'how-it-works',
+      '/plataforma': 'how-it-works',
+      '/features': 'features',
+      '/funcionalidades': 'features',
+      '/hotel-operations': 'hotel-operations',
+      '/operaciones-hoteleras': 'hotel-operations',
+      '/industries': 'markets',
+      '/industrias': 'markets',
+    };
+    if (sectionByPath[suffix]) {
+      return redirectToHomeSection(request, lang, sectionByPath[suffix]);
+    }
+    if (suffix === '/hospitality') {
+      return redirectPreservingQuery(request, `/${lang}`, 308);
+    }
+    if (suffix === '/handoff-scan' || suffix === '/hospitality/handoff-scan') {
+      return redirectPreservingQuery(request, `/${lang}/demo`, 308);
+    }
+    if (suffix === '/privacy' || suffix === '/terms' || suffix === '/security') {
+      return redirectPreservingQuery(request, `/en${suffix}`, 308);
+    }
+    if (suffix === '/resources' || suffix === '/blog') {
+      return redirectPreservingQuery(request, '/en/resources', 308);
+    }
+  }
+
   // Check if pathname already has a supported language prefix
   const segments = pathname.split('/');
   const firstSegment = segments[1];
-  if (SUPPORTED_LANGS.includes(firstSegment)) {
+  if (SUPPORTED_LANGS.includes(firstSegment as Language)) {
     return NextResponse.next();
   }
 
@@ -111,6 +180,7 @@ export function middleware(request: NextRequest) {
   if (pathname === '/demow5') {
     return redirectPreservingQuery(request, `/${DEFAULT_LANG}/demo`, 308);
   }
+
   if (pathname === '/what-is-whagons') {
     return redirectPreservingQuery(request, `/${DEFAULT_LANG}`, 308);
   }
@@ -120,8 +190,7 @@ export function middleware(request: NextRequest) {
     return redirectPreservingQuery(request, rootDestination(request));
   }
 
-  const acceptLang = request.headers.get('accept-language') || '';
-  const preferredLang = acceptLang.startsWith('en') ? 'en' : DEFAULT_LANG;
+  const preferredLang = preferredLanguage(request);
 
   // Redirect to language-prefixed path
   return redirectPreservingQuery(request, `/${preferredLang}${pathname}`);

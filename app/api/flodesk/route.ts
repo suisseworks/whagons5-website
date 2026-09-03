@@ -5,6 +5,7 @@ import {
   DEMO_SEGMENT_NAMES,
   buildFlodeskCustomFields,
   findFlodeskSegmentId,
+  resolveApproximateLocation,
   resolveLeadDeliveryOutcome,
   sendDemoNotification,
   upsertFlodeskSubscriber,
@@ -14,7 +15,7 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 type FormType = 'brief' | 'demo';
-type Language = 'en' | 'es';
+type Language = 'en' | 'es' | 'pt' | 'de' | 'it';
 
 const BRIEF_SEGMENT_NAME = 'Whagons5-Brief';
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -65,17 +66,6 @@ function resolvedSegmentName(formType: FormType, lang: Language): string {
   return DEMO_SEGMENT_NAMES[lang];
 }
 
-function requestCountry(request: NextRequest, submittedCountry: string): string {
-  const edgeCountry =
-    request.headers.get('cf-ipcountry') || request.headers.get('x-vercel-ip-country');
-  const normalized = edgeCountry?.trim().toUpperCase();
-  if (normalized && /^[A-Z]{2}$/.test(normalized) && normalized !== 'XX') {
-    return normalized;
-  }
-
-  return sanitize(submittedCountry, 60) || 'Unknown';
-}
-
 function requestId(request: NextRequest): string {
   const cloudflareRay = request.headers.get('cf-ray')?.split('-')[0]?.trim();
   if (cloudflareRay && /^[a-zA-Z0-9-]{8,64}$/.test(cloudflareRay)) {
@@ -84,10 +74,15 @@ function requestId(request: NextRequest): string {
   return randomUUID();
 }
 
-function clientAddressKey(request: NextRequest): string | null {
+function clientAddress(request: NextRequest): string | null {
   const cloudflare = request.headers.get('cf-connecting-ip')?.trim();
+  const realIp = request.headers.get('x-real-ip')?.trim();
   const forwarded = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
-  const address = cloudflare || forwarded || request.headers.get('x-real-ip')?.trim();
+  return cloudflare || realIp || forwarded || null;
+}
+
+function clientAddressKey(request: NextRequest): string | null {
+  const address = clientAddress(request);
   if (!address) return null;
   return createHash('sha256')
     .update(RATE_LIMIT_SALT)
@@ -201,7 +196,10 @@ export async function POST(request: NextRequest) {
     const cleanName = sanitize(body.name);
     const cleanCompany = sanitize(body.company);
     const cleanIndustry = sanitize(body.industry);
-    const cleanLanguage: Language = body.language === 'es' ? 'es' : 'en';
+    const submittedLanguage = sanitize(body.language, 2).toLowerCase();
+    const cleanLanguage: Language = ['en', 'es', 'pt', 'de', 'it'].includes(submittedLanguage)
+      ? submittedLanguage as Language
+      : 'en';
     const cleanFormType: FormType = body.formType === 'brief' ? 'brief' : 'demo';
     const cleanPhone = sanitize(body.phone, 60);
     const cleanTeamSize = sanitize(body.teamSize);
@@ -224,11 +222,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const cleanCountry = requestCountry(request, sanitize(body.country, 60));
     const apiKey = process.env.FLODESK_API_KEY?.trim() || '';
-    const targetSegment = apiKey
-      ? await resolveSegmentId(apiKey, cleanFormType, cleanLanguage, id)
-      : undefined;
+    const [location, targetSegment] = await Promise.all([
+      resolveApproximateLocation({
+        edgeCountry:
+          request.headers.get('cf-ipcountry') || request.headers.get('x-vercel-ip-country'),
+        edgeCity: request.headers.get('cf-ipcity') || request.headers.get('x-vercel-ip-city'),
+        ip: clientAddress(request),
+        submittedCountry: sanitize(body.country, 60),
+        submittedCity: sanitize(body.city, 80),
+      }),
+      apiKey ? resolveSegmentId(apiKey, cleanFormType, cleanLanguage, id) : undefined,
+    ]);
+    const cleanCountry = location.country;
+    const cleanCity = location.city;
     const subscriberName = cleanName || cleanEmail.split('@')[0] || 'Subscriber';
     const nameParts = subscriberName.split(/\s+/);
     const lead = {
@@ -237,6 +244,7 @@ export async function POST(request: NextRequest) {
       company: cleanCompany,
       industry: cleanIndustry,
       country: cleanCountry,
+      city: cleanCity,
       language: cleanLanguage,
       phone: cleanPhone,
       teamSize: cleanTeamSize,

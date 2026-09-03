@@ -1,12 +1,16 @@
 import type { Metadata } from 'next';
 import { Bebas_Neue, Cormorant_Garamond, Instrument_Sans } from 'next/font/google';
-import { Language } from '../lib/i18n';
+import {
+  ALTERNATE_LANGUAGES,
+  HTML_LANG,
+  Language,
+  SUPPORTED_LANGS,
+  isLanguage,
+} from '../lib/locales';
 import { getSlugTranslationMap } from '../lib/blog';
 import NavBar from '../components/NavBar';
 import FooterBar from '../components/FooterBar';
 import '../globals.css';
-
-const SUPPORTED_LANGS = ['es', 'en'] as const;
 
 const bebasNeue = Bebas_Neue({
   weight: '400',
@@ -35,7 +39,7 @@ interface LangLayoutProps {
   params: { lang: string };
 }
 
-const metadataByLang: Record<string, Metadata> = {
+const metadataByLang: Record<Language, Metadata> = {
   es: {
     title: {
       default: 'Whagons — Software de Operaciones Hoteleras',
@@ -70,7 +74,7 @@ const metadataByLang: Record<string, Metadata> = {
     ],
     alternates: {
       canonical: 'https://whagons.com/es',
-      languages: { 'en-US': 'https://whagons.com/en', 'es-419': 'https://whagons.com/es', 'x-default': 'https://whagons.com/en' },
+      languages: ALTERNATE_LANGUAGES,
     },
   },
   en: {
@@ -107,8 +111,50 @@ const metadataByLang: Record<string, Metadata> = {
     ],
     alternates: {
       canonical: 'https://whagons.com/en',
-      languages: { 'en-US': 'https://whagons.com/en', 'es-419': 'https://whagons.com/es', 'x-default': 'https://whagons.com/en' },
+      languages: ALTERNATE_LANGUAGES,
     },
+  },
+  pt: {
+    title: { default: 'Whagons — Software para Operações Hoteleiras', template: '%s | Whagons' },
+    description: 'Conecte solicitações de hóspedes, quartos, manutenção, inspeções e turnos em uma plataforma de operações hoteleiras com responsáveis, prazos e evidências.',
+    icons: '/favicon.svg',
+    openGraph: {
+      title: 'Whagons — Cada entrega do hotel sob controle',
+      description: 'Coordene solicitações, quartos, manutenção e inspeções entre equipes, turnos e propriedades.',
+      url: 'https://whagons.com/pt', siteName: 'Whagons', type: 'website', locale: 'pt_BR',
+      images: ['/images/industries/hoteleria.jpg'],
+    },
+    twitter: { card: 'summary_large_image', title: 'Whagons — Operações hoteleiras sob controle', description: 'Torne visíveis responsáveis, prazos, escalonamentos e conclusões verificadas.', images: ['/images/industries/hoteleria.jpg'] },
+    keywords: ['software para operações hoteleiras', 'software para hotéis', 'gestão de solicitações de hóspedes', 'manutenção hoteleira', 'gestão de turnos em hotéis'],
+    alternates: { canonical: 'https://whagons.com/pt', languages: ALTERNATE_LANGUAGES },
+  },
+  de: {
+    title: { default: 'Whagons — Software für den Hotelbetrieb', template: '%s | Whagons' },
+    description: 'Verbinden Sie Gästeanfragen, Zimmerbereitschaft, Wartung, Inspektionen und Schichten in einer Plattform für den Hotelbetrieb.',
+    icons: '/favicon.svg',
+    openGraph: {
+      title: 'Whagons — Jede operative Hotelübergabe unter Kontrolle',
+      description: 'Koordinieren Sie Anfragen, Zimmer, Wartung und Inspektionen über Teams, Schichten und Standorte hinweg.',
+      url: 'https://whagons.com/de', siteName: 'Whagons', type: 'website', locale: 'de_DE',
+      images: ['/images/industries/hoteleria.jpg'],
+    },
+    twitter: { card: 'summary_large_image', title: 'Whagons — Hotelbetrieb unter Kontrolle', description: 'Machen Sie Verantwortliche, Fristen, Eskalationen und geprüfte Abschlüsse sichtbar.', images: ['/images/industries/hoteleria.jpg'] },
+    keywords: ['Software für Hotelbetrieb', 'Hotel Operations Software', 'Gästeanfragen verwalten', 'Hotelwartung Software', 'Schichtübergabe Hotel'],
+    alternates: { canonical: 'https://whagons.com/de', languages: ALTERNATE_LANGUAGES },
+  },
+  it: {
+    title: { default: 'Whagons — Software per Operazioni Alberghiere', template: '%s | Whagons' },
+    description: 'Collega richieste degli ospiti, camere, manutenzione, ispezioni e turni in una piattaforma per le operazioni alberghiere.',
+    icons: '/favicon.svg',
+    openGraph: {
+      title: 'Whagons — Ogni passaggio operativo dell’hotel sotto controllo',
+      description: 'Coordina richieste, camere, manutenzione e ispezioni tra team, turni e strutture.',
+      url: 'https://whagons.com/it', siteName: 'Whagons', type: 'website', locale: 'it_IT',
+      images: ['/images/industries/hoteleria.jpg'],
+    },
+    twitter: { card: 'summary_large_image', title: 'Whagons — Operazioni alberghiere sotto controllo', description: 'Rendi visibili responsabili, scadenze, escalation e completamenti verificati.', images: ['/images/industries/hoteleria.jpg'] },
+    keywords: ['software operazioni alberghiere', 'software per hotel', 'gestione richieste ospiti', 'manutenzione alberghiera', 'gestione turni hotel'],
+    alternates: { canonical: 'https://whagons.com/it', languages: ALTERNATE_LANGUAGES },
   },
 };
 
@@ -117,7 +163,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: LangLayoutProps): Promise<Metadata> {
-  const lang = SUPPORTED_LANGS.includes(params.lang as any) ? params.lang : 'es';
+  const lang = isLanguage(params.lang) ? params.lang : 'es';
   return {
     metadataBase: new URL('https://whagons.com'),
     ...(metadataByLang[lang] || metadataByLang.es),
@@ -125,13 +171,18 @@ export async function generateMetadata({ params }: LangLayoutProps): Promise<Met
 }
 
 export default function LangLayout({ children, params }: LangLayoutProps) {
-  const lang = (SUPPORTED_LANGS.includes(params.lang as any) ? params.lang : 'es') as Language;
-  const documentLang = lang === 'es' ? 'es-419' : 'en-US';
+  const lang = isLanguage(params.lang) ? params.lang : 'es';
+  const documentLang = HTML_LANG[lang];
   const blogSlugMap = getSlugTranslationMap();
   const siteUrl = 'https://whagons.com';
-  const description = lang === 'es'
-    ? 'Software de operaciones hoteleras para coordinar responsables, plazos, escalamientos y evidencia entre equipos y turnos.'
-    : 'Hotel operations software for coordinating owners, due times, escalation, and completion evidence across teams and shifts.';
+  const descriptions: Record<Language, string> = {
+    es: 'Software de operaciones hoteleras para coordinar responsables, plazos, escalamientos y evidencia entre equipos y turnos.',
+    en: 'Hotel operations software for coordinating owners, due times, escalation, and completion evidence across teams and shifts.',
+    pt: 'Software de operações hoteleiras para coordenar responsáveis, prazos, escalonamentos e evidências entre equipes e turnos.',
+    de: 'Software für den Hotelbetrieb zur Koordination von Verantwortlichen, Fristen, Eskalationen und Nachweisen über Teams und Schichten hinweg.',
+    it: 'Software per operazioni alberghiere che coordina responsabili, scadenze, escalation e prove tra team e turni.',
+  };
+  const description = descriptions[lang];
   const structuredData = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -149,7 +200,7 @@ export default function LangLayout({ children, params }: LangLayoutProps) {
         '@id': `${siteUrl}/#website`,
         url: siteUrl,
         name: 'Whagons',
-        inLanguage: ['en-US', 'es-419'],
+        inLanguage: Object.values(HTML_LANG),
         publisher: { '@id': `${siteUrl}/#organization` },
       },
     ],

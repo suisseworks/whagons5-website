@@ -1,6 +1,9 @@
+import { isIP } from 'node:net';
+
 const APP_USER_AGENT = 'Whagons Website (whagons.com)';
 const DEFAULT_TIMEOUT_MS = 6000;
 const DEFAULT_ATTEMPTS = 2;
+const DEFAULT_GEO_TIMEOUT_MS = 1800;
 
 export const FLODESK_SUBSCRIBERS_URL = 'https://api.flodesk.com/v1/subscribers';
 export const FLODESK_SEGMENTS_URL = 'https://api.flodesk.com/v1/segments';
@@ -8,17 +11,21 @@ export const RESEND_EMAILS_URL = 'https://api.resend.com/emails';
 export const DEMO_SEGMENT_NAMES = Object.freeze({
   en: 'Whagons-Demo-EN',
   es: 'Whagons-Demo-ES',
+  pt: 'Whagons-Demo-EN',
+  de: 'Whagons-Demo-EN',
+  it: 'Whagons-Demo-EN',
 });
 export const DEMO_NOTIFICATION_RECIPIENTS = Object.freeze([
   'hello@whagons.com',
   'business@whagons.com',
 ]);
 
-export function buildFlodeskCustomFields({ company, industry, country, phone }) {
+export function buildFlodeskCustomFields({ company, industry, country, city, phone }) {
   const fields = {};
   const cleanCompany = typeof company === 'string' ? company.trim() : '';
   const cleanIndustry = typeof industry === 'string' ? industry.trim() : '';
   const cleanCountry = typeof country === 'string' ? country.trim() : '';
+  const cleanCity = typeof city === 'string' ? city.trim() : '';
   const cleanPhone = typeof phone === 'string' ? phone.trim() : '';
 
   // These keys come from the Whagons Flodesk account's custom-field API.
@@ -27,9 +34,108 @@ export function buildFlodeskCustomFields({ company, industry, country, phone }) 
   if (cleanCompany) fields.empresa = cleanCompany;
   if (cleanIndustry) fields.sector = cleanIndustry;
   if (cleanCountry) fields.pais = cleanCountry;
+  if (cleanCity && cleanCity !== 'Unknown') fields.ciudad = cleanCity;
   if (cleanPhone) fields.telFono = cleanPhone;
 
   return fields;
+}
+
+function cleanLocationValue(value, maxLength = 80) {
+  if (typeof value !== 'string') return '';
+  const trimmed = value.trim();
+  if (!trimmed) return '';
+
+  try {
+    return decodeURIComponent(trimmed.replaceAll('+', ' ')).trim().slice(0, maxLength);
+  } catch {
+    return trimmed.slice(0, maxLength);
+  }
+}
+
+function normalizedCountry(value) {
+  const clean = cleanLocationValue(value, 60);
+  if (!clean) return '';
+  const upper = clean.toUpperCase();
+  return /^[A-Z]{2}$/.test(upper) && upper !== 'XX' ? upper : clean;
+}
+
+function isPublicIpAddress(value) {
+  if (typeof value !== 'string') return false;
+  const clean = value.trim().split('%')[0];
+  const version = isIP(clean);
+  if (!version) return false;
+
+  if (version === 4) {
+    const [a, b] = clean.split('.').map(Number);
+    return !(
+      a === 0 ||
+      a === 10 ||
+      a === 127 ||
+      (a === 169 && b === 254) ||
+      (a === 172 && b >= 16 && b <= 31) ||
+      (a === 192 && b === 168) ||
+      a >= 224
+    );
+  }
+
+  const lower = clean.toLowerCase();
+  if (lower.startsWith('::ffff:')) return isPublicIpAddress(lower.slice(7));
+  return !(
+    lower === '::' ||
+    lower === '::1' ||
+    lower.startsWith('fc') ||
+    lower.startsWith('fd') ||
+    /^fe[89ab]/.test(lower)
+  );
+}
+
+export async function resolveApproximateLocation({
+  edgeCountry,
+  edgeCity,
+  ip,
+  submittedCountry,
+  submittedCity,
+  fetchImpl = fetch,
+  timeoutMs = DEFAULT_GEO_TIMEOUT_MS,
+}) {
+  const headerCountry = normalizedCountry(edgeCountry);
+  const headerCity = cleanLocationValue(edgeCity);
+  const fallbackCountry = normalizedCountry(submittedCountry);
+  const fallbackCity = cleanLocationValue(submittedCity);
+
+  if (headerCity || fallbackCity) {
+    return {
+      country: headerCountry || fallbackCountry || 'Unknown',
+      city: headerCity || fallbackCity,
+    };
+  }
+
+  if (isPublicIpAddress(ip)) {
+    try {
+      const response = await fetchWithTimeout(
+        fetchImpl,
+        `https://ipwho.is/${encodeURIComponent(ip.trim())}?fields=success,city,country_code`,
+        { headers: { 'User-Agent': APP_USER_AGENT } },
+        timeoutMs
+      );
+      if (response.ok) {
+        const data = await response.json();
+        if (data?.success) {
+          return {
+            country: headerCountry || normalizedCountry(data.country_code) || fallbackCountry || 'Unknown',
+            city: cleanLocationValue(data.city) || 'Unknown',
+          };
+        }
+      }
+    } catch {
+      // Geolocation is optional and must never prevent a demo submission.
+    }
+  }
+
+  return {
+    country: headerCountry || fallbackCountry || 'Unknown',
+    city: 'Unknown',
+  };
 }
 
 export function resolveLeadDeliveryOutcome({ formType, flodeskResult, emailResult }) {
@@ -266,6 +372,7 @@ function buildNotificationContent(lead, flodeskOk, requestId) {
     ['Industry', displayValue(lead.industry)],
     ['People on the floor', displayValue(lead.teamSize)],
     ['Language', displayValue(lead.language).toUpperCase()],
+    ['City', displayValue(lead.city)],
     ['Country', displayValue(lead.country)],
     ['Flodesk', flodeskStatus],
     ['Request ID', displayValue(requestId)],

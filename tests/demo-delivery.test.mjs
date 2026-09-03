@@ -9,6 +9,7 @@ import {
   RESEND_EMAILS_URL,
   buildFlodeskCustomFields,
   findFlodeskSegmentId,
+  resolveApproximateLocation,
   resolveLeadDeliveryOutcome,
   sendDemoNotification,
   upsertFlodeskSubscriber,
@@ -20,15 +21,19 @@ const lead = {
   company: 'Malek',
   industry: 'Hospitality',
   country: 'CR',
+  city: 'San José',
   language: 'en',
   phone: '',
   teamSize: '1 to 10 people',
 };
 
-test('uses distinct exact demo segments for English and Spanish', () => {
+test('routes Spanish separately and all other supported languages to the English demo segment', () => {
   assert.deepEqual(DEMO_SEGMENT_NAMES, {
     en: 'Whagons-Demo-EN',
     es: 'Whagons-Demo-ES',
+    pt: 'Whagons-Demo-EN',
+    de: 'Whagons-Demo-EN',
+    it: 'Whagons-Demo-EN',
   });
 });
 
@@ -38,12 +43,14 @@ test('maps website lead data to the exact Flodesk custom field keys', () => {
       company: 'Hotel 5',
       industry: 'Hospitality',
       country: 'MX',
+      city: 'Mexico City',
       phone: '+506 7071-7099',
     }),
     {
       empresa: 'Hotel 5',
       sector: 'Hospitality',
       pais: 'MX',
+      ciudad: 'Mexico City',
       telFono: '+506 7071-7099',
     }
   );
@@ -53,6 +60,7 @@ test('maps website lead data to the exact Flodesk custom field keys', () => {
       company: 'Hotel 5',
       industry: 'Hospitality',
       country: 'MX',
+      city: '',
       phone: '',
     }),
     {
@@ -61,6 +69,57 @@ test('maps website lead data to the exact Flodesk custom field keys', () => {
       pais: 'MX',
     }
   );
+});
+
+test('captures and decodes city from trusted edge location headers', async () => {
+  let fetchCalled = false;
+  const location = await resolveApproximateLocation({
+    edgeCountry: 'CR',
+    edgeCity: 'San%20Jos%C3%A9',
+    ip: '203.0.113.10',
+    fetchImpl: async () => {
+      fetchCalled = true;
+      return Response.json({});
+    },
+  });
+
+  assert.deepEqual(location, { country: 'CR', city: 'San José' });
+  assert.equal(fetchCalled, false);
+});
+
+test('falls back to IP geolocation when the edge does not provide a city', async () => {
+  let requestedUrl;
+  const location = await resolveApproximateLocation({
+    edgeCountry: '',
+    edgeCity: '',
+    ip: '8.8.8.8',
+    fetchImpl: async (url) => {
+      requestedUrl = url;
+      return Response.json({ success: true, city: 'Mountain View', country_code: 'US' });
+    },
+  });
+
+  assert.deepEqual(location, { country: 'US', city: 'Mountain View' });
+  assert.match(requestedUrl, /fields=success%2Ccity%2Ccountry_code|fields=success,city,country_code/);
+});
+
+test('keeps demo delivery usable when city geolocation times out', async () => {
+  const location = await resolveApproximateLocation({
+    edgeCountry: 'MX',
+    edgeCity: '',
+    ip: '8.8.8.8',
+    timeoutMs: 5,
+    fetchImpl: async (_url, init) =>
+      new Promise((_resolve, reject) => {
+        init.signal.addEventListener('abort', () => {
+          const error = new Error('aborted');
+          error.name = 'AbortError';
+          reject(error);
+        });
+      }),
+  });
+
+  assert.deepEqual(location, { country: 'MX', city: 'Unknown' });
 });
 
 test('retries a transient Flodesk 502 and always uses the official endpoint', async () => {
@@ -175,6 +234,7 @@ test('sends one notification to both fixed internal recipients', async () => {
   assert.equal(body.reply_to, lead.email);
   assert.match(body.text, /Malek/);
   assert.match(body.text, /Hospitality/);
+  assert.match(body.text, /San José/);
   assert.match(body.text, /1 to 10 people/);
   assert.equal(request.init.headers['Idempotency-Key'], 'demo-request/request-123');
 });
