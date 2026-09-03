@@ -476,7 +476,12 @@ export default function HomePage({ lang }: { lang: Language }) {
   const t = content[lang];
   const hasLocalizedDetailPages = lang === 'en' || lang === 'es';
   const demoHref = routeFor(lang, 'demo');
-  const platformHref = routeFor(lang, 'platform');
+  // The localized launch pages do not have a separate platform detail page yet.
+  // From the process section, send visitors forward to the detailed feature
+  // overview instead of linking back to the section they are already viewing.
+  const platformHref = hasLocalizedDetailPages
+    ? routeFor(lang, 'platform')
+    : routeFor(lang, 'features');
   const featuresHref = hasLocalizedDetailPages ? routeFor(lang, 'features') : demoHref;
   const hotelHref = routeFor(lang, 'hotels');
   const industriesHref = routeFor(lang, 'markets');
