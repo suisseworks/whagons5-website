@@ -109,6 +109,18 @@ nav {
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
+.hospitality-nav::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 330px;
+  max-width: 75vw;
+  height: 62px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 244, 217, 0.95) 0%, rgba(255, 235, 194, 0.42) 30%, rgba(255, 242, 215, 0) 72%);
+  pointer-events: none;
+}
+.hospitality-nav .logo { position: relative; }
 .hospitality-nav .nav-r { gap: clamp(14px, 1.65vw, 26px); }
 .market-btn { width: auto; padding: 0 10px; white-space: nowrap; }
 .language-picker { display: inline-flex; }
