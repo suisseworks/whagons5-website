@@ -86,7 +86,33 @@ export default function FooterBar({ lang }: { lang: Language }) {
         <a href={hrefs.resources}>{t.resources}</a>
         <a href={hrefs.demo}>{t.demo}</a>
         <a href="mailto:hello@whagons.com">{t.email} ↗</a>
-        <a href="https://www.linkedin.com/company/whagons/">LinkedIn ↗</a>
+        <a
+          href="https://www.linkedin.com/company/whagons/"
+          className="f-social-link f-social-primary"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="LinkedIn — Whagons"
+        >
+          LinkedIn <span aria-hidden="true">↗</span>
+        </a>
+        <a
+          href="https://www.facebook.com/whagons/"
+          className="f-social-link"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Facebook — Whagons"
+        >
+          Facebook <span aria-hidden="true">↗</span>
+        </a>
+        <a
+          href="https://www.instagram.com/whagons/"
+          className="f-social-link"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Instagram — Whagons"
+        >
+          Instagram <span aria-hidden="true">↗</span>
+        </a>
         <a
           href="https://wa.me/50670717099"
           aria-label={whatsAppLabel[lang]}

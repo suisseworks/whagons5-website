@@ -10,7 +10,7 @@ const content = {
       'Connect guest requests, room readiness, maintenance, inspections, and shifts in one operating view. Every job gets an owner, a due time, and proof it was done.',
     primaryCta: 'Request a tailored demo',
     secondaryCta: 'See how it works',
-    heroPoints: ['Works alongside your PMS', 'Mobile + web', 'Configured to your operation'],
+    heroPoints: ['Works alongside your PMS', 'Mobile + web', 'Configured to your operation', 'Across Latin America'],
     heroAlt: 'Hotel pool and guest areas at sunset',
     liveWorkflow: 'Illustrative hotel workflow',
     managerView: 'Manager view',
@@ -136,7 +136,7 @@ const content = {
       'Conecta solicitudes de huéspedes, habitaciones, mantenimiento, inspecciones y turnos en una sola vista operativa. Cada tarea tiene responsable, plazo y evidencia de cierre.',
     primaryCta: 'Solicitar un demo personalizado',
     secondaryCta: 'Ver cómo funciona',
-    heroPoints: ['Funciona junto a tu PMS', 'Móvil + web', 'Configurado para tu operación'],
+    heroPoints: ['Funciona junto a tu PMS', 'Móvil + web', 'Configurado para tu operación', 'En toda Latinoamérica'],
     heroAlt: 'Piscina y áreas de huéspedes de un hotel al atardecer',
     liveWorkflow: 'Flujo hotelero ilustrativo',
     managerView: 'Vista gerencial',
@@ -261,7 +261,7 @@ const content = {
     heroLead: 'Conecte solicitações de hóspedes, preparação de quartos, manutenção, inspeções e turnos em uma única visão operacional. Cada tarefa tem responsável, prazo e evidência de conclusão.',
     primaryCta: 'Solicitar uma demo personalizada',
     secondaryCta: 'Ver como funciona',
-    heroPoints: ['Funciona junto ao seu PMS', 'Celular + web', 'Configurado para sua operação'],
+    heroPoints: ['Funciona junto ao seu PMS', 'Celular + web', 'Configurado para sua operação', 'Em toda a América Latina'],
     heroAlt: 'Piscina e áreas de hóspedes de um hotel ao entardecer',
     liveWorkflow: 'Fluxo hoteleiro ilustrativo',
     managerView: 'Visão gerencial',
@@ -345,7 +345,7 @@ const content = {
     heroLead: 'Verbinden Sie Gästeanfragen, Zimmerbereitschaft, Wartung, Inspektionen und Schichten in einer operativen Ansicht. Jede Aufgabe erhält eine verantwortliche Person, eine Frist und einen Abschlussnachweis.',
     primaryCta: 'Individuelle Demo anfordern',
     secondaryCta: 'So funktioniert es',
-    heroPoints: ['Ergänzt Ihr PMS', 'Mobil + Web', 'Auf Ihren Betrieb zugeschnitten'],
+    heroPoints: ['Ergänzt Ihr PMS', 'Mobil + Web', 'Auf Ihren Betrieb zugeschnitten', 'In ganz Lateinamerika'],
     heroAlt: 'Hotelpool und Gästebereiche bei Sonnenuntergang',
     liveWorkflow: 'Beispielhafter Hotelablauf',
     managerView: 'Managementansicht',
@@ -409,7 +409,7 @@ const content = {
     heroLead: 'Collega richieste degli ospiti, preparazione delle camere, manutenzione, ispezioni e turni in un’unica vista operativa. Ogni attività ha un responsabile, una scadenza e una prova di completamento.',
     primaryCta: 'Richiedi una demo personalizzata',
     secondaryCta: 'Scopri come funziona',
-    heroPoints: ['Funziona insieme al tuo PMS', 'Mobile + web', 'Configurato per la tua operatività'],
+    heroPoints: ['Funziona insieme al tuo PMS', 'Mobile + web', 'Configurato per la tua operatività', 'In tutta l’America Latina'],
     heroAlt: 'Piscina e aree ospiti di un hotel al tramonto',
     liveWorkflow: 'Flusso alberghiero di esempio',
     managerView: 'Vista gestionale',
@@ -472,8 +472,169 @@ const content = {
 const marketSlugs = ['retail', 'mantenimiento', 'farmaceutica', 'salud-educacion', 'construccion'];
 const hotelMomentAnchors = ['guest-requests', 'room-readiness', 'engineering', 'inspection-correction'];
 
+const customerNames = [
+  'Grupo El Lagar',
+  'Colegio Humboldt',
+  'Rythmia',
+  'IQS',
+  'Grupo Colono',
+  'Refritec',
+];
+
+const customerProof = {
+  en: {
+    eyebrow: 'Public customer evidence',
+    title: 'Teams that have trusted Whagons.',
+    text: 'With a presence across Latin America, published customer voices and an operational case make the result more concrete than a feature list alone.',
+    clientsLabel: 'Organizations that have trusted Whagons',
+    testimonialsLabel: 'What operations leaders have said',
+    testimonials: [
+      {
+        quote: 'Whagons makes it easier to control day-to-day processes. It is a very useful and easy-to-use tool.',
+        name: 'Leela Wernscheid',
+        role: 'Operations Manager · Colegio Humboldt',
+      },
+      {
+        quote: 'I am very satisfied, because keeping more than 1,500 employees aligned around one discipline is not easy.',
+        name: 'Guido Tenorio',
+        role: 'Operations Manager · Grupo El Lagar',
+      },
+      {
+        quote: 'I recommend Whagons 100%. I believe in the tool and in the people behind Whagons.',
+        name: 'Jorge Varela',
+        role: 'General Manager · Rythmia',
+      },
+      {
+        quote: 'Whagons has made ISO 9001:2015 certification easier.',
+        name: 'Isaac Mena Chacón',
+        role: 'Quality Manager · IQS',
+      },
+      {
+        quote: 'Whagons has been very important because it allows us to monitor the company’s different areas.',
+        name: 'William Ulate Loaiza',
+        role: 'Operations Manager · Grupo Colono',
+      },
+      {
+        quote: 'At Refritec we are 100% satisfied with Whagons because of our experience and the improvements achieved through its implementation.',
+        name: 'Jonathan Gaitán',
+        role: 'Manager · Refritec',
+      },
+    ],
+    caseLabel: 'Anonymized case published by Whagons',
+    caseTitle: 'From repeat visits to a digital equipment history.',
+    caseText: 'A refrigeration maintenance team changed its operating flow in 60 days.',
+    caseMetrics: [['−80%', 'repeat visits'], ['2 days → 4 hours', 'resolution time'], ['100%', 'digital equipment history']],
+    sourceLabel: 'See public evidence',
+  },
+  es: {
+    eyebrow: 'Evidencia pública de clientes',
+    title: 'Equipos que han confiado en Whagons.',
+    text: 'Con presencia en toda Latinoamérica, voces de clientes y un caso operativo publicado hacen el resultado más concreto que una lista de funcionalidades.',
+    clientsLabel: 'Organizaciones que han confiado en Whagons',
+    testimonialsLabel: 'Lo que han dicho líderes de operaciones',
+    testimonials: [
+      {
+        quote: 'Facilita tener un control sobre los procesos del día a día. Es una herramienta muy útil y sencilla de utilizar.',
+        name: 'Leela Wernscheid',
+        role: 'Gerente de Operaciones · Colegio Humboldt',
+      },
+      {
+        quote: 'De mi parte estoy muy satisfecho, porque controlar más de 1.500 empleados en una disciplina no es sencillo.',
+        name: 'Guido Tenorio',
+        role: 'Gerente de Operaciones · Grupo El Lagar',
+      },
+      {
+        quote: 'Recomiendo Whagons al 100%. Creo en la herramienta y en la gente que trabaja para Whagons.',
+        name: 'Jorge Varela',
+        role: 'Gerente General · Rythmia',
+      },
+      {
+        quote: 'Con Whagons, la certificación ISO 9001:2015 se ha facilitado.',
+        name: 'Isaac Mena Chacón',
+        role: 'Gerente de Calidad · IQS',
+      },
+      {
+        quote: 'Whagons ha sido de gran importancia porque nos permite monitorear las diferentes áreas de la empresa.',
+        name: 'William Ulate Loaiza',
+        role: 'Gerente de Operaciones · Grupo Colono',
+      },
+      {
+        quote: 'En Refritec estamos 100% satisfechos con Whagons por la experiencia vivida y las mejoras logradas con la implementación de esta herramienta.',
+        name: 'Jonathan Gaitán',
+        role: 'Gerente · Refritec',
+      },
+    ],
+    caseLabel: 'Caso anonimizado publicado por Whagons',
+    caseTitle: 'De visitas repetidas a un historial digital de equipos.',
+    caseText: 'Un equipo de mantenimiento de refrigeración cambió su flujo operativo en 60 días.',
+    caseMetrics: [['−80%', 'visitas repetidas'], ['2 días → 4 horas', 'tiempo de resolución'], ['100%', 'historial digital de equipos']],
+    sourceLabel: 'Ver evidencia pública',
+  },
+  pt: {
+    eyebrow: 'Evidência pública de clientes',
+    title: 'Equipes que confiaram no Whagons.',
+    text: 'Com presença em toda a América Latina, depoimentos publicados e um caso operacional tornam o resultado mais concreto do que uma lista de funcionalidades.',
+    clientsLabel: 'Organizações que confiaram no Whagons',
+    testimonialsLabel: 'O que líderes de operações disseram',
+    testimonials: [
+      { quote: 'Facilita o controle dos processos do dia a dia. É uma ferramenta muito útil e fácil de usar.', name: 'Leela Wernscheid', role: 'Gerente de Operações · Colegio Humboldt' },
+      { quote: 'Estou muito satisfeito, porque manter mais de 1.500 funcionários alinhados em uma disciplina não é simples.', name: 'Guido Tenorio', role: 'Gerente de Operações · Grupo El Lagar' },
+      { quote: 'Recomendo o Whagons 100%. Acredito na ferramenta e nas pessoas por trás do Whagons.', name: 'Jorge Varela', role: 'Gerente Geral · Rythmia' },
+      { quote: 'Com o Whagons, a certificação ISO 9001:2015 ficou mais fácil.', name: 'Isaac Mena Chacón', role: 'Gerente de Qualidade · IQS' },
+      { quote: 'O Whagons tem sido muito importante porque nos permite monitorar as diferentes áreas da empresa.', name: 'William Ulate Loaiza', role: 'Gerente de Operações · Grupo Colono' },
+      { quote: 'Na Refritec estamos 100% satisfeitos com o Whagons pela experiência e pelas melhorias alcançadas com sua implementação.', name: 'Jonathan Gaitán', role: 'Gerente · Refritec' },
+    ],
+    caseLabel: 'Caso anonimizado publicado pelo Whagons',
+    caseTitle: 'De visitas repetidas a um histórico digital de equipamentos.',
+    caseText: 'Uma equipe de manutenção de refrigeração mudou seu fluxo operacional em 60 dias.',
+    caseMetrics: [['−80%', 'visitas repetidas'], ['2 dias → 4 horas', 'tempo de resolução'], ['100%', 'histórico digital de equipamentos']],
+    sourceLabel: 'Ver evidência pública',
+  },
+  de: {
+    eyebrow: 'Öffentliche Kundennachweise',
+    title: 'Teams, die Whagons vertraut haben.',
+    text: 'Mit Präsenz in ganz Lateinamerika machen veröffentlichte Kundenstimmen und ein Betriebsfall das Ergebnis greifbarer als eine reine Funktionsliste.',
+    clientsLabel: 'Organisationen, die Whagons vertraut haben',
+    testimonialsLabel: 'Was Betriebsleiter berichtet haben',
+    testimonials: [
+      { quote: 'Whagons erleichtert die Kontrolle der täglichen Abläufe. Es ist ein sehr nützliches und einfach zu bedienendes Werkzeug.', name: 'Leela Wernscheid', role: 'Betriebsleiterin · Colegio Humboldt' },
+      { quote: 'Ich bin sehr zufrieden, denn mehr als 1.500 Mitarbeitende in einer Disziplin auszurichten, ist nicht einfach.', name: 'Guido Tenorio', role: 'Betriebsleiter · Grupo El Lagar' },
+      { quote: 'Ich empfehle Whagons zu 100 %. Ich glaube an das Werkzeug und an die Menschen hinter Whagons.', name: 'Jorge Varela', role: 'Geschäftsführer · Rythmia' },
+      { quote: 'Mit Whagons wurde die ISO-9001:2015-Zertifizierung erleichtert.', name: 'Isaac Mena Chacón', role: 'Qualitätsleiter · IQS' },
+      { quote: 'Whagons ist sehr wichtig, weil wir damit die verschiedenen Bereiche des Unternehmens überwachen können.', name: 'William Ulate Loaiza', role: 'Betriebsleiter · Grupo Colono' },
+      { quote: 'Bei Refritec sind wir mit Whagons, unserer Erfahrung und den Verbesserungen durch die Einführung zu 100 % zufrieden.', name: 'Jonathan Gaitán', role: 'Geschäftsführer · Refritec' },
+    ],
+    caseLabel: 'Von Whagons veröffentlichter anonymisierter Fall',
+    caseTitle: 'Von Wiederholungsbesuchen zur digitalen Anlagenhistorie.',
+    caseText: 'Ein Kältetechnik-Team veränderte seinen Betriebsablauf in 60 Tagen.',
+    caseMetrics: [['−80 %', 'Wiederholungsbesuche'], ['2 Tage → 4 Stunden', 'Lösungszeit'], ['100 %', 'digitale Anlagenhistorie']],
+    sourceLabel: 'Öffentliche Nachweise ansehen',
+  },
+  it: {
+    eyebrow: 'Prove pubbliche dei clienti',
+    title: 'Team che hanno scelto Whagons.',
+    text: 'Con una presenza in tutta l’America Latina, testimonianze pubblicate e un caso operativo rendono il risultato più concreto di un semplice elenco di funzionalità.',
+    clientsLabel: 'Organizzazioni che hanno scelto Whagons',
+    testimonialsLabel: 'Cosa hanno detto i responsabili operativi',
+    testimonials: [
+      { quote: 'Whagons facilita il controllo dei processi quotidiani. È uno strumento molto utile e facile da usare.', name: 'Leela Wernscheid', role: 'Responsabile Operazioni · Colegio Humboldt' },
+      { quote: 'Sono molto soddisfatto, perché allineare più di 1.500 dipendenti in una disciplina non è semplice.', name: 'Guido Tenorio', role: 'Responsabile Operazioni · Grupo El Lagar' },
+      { quote: 'Raccomando Whagons al 100%. Credo nello strumento e nelle persone dietro Whagons.', name: 'Jorge Varela', role: 'Direttore Generale · Rythmia' },
+      { quote: 'Con Whagons, la certificazione ISO 9001:2015 è diventata più semplice.', name: 'Isaac Mena Chacón', role: 'Responsabile Qualità · IQS' },
+      { quote: 'Whagons è stato molto importante perché ci permette di monitorare le diverse aree dell’azienda.', name: 'William Ulate Loaiza', role: 'Responsabile Operazioni · Grupo Colono' },
+      { quote: 'In Refritec siamo soddisfatti al 100% di Whagons, dell’esperienza e dei miglioramenti ottenuti con la sua implementazione.', name: 'Jonathan Gaitán', role: 'Direttore · Refritec' },
+    ],
+    caseLabel: 'Caso anonimo pubblicato da Whagons',
+    caseTitle: 'Dalle visite ripetute a uno storico digitale degli impianti.',
+    caseText: 'Un team di manutenzione della refrigerazione ha trasformato il proprio flusso operativo in 60 giorni.',
+    caseMetrics: [['−80%', 'visite ripetute'], ['2 giorni → 4 ore', 'tempo di risoluzione'], ['100%', 'storico digitale degli impianti']],
+    sourceLabel: 'Vedi le prove pubbliche',
+  },
+} as const;
+
 export default function HomePage({ lang }: { lang: Language }) {
   const t = content[lang];
+  const proof = customerProof[lang];
   const hasLocalizedDetailPages = lang === 'en' || lang === 'es';
   const demoHref = routeFor(lang, 'demo');
   // The localized launch pages do not have a separate platform detail page yet.
@@ -659,6 +820,48 @@ export default function HomePage({ lang }: { lang: Language }) {
             ))}
           </div>
         </div>
+      </section>
+
+      <section className={styles.customerProof} aria-labelledby="customer-proof-title">
+        <div className={styles.customerProofIntro}>
+          <p className={styles.eyebrow}>{proof.eyebrow}</p>
+          <h2 id="customer-proof-title">{proof.title}</h2>
+          <p>{proof.text}</p>
+        </div>
+
+        <div className={styles.clientRoster} aria-label={proof.clientsLabel}>
+          {customerNames.map((customer, index) => (
+            <div key={customer}><span>0{index + 1}</span><strong>{customer}</strong></div>
+          ))}
+        </div>
+
+        <a className={styles.proofLabel} href="https://whagons.com/docs/Whagons-2022.pdf" target="_blank" rel="noreferrer">
+          {proof.testimonialsLabel}<span aria-hidden="true">↗</span>
+        </a>
+        <div className={styles.testimonialGrid}>
+          {proof.testimonials.map((testimonial) => (
+            <figure className={styles.testimonialCard} key={testimonial.name}>
+              <blockquote>&ldquo;{testimonial.quote}&rdquo;</blockquote>
+              <figcaption><strong>{testimonial.name}</strong><span>{testimonial.role}</span></figcaption>
+            </figure>
+          ))}
+        </div>
+
+        <article className={styles.caseStudy}>
+          <div>
+            <p>{proof.caseLabel}</p>
+            <h3>{proof.caseTitle}</h3>
+            <span>{proof.caseText}</span>
+            <a href="https://es.linkedin.com/posts/whagons_mantenimientoindustrial-gesti%C3%B3noperativa-activity-7470803294903312384-VFou" target="_blank" rel="noreferrer">
+              {proof.sourceLabel}<span aria-hidden="true">↗</span>
+            </a>
+          </div>
+          <div className={styles.caseMetrics}>
+            {proof.caseMetrics.map(([value, label]) => (
+              <div key={label}><strong>{value}</strong><span>{label}</span></div>
+            ))}
+          </div>
+        </article>
       </section>
 
       <section className={styles.finalCta}>

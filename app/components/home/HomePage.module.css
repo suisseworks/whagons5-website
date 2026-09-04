@@ -401,6 +401,42 @@
 .otherMarkets p { margin: 4px 0 0; color: var(--muted); font-size: 0.67rem; }
 .otherMarkets a > strong { font-size: 0.59rem; letter-spacing: 0.1em; text-transform: uppercase; }
 
+.customerProof {
+  padding: 132px max(56px, calc((100vw - 1440px) / 2 + 56px));
+  color: #f3f0e9;
+  background:
+    radial-gradient(circle at 88% 8%, rgba(214,58,24,.24), transparent 27%),
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px),
+    #11110f;
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+.customerProof .eyebrow { color: #ff7656; }
+.customerProofIntro { display: grid; grid-template-columns: 0.65fr 1.45fr 0.9fr; gap: 56px; align-items: start; }
+.customerProofIntro h2 { max-width: 760px; margin: 0; font-family: var(--serif); font-size: clamp(3.2rem, 5vw, 5.8rem); font-weight: 300; letter-spacing: -.045em; line-height: .94; }
+.customerProofIntro > p:last-child { margin: 8px 0 0; color: rgba(243,240,233,.62); font-size: .88rem; line-height: 1.75; }
+.clientRoster { display: grid; grid-template-columns: repeat(6, 1fr); margin-top: 72px; border-top: 1px solid rgba(243,240,233,.18); border-left: 1px solid rgba(243,240,233,.18); }
+.clientRoster > div { display: flex; min-height: 122px; flex-direction: column; justify-content: space-between; padding: 18px; border-right: 1px solid rgba(243,240,233,.18); border-bottom: 1px solid rgba(243,240,233,.18); }
+.clientRoster span { color: #ff7656; font-size: .57rem; letter-spacing: .12em; }
+.clientRoster strong { font-family: var(--serif); font-size: 1.15rem; font-weight: 400; line-height: 1.05; }
+.proofLabel { display: inline-flex; gap: 12px; margin: 74px 0 20px; color: #ff7656; font-size: .62rem; font-weight: 600; letter-spacing: .15em; text-decoration: none; text-transform: uppercase; }
+.testimonialGrid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid rgba(243,240,233,.18); border-left: 1px solid rgba(243,240,233,.18); }
+.testimonialCard { display: flex; min-height: 310px; flex-direction: column; justify-content: space-between; margin: 0; padding: 34px; border-right: 1px solid rgba(243,240,233,.18); border-bottom: 1px solid rgba(243,240,233,.18); }
+.testimonialCard blockquote { margin: 0; font-family: var(--serif); font-size: clamp(1.45rem, 2.1vw, 2.15rem); font-weight: 300; letter-spacing: -.025em; line-height: 1.14; }
+.testimonialCard figcaption { display: grid; gap: 5px; padding-top: 30px; }
+.testimonialCard figcaption strong { font-size: .7rem; letter-spacing: .04em; }
+.testimonialCard figcaption span { color: rgba(243,240,233,.56); font-size: .64rem; }
+.caseStudy { display: grid; grid-template-columns: 1.15fr 1fr; margin-top: 28px; background: #d63a18; }
+.caseStudy > div:first-child { display: flex; min-height: 340px; flex-direction: column; align-items: flex-start; padding: 42px; }
+.caseStudy p { margin: 0; color: rgba(255,255,255,.72); font-size: .61rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+.caseStudy h3 { max-width: 660px; margin: 44px 0 0; font-family: var(--serif); font-size: clamp(2.5rem, 4vw, 4.5rem); font-weight: 300; letter-spacing: -.04em; line-height: .94; }
+.caseStudy > div:first-child > span { max-width: 620px; margin-top: 20px; color: rgba(255,255,255,.75); font-size: .78rem; line-height: 1.65; }
+.caseStudy a { display: inline-flex; gap: 14px; margin-top: auto; color: #fff; font-size: .62rem; font-weight: 600; letter-spacing: .11em; text-decoration: none; text-transform: uppercase; }
+.caseMetrics { display: grid; grid-template-columns: repeat(3, 1fr); border-left: 1px solid rgba(255,255,255,.28); }
+.caseMetrics > div { display: flex; flex-direction: column; justify-content: flex-end; gap: 13px; padding: 30px 24px; border-right: 1px solid rgba(255,255,255,.28); }
+.caseMetrics strong { font-family: var(--serif); font-size: clamp(2rem, 3vw, 3.4rem); font-weight: 300; letter-spacing: -.04em; line-height: .94; }
+.caseMetrics span { color: rgba(255,255,255,.68); font-size: .59rem; letter-spacing: .08em; line-height: 1.45; text-transform: uppercase; }
+
 .finalCta { display: flex; flex-direction: column; align-items: center; padding: 130px 24px 145px; text-align: center; background: #fbfaf6; }
 .finalCta h2 { max-width: 980px; }
 .finalCta > p:not(.eyebrow) { max-width: 590px; margin: 28px auto 0; }
@@ -416,6 +452,10 @@
   .sectionIntro { column-gap: 50px; }
   .process,
   .proofSection { padding-left: 40px; padding-right: 40px; gap: 60px; }
+  .customerProof { padding-left: 40px; padding-right: 40px; }
+  .customerProofIntro { grid-template-columns: 0.65fr 1.35fr; }
+  .customerProofIntro > p:last-child { grid-column: 2; }
+  .clientRoster { grid-template-columns: repeat(3, 1fr); }
   .momentsGrid { grid-template-columns: repeat(2, 1fr); }
   .momentCard:nth-child(2) { border-right: 0; }
   .momentCard:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
@@ -443,6 +483,13 @@
   .sectionIntro { grid-template-columns: 1fr; gap: 24px; margin-bottom: 50px; }
   .process { grid-template-columns: 1fr; gap: 70px; padding: 100px 24px; }
   .proofSection { grid-template-columns: 1fr; gap: 60px; padding: 100px 24px; }
+  .customerProof { padding: 100px 24px; }
+  .customerProofIntro { grid-template-columns: 1fr; gap: 24px; }
+  .customerProofIntro > p:last-child { grid-column: auto; max-width: 620px; }
+  .testimonialGrid { grid-template-columns: repeat(2, 1fr); }
+  .testimonialCard { min-height: 250px; }
+  .caseStudy { grid-template-columns: 1fr; }
+  .caseMetrics { min-height: 220px; border-top: 1px solid rgba(255,255,255,.28); border-left: 0; }
   .marketsGrid { grid-template-columns: 1fr; }
   .featuredMarket { min-height: 460px; }
 }
@@ -467,7 +514,14 @@
   .sectionIntro h2,
   .process h2,
   .proofSection h2,
+  .customerProofIntro h2,
   .finalCta h2 { font-size: clamp(3rem, 14vw, 4.4rem); }
+  .clientRoster { grid-template-columns: repeat(2, 1fr); margin-top: 50px; }
+  .testimonialGrid { grid-template-columns: 1fr; }
+  .clientRoster > div { min-height: 108px; padding: 15px; }
+  .caseStudy > div:first-child { min-height: 390px; padding: 30px 24px; }
+  .caseMetrics { grid-template-columns: 1fr; }
+  .caseMetrics > div { min-height: 132px; }
   .momentsGrid { grid-template-columns: 1fr; }
   .momentCard { min-height: 330px; border-right: 0; border-bottom: 1px solid var(--line); }
   .momentCard:nth-child(3) { border-bottom: 1px solid var(--line); }
