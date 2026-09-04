@@ -10,7 +10,9 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Open `http://localhost:3000`. English and Spanish routes live under `/en` and `/es`.
+Open `http://localhost:3000`. English and Spanish pages live under `/en` and `/es`. Retired language URLs permanently redirect to equivalent English paths; their translations and lead-routing configuration have been removed. The site has no blog or editorial article routes.
+
+The home and demo pages share the 20-minute operational diagnostic offer in `app/lib/demo-offer.ts`. Requests continue through the existing demo delivery flow. Testimonials link to their historical 2022 source with a notice that its commercial terms are not the current offer.
 
 ## Lead delivery
 

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { Bebas_Neue, Cormorant_Garamond, Instrument_Sans } from 'next/font/google';
 import {
   ALTERNATE_LANGUAGES,
@@ -7,7 +8,6 @@ import {
   SUPPORTED_LANGS,
   isLanguage,
 } from '../lib/locales';
-import { getSlugTranslationMap } from '../lib/blog';
 import NavBar from '../components/NavBar';
 import FooterBar from '../components/FooterBar';
 import '../globals.css';
@@ -114,48 +114,6 @@ const metadataByLang: Record<Language, Metadata> = {
       languages: ALTERNATE_LANGUAGES,
     },
   },
-  pt: {
-    title: { default: 'Whagons — Software para Operações Hoteleiras', template: '%s | Whagons' },
-    description: 'Conecte solicitações de hóspedes, quartos, manutenção, inspeções e turnos em uma plataforma de operações hoteleiras com responsáveis, prazos e evidências.',
-    icons: '/favicon.svg',
-    openGraph: {
-      title: 'Whagons — Cada entrega do hotel sob controle',
-      description: 'Coordene solicitações, quartos, manutenção e inspeções entre equipes, turnos e propriedades.',
-      url: 'https://whagons.com/pt', siteName: 'Whagons', type: 'website', locale: 'pt_BR',
-      images: ['/images/industries/hoteleria.jpg'],
-    },
-    twitter: { card: 'summary_large_image', title: 'Whagons — Operações hoteleiras sob controle', description: 'Torne visíveis responsáveis, prazos, escalonamentos e conclusões verificadas.', images: ['/images/industries/hoteleria.jpg'] },
-    keywords: ['software para operações hoteleiras', 'software para hotéis', 'gestão de solicitações de hóspedes', 'manutenção hoteleira', 'gestão de turnos em hotéis'],
-    alternates: { canonical: 'https://whagons.com/pt', languages: ALTERNATE_LANGUAGES },
-  },
-  de: {
-    title: { default: 'Whagons — Software für den Hotelbetrieb', template: '%s | Whagons' },
-    description: 'Verbinden Sie Gästeanfragen, Zimmerbereitschaft, Wartung, Inspektionen und Schichten in einer Plattform für den Hotelbetrieb.',
-    icons: '/favicon.svg',
-    openGraph: {
-      title: 'Whagons — Jede operative Hotelübergabe unter Kontrolle',
-      description: 'Koordinieren Sie Anfragen, Zimmer, Wartung und Inspektionen über Teams, Schichten und Standorte hinweg.',
-      url: 'https://whagons.com/de', siteName: 'Whagons', type: 'website', locale: 'de_DE',
-      images: ['/images/industries/hoteleria.jpg'],
-    },
-    twitter: { card: 'summary_large_image', title: 'Whagons — Hotelbetrieb unter Kontrolle', description: 'Machen Sie Verantwortliche, Fristen, Eskalationen und geprüfte Abschlüsse sichtbar.', images: ['/images/industries/hoteleria.jpg'] },
-    keywords: ['Software für Hotelbetrieb', 'Hotel Operations Software', 'Gästeanfragen verwalten', 'Hotelwartung Software', 'Schichtübergabe Hotel'],
-    alternates: { canonical: 'https://whagons.com/de', languages: ALTERNATE_LANGUAGES },
-  },
-  it: {
-    title: { default: 'Whagons — Software per Operazioni Alberghiere', template: '%s | Whagons' },
-    description: 'Collega richieste degli ospiti, camere, manutenzione, ispezioni e turni in una piattaforma per le operazioni alberghiere.',
-    icons: '/favicon.svg',
-    openGraph: {
-      title: 'Whagons — Ogni passaggio operativo dell’hotel sotto controllo',
-      description: 'Coordina richieste, camere, manutenzione e ispezioni tra team, turni e strutture.',
-      url: 'https://whagons.com/it', siteName: 'Whagons', type: 'website', locale: 'it_IT',
-      images: ['/images/industries/hoteleria.jpg'],
-    },
-    twitter: { card: 'summary_large_image', title: 'Whagons — Operazioni alberghiere sotto controllo', description: 'Rendi visibili responsabili, scadenze, escalation e completamenti verificati.', images: ['/images/industries/hoteleria.jpg'] },
-    keywords: ['software operazioni alberghiere', 'software per hotel', 'gestione richieste ospiti', 'manutenzione alberghiera', 'gestione turni hotel'],
-    alternates: { canonical: 'https://whagons.com/it', languages: ALTERNATE_LANGUAGES },
-  },
 };
 
 export async function generateStaticParams() {
@@ -171,16 +129,13 @@ export async function generateMetadata({ params }: LangLayoutProps): Promise<Met
 }
 
 export default function LangLayout({ children, params }: LangLayoutProps) {
+  if (!isLanguage(params.lang)) notFound();
   const lang = isLanguage(params.lang) ? params.lang : 'es';
   const documentLang = HTML_LANG[lang];
-  const blogSlugMap = getSlugTranslationMap();
   const siteUrl = 'https://whagons.com';
   const descriptions: Record<Language, string> = {
     es: 'Software de operaciones hoteleras para coordinar responsables, plazos, escalamientos y evidencia entre equipos y turnos.',
     en: 'Hotel operations software for coordinating owners, due times, escalation, and completion evidence across teams and shifts.',
-    pt: 'Software de operações hoteleiras para coordenar responsáveis, prazos, escalonamentos e evidências entre equipes e turnos.',
-    de: 'Software für den Hotelbetrieb zur Koordination von Verantwortlichen, Fristen, Eskalationen und Nachweisen über Teams und Schichten hinweg.',
-    it: 'Software per operazioni alberghiere che coordina responsabili, scadenze, escalation e prove tra team e turni.',
   };
   const description = descriptions[lang];
   const structuredData = {
@@ -193,14 +148,14 @@ export default function LangLayout({ children, params }: LangLayoutProps) {
         url: siteUrl,
         logo: `${siteUrl}/images/logo-whagons-horizontal-red.svg`,
         description,
-        sameAs: ['https://www.linkedin.com/company/whagons/'],
+        sameAs: ['https://www.linkedin.com/company/whagons/', 'https://www.facebook.com/whagons/', 'https://www.instagram.com/whagons/'],
       },
       {
         '@type': 'WebSite',
         '@id': `${siteUrl}/#website`,
         url: siteUrl,
         name: 'Whagons',
-        inLanguage: Object.values(HTML_LANG),
+        inLanguage: SUPPORTED_LANGS.map((language) => HTML_LANG[language]),
         publisher: { '@id': `${siteUrl}/#organization` },
       },
     ],
@@ -217,7 +172,7 @@ export default function LangLayout({ children, params }: LangLayoutProps) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
-        <NavBar lang={lang} blogSlugMap={blogSlugMap} />
+        <NavBar lang={lang} />
         {children}
         <FooterBar lang={lang} />
       </body>

@@ -1168,6 +1168,8 @@ nav {
   column-gap: 32px;
 }
 .demo-form-grid .span2 { grid-column: span 2; }
+.demo-privacy { margin-top: 20px; max-width: 560px; font-size: .75rem; line-height: 1.7; color: var(--mid); }
+.demo-privacy a { color: inherit; text-underline-offset: 3px; }
 
 /* ── CONTACT ────────────────────────────────── */
 #contact {

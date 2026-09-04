@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       ],
       alternates: {
         canonical: 'https://whagons.com/es/plataforma',
-        languages: { 'en-US': 'https://whagons.com/en/platform', 'es-419': 'https://whagons.com/es/plataforma' },
+        languages: { en: 'https://whagons.com/en/platform', es: 'https://whagons.com/es/plataforma' },
       },
       openGraph: {
         title: 'Plataforma de control para operaciones hoteleras',
@@ -69,7 +69,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       ],
       alternates: {
         canonical: 'https://whagons.com/en/platform',
-        languages: { 'en-US': 'https://whagons.com/en/platform', 'es-419': 'https://whagons.com/es/plataforma' },
+        languages: { en: 'https://whagons.com/en/platform', es: 'https://whagons.com/es/plataforma' },
       },
       openGraph: {
         title: 'Hotel Workflow Control Platform',

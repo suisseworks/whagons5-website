@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { demoOffer } from '../../lib/demo-offer';
 import { Language, routeFor } from '../../lib/locales';
 import styles from './HomePage.module.css';
 
@@ -255,218 +256,6 @@ const content = {
       'Enfocaremos la conversación en tus equipos, tus entregas y el resultado operativo que necesitas; no en un recorrido genérico del producto.',
     finalCta: 'Solicitar mi demo',
   },
-  pt: {
-    heroEyebrow: 'Software de operações para hotéis',
-    heroTitle: <><span>Operações hoteleiras.</span><em>Sem pontos cegos.</em></>,
-    heroLead: 'Conecte solicitações de hóspedes, preparação de quartos, manutenção, inspeções e turnos em uma única visão operacional. Cada tarefa tem responsável, prazo e evidência de conclusão.',
-    primaryCta: 'Solicitar uma demo personalizada',
-    secondaryCta: 'Ver como funciona',
-    heroPoints: ['Funciona junto ao seu PMS', 'Celular + web', 'Configurado para sua operação', 'Em toda a América Latina'],
-    heroAlt: 'Piscina e áreas de hóspedes de um hotel ao entardecer',
-    liveWorkflow: 'Fluxo hoteleiro ilustrativo',
-    managerView: 'Visão gerencial',
-    workflowTitle: 'Problema no ar-condicionado do quarto',
-    room: 'Quarto 418',
-    workflowRows: [
-      ['Solicitação do hóspede', 'Recepção', 'Registrada'],
-      ['Manutenção', 'Prazo 10:30', 'Em andamento'],
-      ['Retorno ao hóspede', 'Foto + nota', 'Próximo'],
-    ],
-    workflowControls: ['Responsável', 'Prazo', 'Escalonamento', 'Evidência'],
-    signalItems: [
-      ['Solicitações de hóspedes', 'Um responsável visível'],
-      ['Quartos prontos', 'Entre departamentos'],
-      ['Manutenção', 'Planejada e reativa'],
-      ['Padrões', 'Evidência em cada turno'],
-    ],
-    signalAria: 'Momentos operacionais do hotel',
-    problemEyebrow: 'A camada operacional',
-    problemTitle: 'O trabalho entre equipes não deveria desaparecer entre turnos.',
-    problemText: 'Seu PMS conhece a estadia. O Whagons coordena o trabalho ao redor dela — recepção, governança, manutenção, alimentos e bebidas, segurança e liderança.',
-    moments: [
-      { number: '01', title: 'Solicitações de hóspedes', text: 'Direcione cada solicitação à equipe certa, defina o tempo de resposta e mantenha a recepção informada até a solução.', tag: 'Recuperação do serviço' },
-      { number: '02', title: 'Quartos prontos', text: 'Conecte governança, inspeções e manutenção para tornar bloqueios visíveis antes de afetarem o hóspede.', tag: 'Entregas entre equipes' },
-      { number: '03', title: 'Manutenção', text: 'Gerencie planos preventivos e ordens urgentes com responsável, prioridade, histórico, fotos e evidência.', tag: 'Ativos + ordens' },
-      { number: '04', title: 'Qualidade e conformidade', text: 'Transforme padrões em listas, inspeções, aprovações e registros auditáveis para cada propriedade.', tag: 'POPs + inspeções' },
-    ],
-    processEyebrow: 'Do sinal à certeza',
-    processTitle: <>Capture. Coordene. <em>Comprove.</em></>,
-    processLead: 'O Whagons torna visível todo o ciclo operacional: do primeiro sinal no local até um resultado verificado que a gestão pode analisar.',
-    platformCta: 'Conhecer a plataforma',
-    steps: [
-      ['Capture', 'Crie tarefas por celular, computador, formulário, QR code, programação ou sistema conectado.'],
-      ['Coordene', 'Defina responsáveis, prazos, prioridades, aprovações e regras de escalonamento adequadas ao hotel.'],
-      ['Melhore', 'Verifique a conclusão, identifique padrões e use dados reais para fortalecer o próximo turno.'],
-    ],
-    productEyebrow: 'Uma visão operacional mais clara',
-    productTitle: 'Uma visão para cada turno. O detalhe certo para cada função.',
-    productText: 'As equipes sabem o que fazer agora. Gestores veem exceções antes que se tornem problemas para o hóspede. Líderes enxergam os padrões por trás do desempenho.',
-    dashboardTitle: 'Operações do hotel',
-    dashboardSubtitle: 'Hoje · Todos os departamentos · Ilustrativo',
-    dashboardMetrics: [['Abertas', '38'], ['No prazo', '91%'], ['Em risco', '6'], ['Concluídas', '124']],
-    dashboardFeed: 'Fluxo ao vivo',
-    now: 'Agora',
-    dashboardRows: [['Quarto 418 · A/C', 'Manutenção', '12 min restantes'], ['Inspeção de chegada', 'Governança', 'Revisar'], ['Lista da piscina', 'Recreação', 'Concluída']],
-    capabilities: [
-      ['Automação de fluxos', 'Mova automaticamente o trabalho recorrente e reativo.'],
-      ['Trabalho móvel', 'Fotos, formulários, assinaturas, QR, código de barras, GPS e NFC.'],
-      ['Escalonamentos e aprovações', 'Mantenha o trabalho importante avançando sem cobranças manuais.'],
-      ['Análises e IA', 'Encontre atrasos, problemas recorrentes e a próxima ação com mais rapidez.'],
-      ['POPs e conhecimento', 'Mantenha procedimentos e treinamento onde o trabalho acontece.'],
-      ['API e integrações', 'Conecte os sistemas de hotel que suas equipes já utilizam.'],
-    ],
-    featuresPrompt: 'Quer ver todas as capacidades?',
-    featuresCta: 'Ver as funcionalidades na demo',
-    proofEyebrow: 'Experiência além do lobby',
-    proofTitle: 'Construído com anos de trabalho operacional real.',
-    proofText: 'O Whagons apoia equipes operacionais na América Latina. Nosso foco em hotéis leva essa mesma disciplina aos momentos em que serviço, equipes e turnos se encontram.',
-    awardTitle: 'Produto Inovador do Ano',
-    awardEvent: 'Exphore Expo Hotéis e Restaurantes · 2017',
-    awardNote: 'Prêmio recebido sob o nome anterior DingDone',
-    proofCardEyebrow: 'Projetado para adoção prática',
-    proofCardTitle: 'Mantenha o PMS. Comece com um fluxo. Torne o resultado visível.',
-    proofCardItems: ['Sem substituir o PMS', 'Celular e computador', 'Configurado para as funções do hotel'],
-    marketsEyebrow: 'Uma plataforma, mais mercados',
-    priorityMarket: 'Mercado prioritário',
-    marketsTitle: 'Hotéis são o foco. Outras equipes operacionais também são bem-vindas.',
-    marketsText: 'Os mesmos princípios — responsabilidade clara, prazos visíveis, padrões consistentes e conclusões verificadas — apoiam trabalhos complexos em outros setores.',
-    featuredMarket: ['Hotelaria', 'O mercado prioritário do Whagons: serviço ao hóspede, quartos, manutenção, inspeções e cada entrega entre equipes.'],
-    featuredLink: 'Explorar operações hoteleiras',
-    markets: [['Varejo', 'Execução em várias unidades'], ['Manutenção industrial', 'Ativos e trabalho em campo'], ['Farmacêutica e alimentos', 'Rastreabilidade e conformidade'], ['Saúde e educação', 'Protocolos e padrões'], ['Construção', 'Progresso e controle no local']],
-    exploreMarket: 'Explorar',
-    finalEyebrow: 'Sua operação, visível',
-    finalTitle: 'Veja o Whagons aplicado a um fluxo real do seu hotel.',
-    finalText: 'Vamos concentrar a conversa em suas equipes, suas entregas e no resultado operacional que você precisa — não em uma apresentação genérica do produto.',
-    finalCta: 'Solicitar minha demo',
-  },
-  de: {
-    heroEyebrow: 'Betriebssoftware für Hotels',
-    heroTitle: <><span>Hotelbetrieb.</span><em>Ohne blinde Flecken.</em></>,
-    heroLead: 'Verbinden Sie Gästeanfragen, Zimmerbereitschaft, Wartung, Inspektionen und Schichten in einer operativen Ansicht. Jede Aufgabe erhält eine verantwortliche Person, eine Frist und einen Abschlussnachweis.',
-    primaryCta: 'Individuelle Demo anfordern',
-    secondaryCta: 'So funktioniert es',
-    heroPoints: ['Ergänzt Ihr PMS', 'Mobil + Web', 'Auf Ihren Betrieb zugeschnitten', 'In ganz Lateinamerika'],
-    heroAlt: 'Hotelpool und Gästebereiche bei Sonnenuntergang',
-    liveWorkflow: 'Beispielhafter Hotelablauf',
-    managerView: 'Managementansicht',
-    workflowTitle: 'Klimaanlage im Gästezimmer',
-    room: 'Zimmer 418',
-    workflowRows: [['Gästeanfrage', 'Rezeption', 'Erfasst'], ['Haustechnik', 'Fällig 10:30', 'In Bearbeitung'], ['Rückmeldung an Gast', 'Foto + Notiz', 'Als Nächstes']],
-    workflowControls: ['Verantwortlich', 'Frist', 'Eskalation', 'Nachweis'],
-    signalItems: [['Gästeanfragen', 'Eine sichtbare Verantwortung'], ['Zimmerbereitschaft', 'Abteilungsübergreifend'], ['Wartung', 'Geplant und reaktiv'], ['Standards', 'Nachweis in jeder Schicht']],
-    signalAria: 'Operative Momente im Hotel',
-    problemEyebrow: 'Die operative Ebene',
-    problemTitle: 'Arbeit zwischen Teams darf beim Schichtwechsel nicht verschwinden.',
-    problemText: 'Ihr PMS kennt den Aufenthalt. Whagons koordiniert die Arbeit darum herum — zwischen Rezeption, Housekeeping, Haustechnik, Gastronomie, Sicherheit und Leitung.',
-    moments: [
-      { number: '01', title: 'Gästeanfragen', text: 'Leiten Sie jede Anfrage an das richtige Team weiter, setzen Sie eine Reaktionszeit und halten Sie die Rezeption bis zur Lösung informiert.', tag: 'Servicewiederherstellung' },
-      { number: '02', title: 'Zimmerbereitschaft', text: 'Verbinden Sie Housekeeping, Inspektionen und Wartung, damit Hindernisse sichtbar werden, bevor sie Gäste beeinträchtigen.', tag: 'Teamübergaben' },
-      { number: '03', title: 'Wartung', text: 'Steuern Sie vorbeugende Pläne und dringende Aufträge mit Verantwortung, Priorität, Verlauf, Fotos und Nachweisen.', tag: 'Anlagen + Aufträge' },
-      { number: '04', title: 'Qualität und Compliance', text: 'Machen Sie aus Standards wiederholbare Checklisten, Inspektionen, Freigaben und auditierbare Nachweise.', tag: 'SOPs + Inspektionen' },
-    ],
-    processEyebrow: 'Vom Signal zur Gewissheit',
-    processTitle: <>Erfassen. Koordinieren. <em>Nachweisen.</em></>,
-    processLead: 'Whagons macht den gesamten operativen Kreislauf sichtbar — vom ersten Signal vor Ort bis zum geprüften Ergebnis für das Management.',
-    platformCta: 'Plattform kennenlernen',
-    steps: [['Erfassen', 'Erstellen Sie Aufgaben per Smartphone, Computer, Formular, QR-Code, Zeitplan oder angebundenem System.'], ['Koordinieren', 'Definieren Sie Verantwortliche, Fristen, Prioritäten, Freigaben und Eskalationsregeln passend zum Hotel.'], ['Verbessern', 'Prüfen Sie Abschlüsse, erkennen Sie Muster und stärken Sie mit echten Betriebsdaten die nächste Schicht.']],
-    productEyebrow: 'Ein klareres Betriebsbild',
-    productTitle: 'Eine Ansicht für jede Schicht. Die richtigen Details für jede Rolle.',
-    productText: 'Mitarbeitende sehen, was als Nächstes zu tun ist. Führungskräfte erkennen Ausnahmen, bevor sie zu Gästeproblemen werden. Die Leitung sieht die Muster hinter der Leistung.',
-    dashboardTitle: 'Hotelbetrieb',
-    dashboardSubtitle: 'Heute · Alle Abteilungen · Beispiel',
-    dashboardMetrics: [['Offen', '38'], ['Pünktlich', '91%'], ['Gefährdet', '6'], ['Erledigt', '124']],
-    dashboardFeed: 'Live-Ablauf',
-    now: 'Jetzt',
-    dashboardRows: [['Zimmer 418 · Klima', 'Haustechnik', 'Noch 12 Min.'], ['Anreiseinspektion', 'Housekeeping', 'Prüfen'], ['Pool-Checkliste', 'Freizeit', 'Erledigt']],
-    capabilities: [['Workflow-Automatisierung', 'Bringen Sie wiederkehrende und reaktive Arbeit automatisch voran.'], ['Mobile Arbeit', 'Fotos, Formulare, Unterschriften, QR, Barcode, GPS und NFC.'], ['Eskalationen und Freigaben', 'Halten Sie wichtige Arbeit ohne manuelles Nachfassen in Bewegung.'], ['Analysen und KI', 'Erkennen Sie Verzögerungen, wiederkehrende Probleme und nächste Schritte schneller.'], ['SOPs und Wissen', 'Stellen Sie Verfahren und Schulungen dort bereit, wo die Arbeit stattfindet.'], ['API und Integrationen', 'Verbinden Sie die Hotelsysteme, auf die Ihre Teams bereits vertrauen.']],
-    featuresPrompt: 'Möchten Sie alle Funktionen sehen?',
-    featuresCta: 'Funktionen in der Demo ansehen',
-    proofEyebrow: 'Erfahrung über die Hotellobby hinaus',
-    proofTitle: 'Auf jahrelanger echter Betriebserfahrung aufgebaut.',
-    proofText: 'Whagons unterstützt operative Teams in Lateinamerika. Unser Hotelfokus bringt dieselbe Disziplin an die Schnittstellen von Service, Teams und Schichten.',
-    awardTitle: 'Innovatives Produkt des Jahres',
-    awardEvent: 'Exphore Hotel- und Restaurantmesse · 2017',
-    awardNote: 'Ausgezeichnet unter dem früheren Namen DingDone',
-    proofCardEyebrow: 'Für die praktische Einführung entwickelt',
-    proofCardTitle: 'Behalten Sie Ihr PMS. Starten Sie mit einem Ablauf. Machen Sie das Ergebnis sichtbar.',
-    proofCardItems: ['Kein PMS-Ersatz', 'Mobil und Desktop', 'Auf Hotelrollen zugeschnitten'],
-    marketsEyebrow: 'Eine Plattform, weitere Märkte',
-    priorityMarket: 'Schwerpunktmarkt',
-    marketsTitle: 'Hotels stehen im Mittelpunkt. Andere operative Teams sind ebenfalls willkommen.',
-    marketsText: 'Dieselben Prinzipien — klare Verantwortung, sichtbare Fristen, einheitliche Standards und geprüfte Abschlüsse — unterstützen komplexe Arbeit in weiteren Branchen.',
-    featuredMarket: ['Hotellerie', 'Der Schwerpunktmarkt von Whagons: Gästeservice, Zimmer, Wartung, Inspektionen und jede Übergabe dazwischen.'],
-    featuredLink: 'Hotelbetrieb entdecken',
-    markets: [['Einzelhandel', 'Umsetzung an mehreren Standorten'], ['Industrielle Instandhaltung', 'Anlagen und Außeneinsätze'], ['Pharma und Lebensmittel', 'Rückverfolgbarkeit und Compliance'], ['Gesundheit und Bildung', 'Protokolle und Standards'], ['Bauwesen', 'Fortschritt und Baustellenkontrolle']],
-    exploreMarket: 'Entdecken',
-    finalEyebrow: 'Ihr Betrieb, sichtbar gemacht',
-    finalTitle: 'Erleben Sie Whagons anhand eines echten Ablaufs Ihres Hotels.',
-    finalText: 'Wir konzentrieren uns auf Ihre Teams, Ihre Übergaben und das operative Ergebnis, das Sie benötigen — nicht auf eine allgemeine Produkttour.',
-    finalCta: 'Demo anfordern',
-  },
-  it: {
-    heroEyebrow: 'Software operativo per hotel',
-    heroTitle: <><span>Operazioni alberghiere.</span><em>Senza punti ciechi.</em></>,
-    heroLead: 'Collega richieste degli ospiti, preparazione delle camere, manutenzione, ispezioni e turni in un’unica vista operativa. Ogni attività ha un responsabile, una scadenza e una prova di completamento.',
-    primaryCta: 'Richiedi una demo personalizzata',
-    secondaryCta: 'Scopri come funziona',
-    heroPoints: ['Funziona insieme al tuo PMS', 'Mobile + web', 'Configurato per la tua operatività', 'In tutta l’America Latina'],
-    heroAlt: 'Piscina e aree ospiti di un hotel al tramonto',
-    liveWorkflow: 'Flusso alberghiero di esempio',
-    managerView: 'Vista gestionale',
-    workflowTitle: 'Problema A/C nella camera',
-    room: 'Camera 418',
-    workflowRows: [['Richiesta dell’ospite', 'Reception', 'Registrata'], ['Manutenzione', 'Scadenza 10:30', 'In corso'], ['Riscontro all’ospite', 'Foto + nota', 'Prossimo']],
-    workflowControls: ['Responsabile', 'Scadenza', 'Escalation', 'Prova'],
-    signalItems: [['Richieste degli ospiti', 'Un responsabile visibile'], ['Camere pronte', 'Tra reparti'], ['Manutenzione', 'Pianificata e reattiva'], ['Standard', 'Prove a ogni turno']],
-    signalAria: 'Momenti operativi dell’hotel',
-    problemEyebrow: 'Il livello operativo',
-    problemTitle: 'Il lavoro tra i team non dovrebbe perdersi tra un turno e l’altro.',
-    problemText: 'Il tuo PMS conosce il soggiorno. Whagons coordina il lavoro che lo circonda — reception, housekeeping, manutenzione, ristorazione, sicurezza e direzione.',
-    moments: [
-      { number: '01', title: 'Richieste degli ospiti', text: 'Indirizza ogni richiesta al team giusto, definisci il tempo di risposta e tieni informata la reception fino alla risoluzione.', tag: 'Recupero del servizio' },
-      { number: '02', title: 'Camere pronte', text: 'Collega housekeeping, ispezioni e manutenzione per rendere visibili i blocchi prima che incidano sull’ospite.', tag: 'Passaggi tra team' },
-      { number: '03', title: 'Manutenzione', text: 'Gestisci piani preventivi e ordini urgenti con responsabile, priorità, cronologia, foto e prove.', tag: 'Asset + ordini' },
-      { number: '04', title: 'Qualità e conformità', text: 'Trasforma gli standard in checklist, ispezioni, approvazioni e registri verificabili per ogni struttura.', tag: 'SOP + ispezioni' },
-    ],
-    processEyebrow: 'Dal segnale alla certezza',
-    processTitle: <>Acquisisci. Coordina. <em>Dimostra.</em></>,
-    processLead: 'Whagons rende visibile l’intero ciclo operativo: dal primo segnale sul campo a un risultato verificato che la direzione può esaminare.',
-    platformCta: 'Scopri la piattaforma',
-    steps: [['Acquisisci', 'Crea attività da telefono, computer, modulo, codice QR, pianificazione o sistema collegato.'], ['Coordina', 'Assegna responsabili, scadenze, priorità, approvazioni e regole di escalation adatte all’hotel.'], ['Migliora', 'Verifica il completamento, individua gli schemi e usa dati reali per rafforzare il turno successivo.']],
-    productEyebrow: 'Un quadro operativo più chiaro',
-    productTitle: 'Una vista per ogni turno. Il dettaglio giusto per ogni ruolo.',
-    productText: 'Il personale vede cosa fare ora. I manager individuano le eccezioni prima che diventino problemi per l’ospite. La direzione vede gli schemi dietro le prestazioni.',
-    dashboardTitle: 'Operazioni dell’hotel',
-    dashboardSubtitle: 'Oggi · Tutti i reparti · Esempio',
-    dashboardMetrics: [['Aperte', '38'], ['Puntuali', '91%'], ['A rischio', '6'], ['Completate', '124']],
-    dashboardFeed: 'Flusso in tempo reale',
-    now: 'Ora',
-    dashboardRows: [['Camera 418 · A/C', 'Manutenzione', '12 min rimasti'], ['Ispezione arrivo', 'Housekeeping', 'Revisione'], ['Checklist piscina', 'Ricreazione', 'Completata']],
-    capabilities: [['Automazione dei flussi', 'Fai avanzare automaticamente il lavoro ricorrente e reattivo.'], ['Lavoro mobile', 'Foto, moduli, firme, QR, codici a barre, GPS e NFC.'], ['Escalation e approvazioni', 'Mantieni in movimento il lavoro importante senza solleciti manuali.'], ['Analisi e IA', 'Individua più rapidamente ritardi, problemi ricorrenti e prossime azioni.'], ['SOP e conoscenza', 'Porta procedure e formazione dove avviene il lavoro.'], ['API e integrazioni', 'Collega i sistemi alberghieri già utilizzati dai tuoi team.']],
-    featuresPrompt: 'Vuoi vedere tutte le funzionalità?',
-    featuresCta: 'Vedi le funzionalità nella demo',
-    proofEyebrow: 'Esperienza oltre la lobby',
-    proofTitle: 'Costruito su anni di vero lavoro operativo.',
-    proofText: 'Whagons supporta team operativi in America Latina. Il nostro focus sugli hotel porta la stessa disciplina nei momenti in cui servizio, team e turni si incontrano.',
-    awardTitle: 'Prodotto innovativo dell’anno',
-    awardEvent: 'Exphore Expo Hotel e Ristoranti · 2017',
-    awardNote: 'Premio ricevuto con il precedente nome DingDone',
-    proofCardEyebrow: 'Progettato per un’adozione concreta',
-    proofCardTitle: 'Mantieni il PMS. Inizia da un flusso. Rendi visibile il risultato.',
-    proofCardItems: ['Nessuna sostituzione del PMS', 'Mobile e desktop', 'Configurato sui ruoli dell’hotel'],
-    marketsEyebrow: 'Una piattaforma, più mercati',
-    priorityMarket: 'Mercato prioritario',
-    marketsTitle: 'Gli hotel sono il focus. Anche altri team operativi sono i benvenuti.',
-    marketsText: 'Gli stessi principi — responsabilità chiara, tempi visibili, standard coerenti e completamenti verificati — supportano il lavoro complesso in altri settori.',
-    featuredMarket: ['Ospitalità', 'Il mercato prioritario di Whagons: servizio agli ospiti, camere, manutenzione, ispezioni e ogni passaggio tra i team.'],
-    featuredLink: 'Esplora le operazioni alberghiere',
-    markets: [['Vendita al dettaglio', 'Esecuzione in più sedi'], ['Manutenzione industriale', 'Asset e lavoro sul campo'], ['Farmaceutica e alimentare', 'Tracciabilità e conformità'], ['Sanità e istruzione', 'Protocolli e standard'], ['Costruzioni', 'Avanzamento e controllo del sito']],
-    exploreMarket: 'Esplora',
-    finalEyebrow: 'La tua operatività, visibile',
-    finalTitle: 'Scopri Whagons applicato a un flusso reale del tuo hotel.',
-    finalText: 'Concentreremo la conversazione sui tuoi team, sui passaggi e sul risultato operativo di cui hai bisogno — non su un tour generico del prodotto.',
-    finalCta: 'Richiedi la mia demo',
-  },
 } as const;
 
 const marketSlugs = ['retail', 'mantenimiento', 'farmaceutica', 'salud-educacion', 'construccion'];
@@ -570,66 +359,6 @@ const customerProof = {
     caseMetrics: [['−80%', 'visitas repetidas'], ['2 días → 4 horas', 'tiempo de resolución'], ['100%', 'historial digital de equipos']],
     sourceLabel: 'Ver evidencia pública',
   },
-  pt: {
-    eyebrow: 'Evidência pública de clientes',
-    title: 'Equipes que confiaram no Whagons.',
-    text: 'Com presença em toda a América Latina, depoimentos publicados e um caso operacional tornam o resultado mais concreto do que uma lista de funcionalidades.',
-    clientsLabel: 'Organizações que confiaram no Whagons',
-    testimonialsLabel: 'O que líderes de operações disseram',
-    testimonials: [
-      { quote: 'Facilita o controle dos processos do dia a dia. É uma ferramenta muito útil e fácil de usar.', name: 'Leela Wernscheid', role: 'Gerente de Operações · Colegio Humboldt' },
-      { quote: 'Estou muito satisfeito, porque manter mais de 1.500 funcionários alinhados em uma disciplina não é simples.', name: 'Guido Tenorio', role: 'Gerente de Operações · Grupo El Lagar' },
-      { quote: 'Recomendo o Whagons 100%. Acredito na ferramenta e nas pessoas por trás do Whagons.', name: 'Jorge Varela', role: 'Gerente Geral · Rythmia' },
-      { quote: 'Com o Whagons, a certificação ISO 9001:2015 ficou mais fácil.', name: 'Isaac Mena Chacón', role: 'Gerente de Qualidade · IQS' },
-      { quote: 'O Whagons tem sido muito importante porque nos permite monitorar as diferentes áreas da empresa.', name: 'William Ulate Loaiza', role: 'Gerente de Operações · Grupo Colono' },
-      { quote: 'Na Refritec estamos 100% satisfeitos com o Whagons pela experiência e pelas melhorias alcançadas com sua implementação.', name: 'Jonathan Gaitán', role: 'Gerente · Refritec' },
-    ],
-    caseLabel: 'Caso anonimizado publicado pelo Whagons',
-    caseTitle: 'De visitas repetidas a um histórico digital de equipamentos.',
-    caseText: 'Uma equipe de manutenção de refrigeração mudou seu fluxo operacional em 60 dias.',
-    caseMetrics: [['−80%', 'visitas repetidas'], ['2 dias → 4 horas', 'tempo de resolução'], ['100%', 'histórico digital de equipamentos']],
-    sourceLabel: 'Ver evidência pública',
-  },
-  de: {
-    eyebrow: 'Öffentliche Kundennachweise',
-    title: 'Teams, die Whagons vertraut haben.',
-    text: 'Mit Präsenz in ganz Lateinamerika machen veröffentlichte Kundenstimmen und ein Betriebsfall das Ergebnis greifbarer als eine reine Funktionsliste.',
-    clientsLabel: 'Organisationen, die Whagons vertraut haben',
-    testimonialsLabel: 'Was Betriebsleiter berichtet haben',
-    testimonials: [
-      { quote: 'Whagons erleichtert die Kontrolle der täglichen Abläufe. Es ist ein sehr nützliches und einfach zu bedienendes Werkzeug.', name: 'Leela Wernscheid', role: 'Betriebsleiterin · Colegio Humboldt' },
-      { quote: 'Ich bin sehr zufrieden, denn mehr als 1.500 Mitarbeitende in einer Disziplin auszurichten, ist nicht einfach.', name: 'Guido Tenorio', role: 'Betriebsleiter · Grupo El Lagar' },
-      { quote: 'Ich empfehle Whagons zu 100 %. Ich glaube an das Werkzeug und an die Menschen hinter Whagons.', name: 'Jorge Varela', role: 'Geschäftsführer · Rythmia' },
-      { quote: 'Mit Whagons wurde die ISO-9001:2015-Zertifizierung erleichtert.', name: 'Isaac Mena Chacón', role: 'Qualitätsleiter · IQS' },
-      { quote: 'Whagons ist sehr wichtig, weil wir damit die verschiedenen Bereiche des Unternehmens überwachen können.', name: 'William Ulate Loaiza', role: 'Betriebsleiter · Grupo Colono' },
-      { quote: 'Bei Refritec sind wir mit Whagons, unserer Erfahrung und den Verbesserungen durch die Einführung zu 100 % zufrieden.', name: 'Jonathan Gaitán', role: 'Geschäftsführer · Refritec' },
-    ],
-    caseLabel: 'Von Whagons veröffentlichter anonymisierter Fall',
-    caseTitle: 'Von Wiederholungsbesuchen zur digitalen Anlagenhistorie.',
-    caseText: 'Ein Kältetechnik-Team veränderte seinen Betriebsablauf in 60 Tagen.',
-    caseMetrics: [['−80 %', 'Wiederholungsbesuche'], ['2 Tage → 4 Stunden', 'Lösungszeit'], ['100 %', 'digitale Anlagenhistorie']],
-    sourceLabel: 'Öffentliche Nachweise ansehen',
-  },
-  it: {
-    eyebrow: 'Prove pubbliche dei clienti',
-    title: 'Team che hanno scelto Whagons.',
-    text: 'Con una presenza in tutta l’America Latina, testimonianze pubblicate e un caso operativo rendono il risultato più concreto di un semplice elenco di funzionalità.',
-    clientsLabel: 'Organizzazioni che hanno scelto Whagons',
-    testimonialsLabel: 'Cosa hanno detto i responsabili operativi',
-    testimonials: [
-      { quote: 'Whagons facilita il controllo dei processi quotidiani. È uno strumento molto utile e facile da usare.', name: 'Leela Wernscheid', role: 'Responsabile Operazioni · Colegio Humboldt' },
-      { quote: 'Sono molto soddisfatto, perché allineare più di 1.500 dipendenti in una disciplina non è semplice.', name: 'Guido Tenorio', role: 'Responsabile Operazioni · Grupo El Lagar' },
-      { quote: 'Raccomando Whagons al 100%. Credo nello strumento e nelle persone dietro Whagons.', name: 'Jorge Varela', role: 'Direttore Generale · Rythmia' },
-      { quote: 'Con Whagons, la certificazione ISO 9001:2015 è diventata più semplice.', name: 'Isaac Mena Chacón', role: 'Responsabile Qualità · IQS' },
-      { quote: 'Whagons è stato molto importante perché ci permette di monitorare le diverse aree dell’azienda.', name: 'William Ulate Loaiza', role: 'Responsabile Operazioni · Grupo Colono' },
-      { quote: 'In Refritec siamo soddisfatti al 100% di Whagons, dell’esperienza e dei miglioramenti ottenuti con la sua implementazione.', name: 'Jonathan Gaitán', role: 'Direttore · Refritec' },
-    ],
-    caseLabel: 'Caso anonimo pubblicato da Whagons',
-    caseTitle: 'Dalle visite ripetute a uno storico digitale degli impianti.',
-    caseText: 'Un team di manutenzione della refrigerazione ha trasformato il proprio flusso operativo in 60 giorni.',
-    caseMetrics: [['−80%', 'visite ripetute'], ['2 giorni → 4 ore', 'tempo di risoluzione'], ['100%', 'storico digitale degli impianti']],
-    sourceLabel: 'Vedi le prove pubbliche',
-  },
 } as const;
 
 export default function HomePage({ lang }: { lang: Language }) {
@@ -655,7 +384,7 @@ export default function HomePage({ lang }: { lang: Language }) {
           <h1>{t.heroTitle}</h1>
           <p className={styles.heroLead}>{t.heroLead}</p>
           <div className={styles.heroActions}>
-            <a className={styles.primaryButton} href={demoHref}>{t.primaryCta}<span aria-hidden="true">→</span></a>
+            <a className={styles.primaryButton} href={demoHref}>{demoOffer[lang].cta}<span aria-hidden="true">→</span></a>
             <a className={styles.textButton} href="#how-it-works">{t.secondaryCta}<span aria-hidden="true">↓</span></a>
           </div>
           <div className={styles.heroPoints}>
@@ -835,9 +564,7 @@ export default function HomePage({ lang }: { lang: Language }) {
           ))}
         </div>
 
-        <a className={styles.proofLabel} href="https://whagons.com/docs/Whagons-2022.pdf" target="_blank" rel="noreferrer">
-          {proof.testimonialsLabel}<span aria-hidden="true">↗</span>
-        </a>
+        <p className={styles.proofLabel}>{proof.testimonialsLabel}</p>
         <div className={styles.testimonialGrid}>
           {proof.testimonials.map((testimonial) => (
             <figure className={styles.testimonialCard} key={testimonial.name}>
@@ -846,6 +573,11 @@ export default function HomePage({ lang }: { lang: Language }) {
             </figure>
           ))}
         </div>
+
+        <p className={styles.testimonialSource}>
+          {demoOffer[lang].source}{' '}
+          <a href="https://whagons.com/docs/Whagons-2022.pdf" target="_blank" rel="noreferrer">{demoOffer[lang].sourceLink} ↗</a>
+        </p>
 
         <article className={styles.caseStudy}>
           <div>
@@ -866,9 +598,10 @@ export default function HomePage({ lang }: { lang: Language }) {
 
       <section className={styles.finalCta}>
         <p className={styles.eyebrow}>{t.finalEyebrow}</p>
-        <h2>{t.finalTitle}</h2>
-        <p>{t.finalText}</p>
-        <a className={styles.primaryButton} href={demoHref}>{t.finalCta}<span aria-hidden="true">→</span></a>
+        <h2>{demoOffer[lang].title}</h2>
+        <p>{demoOffer[lang].description}</p>
+        <p>{demoOffer[lang].deliverable}</p>
+        <a className={styles.primaryButton} href={demoHref}>{demoOffer[lang].cta}<span aria-hidden="true">→</span></a>
       </section>
     </main>
   );

@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         'Revisa los términos aplicables al uso del sitio web de Whagons y de la plataforma de gestión operativa, automatización e inteligencia artificial.',
       alternates: {
         canonical: 'https://whagons.com/es/terms',
-        languages: { 'en-US': 'https://whagons.com/en/terms', 'es-419': 'https://whagons.com/es/terms' },
+        languages: { en: 'https://whagons.com/en/terms', es: 'https://whagons.com/es/terms' },
       },
     },
     en: {
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         'Review the terms that apply to the U.S. Whagons Hospitality website and the Whagons operations platform offered by Whagons Systems LLC.',
       alternates: {
         canonical: 'https://whagons.com/en/terms',
-        languages: { 'en-US': 'https://whagons.com/en/terms', 'es-419': 'https://whagons.com/es/terms' },
+        languages: { en: 'https://whagons.com/en/terms', es: 'https://whagons.com/es/terms' },
       },
     },
   };

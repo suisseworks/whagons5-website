@@ -15,7 +15,7 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 type FormType = 'brief' | 'demo';
-type Language = string;
+type Language = 'es' | 'en';
 
 const BRIEF_SEGMENT_NAME = 'Whagons5-Brief';
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -48,9 +48,7 @@ function resolvedSegmentIdFromEnv(formType: FormType, lang: Language): string | 
 
   const localizedDemo = lang === 'es'
     ? process.env.FLODESK_SEGMENT_DEMO_ES_ID
-    : lang === 'en'
-      ? process.env.FLODESK_SEGMENT_DEMO_EN_ID
-      : process.env.FLODESK_SEGMENT_DEMO_OTHER_ID;
+    : process.env.FLODESK_SEGMENT_DEMO_EN_ID;
 
   return localizedDemo?.trim() || undefined;
 }
@@ -198,9 +196,10 @@ export async function POST(request: NextRequest) {
     const cleanCompany = sanitize(body.company);
     const cleanIndustry = sanitize(body.industry);
     const submittedLanguage = sanitize(body.language, 24).toLowerCase();
-    const cleanLanguage: Language = /^[a-z]{2,3}(?:-[a-z0-9]{2,8})*$/.test(submittedLanguage)
-      ? submittedLanguage
-      : 'other';
+    if (submittedLanguage !== 'es' && submittedLanguage !== 'en') {
+      return noStoreJson({ error: 'Unsupported language' }, 400);
+    }
+    const cleanLanguage: Language = submittedLanguage;
     const cleanFormType: FormType = body.formType === 'brief' ? 'brief' : 'demo';
     const cleanPhone = sanitize(body.phone, 60);
     const cleanTeamSize = sanitize(body.teamSize);

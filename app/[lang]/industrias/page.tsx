@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       ],
       alternates: {
         canonical: 'https://whagons.com/es/industrias',
-        languages: { 'en-US': 'https://whagons.com/en/industries', 'es-419': 'https://whagons.com/es/industrias' },
+        languages: { en: 'https://whagons.com/en/industries', es: 'https://whagons.com/es/industrias' },
       },
       openGraph: {
         title: 'Whagons para mercados con operaciones complejas',
@@ -62,7 +62,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       ],
       alternates: {
         canonical: 'https://whagons.com/en/industries',
-        languages: { 'en-US': 'https://whagons.com/en/industries', 'es-419': 'https://whagons.com/es/industrias' },
+        languages: { en: 'https://whagons.com/en/industries', es: 'https://whagons.com/es/industrias' },
       },
       openGraph: {
         title: 'Whagons for Complex Operational Markets',

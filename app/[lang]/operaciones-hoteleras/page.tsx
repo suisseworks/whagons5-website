@@ -16,8 +16,8 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://whagons.com/es/operaciones-hoteleras',
     languages: {
-      'en-US': 'https://whagons.com/en/hotel-operations',
-      'es-419': 'https://whagons.com/es/operaciones-hoteleras',
+      en: 'https://whagons.com/en/hotel-operations',
+      es: 'https://whagons.com/es/operaciones-hoteleras',
     },
   },
   openGraph: {

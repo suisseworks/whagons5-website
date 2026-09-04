@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         'Conoce cómo Whagons recopila, utiliza y protege datos del sitio web, formularios de demo y brief, y de la plataforma de gestión operativa.',
       alternates: {
         canonical: 'https://whagons.com/es/privacy',
-        languages: { 'en-US': 'https://whagons.com/en/privacy', 'es-419': 'https://whagons.com/es/privacy' },
+        languages: { en: 'https://whagons.com/en/privacy', es: 'https://whagons.com/es/privacy' },
       },
     },
     en: {
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         'Learn how Whagons Systems LLC collects, uses, and protects information from the U.S. hospitality website, Hotel Handoff Leak Scan, and operations platform.',
       alternates: {
         canonical: 'https://whagons.com/en/privacy',
-        languages: { 'en-US': 'https://whagons.com/en/privacy', 'es-419': 'https://whagons.com/es/privacy' },
+        languages: { en: 'https://whagons.com/en/privacy', es: 'https://whagons.com/es/privacy' },
       },
     },
   };

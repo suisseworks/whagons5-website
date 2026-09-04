@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState, FormEvent } from 'react';
 import Image from 'next/image';
+import { demoOffer } from '../lib/demo-offer';
+import { isLanguage, legalRouteFor } from '../lib/locales';
 
 interface DemoSectionProps {
   t: any;
@@ -9,6 +11,7 @@ interface DemoSectionProps {
 }
 
 export default function DemoSection({ t, language }: DemoSectionProps) {
+  const lang = isLanguage(language) ? language : 'es';
   const [demoName, setDemoName] = useState('');
   const [demoCompany, setDemoCompany] = useState('');
   const [demoEmail, setDemoEmail] = useState('');
@@ -118,6 +121,8 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
                   <input
                     className="f-inp"
                     id="d-name"
+                    name="name"
+                    autoComplete="name"
                     type="text"
                     placeholder={t.demoNamePlaceholder}
                     required
@@ -131,6 +136,8 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
                   <input
                     className="f-inp"
                     id="d-company"
+                    name="company"
+                    autoComplete="organization"
                     type="text"
                     placeholder={t.demoCompanyPlaceholder}
                     required
@@ -144,6 +151,8 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
                   <input
                     className="f-inp"
                     id="d-email"
+                    name="email"
+                    autoComplete="email"
                     type="email"
                     placeholder={t.demoEmailPlaceholder}
                     required
@@ -157,6 +166,8 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
                   <input
                     className="f-inp"
                     id="d-phone"
+                    name="phone"
+                    autoComplete="tel"
                     type="tel"
                     placeholder={t.demoPhonePlaceholder}
                     value={demoPhone}
@@ -169,6 +180,7 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
                   <select
                     className="f-inp"
                     id="d-industry"
+                    name="industry"
                     required
                     value={demoIndustry}
                     onChange={(e) => setDemoIndustry(e.target.value)}
@@ -185,6 +197,7 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
                   <select
                     className="f-inp"
                     id="d-teamsize"
+                    name="teamSize"
                     required
                     value={demoTeamSize}
                     onChange={(e) => setDemoTeamSize(e.target.value)}
@@ -207,6 +220,10 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
                   <p className="f-note">{t.demoNote}</p>
                 )}
               </div>
+              <p className="demo-privacy">
+                {demoOffer[lang].privacy}{' '}
+                <a href={legalRouteFor(lang, 'privacy')}>{demoOffer[lang].privacyLink}</a>
+              </p>
             </form>
           ) : (
             <div

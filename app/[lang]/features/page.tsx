@@ -16,8 +16,8 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://whagons.com/en/features',
     languages: {
-      'en-US': 'https://whagons.com/en/features',
-      'es-419': 'https://whagons.com/es/funcionalidades',
+      en: 'https://whagons.com/en/features',
+      es: 'https://whagons.com/es/funcionalidades',
       'x-default': 'https://whagons.com/en/features',
     },
   },

@@ -28,19 +28,15 @@ const lead = {
   teamSize: '1 to 10 people',
 };
 
-test('routes English, Spanish, and the shared additional-language group to distinct demo segments', () => {
+test('routes English and Spanish to distinct demo segments and rejects unsupported languages', () => {
   assert.deepEqual(DEMO_SEGMENT_NAMES, {
     en: 'Whagons-Demo-EN',
     es: 'Whagons-Demo-ES',
-    other: 'Whagons-Demo-OTHER',
   });
   assert.equal(demoSegmentName('en'), 'Whagons-Demo-EN');
   assert.equal(demoSegmentName('es'), 'Whagons-Demo-ES');
-  assert.equal(demoSegmentName('pt'), 'Whagons-Demo-OTHER');
-  assert.equal(demoSegmentName('de'), 'Whagons-Demo-OTHER');
-  assert.equal(demoSegmentName('it'), 'Whagons-Demo-OTHER');
-  assert.equal(demoSegmentName('fr'), 'Whagons-Demo-OTHER');
-  assert.equal(demoSegmentName('ja'), 'Whagons-Demo-OTHER');
+  assert.throws(() => demoSegmentName('fr'), /Unsupported demo language/);
+  assert.throws(() => demoSegmentName(''), /Unsupported demo language/);
 });
 
 test('maps website lead data to the exact Flodesk custom field keys', () => {

@@ -437,6 +437,8 @@
 .caseMetrics strong { font-family: var(--serif); font-size: clamp(2rem, 3vw, 3.4rem); font-weight: 300; letter-spacing: -.04em; line-height: .94; }
 .caseMetrics span { color: rgba(255,255,255,.68); font-size: .59rem; letter-spacing: .08em; line-height: 1.45; text-transform: uppercase; }
 
+.testimonialSource { margin: 20px 0 0; color: rgba(243,240,233,.75); font-size: .75rem; line-height: 1.7; }
+.testimonialSource a { color: inherit; text-underline-offset: 3px; }
 .finalCta { display: flex; flex-direction: column; align-items: center; padding: 130px 24px 145px; text-align: center; background: #fbfaf6; }
 .finalCta h2 { max-width: 980px; }
 .finalCta > p:not(.eyebrow) { max-width: 590px; margin: 28px auto 0; }

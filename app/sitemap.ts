@@ -1,88 +1,24 @@
 import { MetadataRoute } from 'next';
-import { getBlogPosts, getSlugTranslationMap } from './lib/blog';
+
+const base = 'https://whagons.com';
+const pairs = [
+  ['/es', '/en'],
+  ['/es/plataforma', '/en/platform'],
+  ['/es/funcionalidades', '/en/features'],
+  ['/es/operaciones-hoteleras', '/en/hotel-operations'],
+  ['/es/industrias', '/en/industries'],
+  ['/es/demo', '/en/demo'],
+  ['/es/privacy', '/en/privacy'],
+  ['/es/terms', '/en/terms'],
+  ['/es/security', '/en/security'],
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://whagons.com';
-  const entries: MetadataRoute.Sitemap = [];
-
-  const markets = [
-    {
-      lang: 'es',
-      pages: [
-        { path: '', priority: 1, freq: 'weekly' as const },
-        { path: '/plataforma', priority: 0.9, freq: 'monthly' as const },
-        { path: '/funcionalidades', priority: 0.9, freq: 'monthly' as const },
-        { path: '/operaciones-hoteleras', priority: 0.9, freq: 'monthly' as const },
-        { path: '/industrias', priority: 0.9, freq: 'monthly' as const },
-        { path: '/demo', priority: 0.9, freq: 'monthly' as const },
-        { path: '/blog', priority: 0.8, freq: 'weekly' as const },
-        { path: '/privacy', priority: 0.4, freq: 'monthly' as const },
-        { path: '/terms', priority: 0.4, freq: 'monthly' as const },
-        { path: '/security', priority: 0.4, freq: 'monthly' as const },
-      ],
-    },
-    {
-      lang: 'en',
-      pages: [
-        { path: '', priority: 1, freq: 'weekly' as const },
-        { path: '/platform', priority: 0.9, freq: 'monthly' as const },
-        { path: '/features', priority: 0.9, freq: 'monthly' as const },
-        { path: '/hotel-operations', priority: 0.9, freq: 'monthly' as const },
-        { path: '/industries', priority: 0.7, freq: 'monthly' as const },
-        { path: '/demo', priority: 0.9, freq: 'monthly' as const },
-        { path: '/handoff-scan', priority: 0.9, freq: 'monthly' as const },
-        { path: '/resources', priority: 0.8, freq: 'weekly' as const },
-        { path: '/privacy', priority: 0.4, freq: 'monthly' as const },
-        { path: '/terms', priority: 0.4, freq: 'monthly' as const },
-        { path: '/security', priority: 0.4, freq: 'monthly' as const },
-      ],
-    },
-    {
-      lang: 'pt',
-      pages: [
-        { path: '', priority: 1, freq: 'weekly' as const },
-        { path: '/demo', priority: 0.9, freq: 'monthly' as const },
-      ],
-    },
-    {
-      lang: 'de',
-      pages: [
-        { path: '', priority: 1, freq: 'weekly' as const },
-        { path: '/demo', priority: 0.9, freq: 'monthly' as const },
-      ],
-    },
-    {
-      lang: 'it',
-      pages: [
-        { path: '', priority: 1, freq: 'weekly' as const },
-        { path: '/demo', priority: 0.9, freq: 'monthly' as const },
-      ],
-    },
+  return [
+    ...pairs.flatMap(([es, en]) => [es, en].map((path) => ({
+      url: `${base}${path}`,
+      alternates: { languages: { es: `${base}${es}`, en: `${base}${en}` } },
+    }))),
+    { url: `${base}/en/handoff-scan` },
   ];
-
-  for (const market of markets) {
-    for (const page of market.pages) {
-      entries.push({
-        url: `${baseUrl}/${market.lang}${page.path}`,
-        changeFrequency: page.freq,
-        priority: page.priority,
-      });
-    }
-  }
-
-  const blogPosts = [...getBlogPosts('en'), ...getBlogPosts('es')];
-  const translationMap = getSlugTranslationMap();
-  for (const post of blogPosts) {
-    const articlePath = post.lang === 'en' ? `/en/resources/${post.slug}` : `/es/blog/${post.slug}`;
-    if (post.lang === 'es' && !translationMap[articlePath]) continue;
-
-    entries.push({
-      url: `${baseUrl}${articlePath}`,
-      lastModified: post.date,
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    });
-  }
-
-  return entries;
 }

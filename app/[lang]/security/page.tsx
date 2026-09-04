@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         'Conoce el enfoque de Whagons para seguridad, control de acceso, protección de datos, monitoreo e incident response.',
       alternates: {
         canonical: 'https://whagons.com/es/security',
-        languages: { 'en-US': 'https://whagons.com/en/security', 'es-419': 'https://whagons.com/es/security' },
+        languages: { en: 'https://whagons.com/en/security', es: 'https://whagons.com/es/security' },
       },
     },
     en: {
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         'Learn about Whagons Systems LLC security practices for the U.S. hospitality website and Whagons operations platform.',
       alternates: {
         canonical: 'https://whagons.com/en/security',
-        languages: { 'en-US': 'https://whagons.com/en/security', 'es-419': 'https://whagons.com/es/security' },
+        languages: { en: 'https://whagons.com/en/security', es: 'https://whagons.com/es/security' },
       },
     },
   };

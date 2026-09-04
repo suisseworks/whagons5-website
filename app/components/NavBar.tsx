@@ -13,7 +13,6 @@ import {
 
 interface NavBarProps {
   lang: Language;
-  blogSlugMap?: Record<string, string>;
 }
 
 const navContent = {
@@ -27,24 +26,9 @@ const navContent = {
     resources: 'Recursos', login: 'Iniciar sesión', demo: 'Solicitar demo', menu: 'Abrir o cerrar menú',
     closeMenu: 'Cerrar menú', primaryNav: 'Navegación principal', language: 'Elegir idioma',
   },
-  pt: {
-    market: 'Operações hoteleiras', platform: 'Plataforma', hotels: 'Hotéis', markets: 'Outros mercados',
-    resources: 'Recursos (EN)', login: 'Entrar', demo: 'Solicitar demo', menu: 'Abrir ou fechar menu',
-    closeMenu: 'Fechar menu', primaryNav: 'Navegação principal', language: 'Escolher idioma',
-  },
-  de: {
-    market: 'Hotelbetrieb', platform: 'Plattform', hotels: 'Hotels', markets: 'Weitere Märkte',
-    resources: 'Ressourcen (EN)', login: 'Anmelden', demo: 'Demo anfordern', menu: 'Menü öffnen oder schließen',
-    closeMenu: 'Menü schließen', primaryNav: 'Hauptnavigation', language: 'Sprache auswählen',
-  },
-  it: {
-    market: 'Operazioni alberghiere', platform: 'Piattaforma', hotels: 'Hotel', markets: 'Altri mercati',
-    resources: 'Risorse (EN)', login: 'Accedi', demo: 'Richiedi demo', menu: 'Apri o chiudi menu',
-    closeMenu: 'Chiudi menu', primaryNav: 'Navigazione principale', language: 'Scegli la lingua',
-  },
 } as const;
 
-export default function NavBar({ lang, blogSlugMap = {} }: NavBarProps) {
+export default function NavBar({ lang }: NavBarProps) {
   const t = navContent[lang];
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -56,22 +40,13 @@ export default function NavBar({ lang, blogSlugMap = {} }: NavBarProps) {
     platform: routeFor(lang, 'platform'),
     hotels: routeFor(lang, 'hotels'),
     markets: routeFor(lang, 'markets'),
-    resources: routeFor(lang, 'resources'),
     demo: routeFor(lang, 'demo'),
   };
 
   const languageDestination = (nextLang: Language) => {
-    const legalMatch = pathname.match(/^\/(?:en|es|pt|de|it)\/(privacy|terms|security)$/);
+    const legalMatch = pathname.match(/^\/(?:en|es)\/(privacy|terms|security)$/);
     if (legalMatch) {
       return legalRouteFor(nextLang, legalMatch[1] as 'privacy' | 'terms' | 'security');
-    }
-
-    const isResource = pathname.startsWith('/en/resources') || pathname.startsWith('/es/blog');
-    if (isResource) {
-      if ((nextLang === 'en' || nextLang === 'es') && blogSlugMap[pathname]) {
-        return blogSlugMap[pathname];
-      }
-      return routeFor(nextLang, 'resources');
     }
 
     return routeFor(nextLang, routeKeyFromPath(pathname) || 'home');
@@ -175,7 +150,6 @@ export default function NavBar({ lang, blogSlugMap = {} }: NavBarProps) {
         <a href={hrefs.platform} onClick={closeMenu} aria-current={isActive(hrefs.platform) ? 'page' : undefined} className={`nl${isActive(hrefs.platform) ? ' nl-active' : ''}`}>{t.platform}</a>
         <a href={hrefs.hotels} onClick={closeMenu} aria-current={isActive(hrefs.hotels) ? 'page' : undefined} className={`nl${isActive(hrefs.hotels) ? ' nl-active' : ''}`}>{t.hotels}</a>
         <a href={hrefs.markets} onClick={closeMenu} aria-current={isActive(hrefs.markets) ? 'page' : undefined} className={`nl${isActive(hrefs.markets) ? ' nl-active' : ''}`}>{t.markets}</a>
-        <a href={hrefs.resources} onClick={closeMenu} aria-current={isActive(hrefs.resources) ? 'page' : undefined} className={`nl${isActive(hrefs.resources) ? ' nl-active' : ''}`}>{t.resources}</a>
         <a href="https://app.whagons.com/" onClick={closeMenu} className="nl">{t.login}</a>
         <a href={hrefs.demo} onClick={closeMenu} className="nd">{t.demo} <span aria-hidden="true">→</span></a>
         <label className="language-picker">

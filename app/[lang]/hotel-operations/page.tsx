@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   keywords: ['hotel department workflow', 'hotel shift handoff', 'hotel maintenance request workflow', 'room readiness workflow'],
   alternates: {
     canonical: 'https://whagons.com/en/hotel-operations',
-    languages: { 'en-US': 'https://whagons.com/en/hotel-operations', 'es-419': 'https://whagons.com/es/operaciones-hoteleras' },
+    languages: { en: 'https://whagons.com/en/hotel-operations', es: 'https://whagons.com/es/operaciones-hoteleras' },
   },
   openGraph: {
     title: 'One Operating Layer Across Hotel Departments',

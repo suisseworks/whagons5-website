@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   ],
   alternates: {
     canonical: 'https://whagons.com/en/industries',
-    languages: { 'en-US': 'https://whagons.com/en/industries', 'es-419': 'https://whagons.com/es/industrias' },
+    languages: { en: 'https://whagons.com/en/industries', es: 'https://whagons.com/es/industrias' },
   },
   openGraph: {
     title: 'Operations Software by Industry',
