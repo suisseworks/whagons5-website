@@ -26,8 +26,12 @@ export const privacyContent: Record<Language, LegalPageContent> = {
     intro:
       'Esta Política de Privacidad explica cómo Whagons recopila, usa, protege y comparte información cuando visitas nuestro sitio web, solicitas un brief o demo, o utilizas la plataforma Whagons para gestionar operaciones, automatizaciones, documentación y flujos de trabajo empresariales.',
     updatedLabel: 'Última actualización',
-    updatedDate: '1 de abril de 2026',
+    updatedDate: '9 de septiembre de 2026',
     sections: [
+      {
+        title: 'Hotel Operations Score',
+        body: ['Las respuestas del diagnóstico se guardan temporalmente en esta pestaña del navegador durante 24 horas para permitirte continuar. Al solicitar el resultado, guardamos tu correo, respuestas, score y recomendaciones en Flodesk para registrar la solicitud y preparar el diagnóstico personalizado. Conservamos el registro para preparar el resultado y dar seguimiento a tu solicitud. Si marcas la casilla opcional de novedades, guardamos ese consentimiento por separado en los datos del contacto; dejarla sin marcar no cancela suscripciones anteriores.'],
+      },
       {
         title: '1. Alcance',
         body: [
@@ -142,8 +146,12 @@ export const privacyContent: Record<Language, LegalPageContent> = {
     intro:
       'This Privacy Policy explains how Whagons Systems LLC (Whagons, we, or us) collects, uses, protects, and shares information when you visit the U.S. website, request a Hotel Handoff Leak Scan, or use the Whagons platform.',
     updatedLabel: 'Last updated',
-    updatedDate: 'July 13, 2026',
+    updatedDate: 'September 9, 2026',
     sections: [
+      {
+        title: 'Hotel Operations Score',
+        body: ['Assessment answers are saved temporarily in this browser tab for 24 hours so you can continue. When you request results, we save your email, answers, score and recommendations in Flodesk to register your request and prepare the personalized assessment. We retain the record to prepare your result and follow up on your request. If you select the optional news checkbox, we record that consent separately in your contact data; leaving it unchecked does not cancel existing subscriptions.'],
+      },
       {
         title: '1. Scope',
         body: [

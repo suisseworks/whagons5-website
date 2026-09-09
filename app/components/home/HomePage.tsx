@@ -2,6 +2,8 @@ import Image from 'next/image';
 import { demoOffer } from '../../lib/demo-offer';
 import { Language, routeFor } from '../../lib/locales';
 import styles from './HomePage.module.css';
+import ScorePromotion from '../hotel-score/ScorePromotion';
+import HospitalityAnalytics from '../hospitality/HospitalityAnalytics';
 
 const content = {
   en: {
@@ -384,8 +386,10 @@ export default function HomePage({ lang }: { lang: Language }) {
           <h1>{t.heroTitle}</h1>
           <p className={styles.heroLead}>{t.heroLead}</p>
           <div className={styles.heroActions}>
-            <a className={styles.primaryButton} href={demoHref}>{demoOffer[lang].cta}<span aria-hidden="true">→</span></a>
-            <a className={styles.textButton} href="#how-it-works">{t.secondaryCta}<span aria-hidden="true">↓</span></a>
+            <div className={styles.scoreAction}>
+              <a className={styles.primaryButton} data-track="hotel_score_hero_click" href={routeFor(lang, 'hotelScore')}>{lang === 'es' ? 'Evaluar la operación de mi hotel gratis' : 'Assess my hotel operations for free'}<span aria-hidden="true">→</span></a>
+              <small>{lang === 'es' ? '¿Qué tan bien está operando tu hotel? Responde 10 preguntas y descubre tu score operativo y qué mejorar primero.' : 'How well is your hotel running? Answer 10 questions to discover your operations score and what to improve first.'}</small>
+            </div>
           </div>
           <div className={styles.heroPoints}>
             {t.heroPoints.map((point) => <span key={point}>{point}</span>)}
@@ -451,6 +455,8 @@ export default function HomePage({ lang }: { lang: Language }) {
         </div>
       </section>
 
+      <HospitalityAnalytics page="home" market={lang === 'es' ? 'latam' : 'us'} />
+      <ScorePromotion lang={lang} />
       <section className={styles.process} id="how-it-works">
         <div className={styles.processIntro}>
           <p className={styles.eyebrow}>{t.processEyebrow}</p>

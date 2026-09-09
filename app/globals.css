@@ -122,6 +122,13 @@ nav {
 }
 .hospitality-nav .logo { position: relative; }
 .hospitality-nav .nav-r { gap: clamp(14px, 1.65vw, 26px); }
+@media (min-width: 1231px) {
+  .hospitality-nav .nav-r :is(.nl, .nd) { white-space: nowrap; }
+}
+@media (min-width: 1231px) and (max-width: 1400px) {
+  .hospitality-nav .logo-market { display: none; }
+  .hospitality-nav .nav-r { gap: 14px; }
+}
 .market-btn { width: auto; padding: 0 10px; white-space: nowrap; }
 .language-picker { display: inline-flex; }
 .language-picker select {
@@ -1545,6 +1552,8 @@ footer {
 .hospitality-footer .f-links {
   grid-column: 1 / -1;
   grid-row: 2;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
   padding-top: 26px;
   border-top: 1px solid rgba(28,28,25,0.18);

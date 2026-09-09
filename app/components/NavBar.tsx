@@ -18,12 +18,12 @@ interface NavBarProps {
 const navContent = {
   en: {
     market: 'Hotel operations', platform: 'Platform', hotels: 'Hotels', markets: 'Other markets',
-    resources: 'Resources', login: 'Log in', demo: 'Request demo', menu: 'Toggle menu',
+    resources: 'Resources', score: 'Hotel Score', login: 'Log in', demo: 'Request demo', menu: 'Toggle menu',
     closeMenu: 'Close menu', primaryNav: 'Primary navigation', language: 'Choose language',
   },
   es: {
     market: 'Operaciones hoteleras', platform: 'Plataforma', hotels: 'Hoteles', markets: 'Otros mercados',
-    resources: 'Recursos', login: 'Iniciar sesión', demo: 'Solicitar demo', menu: 'Abrir o cerrar menú',
+    resources: 'Recursos', score: 'Hotel Score', login: 'Iniciar sesión', demo: 'Solicitar demo', menu: 'Abrir o cerrar menú',
     closeMenu: 'Cerrar menú', primaryNav: 'Navegación principal', language: 'Elegir idioma',
   },
 } as const;
@@ -41,6 +41,7 @@ export default function NavBar({ lang }: NavBarProps) {
     hotels: routeFor(lang, 'hotels'),
     markets: routeFor(lang, 'markets'),
     demo: routeFor(lang, 'demo'),
+    score: routeFor(lang, 'hotelScore'),
   };
 
   const languageDestination = (nextLang: Language) => {
@@ -150,6 +151,7 @@ export default function NavBar({ lang }: NavBarProps) {
         <a href={hrefs.platform} onClick={closeMenu} aria-current={isActive(hrefs.platform) ? 'page' : undefined} className={`nl${isActive(hrefs.platform) ? ' nl-active' : ''}`}>{t.platform}</a>
         <a href={hrefs.hotels} onClick={closeMenu} aria-current={isActive(hrefs.hotels) ? 'page' : undefined} className={`nl${isActive(hrefs.hotels) ? ' nl-active' : ''}`}>{t.hotels}</a>
         <a href={hrefs.markets} onClick={closeMenu} aria-current={isActive(hrefs.markets) ? 'page' : undefined} className={`nl${isActive(hrefs.markets) ? ' nl-active' : ''}`}>{t.markets}</a>
+        <a href={hrefs.score} onClick={closeMenu} aria-current={isActive(hrefs.score) ? 'page' : undefined} className={`nl${isActive(hrefs.score) ? ' nl-active' : ''}`}>{t.score}</a>
         <a href="https://app.whagons.com/" onClick={closeMenu} className="nl">{t.login}</a>
         <a href={hrefs.demo} onClick={closeMenu} className="nd">{t.demo} <span aria-hidden="true">→</span></a>
         <label className="language-picker">

@@ -44,11 +44,13 @@ export type CoreRoute =
   | 'features'
   | 'hotels'
   | 'markets'
+  | 'hotelScore'
   | 'demo';
 
 const FULL_PAGE_ROUTES: Record<'es' | 'en', Record<CoreRoute, string>> = {
   es: {
     home: '/es',
+    hotelScore: '/es/hotel-operations-score',
     platform: '/es/plataforma',
     features: '/es/funcionalidades',
     hotels: '/es/operaciones-hoteleras',
@@ -57,6 +59,7 @@ const FULL_PAGE_ROUTES: Record<'es' | 'en', Record<CoreRoute, string>> = {
   },
   en: {
     home: '/en',
+    hotelScore: '/en/hotel-operations-score',
     platform: '/en/platform',
     features: '/en/features',
     hotels: '/en/hotel-operations',
@@ -78,6 +81,7 @@ export function routeKeyFromPath(pathname: string): CoreRoute | null {
   const pathWithoutLanguage = normalized.replace(/^\/(?:es|en)/, '') || '/';
 
   if (pathWithoutLanguage === '/') return 'home';
+  if (pathWithoutLanguage === '/hotel-operations-score') return 'hotelScore';
   if (pathWithoutLanguage === '/demo' || pathWithoutLanguage === '/handoff-scan') return 'demo';
   if (pathWithoutLanguage === '/platform' || pathWithoutLanguage === '/plataforma') return 'platform';
   if (pathWithoutLanguage === '/features' || pathWithoutLanguage === '/funcionalidades') return 'features';

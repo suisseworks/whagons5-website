@@ -63,6 +63,7 @@ export default function FooterBar({ lang }: { lang: Language }) {
         <a href={hrefs.hotels}>{t.hotels}</a>
         <a href={hrefs.markets}>{t.markets}</a>
         <a href={hrefs.demo}>{t.demo}</a>
+        <a href={routeFor(lang, 'hotelScore')}>Hotel Operations Score</a>
         <a href="mailto:hello@whagons.com">{t.email} ↗</a>
         <a
           href="https://www.linkedin.com/company/whagons/"
