@@ -92,14 +92,15 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
           </div>
           <figure className="demo-preview r d1">
             <Image
-              src="/images/whagons-analytics-dashboard.png"
-              alt={t.demoPreviewAlt}
-              width={1024}
-              height={515}
+              src="/images/demo-housekeeping-board.png"
+              alt={lang === 'es' ? 'Tablero de Housekeeping en Whagons con tareas agrupadas por estado. Datos de demostración.' : 'Whagons Housekeeping board with tasks grouped by status. Demo data; interface shown in Spanish.'}
+              width={1536}
+              height={735}
               sizes="(max-width: 860px) 100vw, 50vw"
               className="demo-preview-img"
               priority={false}
             />
+            <figcaption style={{ padding: '12px 16px', fontSize: '12px', lineHeight: 1.5 }}>{lang === 'es' ? 'Housekeeping en Whagons · Datos de demostración' : 'Housekeeping in Whagons · Demo data · Interface in Spanish'}</figcaption>
           </figure>
         </div>
         <div className="r d2">

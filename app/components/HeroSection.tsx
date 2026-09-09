@@ -63,10 +63,10 @@ export default function HeroSection({ t, lang = 'es' }: HeroSectionProps) {
           aria-label={t.heroPreviewAria}
         >
           <Image
-            src="/images/whagons-analytics-dashboard.png"
-            alt={t.demoPreviewAlt}
-            width={320}
-            height={161}
+            src="/images/demo-housekeeping-board.png"
+            alt={lang === 'es' ? 'Tablero de Housekeeping en Whagons con datos de demostración' : 'Whagons Housekeeping board with demo data'}
+            width={1536}
+            height={735}
             sizes="200px"
             className="hero-preview-img"
           />
