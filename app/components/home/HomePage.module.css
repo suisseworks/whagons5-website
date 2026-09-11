@@ -23,15 +23,13 @@
 .page * { box-sizing: border-box; }
 .page :is(#hotel-operations, #how-it-works, #markets, #features) { scroll-margin-top: 88px; }
 
-.page h1,
-.page h2,
-.page h3 { margin: 0; font-family: var(--sans); font-weight: 600; letter-spacing: -0.025em; text-wrap: balance; }
-.page h1 { font-size: clamp(2.6rem, 5vw, 4.1rem); line-height: 1.05; }
-.page h2 { font-size: clamp(1.9rem, 3vw, 2.6rem); line-height: 1.12; }
-.page h3 { font-size: 1.15rem; line-height: 1.3; letter-spacing: -0.015em; }
-.page p { margin: 0; }
-.page ul,
-.page ol { margin: 0; padding: 0; list-style: none; }
+/* Base element styles use :where() so single-class rules below can override them. */
+.page :where(h1, h2, h3) { margin: 0; font-family: var(--sans); font-weight: 600; letter-spacing: -0.025em; text-wrap: balance; }
+.page :where(h1) { font-size: clamp(2.6rem, 5vw, 4.1rem); line-height: 1.05; }
+.page :where(h2) { font-size: clamp(1.9rem, 3vw, 2.6rem); line-height: 1.12; }
+.page :where(h3) { font-size: 1.15rem; line-height: 1.3; letter-spacing: -0.015em; }
+.page :where(p) { margin: 0; }
+.page :where(ul, ol) { margin: 0; padding: 0; list-style: none; }
 
 .eyebrow {
   margin: 0 0 16px;
@@ -279,8 +277,8 @@
 }
 
 @media (max-width: 600px) {
-  .page h1 { font-size: clamp(2.2rem, 9.5vw, 2.8rem); }
-  .page h2 { font-size: clamp(1.6rem, 6.5vw, 2rem); }
+  .page :where(h1) { font-size: clamp(2.2rem, 9.5vw, 2.8rem); }
+  .page :where(h2) { font-size: clamp(1.6rem, 6.5vw, 2rem); }
   .heroCopy { text-align: left; }
   .heroCopy .lead { margin-left: 0; }
   .actions { justify-content: flex-start; }
