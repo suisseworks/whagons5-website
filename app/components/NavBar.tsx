@@ -32,6 +32,7 @@ export default function NavBar({ lang }: NavBarProps) {
   const t = navContent[lang];
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [onDark, setOnDark] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const menuPanelRef = useRef<HTMLDivElement>(null);
 
@@ -67,6 +68,26 @@ export default function NavBar({ lang }: NavBarProps) {
 
   useEffect(() => {
     setMenuOpen(false);
+  }, [pathname]);
+
+  // While the viewport is over a dark hero (marked with data-nav-tone="dark"),
+  // render the bar transparent with light text; fall back to cream on scroll.
+  useEffect(() => {
+    const hero = document.querySelector<HTMLElement>('[data-nav-tone="dark"]');
+    if (!hero) {
+      setOnDark(false);
+      return;
+    }
+    const update = () => {
+      setOnDark(hero.getBoundingClientRect().bottom > 72);
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    return () => {
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
   }, [pathname]);
 
   useEffect(() => {
@@ -121,7 +142,7 @@ export default function NavBar({ lang }: NavBarProps) {
   };
 
   return (
-    <nav className="hospitality-nav" aria-label={t.primaryNav}>
+    <nav className={`hospitality-nav${onDark && !menuOpen ? ' nav-on-dark' : ''}`} aria-label={t.primaryNav}>
       <a href={hrefs.home} onClick={closeMenu} className="logo" aria-label={`Whagons — ${t.market}`}>
         <span className="logo-icon" aria-hidden="true" />
         Whagons

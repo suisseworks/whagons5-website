@@ -91,6 +91,14 @@ const content = {
       ['Arrival inspection', 'Housekeeping', 'Review'],
       ['Pool checklist', 'Recreation', 'Completed'],
     ],
+    loadTitle: 'Load by team',
+    loadSubtitle: 'Current shift',
+    loadRows: [
+      ['Housekeeping', '82'],
+      ['Engineering', '64'],
+      ['Front desk', '41'],
+      ['F&B', '27'],
+    ],
     capabilities: [
       ['Workflow automation', 'Move recurring and reactive work forward automatically.'],
       ['Mobile fieldwork', 'Photos, forms, signatures, QR, barcode, GPS, and NFC.'],
@@ -216,6 +224,14 @@ const content = {
       ['Hab. 418 · A/C', 'Ingeniería', '12 min restantes'],
       ['Inspección de llegada', 'Ama de llaves', 'Revisar'],
       ['Lista de piscina', 'Recreación', 'Completada'],
+    ],
+    loadTitle: 'Carga por equipo',
+    loadSubtitle: 'Turno actual',
+    loadRows: [
+      ['Ama de llaves', '82'],
+      ['Ingeniería', '64'],
+      ['Recepción', '41'],
+      ['A&B', '27'],
     ],
     capabilities: [
       ['Automatización de flujos', 'Mueve automáticamente el trabajo recurrente y reactivo.'],
@@ -380,16 +396,14 @@ export default function HomePage({ lang }: { lang: Language }) {
 
   return (
     <main className={styles.page}>
-      <section className={styles.hero}>
+      <section className={styles.hero} data-nav-tone="dark">
         <div className={styles.heroCopy}>
           <p className={styles.eyebrow}>{t.heroEyebrow}</p>
           <h1>{t.heroTitle}</h1>
           <p className={styles.heroLead}>{t.heroLead}</p>
           <div className={styles.heroActions}>
-            <div className={styles.scoreAction}>
-              <a className={styles.primaryButton} data-track="hotel_score_hero_click" href={routeFor(lang, 'hotelScore')}>{lang === 'es' ? 'Evaluar la operación de mi hotel gratis' : 'Assess my hotel operations for free'}<span aria-hidden="true">→</span></a>
-              <small>{lang === 'es' ? '¿Qué tan bien está operando tu hotel? Responde 10 preguntas y descubre tu score operativo y qué mejorar primero.' : 'How well is your hotel running? Answer 10 questions to discover your operations score and what to improve first.'}</small>
-            </div>
+            <a className={styles.primaryButton} href={demoHref}>{demoOffer[lang].cta}<span aria-hidden="true">→</span></a>
+            <a className={styles.ghostButton} data-track="hotel_score_hero_click" href={routeFor(lang, 'hotelScore')}>{lang === 'es' ? 'Evaluar mi hotel gratis' : 'Assess my hotel for free'}<span aria-hidden="true">→</span></a>
           </div>
           <div className={styles.heroPoints}>
             {t.heroPoints.map((point) => <span key={point}>{point}</span>)}
@@ -406,7 +420,9 @@ export default function HomePage({ lang }: { lang: Language }) {
             className={styles.heroImage}
           />
           <div className={styles.photoWash} />
-          <div className={styles.workflowCard}>
+        </div>
+
+        <div className={styles.workflowCard}>
             <div className={styles.workflowHead}>
               <div>
                 <span>{t.liveWorkflow}</span>
@@ -427,7 +443,6 @@ export default function HomePage({ lang }: { lang: Language }) {
             <div className={styles.workflowFoot}>
               {t.workflowControls.map((control) => <span key={control}>{control}</span>)}
             </div>
-          </div>
         </div>
       </section>
 
@@ -498,6 +513,14 @@ export default function HomePage({ lang }: { lang: Language }) {
                 <div className={styles.feedRow} key={title}>
                   <span className={styles.feedDot} data-index={index} />
                   <strong>{title}</strong><small>{team}</small><span>{status}</span>
+                </div>
+              ))}
+            </div>
+            <div className={styles.load}>
+              <div className={styles.loadHead}><strong>{t.loadTitle}</strong><span>{t.loadSubtitle}</span></div>
+              {t.loadRows.map(([team, value]) => (
+                <div className={styles.loadRow} key={team} data-hot={Number(value) >= 80 ? 'true' : undefined} style={{ ['--w' as string]: `${value}%` }}>
+                  <small>{team}</small><i /><span>{value}%</span>
                 </div>
               ))}
             </div>
