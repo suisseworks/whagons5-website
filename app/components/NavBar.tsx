@@ -17,12 +17,12 @@ interface NavBarProps {
 
 const navContent = {
   en: {
-    market: 'Hotel operations', platform: 'Platform', hotels: 'Hotels', markets: 'Other markets',
+    market: 'Hotel operations', platform: 'Platform', hotels: 'Hotels', markets: 'Industries',
     resources: 'Resources', score: 'Hotel Score', login: 'Log in', demo: 'Request demo', menu: 'Toggle menu',
     closeMenu: 'Close menu', primaryNav: 'Primary navigation', language: 'Choose language',
   },
   es: {
-    market: 'Operaciones hoteleras', platform: 'Plataforma', hotels: 'Hoteles', markets: 'Otros mercados',
+    market: 'Operaciones hoteleras', platform: 'Plataforma', hotels: 'Hoteles', markets: 'Industrias',
     resources: 'Recursos', score: 'Hotel Score', login: 'Iniciar sesión', demo: 'Solicitar demo', menu: 'Abrir o cerrar menú',
     closeMenu: 'Cerrar menú', primaryNav: 'Navegación principal', language: 'Elegir idioma',
   },
