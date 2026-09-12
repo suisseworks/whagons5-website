@@ -243,7 +243,7 @@ export default function HomePage({ lang }: { lang: Language }) {
         </div>
         <figure className={styles.shot}>
           <div className={styles.shotBar} aria-hidden="true"><i /><i /><i /><span>{t.heroShotCaption}</span></div>
-          <Image src="/images/demo-task-grid.png" alt={t.heroShotAlt} width={2048} height={1146} priority sizes="(max-width: 1240px) 100vw, 1180px" />
+          <Image src="/images/demo-task-grid.png" alt={t.heroShotAlt} width={1536} height={860} priority sizes="(max-width: 1240px) 100vw, 1180px" />
         </figure>
       </section>
 
