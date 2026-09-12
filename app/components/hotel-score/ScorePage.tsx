@@ -48,40 +48,50 @@ export default function ScorePage({lang}:{lang:Language}) {
       if(result.analysisSaved){try{sessionStorage.removeItem(STORAGE_KEY);}catch{}}
     } catch {setError(t.error);track('hotel_score_email_error',{status:'network'});}finally{setPending(false);}
   }
-  return <main id="main-content" className={styles.page}>
-    <div className={styles.shell}>
-      <aside className={styles.intro}><a className={styles.backHome} href={routeFor(lang,'home')}>← {t.home}</a><p className={styles.eyebrow}>{t.eyebrow}</p><h1>{t.title}</h1><p className={styles.lead}>{t.intro}</p><div className={styles.promise}><span className={styles.mark} aria-hidden="true">W / 10</span><h2>{t.benefitTitle}</h2><ol>{t.benefits.map((v,i)=><li key={v}><span>0{i+1}</span>{v}</li>)}</ol></div><p className={styles.note}>{t.note}</p></aside>
-      <section className={styles.card} aria-busy={pending}>
+  return <main id="main-content" className={`pg ${styles.page}`}>
+    <div className="pg-hero-inner pg-hero-split" style={{alignItems:'start'}}>
+      <aside className="pg-hero-copy">
+        <a className={`pg-btn-text ${styles.backHome}`} href={routeFor(lang,'home')}>← {t.home}</a>
+        <p className="pg-eyebrow" style={{marginTop:14}}>{t.eyebrow}</p>
+        <h1>{t.title}</h1>
+        <p className="pg-lead">{t.intro}</p>
+        <div className={styles.promise}>
+          <h2>{t.benefitTitle}</h2>
+          <ol className="pg-steps">{t.benefits.map((v,i)=><li key={v}><span className="pg-num" aria-hidden="true">{i+1}</span><h3>{v}</h3></li>)}</ol>
+        </div>
+        <p className="pg-note">{t.note}</p>
+      </aside>
+      <section className="pg-panel" aria-busy={pending}>
         <p className={styles.brand}>WHAGONS <span>HOTEL OPERATIONS SCORE</span></p>
-        {sent ? <div className={styles.success}>
-          <span className={styles.check} aria-hidden="true">{analysisFailed?'!':'✓'}</span>
+        {sent ? <div className="pg-success">
+          <span className="pg-success-icon" aria-hidden="true">{analysisFailed?'!':'✓'}</span>
           <h2 ref={heading} tabIndex={-1}>{analysisFailed?(lang==='es'?'Necesitamos guardar tus respuestas.':'We need to save your answers.'):t.sentTitle}</h2>
           <p role="status">{t.sentText} <strong>{sent}</strong>.</p>
           {analysisFailed ? <>
             <p role="status">{lang==='es'?'Tu correo se guardó, pero no pudimos guardar todas las respuestas para preparar el diagnóstico. Conservamos tu progreso en esta pestaña; vuelve a enviarlas.':'Your email was saved, but we could not save all answers needed to prepare your assessment. Your progress remains in this tab; please submit again.'}</p>
-            <button type="button" className={styles.primary} onClick={()=>{setSent('');setAnalysisFailed(false);move(10);}}>{lang==='es'?'Volver a enviar mis respuestas':'Submit my answers again'} →</button>
+            <button type="button" className="pg-btn" onClick={()=>{setSent('');setAnalysisFailed(false);move(10);}}>{lang==='es'?'Volver a enviar mis respuestas':'Submit my answers again'} →</button>
           </> : <>
             <p>{t.sentNote}</p>
-            <a className={styles.primary} href={routeFor(lang,'home')}>{t.home} →</a>
-            <button type="button" className={styles.textButton} onClick={reset}>{t.restart}</button>
+            <a className="pg-btn" href={routeFor(lang,'home')}>{t.home} →</a>
+            <button type="button" className="pg-btn-text" onClick={reset}>{t.restart}</button>
           </>}
         </div>
         : step < 10 ? <form onSubmit={next}>
           <div className={styles.progressLabel}><span>{t.question} {step+1} {t.of} 10</span><span>{String(step+1).padStart(2,'0')} / 10</span></div>
-          <progress className={styles.progress} value={step} max={10} aria-label={t.progress}/>
-          <p className={styles.area}>{qs[step].area}</p><h2 ref={heading} tabIndex={-1} id="score-question">{qs[step].question}</h2><p className={styles.hint}>{t.hint}</p>
+          <progress className="pg-progress" value={step} max={10} aria-label={t.progress}/>
+          <p className={styles.area}>{qs[step].area}</p><h2 ref={heading} tabIndex={-1} id="score-question">{qs[step].question}</h2><p className={`pg-small ${styles.hint}`}>{t.hint}</p>
           <fieldset className={styles.answers} aria-labelledby="score-question">
-            {qs[step].answers.map((label:string,i:number)=><label key={`${step}-${i}`} className={`${styles.answer} ${answers[step]===i?styles.selected:''}`}><input type="radio" name="answer" value={i} checked={answers[step]===i} onChange={()=>answer(i)} required/><span className={styles.letter} aria-hidden="true">{'ABCD'[i]}</span><span>{label}</span><span className={styles.radioMark} aria-hidden="true"/></label>)}
-            <div className={styles.skipAnswers}>{(['unknown','na'] as const).map(v=><label key={v}><input type="radio" name="answer" value={v} checked={answers[step]===v} onChange={()=>answer(v)}/>{v==='unknown'?t.unknown:t.na}</label>)}</div>
+            {qs[step].answers.map((label:string,i:number)=><label key={`${step}-${i}`} className="pg-option" data-selected={answers[step]===i?'true':'false'}><input type="radio" name="answer" value={i} checked={answers[step]===i} onChange={()=>answer(i)} required/><span className="pg-option-letter" aria-hidden="true">{'ABCD'[i]}</span><span>{label}</span><span className="pg-option-radio" aria-hidden="true"/></label>)}
+            <div className={styles.skipAnswers}>{(['unknown','na'] as const).map(v=><label key={v} className="pg-check"><input type="radio" name="answer" value={v} checked={answers[step]===v} onChange={()=>answer(v)}/>{v==='unknown'?t.unknown:t.na}</label>)}</div>
           </fieldset>
-          <div className={styles.actions}><button type="button" className={styles.textButton} disabled={step===0} onClick={()=>move(step-1)}>← {t.back}</button><button type="submit" className={styles.primary} disabled={answers[step]===null||!ready}>{step===9?t.finish:t.next}<span aria-hidden="true">→</span></button></div>
-          <p className={styles.footnote}>{t.footer}</p>
+          <div className={styles.actions}><button type="button" className="pg-btn-text" disabled={step===0} onClick={()=>move(step-1)}>← {t.back}</button><button type="submit" className="pg-btn" disabled={answers[step]===null||!ready}>{step===9?t.finish:t.next}<span aria-hidden="true">→</span></button></div>
+          <p className={`pg-note ${styles.footnote}`}>{t.footer}</p>
         </form> : <div>
-          <p className={styles.area}>✓ {t.completed}</p><h2 ref={heading} tabIndex={-1}>{t.checkoutTitle}</h2><p className={styles.hint}>{t.checkoutText}</p>
-          <form className={styles.emailForm} onSubmit={submit}><label htmlFor="score-email">{t.email}</label><input id="score-email" name="email" type="email" defaultValue={submittedEmail.current} required autoComplete="email" maxLength={254} placeholder={lang==='es'?'tu@tuhotel.com':'you@yourhotel.com'} aria-describedby="score-privacy" disabled={pending}/><div className="hp-field" aria-hidden="true"><label>Website<input name="website" tabIndex={-1} autoComplete="off"/></label></div><label className={styles.optin}><input type="checkbox" name="marketing" checked={marketingOptIn} onChange={event=>setMarketingOptIn(event.target.checked)} disabled={pending}/><span>{t.marketing}</span></label><button type="submit" className={styles.primary} disabled={pending||captureAvailable===false}>{pending?t.sending:t.send}<span aria-hidden="true">→</span></button><p className={styles.note} id="score-privacy">{t.privacy} <a href={legalRouteFor(lang,'privacy')}>{t.privacyLink}</a></p>{captureAvailable===false&&<p className={styles.error} role="status">{t.unavailable}</p>}{error&&<p className={styles.error} role="alert">{error}</p>}</form>
-          <button type="button" className={styles.textButton} disabled={pending} onClick={()=>move(0)}>← {t.edit}</button>
+          <p className={styles.area}>✓ {t.completed}</p><h2 ref={heading} tabIndex={-1}>{t.checkoutTitle}</h2><p className={`pg-small ${styles.hint}`}>{t.checkoutText}</p>
+          <form className={`pg-form ${styles.emailForm}`} onSubmit={submit}><div className="pg-field"><label htmlFor="score-email">{t.email}</label><input id="score-email" name="email" type="email" defaultValue={submittedEmail.current} required autoComplete="email" maxLength={254} placeholder={lang==='es'?'tu@tuhotel.com':'you@yourhotel.com'} aria-describedby="score-privacy" disabled={pending}/></div><div className="hp-field" aria-hidden="true"><label>Website<input name="website" tabIndex={-1} autoComplete="off"/></label></div><label className="pg-check"><input type="checkbox" name="marketing" checked={marketingOptIn} onChange={event=>setMarketingOptIn(event.target.checked)} disabled={pending}/><span>{t.marketing}</span></label><button type="submit" className="pg-btn" disabled={pending||captureAvailable===false}>{pending?t.sending:t.send}<span aria-hidden="true">→</span></button><p className="pg-note" id="score-privacy">{t.privacy} <a href={legalRouteFor(lang,'privacy')}>{t.privacyLink}</a></p>{captureAvailable===false&&<p className="pg-alert" role="status">{t.unavailable}</p>}{error&&<p className="pg-alert" role="alert">{error}</p>}</form>
+          <button type="button" className="pg-btn-text" disabled={pending} onClick={()=>move(0)}>← {t.edit}</button>
         </div>}
       </section>
-    </div><p className={styles.storage}>{t.saving}</p>
+    </div><p className={`pg-small ${styles.storage}`}>{t.saving}</p>
   </main>;
 }

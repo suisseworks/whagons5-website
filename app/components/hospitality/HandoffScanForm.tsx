@@ -2,7 +2,6 @@
 
 import { FormEvent, useRef, useState } from 'react';
 import { trackHospitalityEvent } from './HospitalityAnalytics';
-import styles from './Hospitality.module.css';
 
 type SubmitState = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -85,9 +84,9 @@ export default function HandoffScanForm() {
 
   if (status === 'success') {
     return (
-      <div className={styles.formSuccess} role="status">
-        <span className={styles.formSuccessMark}>Received</span>
-        <h2>Your handoff scan request is in.</h2>
+      <div className="pg-success" role="status">
+        <span className="pg-success-icon" aria-hidden="true">✓</span>
+        <h2 style={{ fontSize: '1.4rem' }}>Your handoff scan request is in.</h2>
         <p>
           The U.S. hospitality lead will review it and respond within one business day.
           Bring one recent handoff that did not go as expected.
@@ -97,68 +96,68 @@ export default function HandoffScanForm() {
   }
 
   return (
-    <form className={styles.scanForm} onSubmit={submit} onFocus={recordStart}>
-      <div className={styles.formGrid}>
-        <label className={styles.field}>
-          <span>Name</span>
-          <input name="name" type="text" autoComplete="name" maxLength={120} required />
-        </label>
-        <label className={styles.field}>
-          <span>Hotel or management company</span>
-          <input name="company" type="text" autoComplete="organization" maxLength={160} required />
-        </label>
-        <label className={styles.field}>
-          <span>Your role</span>
-          <input name="role" type="text" autoComplete="organization-title" maxLength={120} required />
-        </label>
-        <label className={styles.field}>
-          <span>Work email</span>
-          <input name="email" type="email" autoComplete="email" maxLength={200} required />
-        </label>
-        <label className={styles.field}>
-          <span>Phone <small>Optional unless phone is preferred</small></span>
-          <input name="phone" type="tel" autoComplete="tel" maxLength={40} />
-        </label>
-        <label className={styles.field}>
-          <span>Property count</span>
-          <select name="propertyCount" defaultValue="" required>
+    <form className="pg-form" onSubmit={submit} onFocus={recordStart}>
+      <div className="pg-form-grid">
+        <div className="pg-field">
+          <label htmlFor="scan-name">Name</label>
+          <input id="scan-name" name="name" type="text" autoComplete="name" maxLength={120} required />
+        </div>
+        <div className="pg-field">
+          <label htmlFor="scan-company">Hotel or management company</label>
+          <input id="scan-company" name="company" type="text" autoComplete="organization" maxLength={160} required />
+        </div>
+        <div className="pg-field">
+          <label htmlFor="scan-role">Your role</label>
+          <input id="scan-role" name="role" type="text" autoComplete="organization-title" maxLength={120} required />
+        </div>
+        <div className="pg-field">
+          <label htmlFor="scan-email">Work email</label>
+          <input id="scan-email" name="email" type="email" autoComplete="email" maxLength={200} required />
+        </div>
+        <div className="pg-field">
+          <label htmlFor="scan-phone">Phone <small>Optional unless phone is preferred</small></label>
+          <input id="scan-phone" name="phone" type="tel" autoComplete="tel" maxLength={40} />
+        </div>
+        <div className="pg-field">
+          <label htmlFor="scan-property-count">Property count</label>
+          <select id="scan-property-count" name="propertyCount" defaultValue="" required>
             <option value="" disabled>Select</option>
             {propertyCounts.map((option) => <option key={option}>{option}</option>)}
           </select>
-        </label>
-        <label className={`${styles.field} ${styles.fieldWide}`}>
-          <span>Workflow to examine</span>
-          <select name="workflowCategory" defaultValue="" required>
+        </div>
+        <div className="pg-field pg-field-span">
+          <label htmlFor="scan-workflow">Workflow to examine</label>
+          <select id="scan-workflow" name="workflowCategory" defaultValue="" required>
             <option value="" disabled>Select one recent handoff</option>
             {workflowCategories.map((option) => <option key={option}>{option}</option>)}
           </select>
-        </label>
-        <fieldset className={`${styles.contactChoice} ${styles.fieldWide}`}>
+        </div>
+        <fieldset className="pg-radios pg-field-span">
           <legend>Preferred contact method</legend>
           <label><input type="radio" name="preferredContact" value="Email" defaultChecked /> Email</label>
           <label><input type="radio" name="preferredContact" value="Phone" /> Phone</label>
         </fieldset>
       </div>
 
-      <label className={styles.consent}>
+      <label className="pg-check">
         <input name="consent" type="checkbox" value="yes" required />
         <span>I agree to be contacted about the handoff scan I requested.</span>
       </label>
 
-      <label className={styles.honeypot} aria-hidden="true">
+      <label className="pg-honeypot" aria-hidden="true">
         Website
         <input name="website" type="text" tabIndex={-1} autoComplete="off" />
       </label>
 
-      <div className={styles.formSubmitRow}>
-        <button type="submit" className={styles.primaryButton} disabled={status === 'submitting'}>
+      <div className="pg-form-actions">
+        <button type="submit" className="pg-btn" disabled={status === 'submitting'}>
           {status === 'submitting' ? 'Submitting...' : 'Request My Handoff Scan'}
         </button>
-        <p>No obligation to purchase a pilot. We respond within one business day.</p>
+        <p className="pg-note">No obligation to purchase a pilot. We respond within one business day.</p>
       </div>
 
       {status === 'error' && (
-        <p className={styles.formError} role="alert">
+        <p className="pg-alert" role="alert">
           {errorMessage} If the problem continues, email <a href="mailto:hello@whagons.com">hello@whagons.com</a>.
         </p>
       )}

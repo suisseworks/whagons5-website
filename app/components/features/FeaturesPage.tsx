@@ -1,5 +1,5 @@
+import Image from 'next/image';
 import Link from 'next/link';
-import styles from './FeaturesPage.module.css';
 
 export type FeaturesLanguage = 'en' | 'es';
 
@@ -20,6 +20,8 @@ type PageContent = {
     recordFlow: Array<[string, string]>;
     proofLabel: string;
     proofItems: string[];
+    shotCaption: string;
+    shotAlt: string;
   };
   featureNavLabel: string;
   featureNav: Array<[string, string]>;
@@ -32,6 +34,8 @@ type PageContent = {
     signal: string;
     signalLabel: string;
     signalDetail: string;
+    shotCaption?: string;
+    shotAlt?: string;
     features: Array<{ title: string; text: string }>;
   }>;
   roles: {
@@ -67,7 +71,7 @@ const content: Record<FeaturesLanguage, PageContent> = {
       title: 'Control the work.',
       accent: 'Keep the context.',
       lead:
-        'Whagons turns guest requests, room readiness, maintenance, inspections, and recurring routines into visible hotel work—with clear ownership from first signal to verified result.',
+        'Whagons turns guest requests, room readiness, maintenance, inspections, and recurring routines into visible hotel work, with clear ownership from first signal to verified result.',
       primaryCta: 'Request a tailored demo',
       secondaryCta: 'Explore the platform',
       facts: ['Works alongside your PMS', 'Mobile + web', 'Configured to your operation'],
@@ -87,6 +91,8 @@ const content: Record<FeaturesLanguage, PageContent> = {
       ],
       proofLabel: 'Completion evidence',
       proofItems: ['Photo', 'Checklist', 'Guest follow-up'],
+      shotCaption: 'Task grid · Maintenance · Whagons',
+      shotAlt: 'Whagons task grid for a maintenance workspace with owners, statuses, priorities, and due dates',
     },
     featureNavLabel: 'Feature groups',
     featureNav: [
@@ -131,6 +137,8 @@ const content: Record<FeaturesLanguage, PageContent> = {
         signal: 'Floor → Record → Manager',
         signalLabel: 'Field context',
         signalDetail: 'Captured at the point of work',
+        shotCaption: 'Housekeeping · Task detail · Whagons',
+        shotAlt: 'Whagons task detail for a housekeeping request with status, assignee, checklist, and activity',
         features: [
           {
             title: 'Photos, forms, and signatures',
@@ -175,12 +183,14 @@ const content: Record<FeaturesLanguage, PageContent> = {
         id: 'visibility-integrations',
         number: '04',
         eyebrow: 'Visibility + integrations',
-        title: 'See exceptions now—and patterns over time.',
+        title: 'See exceptions now, and patterns over time.',
         intro:
           'Give each role the level of detail it needs, then connect operating data with the systems the hotel already relies on.',
         signal: 'Today → Exceptions → Patterns',
         signalLabel: 'Manager view',
         signalDetail: 'Open, late, completed, and recurring',
+        shotCaption: 'Analytics · Whagons',
+        shotAlt: 'Whagons analytics view with task totals, completion rate, and trend charts',
         features: [
           {
             title: 'Role-based operating views',
@@ -224,7 +234,7 @@ const content: Record<FeaturesLanguage, PageContent> = {
     },
     boundary: {
       eyebrow: 'A focused operating layer',
-      title: 'Built to coordinate hotel work—not replace the hotel stack.',
+      title: 'Built to coordinate hotel work, not replace the hotel stack.',
       lead:
         'Whagons fits around the systems and processes already in place, then adds control where work crosses people, departments, and shifts.',
       worksWith: 'Works alongside',
@@ -268,6 +278,8 @@ const content: Record<FeaturesLanguage, PageContent> = {
       ],
       proofLabel: 'Evidencia de cierre',
       proofItems: ['Foto', 'Lista de control', 'Seguimiento al huésped'],
+      shotCaption: 'Tareas · Mantenimiento · Whagons',
+      shotAlt: 'Cuadrícula de tareas de Whagons para un espacio de mantenimiento con responsables, estados, prioridades y vencimientos',
     },
     featureNavLabel: 'Grupos de funcionalidades',
     featureNav: [
@@ -312,6 +324,8 @@ const content: Record<FeaturesLanguage, PageContent> = {
         signal: 'Operación → Registro → Gerencia',
         signalLabel: 'Contexto en campo',
         signalDetail: 'Capturado en el punto de trabajo',
+        shotCaption: 'Housekeeping · Detalle de tarea · Whagons',
+        shotAlt: 'Detalle de tarea de Whagons para una solicitud de housekeeping con estado, responsable, lista de control y actividad',
         features: [
           {
             title: 'Fotos, formularios y firmas',
@@ -362,6 +376,8 @@ const content: Record<FeaturesLanguage, PageContent> = {
         signal: 'Hoy → Excepciones → Patrones',
         signalLabel: 'Vista gerencial',
         signalDetail: 'Abierto, atrasado, completado y recurrente',
+        shotCaption: 'Analítica · Whagons',
+        shotAlt: 'Vista de analítica de Whagons con totales de tareas, tasa de finalización y gráficos de tendencia',
         features: [
           {
             title: 'Vistas operativas por rol',
@@ -425,197 +441,174 @@ const content: Record<FeaturesLanguage, PageContent> = {
   },
 };
 
+const CHAPTER_SHOTS: Array<{ src: string; width: number; height: number } | null> = [
+  null,
+  { src: '/images/demo-housekeeping-detail.png', width: 1774, height: 887 },
+  null,
+  { src: '/images/whagons-analytics-dashboard.png', width: 1024, height: 515 },
+];
+
+const CARD_TONES = ['blue', 'amber', 'violet', 'green', 'slate'] as const;
+
+function Arrow() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function Shot({ src, width, height, caption, alt, priority }: { src: string; width: number; height: number; caption: string; alt: string; priority?: boolean }) {
+  return (
+    <figure className="pg-shot">
+      <div className="pg-shot-bar" aria-hidden="true"><i /><i /><i /><span>{caption}</span></div>
+      <Image src={src} alt={alt} width={width} height={height} priority={priority} sizes="(max-width: 1000px) 100vw, 560px" />
+    </figure>
+  );
+}
+
 export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
   const copy = content[lang];
   const demoHref = `/${lang}/demo`;
   const platformHref = lang === 'es' ? '/es/plataforma' : '/en/platform';
 
   return (
-    <main className={styles.page}>
-      <section className={styles.hero}>
-        <div className={styles.heroGlow} aria-hidden="true" />
-        <div className={styles.heroGrid}>
-          <div className={styles.heroCopy}>
-            <p className={styles.eyebrow}>{copy.hero.eyebrow}</p>
+    <main className="pg">
+      <section className="pg-hero">
+        <div className="pg-hero-inner pg-hero-split">
+          <div className="pg-hero-copy">
+            <p className="pg-eyebrow">{copy.hero.eyebrow}</p>
             <h1>
-              {copy.hero.title}
-              <span>{copy.hero.accent}</span>
+              {copy.hero.title} <span className="pg-accent">{copy.hero.accent}</span>
             </h1>
-            <p className={styles.heroLead}>{copy.hero.lead}</p>
-            <div className={styles.heroActions}>
-              <Link className={styles.primaryButton} href={demoHref}>
+            <p className="pg-lead">{copy.hero.lead}</p>
+            <div className="pg-actions">
+              <Link className="pg-btn" href={demoHref}>
                 {copy.hero.primaryCta}
-                <span aria-hidden="true">↗</span>
+                <Arrow />
               </Link>
-              <Link className={styles.secondaryButton} href={platformHref}>
+              <Link className="pg-btn-secondary" href={platformHref}>
                 {copy.hero.secondaryCta}
               </Link>
             </div>
-            <ul className={styles.heroFacts}>
+            <ul className="pg-points">
               {copy.hero.facts.map((fact) => (
                 <li key={fact}>{fact}</li>
               ))}
             </ul>
           </div>
-
-          <div className={styles.recordWrap}>
-            <div className={styles.recordCard}>
-              <div className={styles.recordHeader}>
-                <span className={styles.recordKicker}>
-                  <i aria-hidden="true" />
-                  {copy.hero.recordLabel}
-                </span>
-                <span className={styles.recordStatus}>{copy.hero.recordState}</span>
-              </div>
-              <div className={styles.recordIdentity}>
-                <span className={styles.recordIcon} aria-hidden="true">W</span>
-                <div>
-                  <h2>{copy.hero.recordTitle}</h2>
-                  <p>{copy.hero.recordMeta}</p>
-                </div>
-              </div>
-              <dl className={styles.recordFields}>
-                {copy.hero.recordFields.map(([label, value]) => (
-                  <div key={label}>
-                    <dt>{label}</dt>
-                    <dd>{value}</dd>
-                  </div>
-                ))}
-              </dl>
-              <ol className={styles.recordFlow}>
-                {copy.hero.recordFlow.map(([step, owner], index) => (
-                  <li key={step} className={index < 2 ? styles.flowComplete : undefined}>
-                    <span aria-hidden="true">{index < 2 ? '✓' : index + 1}</span>
-                    <div>
-                      <strong>{step}</strong>
-                      <small>{owner}</small>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-              <div className={styles.evidenceBlock}>
-                <p>{copy.hero.proofLabel}</p>
-                <div>
-                  {copy.hero.proofItems.map((item) => (
-                    <span key={item}>{item}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <span className={styles.recordCaption}>01 / 04</span>
-          </div>
+          <Shot src="/images/demo-task-grid.png" width={1536} height={860} caption={copy.hero.shotCaption} alt={copy.hero.shotAlt} priority />
         </div>
       </section>
 
-      <div className={styles.featureNav} role="navigation" aria-label={copy.featureNavLabel}>
+      <nav className="pg-subnav" aria-label={copy.featureNavLabel}>
         {copy.featureNav.map(([id, label], index) => (
           <a key={id} href={`#${id}`}>
             <span>0{index + 1}</span>
             {label}
           </a>
         ))}
-      </div>
+      </nav>
 
-      <section className={styles.chapterList} aria-label={copy.featureNavLabel}>
-        {copy.chapters.map((chapter, chapterIndex) => (
-          <article className={styles.chapter} id={chapter.id} key={chapter.id}>
-            <div className={styles.chapterHeading}>
-              <div className={styles.chapterNumber}>{chapter.number}</div>
-              <div>
-                <p className={styles.eyebrow}>{chapter.eyebrow}</p>
-                <h2>{chapter.title}</h2>
-                <p className={styles.chapterIntro}>{chapter.intro}</p>
-              </div>
+      {copy.chapters.map((chapter, chapterIndex) => {
+        const shot = CHAPTER_SHOTS[chapterIndex];
+        const band = chapterIndex === 1;
+        const intro = (
+          <div className="pg-intro" style={shot ? { marginBottom: 0 } : undefined}>
+            <span className="pg-num" style={{ marginBottom: 18 }}>{chapter.number}</span>
+            <p className="pg-eyebrow">{chapter.eyebrow}</p>
+            <h2>{chapter.title}</h2>
+            <p className="pg-text">{chapter.intro}</p>
+            <div className="pg-small" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px 12px', marginTop: 20 }}>
+              <span className="pg-tag" data-tone="neutral">{chapter.signalLabel}</span>
+              <strong style={{ color: 'var(--ink)' }}>{chapter.signal}</strong>
+              <span>{chapter.signalDetail}</span>
             </div>
-
-            <div className={styles.chapterBody}>
-              <div className={styles.signalCard}>
-                <div className={styles.signalTopline}>
-                  <span>{chapter.signalLabel}</span>
-                  <i aria-hidden="true" />
-                </div>
-                <strong>{chapter.signal}</strong>
-                <p>{chapter.signalDetail}</p>
-                <div className={styles.signalLines} aria-hidden="true">
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                </div>
-                <b aria-hidden="true">0{chapterIndex + 1}</b>
+          </div>
+        );
+        const section = (
+          <section className={chapterIndex === 3 ? 'pg-section pg-section-tight' : 'pg-section'} id={chapter.id} key={chapter.id}>
+            {shot && chapter.shotCaption && chapter.shotAlt ? (
+              <div className={chapterIndex % 2 === 1 ? 'pg-split' : 'pg-split pg-split-reverse'} style={{ marginBottom: 40 }}>
+                {intro}
+                <Shot src={shot.src} width={shot.width} height={shot.height} caption={chapter.shotCaption} alt={chapter.shotAlt} />
               </div>
-
-              <div className={styles.featureCards}>
-                {chapter.features.map((feature, featureIndex) => (
-                  <div className={styles.featureCard} key={feature.title}>
-                    <span>0{featureIndex + 1}</span>
-                    <h3>{feature.title}</h3>
-                    <p>{feature.text}</p>
-                  </div>
-                ))}
-              </div>
+            ) : (
+              intro
+            )}
+            <div className="pg-grid-3">
+              {chapter.features.map((feature, featureIndex) => (
+                <article className="pg-card" key={feature.title} style={band ? { background: 'var(--bg)' } : undefined}>
+                  <span className="pg-icon" data-tone={CARD_TONES[(chapterIndex + featureIndex) % CARD_TONES.length]} aria-hidden="true" />
+                  <h3 style={{ marginTop: 6 }}>{feature.title}</h3>
+                  <p>{feature.text}</p>
+                </article>
+              ))}
             </div>
-          </article>
-        ))}
+          </section>
+        );
+        return band ? <div className="pg-band" key={chapter.id}>{section}</div> : section;
+      })}
+
+      <section className="pg-band">
+        <div className="pg-section">
+          <div className="pg-intro">
+            <p className="pg-eyebrow">{copy.roles.eyebrow}</p>
+            <h2>{copy.roles.title}</h2>
+            <p className="pg-text">{copy.roles.lead}</p>
+          </div>
+          <div className="pg-grid-3">
+            {copy.roles.items.map((role) => (
+              <article className="pg-card" key={role.title} style={{ background: 'var(--bg)' }}>
+                <span className="pg-num">{role.number}</span>
+                <h3 style={{ marginTop: 6 }}>{role.title}</h3>
+                <p>{role.text}</p>
+                <span className="pg-tag" style={{ marginTop: 'auto' }}>{role.detail}</span>
+              </article>
+            ))}
+          </div>
+        </div>
       </section>
 
-      <section className={styles.rolesSection}>
-        <div className={styles.sectionHeading}>
-          <p className={styles.eyebrow}>{copy.roles.eyebrow}</p>
-          <h2>{copy.roles.title}</h2>
-          <p>{copy.roles.lead}</p>
-        </div>
-        <div className={styles.roleGrid}>
-          {copy.roles.items.map((role) => (
-            <article key={role.title}>
-              <span>{role.number}</span>
-              <h3>{role.title}</h3>
-              <p>{role.text}</p>
-              <strong>{role.detail}</strong>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className={styles.boundarySection}>
-        <div className={styles.boundaryIntro}>
-          <p className={styles.eyebrow}>{copy.boundary.eyebrow}</p>
+      <section className="pg-section">
+        <div className="pg-intro">
+          <p className="pg-eyebrow">{copy.boundary.eyebrow}</p>
           <h2>{copy.boundary.title}</h2>
-          <p>{copy.boundary.lead}</p>
+          <p className="pg-text">{copy.boundary.lead}</p>
         </div>
-        <div className={styles.boundaryGrid}>
-          <article>
-            <span aria-hidden="true">+</span>
-            <h3>{copy.boundary.worksWith}</h3>
+        <div className="pg-grid-3">
+          <article className="pg-card">
+            <span className="pg-icon" data-tone="green" aria-hidden="true" />
+            <h3 style={{ marginTop: 6 }}>{copy.boundary.worksWith}</h3>
             <p>{copy.boundary.worksWithText}</p>
           </article>
-          <article>
-            <span aria-hidden="true">≠</span>
-            <h3>{copy.boundary.notReplacement}</h3>
+          <article className="pg-card">
+            <span className="pg-icon" data-tone="slate" aria-hidden="true" />
+            <h3 style={{ marginTop: 6 }}>{copy.boundary.notReplacement}</h3>
             <p>{copy.boundary.notReplacementText}</p>
           </article>
-          <article>
-            <span aria-hidden="true">→</span>
-            <h3>{copy.boundary.startFocused}</h3>
+          <article className="pg-card">
+            <span className="pg-icon" aria-hidden="true" />
+            <h3 style={{ marginTop: 6 }}>{copy.boundary.startFocused}</h3>
             <p>{copy.boundary.startFocusedText}</p>
           </article>
         </div>
       </section>
 
-      <section className={styles.finalCta}>
+      <section className="pg-cta">
         <div>
-          <p className={styles.eyebrow}>{copy.finalCta.eyebrow}</p>
+          <p className="pg-eyebrow">{copy.finalCta.eyebrow}</p>
           <h2>{copy.finalCta.title}</h2>
-          <p>{copy.finalCta.text}</p>
-        </div>
-        <div className={styles.finalActions}>
-          <Link className={styles.lightButton} href={demoHref}>
-            {copy.finalCta.primary}
-            <span aria-hidden="true">↗</span>
-          </Link>
-          <Link className={styles.darkTextButton} href={platformHref}>
-            {copy.finalCta.secondary}
-          </Link>
+          <p className="pg-text">{copy.finalCta.text}</p>
+          <div className="pg-actions">
+            <Link className="pg-btn" href={demoHref}>
+              {copy.finalCta.primary}
+              <Arrow />
+            </Link>
+            <Link className="pg-btn-secondary" href={platformHref}>
+              {copy.finalCta.secondary}
+            </Link>
+          </div>
         </div>
       </section>
     </main>

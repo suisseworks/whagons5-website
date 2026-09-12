@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import { translations, Language } from '../../lib/i18n';
-import ScrollReveal from '../../components/ScrollReveal';
 
 const INDUSTRY_IMAGES: Record<string, string> = {
   hoteleria: '/images/industries/hoteleria.jpg',
@@ -76,83 +75,96 @@ const INDUSTRY_DETAILS: Record<string, { es: { features: string[]; useCases: str
   },
 };
 
+/* Industry names are stored in caps in i18n; render them in sentence case
+   so they match the light design system (no uppercase display type). */
+function sentenceCase(value: string) {
+  const lower = value.toLocaleLowerCase();
+  return lower.charAt(0).toLocaleUpperCase() + lower.slice(1);
+}
+
+function Arrow() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export default function IndustriasPageClient({ lang }: { lang: Language }) {
   const t = translations[lang];
   const otherMarkets = t.industries.filter((industry: any) => industry.slug !== 'hoteleria');
+  const eyebrow = lang === 'es' ? 'Industrias' : 'Industries';
+  const featuresLabel = lang === 'es' ? 'Funcionalidades clave' : 'Key features';
+  const useCasesLabel = lang === 'es' ? 'Casos de uso' : 'Use cases';
 
   return (
-    <>
-      <ScrollReveal />
-
-      <main>
-        <section className="page-hero">
-        <div className="page-hero-inner r">
-          <h1 className="page-hero-title">{t.indPageTitle}</h1>
-          <p className="page-hero-desc">{t.indPageDesc}</p>
+    <main className="pg">
+      <section className="pg-hero pg-hero-center">
+        <div className="pg-hero-inner">
+          <div className="pg-hero-copy">
+            <p className="pg-eyebrow">{eyebrow}</p>
+            <h1>{t.indPageTitle}</h1>
+            <p className="pg-lead">{t.indPageDesc}</p>
+          </div>
         </div>
-        </section>
+      </section>
 
-        <section className="industries-detail">
+      <section className="pg-section pg-industries">
         {otherMarkets.map((ind: any, idx: number) => {
           const details = INDUSTRY_DETAILS[ind.slug]?.[lang];
           const imageSrc = INDUSTRY_IMAGES[ind.slug];
           const isReversed = idx % 2 === 1;
           return (
-            <div
-              className={`ind-detail-card r${isReversed ? ' ind-detail-card--reverse' : ''}`}
+            <article
+              className={`pg-split${isReversed ? ' pg-split-reverse' : ''}`}
               key={ind.num}
               id={ind.slug}
             >
-              <div className="ind-detail-text">
-                <div className="ind-detail-header">
-                  <span className="ind-detail-num">{String(idx + 1).padStart(2, '0')}</span>
-                  <h2 className="ind-detail-name">{ind.name}</h2>
+              {imageSrc && (
+                <div className="pg-photo">
+                  <Image
+                    src={imageSrc}
+                    alt={ind.name}
+                    width={600}
+                    height={400}
+                    sizes="(max-width: 1000px) 100vw, 560px"
+                  />
                 </div>
-                <p className="ind-detail-desc">{ind.desc}</p>
+              )}
+              <div>
+                <span className="pg-num">{String(idx + 1).padStart(2, '0')}</span>
+                <h2 style={{ marginTop: 16 }}>{sentenceCase(ind.name)}</h2>
+                <p className="pg-text" style={{ marginTop: 14 }}>{ind.desc}</p>
                 {details && (
-                  <div className="ind-detail-grid">
-                    <div className="ind-detail-col">
-                      <h3 className="ind-detail-subtitle">
-                        {lang === 'es' ? 'Funcionalidades clave' : 'Key features'}
-                      </h3>
-                      <ul className="ind-detail-list">
+                  <div className="pg-grid-2" style={{ marginTop: 28, gap: 24 }}>
+                    <div>
+                      <h3 className="pg-small" style={{ marginBottom: 12, fontWeight: 600, color: 'var(--ink)' }}>{featuresLabel}</h3>
+                      <ul className="pg-checks">
                         {details.features.map((f, i) => <li key={i}>{f}</li>)}
                       </ul>
                     </div>
-                    <div className="ind-detail-col">
-                      <h3 className="ind-detail-subtitle">
-                        {lang === 'es' ? 'Casos de uso' : 'Use cases'}
-                      </h3>
-                      <ul className="ind-detail-list">
+                    <div>
+                      <h3 className="pg-small" style={{ marginBottom: 12, fontWeight: 600, color: 'var(--ink)' }}>{useCasesLabel}</h3>
+                      <ul className="pg-checks">
                         {details.useCases.map((u, i) => <li key={i}>{u}</li>)}
                       </ul>
                     </div>
                   </div>
                 )}
               </div>
-              {imageSrc && (
-                <div className="ind-detail-img-wrap">
-                  <Image
-                    src={imageSrc}
-                    alt={ind.name}
-                    width={600}
-                    height={400}
-                    className="ind-detail-img"
-                  />
-                </div>
-              )}
-            </div>
+            </article>
           );
         })}
-        </section>
+      </section>
 
-        <section className="cta-bottom-section">
-        <div className="cta-bottom-inner r">
-          <h2 className="cta-bottom-title">{t.indPageCta}</h2>
-          <a href={`/${lang}/demo`} className="cta-primary">{t.demoSubmit} &rarr;</a>
+      <section className="pg-cta">
+        <div>
+          <h2>{t.indPageCta}</h2>
+          <div className="pg-actions">
+            <a href={`/${lang}/demo`} className="pg-btn">{t.demoSubmit}<Arrow /></a>
+          </div>
         </div>
-        </section>
-      </main>
-    </>
+      </section>
+    </main>
   );
 }
