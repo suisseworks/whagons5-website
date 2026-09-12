@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { Language } from '../../lib/i18n';
+import { shotsFor } from '../../lib/shots';
 
 type Module = { num: string; name: string; tagline: string; desc: string; features: string[] };
 
@@ -252,8 +253,8 @@ const COPY = {
     modulesEyebrow: 'The seven modules',
     modulesTitle: 'Everything an operation needs, in one platform.',
     includes: 'Includes',
-    shotCaption: 'Analytics · Whagons',
-    shotAlt: 'Whagons analytics view with task totals, completion rate, and trend charts',
+    shotCaption: 'Mission Control · Whagons',
+    shotAlt: 'Whagons Mission Control overview with open tasks, overdue work, completion and status breakdown',
     ctaTitle: 'Ready to transform your operation?',
     ctaText: "Schedule a personalized demo and discover which modules solve your hotel's specific challenges.",
     ctaButton: 'Request demo',
@@ -272,6 +273,7 @@ export default function PlatformPageClient({ lang }: { lang: Language }) {
   const modules = MODULES[lang];
   const diff = DIFFERENTIATORS[lang];
   const t = COPY[lang];
+  const shots = shotsFor(lang);
   const demoHref = `/${lang}/demo`;
   const featuresHref = lang === 'en' ? '/en/features' : '/es/funcionalidades';
 
@@ -290,7 +292,7 @@ export default function PlatformPageClient({ lang }: { lang: Language }) {
           </div>
           <figure className="pg-shot">
             <div className="pg-shot-bar" aria-hidden="true"><i /><i /><i /><span>{t.shotCaption}</span></div>
-            <Image src="/images/whagons-analytics-dashboard.png" alt={t.shotAlt} width={1024} height={515} priority sizes="(max-width: 1000px) 100vw, 560px" />
+            <Image src={shots.analytics.src} alt={t.shotAlt} width={shots.analytics.width} height={shots.analytics.height} priority sizes="(max-width: 1000px) 100vw, 560px" />
           </figure>
         </div>
       </section>

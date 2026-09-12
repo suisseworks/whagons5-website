@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { shotsFor } from '../../lib/shots';
 
 export type FeaturesLanguage = 'en' | 'es';
 
@@ -137,8 +138,8 @@ const content: Record<FeaturesLanguage, PageContent> = {
         signal: 'Floor → Record → Manager',
         signalLabel: 'Field context',
         signalDetail: 'Captured at the point of work',
-        shotCaption: 'Housekeeping · Task detail · Whagons',
-        shotAlt: 'Whagons task detail for a housekeeping request with status, assignee, checklist, and activity',
+        shotCaption: 'Maintenance board · Whagons',
+        shotAlt: 'Whagons Kanban board for a maintenance team with tasks to do, in review and in progress',
         features: [
           {
             title: 'Photos, forms, and signatures',
@@ -189,8 +190,8 @@ const content: Record<FeaturesLanguage, PageContent> = {
         signal: 'Today → Exceptions → Patterns',
         signalLabel: 'Manager view',
         signalDetail: 'Open, late, completed, and recurring',
-        shotCaption: 'Analytics · Whagons',
-        shotAlt: 'Whagons analytics view with task totals, completion rate, and trend charts',
+        shotCaption: 'Mission Control · Whagons',
+        shotAlt: 'Whagons Mission Control overview with open tasks, overdue work, completion and status breakdown',
         features: [
           {
             title: 'Role-based operating views',
@@ -441,12 +442,10 @@ const content: Record<FeaturesLanguage, PageContent> = {
   },
 };
 
-const CHAPTER_SHOTS: Array<{ src: string; width: number; height: number } | null> = [
-  null,
-  { src: '/images/demo-housekeeping-detail.png', width: 1774, height: 887 },
-  null,
-  { src: '/images/whagons-analytics-dashboard.png', width: 1024, height: 515 },
-];
+const chapterShots = (lang: FeaturesLanguage) => {
+  const s = shotsFor(lang);
+  return [null, s.boardDetail, null, s.analytics];
+};
 
 const CARD_TONES = ['blue', 'amber', 'violet', 'green', 'slate'] as const;
 
@@ -469,6 +468,8 @@ function Shot({ src, width, height, caption, alt, priority }: { src: string; wid
 
 export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
   const copy = content[lang];
+  const shots = shotsFor(lang);
+  const CHAPTER_SHOTS = chapterShots(lang);
   const demoHref = `/${lang}/demo`;
   const platformHref = lang === 'es' ? '/es/plataforma' : '/en/platform';
 
@@ -497,7 +498,7 @@ export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
               ))}
             </ul>
           </div>
-          <Shot src="/images/demo-task-grid.png" width={1536} height={860} caption={copy.hero.shotCaption} alt={copy.hero.shotAlt} priority />
+          <Shot src={shots.grid.src} width={shots.grid.width} height={shots.grid.height} caption={copy.hero.shotCaption} alt={copy.hero.shotAlt} priority />
         </div>
       </section>
 

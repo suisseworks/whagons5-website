@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { demoOffer } from '../../lib/demo-offer';
 import { Language, routeFor } from '../../lib/locales';
+import { shotsFor } from '../../lib/shots';
 import styles from './HomePage.module.css';
 import ScorePromotion from '../hotel-score/ScorePromotion';
 import HospitalityAnalytics from '../hospitality/HospitalityAnalytics';
@@ -37,13 +38,13 @@ const content = {
       ['Coordinate', 'Assign owners, due times, priorities, approvals, and escalation rules that match the hotel.'],
       ['Improve', 'Verify completion, review patterns, and use real operating data to strengthen the next shift.'],
     ],
-    processShotAlt: 'Two Whagons task cards, one under review and one waiting, with the question "what is missing to continue?"',
+    processShotAlt: 'Whagons Kanban board for a maintenance team with tasks to do, in review and in progress',
     productEyebrow: 'A clearer operating picture',
     productTitle: 'One view for every shift. The right detail for every role.',
     productText:
       'Frontline teams see what to do next. Managers see exceptions before they become guest problems. Leaders see the patterns behind performance.',
-    productShotAlt: 'Whagons analytics view with task totals, completion rate, and trend charts',
-    productShotCaption: 'Analytics · Whagons',
+    productShotAlt: 'Whagons Mission Control overview with open tasks, overdue work, completion and status breakdown',
+    productShotCaption: 'Mission Control · Whagons',
     capabilities: [
       ['Workflow automation', 'Move recurring and reactive work forward automatically.'],
       ['Mobile fieldwork', 'Photos, forms, signatures, QR, barcode, GPS, and NFC.'],
@@ -218,6 +219,7 @@ function Check() {
 export default function HomePage({ lang }: { lang: Language }) {
   const t = content[lang];
   const proof = customerProof[lang];
+  const shots = shotsFor(lang);
   const hasLocalizedDetailPages = lang === 'en' || lang === 'es';
   const demoHref = routeFor(lang, 'demo');
   const platformHref = hasLocalizedDetailPages ? routeFor(lang, 'platform') : routeFor(lang, 'features');
@@ -243,7 +245,7 @@ export default function HomePage({ lang }: { lang: Language }) {
         </div>
         <figure className={styles.shot}>
           <div className={styles.shotBar} aria-hidden="true"><i /><i /><i /><span>{t.heroShotCaption}</span></div>
-          <Image src="/images/demo-task-grid.png" alt={t.heroShotAlt} width={1536} height={860} priority sizes="(max-width: 1240px) 100vw, 1180px" />
+          <Image src={shots.grid.src} alt={t.heroShotAlt} width={shots.grid.width} height={shots.grid.height} priority sizes="(max-width: 1240px) 100vw, 1180px" />
         </figure>
       </section>
 
@@ -291,7 +293,7 @@ export default function HomePage({ lang }: { lang: Language }) {
           <a className={styles.btnSecondary} href={platformHref}>{t.platformCta}<Arrow /></a>
         </div>
         <div className={styles.processShot}>
-          <Image src="/images/demo-housekeeping-detail.png" alt={t.processShotAlt} width={1774} height={887} sizes="(max-width: 1000px) 100vw, 620px" />
+          <Image src={shots.boardDetail.src} alt={t.processShotAlt} width={shots.boardDetail.width} height={shots.boardDetail.height} sizes="(max-width: 1000px) 100vw, 620px" />
         </div>
       </section>
 
@@ -304,7 +306,7 @@ export default function HomePage({ lang }: { lang: Language }) {
         </div>
         <figure className={`${styles.shot} ${styles.shotWide}`}>
           <div className={styles.shotBar} aria-hidden="true"><i /><i /><i /><span>{t.productShotCaption}</span></div>
-          <Image src="/images/whagons-analytics-dashboard.png" alt={t.productShotAlt} width={1024} height={515} sizes="(max-width: 1240px) 100vw, 1180px" />
+          <Image src={shots.analytics.src} alt={t.productShotAlt} width={shots.analytics.width} height={shots.analytics.height} sizes="(max-width: 1240px) 100vw, 1180px" />
         </figure>
         <div className={styles.featureGrid}>
           {t.capabilities.map(([title, text], index) => (

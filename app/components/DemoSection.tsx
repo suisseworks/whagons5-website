@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, FormEvent } from 'react';
 import Image from 'next/image';
 import { demoOffer } from '../lib/demo-offer';
 import { isLanguage, legalRouteFor } from '../lib/locales';
+import { shotsFor } from '../lib/shots';
 
 interface DemoSectionProps {
   t: any;
@@ -20,6 +21,7 @@ function Arrow() {
 
 export default function DemoSection({ t, language }: DemoSectionProps) {
   const lang = isLanguage(language) ? language : 'es';
+  const shots = shotsFor(lang);
   const offer = demoOffer[lang];
   const [demoName, setDemoName] = useState('');
   const [demoCompany, setDemoCompany] = useState('');
@@ -239,18 +241,18 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
 
       <section className="pg-section">
         <figure className="pg-shot">
-          <div className="pg-shot-bar" aria-hidden="true"><i /><i /><i /><span>Housekeeping · Whagons</span></div>
-          <a href="/images/demo-housekeeping-board.png" target="_blank" rel="noopener noreferrer" aria-label={lang === 'es' ? 'Ver tablero completo de Housekeeping' : 'View the full Housekeeping board'}>
+          <div className="pg-shot-bar" aria-hidden="true"><i /><i /><i /><span>{lang === 'es' ? 'Housekeeping · Whagons' : 'Maintenance board · Whagons'}</span></div>
+          <a href={shots.board.src} target="_blank" rel="noopener noreferrer" aria-label={lang === 'es' ? 'Ver tablero completo de Housekeeping' : 'View the full maintenance board'}>
             <Image
-              src="/images/demo-housekeeping-detail.png"
-              alt={lang === 'es' ? 'Ejemplo de Housekeeping en Whagons: tareas en revisión y en espera. Datos de demostración.' : 'Whagons Housekeeping example: tasks under review and on hold. Demo data; labels in Spanish.'}
-              width={1774}
-              height={887}
+              src={shots.boardDetail.src}
+              alt={lang === 'es' ? 'Ejemplo de Housekeeping en Whagons: tareas en revisión y en espera. Datos de demostración.' : 'Whagons maintenance board example: tasks to do, in review and in progress. Demo data.'}
+              width={shots.boardDetail.width}
+              height={shots.boardDetail.height}
               sizes="(max-width: 1180px) 100vw, 1180px"
               priority={false}
             />
           </a>
-          <figcaption>{lang === 'es' ? 'Housekeeping · Datos de demostración · Abre la imagen para ver el tablero completo ↗' : 'Housekeeping · Demo data · Open the image to view the full board ↗'}</figcaption>
+          <figcaption>{lang === 'es' ? 'Housekeeping · Datos de demostración · Abre la imagen para ver el tablero completo ↗' : 'Maintenance · Demo data · Open the image to view the full board ↗'}</figcaption>
         </figure>
       </section>
     </>

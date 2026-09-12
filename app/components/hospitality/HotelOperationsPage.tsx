@@ -1,4 +1,5 @@
 import HospitalityAnalytics from './HospitalityAnalytics';
+import { shotsFor } from '../../lib/shots';
 import Image from 'next/image';
 
 type HotelPageLanguage = 'en' | 'es';
@@ -139,6 +140,7 @@ function Arrow() {
 
 export default function HotelOperationsPage({ lang = 'en' }: { lang?: HotelPageLanguage }) {
   const t = content[lang];
+  const shots = shotsFor(lang);
   const demoHref = `/${lang}/demo`;
   const platformHref = lang === 'en' ? '/en/platform' : '/es/plataforma';
   const analyticsMarket = lang === 'es' ? 'latam' : 'us';
@@ -165,7 +167,7 @@ export default function HotelOperationsPage({ lang = 'en' }: { lang?: HotelPageL
             </div>
             <figure className="pg-shot">
               <div className="pg-shot-bar" aria-hidden="true"><i /><i /><i /><span>{t.shotCaption}</span></div>
-              <Image src="/images/demo-task-grid.png" alt={t.shotAlt} width={2048} height={1146} priority sizes="(max-width: 1000px) 100vw, 560px" />
+              <Image src={shots.grid.src} alt={t.shotAlt} width={shots.grid.width} height={shots.grid.height} priority sizes="(max-width: 1000px) 100vw, 560px" />
             </figure>
           </div>
           <div className="pg-hero-inner pg-flow" aria-label={t.flow.controls}>
