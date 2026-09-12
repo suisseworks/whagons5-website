@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Bebas_Neue, Cormorant_Garamond, Instrument_Sans } from 'next/font/google';
+import { Instrument_Sans } from 'next/font/google';
 import {
   ALTERNATE_LANGUAGES,
   HTML_LANG,
@@ -11,21 +11,7 @@ import {
 import NavBar from '../components/NavBar';
 import FooterBar from '../components/FooterBar';
 import '../globals.css';
-
-const bebasNeue = Bebas_Neue({
-  weight: '400',
-  subsets: ['latin'],
-  variable: '--font-display',
-  display: 'swap',
-});
-
-const cormorantGaramond = Cormorant_Garamond({
-  weight: ['300', '400'],
-  style: ['normal', 'italic'],
-  subsets: ['latin'],
-  variable: '--font-serif',
-  display: 'swap',
-});
+import '../styles/pages.css';
 
 const instrumentSans = Instrument_Sans({
   weight: ['400', '500', '600'],
@@ -165,7 +151,7 @@ export default function LangLayout({ children, params }: LangLayoutProps) {
     <html
       lang={documentLang}
       suppressHydrationWarning
-      className={`${bebasNeue.variable} ${cormorantGaramond.variable} ${instrumentSans.variable}`}
+      className={instrumentSans.variable}
     >
       <body suppressHydrationWarning>
         <script

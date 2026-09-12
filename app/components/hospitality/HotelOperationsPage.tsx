@@ -1,16 +1,18 @@
 import HospitalityAnalytics from './HospitalityAnalytics';
-import styles from './Hospitality.module.css';
+import Image from 'next/image';
 
 type HotelPageLanguage = 'en' | 'es';
 
 const content = {
   en: {
     heroEyebrow: 'Built for the work between hotel departments',
-    heroTitle: <>One operating layer. <span>Every handoff visible.</span></>,
+    heroTitle: <>One operating layer. <span className="pg-accent">Every handoff visible.</span></>,
     heroLead:
       'Hotels already have systems of record. Whagons focuses on the work that moves between people, departments, shifts, and properties after a request or standard needs action.',
     primaryCta: 'Request a tailored demo',
     secondaryCta: 'Explore the platform',
+    shotCaption: 'Task grid · Maintenance · Whagons',
+    shotAlt: 'Whagons task grid showing maintenance work with owners, due times, and status',
     flow: {
       signal: 'Guest request',
       first: 'Front desk',
@@ -63,11 +65,13 @@ const content = {
   },
   es: {
     heroEyebrow: 'Diseñado para el trabajo entre departamentos del hotel',
-    heroTitle: <>Una sola capa operativa. <span>Cada entrega, visible.</span></>,
+    heroTitle: <>Una sola capa operativa. <span className="pg-accent">Cada entrega, visible.</span></>,
     heroLead:
       'Los hoteles ya cuentan con sistemas de registro. Whagons se enfoca en el trabajo que se mueve entre personas, departamentos, turnos y propiedades cuando una solicitud o estándar requiere acción.',
     primaryCta: 'Solicitar un demo personalizado',
     secondaryCta: 'Explorar la plataforma',
+    shotCaption: 'Tareas · Mantenimiento · Whagons',
+    shotAlt: 'Tabla de tareas de Whagons con trabajo de mantenimiento, responsables, plazos y estado',
     flow: {
       signal: 'Solicitud del huésped',
       first: 'Recepción',
@@ -122,6 +126,16 @@ const content = {
 
 const departmentIds = ['front-desk', 'housekeeping', 'engineering', 'operations-leaders', 'regional-teams'];
 const momentIds = ['guest-requests', 'room-readiness', 'inspection-correction', 'shift-handoff'];
+const momentTones = ['', 'blue', 'amber', 'green'] as const;
+const operatorTones = ['blue', 'violet', 'green'] as const;
+
+function Arrow() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 export default function HotelOperationsPage({ lang = 'en' }: { lang?: HotelPageLanguage }) {
   const t = content[lang];
@@ -132,83 +146,107 @@ export default function HotelOperationsPage({ lang = 'en' }: { lang?: HotelPageL
   return (
     <>
       <HospitalityAnalytics page={`${analyticsMarket}_hotel_operations`} market={analyticsMarket} />
-      <main className={styles.page}>
-        <section className={`${styles.hero} ${styles.subpageHero}`}>
-          <div className={styles.heroCopy}>
-            <p className={styles.eyebrow}>{t.heroEyebrow}</p>
-            <h1>{t.heroTitle}</h1>
-            <p className={styles.heroLead}>{t.heroLead}</p>
-            <div className={styles.heroActions}>
-              <a className={styles.primaryButton} href={demoHref} data-track="operations_demo_click">
-                {t.primaryCta}
-              </a>
-              <a className={styles.textButton} href={platformHref}>
-                {t.secondaryCta} <span aria-hidden="true">→</span>
-              </a>
+      <main className="pg">
+        <section className="pg-hero">
+          <div className="pg-hero-inner pg-hero-split">
+            <div className="pg-hero-copy">
+              <p className="pg-eyebrow">{t.heroEyebrow}</p>
+              <h1>{t.heroTitle}</h1>
+              <p className="pg-lead">{t.heroLead}</p>
+              <div className="pg-actions">
+                <a className="pg-btn" href={demoHref} data-track="operations_demo_click">
+                  {t.primaryCta}
+                  <Arrow />
+                </a>
+                <a className="pg-btn-secondary" href={platformHref}>
+                  {t.secondaryCta} <span aria-hidden="true">→</span>
+                </a>
+              </div>
             </div>
+            <figure className="pg-shot">
+              <div className="pg-shot-bar" aria-hidden="true"><i /><i /><i /><span>{t.shotCaption}</span></div>
+              <Image src="/images/demo-task-grid.png" alt={t.shotAlt} width={2048} height={1146} priority sizes="(max-width: 1000px) 100vw, 560px" />
+            </figure>
           </div>
-          <aside className={styles.departmentMap}>
-            <span>{t.flow.signal}</span>
-            <strong>{t.flow.first}</strong>
-            <i aria-hidden="true" />
-            <strong>{t.flow.second}</strong>
-            <i aria-hidden="true" />
-            <strong>{t.flow.third}</strong>
-            <small>{t.flow.controls}</small>
-          </aside>
+          <div className="pg-hero-inner pg-flow" aria-label={t.flow.controls}>
+            <ol className="pg-flow-chain">
+              <li><span className="pg-tag" data-tone="neutral">{t.flow.signal}</span></li>
+              <li><span className="pg-tag" data-tone="blue">{t.flow.first}</span></li>
+              <li><span className="pg-tag" data-tone="amber">{t.flow.second}</span></li>
+              <li><span className="pg-tag" data-tone="green">{t.flow.third}</span></li>
+            </ol>
+            <p className="pg-small">{t.flow.controls}</p>
+          </div>
         </section>
 
-        <section className={styles.section}>
-          <div className={styles.sectionHeading}>
-            <p className={styles.eyebrow}>{t.departmentsEyebrow}</p>
+        <section className="pg-section">
+          <div className="pg-intro">
+            <p className="pg-eyebrow">{t.departmentsEyebrow}</p>
             <h2>{t.departmentsTitle}</h2>
-            <p>{t.departmentsLead}</p>
+            <p className="pg-text">{t.departmentsLead}</p>
           </div>
-          <div className={styles.departmentGrid}>
+          <div className="pg-grid-3">
             {t.departments.map(([number, name, text], index) => (
-              <article id={departmentIds[index]} key={number}>
-                <span>{number}</span>
+              <article className="pg-card" id={departmentIds[index]} key={number}>
+                <span className="pg-num">{number}</span>
                 <h3>{name}</h3>
                 <p>{text}</p>
               </article>
             ))}
+            <article className="pg-card pg-card-soft">
+              <span className="pg-icon" aria-hidden="true" />
+              <h3>{t.flow.controls}</h3>
+              <a className="pg-card-link" href={platformHref}>
+                {t.secondaryCta}
+                <Arrow />
+              </a>
+            </article>
           </div>
         </section>
 
-        <section className={`${styles.section} ${styles.handoffMoments}`}>
-          <div className={styles.sectionHeading}>
-            <p className={styles.eyebrow}>{t.momentsEyebrow}</p>
-            <h2>{t.momentsTitle}</h2>
-            <p>{t.momentsLead}</p>
+        <section className="pg-band">
+          <div className="pg-section">
+            <div className="pg-intro">
+              <p className="pg-eyebrow">{t.momentsEyebrow}</p>
+              <h2>{t.momentsTitle}</h2>
+              <p className="pg-text">{t.momentsLead}</p>
+            </div>
+            <div className="pg-grid-2">
+              {t.moments.map(([title, text], index) => (
+                <article className="pg-card" id={momentIds[index]} key={title} style={{ background: 'var(--bg)' }}>
+                  <span className="pg-tag" data-tone={momentTones[index] || undefined}>0{index + 1}</span>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </article>
+              ))}
+            </div>
           </div>
-          <div className={styles.momentGrid}>
-            {t.moments.map(([title, text], index) => (
-              <article id={momentIds[index]} key={title}>
-                <span>0{index + 1}</span>
-                <h3>{title}</h3>
-                <p>{text}</p>
+        </section>
+
+        <section className="pg-section">
+          <div className="pg-grid-3">
+            {t.operatorTypes.map((operator, index) => (
+              <article className="pg-card pg-card-raised" key={operator.eyebrow}>
+                <span className="pg-tag" data-tone={operatorTones[index]}>{operator.eyebrow}</span>
+                <h3>{operator.title}</h3>
+                <p>{operator.text}</p>
               </article>
             ))}
           </div>
         </section>
 
-        <section className={`${styles.section} ${styles.fitSectionWide}`}>
-          {t.operatorTypes.map((operator) => (
-            <div key={operator.eyebrow}>
-              <p className={styles.eyebrow}>{operator.eyebrow}</p>
-              <h2>{operator.title}</h2>
-              <p>{operator.text}</p>
+        <section className="pg-cta">
+          <div>
+            <p className="pg-eyebrow">{t.finalEyebrow}</p>
+            <h2>{t.finalTitle}</h2>
+            <div className="pg-actions">
+              <a className="pg-btn" href={demoHref} data-track="operations_final_demo_click">
+                {t.finalCta}
+                <Arrow />
+              </a>
             </div>
-          ))}
-        </section>
-
-        <section className={styles.finalCta}>
-          <p className={styles.eyebrow}>{t.finalEyebrow}</p>
-          <h2>{t.finalTitle}</h2>
-          <a className={styles.primaryButton} href={demoHref} data-track="operations_final_demo_click">
-            {t.finalCta}
-          </a>
-          <p>{t.finalNote}</p>
+            <small>{t.finalNote}</small>
+          </div>
         </section>
       </main>
     </>

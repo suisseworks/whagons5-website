@@ -10,8 +10,17 @@ interface DemoSectionProps {
   language: string;
 }
 
+function Arrow() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export default function DemoSection({ t, language }: DemoSectionProps) {
   const lang = isLanguage(language) ? language : 'es';
+  const offer = demoOffer[lang];
   const [demoName, setDemoName] = useState('');
   const [demoCompany, setDemoCompany] = useState('');
   const [demoEmail, setDemoEmail] = useState('');
@@ -73,182 +82,177 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
   };
 
   return (
-    <section id="demo">
-      <div className="demo-top r">
-        <h2 className="demo-title">{t.demoTitle1}<br />{t.demoTitle2}</h2>
-        <p className="demo-sub">{t.demoSub}</p>
-      </div>
-      <div className="demo-body">
-        <div className="demo-left">
-          <div className="r">
-            <ul className="demo-perks">
+    <>
+      <section id="demo" className="pg-hero pg-demo-hero">
+        <div className="pg-hero-inner pg-hero-split">
+          <div className="pg-hero-copy">
+            <p className="pg-eyebrow">Demo</p>
+            <h1>{offer.title}</h1>
+            <p className="pg-lead">{offer.description}</p>
+            <ul className="pg-checks">
               {t.demoPerks.map((perk: string, i: number) => (
-                <li className="demo-perk" key={i}>
-                  <span className="dp-n">0{i + 1}</span>
-                  <span className="dp-t">{perk}</span>
-                </li>
+                <li key={i}>{perk}</li>
               ))}
             </ul>
           </div>
-          <figure className="demo-preview r d1">
-            <a href="/images/demo-housekeeping-board.png" target="_blank" rel="noopener noreferrer" aria-label={lang === 'es' ? 'Ver tablero completo de Housekeeping' : 'View the full Housekeeping board'}>
+
+          <div className="pg-panel">
+            {!demoSuccess ? (
+              <form onSubmit={submitDemo} className="pg-form">
+                <p className="pg-text" style={{ fontSize: '0.95rem' }}>{t.demoSub}</p>
+                <label className="hp-field" aria-hidden="true">
+                  Website
+                  <input
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={demoWebsite}
+                    onChange={(e) => setDemoWebsite(e.target.value)}
+                  />
+                </label>
+                <div className="pg-form-grid">
+                  <div className="pg-field">
+                    <label htmlFor="d-name">{t.demoNameLabel}</label>
+                    <input
+                      id="d-name"
+                      name="name"
+                      autoComplete="name"
+                      type="text"
+                      placeholder={t.demoNamePlaceholder}
+                      required
+                      value={demoName}
+                      onChange={(e) => setDemoName(e.target.value)}
+                      disabled={demoSubmitting}
+                    />
+                  </div>
+                  <div className="pg-field">
+                    <label htmlFor="d-company">{t.demoCompanyLabel}</label>
+                    <input
+                      id="d-company"
+                      name="company"
+                      autoComplete="organization"
+                      type="text"
+                      placeholder={t.demoCompanyPlaceholder}
+                      required
+                      value={demoCompany}
+                      onChange={(e) => setDemoCompany(e.target.value)}
+                      disabled={demoSubmitting}
+                    />
+                  </div>
+                  <div className="pg-field">
+                    <label htmlFor="d-email">{t.demoEmailLabel}</label>
+                    <input
+                      id="d-email"
+                      name="email"
+                      autoComplete="email"
+                      type="email"
+                      placeholder={t.demoEmailPlaceholder}
+                      required
+                      value={demoEmail}
+                      onChange={(e) => setDemoEmail(e.target.value)}
+                      disabled={demoSubmitting}
+                    />
+                  </div>
+                  <div className="pg-field">
+                    <label htmlFor="d-phone">{t.demoPhoneLabel}</label>
+                    <input
+                      id="d-phone"
+                      name="phone"
+                      autoComplete="tel"
+                      type="tel"
+                      placeholder={t.demoPhonePlaceholder}
+                      value={demoPhone}
+                      onChange={(e) => setDemoPhone(e.target.value)}
+                      disabled={demoSubmitting}
+                    />
+                  </div>
+                  <div className="pg-field pg-field-span">
+                    <label htmlFor="d-industry">{t.demoIndustryLabel}</label>
+                    <select
+                      id="d-industry"
+                      name="industry"
+                      required
+                      value={demoIndustry}
+                      onChange={(e) => setDemoIndustry(e.target.value)}
+                      disabled={demoSubmitting}
+                    >
+                      <option value="" disabled>{t.briefIndustryPlaceholder}</option>
+                      {t.industryOptions.map((opt: string) => (
+                        <option key={opt} value={opt}>{opt}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="pg-field pg-field-span">
+                    <label htmlFor="d-teamsize">{t.demoTeamSizeLabel}</label>
+                    <select
+                      id="d-teamsize"
+                      name="teamSize"
+                      required
+                      value={demoTeamSize}
+                      onChange={(e) => setDemoTeamSize(e.target.value)}
+                      disabled={demoSubmitting}
+                    >
+                      <option value="" disabled>{t.briefIndustryPlaceholder}</option>
+                      {t.teamSizeOptions.map((opt: string) => (
+                        <option key={opt} value={opt}>{opt}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                {demoError && (
+                  <p className="pg-alert" role="alert">{t.demoError}</p>
+                )}
+                <div className="pg-form-actions">
+                  <button type="submit" className="pg-btn" disabled={demoSubmitting}>
+                    {demoSubmitting ? '...' : t.demoSubmit}
+                    {!demoSubmitting && <Arrow />}
+                  </button>
+                  {!demoError && <p className="pg-note">{t.demoNote}</p>}
+                </div>
+                <p className="pg-note">
+                  {offer.privacy}{' '}
+                  <a href={legalRouteFor(lang, 'privacy')}>{offer.privacyLink}</a>
+                </p>
+              </form>
+            ) : (
+              <div
+                ref={successRef}
+                className="pg-success"
+                role="status"
+                aria-live="polite"
+                tabIndex={-1}
+              >
+                <span className="pg-success-icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" role="img">
+                    <path d="m6.5 12.5 3.4 3.4 7.6-8" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+                <div>
+                  <p className="pg-eyebrow" style={{ marginBottom: 6 }}>{t.demoSuccessEyebrow}</p>
+                  <p>{t.demoSuccess}</p>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <section className="pg-section">
+        <figure className="pg-shot">
+          <div className="pg-shot-bar" aria-hidden="true"><i /><i /><i /><span>Housekeeping · Whagons</span></div>
+          <a href="/images/demo-housekeeping-board.png" target="_blank" rel="noopener noreferrer" aria-label={lang === 'es' ? 'Ver tablero completo de Housekeeping' : 'View the full Housekeeping board'}>
             <Image
               src="/images/demo-housekeeping-detail.png"
               alt={lang === 'es' ? 'Ejemplo de Housekeeping en Whagons: tareas en revisión y en espera. Datos de demostración.' : 'Whagons Housekeeping example: tasks under review and on hold. Demo data; labels in Spanish.'}
               width={1774}
               height={887}
-              sizes="(max-width: 860px) 100vw, 50vw"
-              className="demo-preview-img"
+              sizes="(max-width: 1180px) 100vw, 1180px"
               priority={false}
             />
-            </a>
-            <figcaption style={{ padding: '12px 16px', fontSize: '12px', lineHeight: 1.5 }}>{lang === 'es' ? 'Housekeeping · Datos de demostración · Abre la imagen para ver el tablero completo ↗' : 'Housekeeping · Demo data · Open the image to view the full board ↗'}</figcaption>
-          </figure>
-        </div>
-        <div className="r d2">
-          {!demoSuccess ? (
-            <form onSubmit={submitDemo}>
-              <label className="hp-field" aria-hidden="true">
-                Website
-                <input
-                  type="text"
-                  tabIndex={-1}
-                  autoComplete="off"
-                  value={demoWebsite}
-                  onChange={(e) => setDemoWebsite(e.target.value)}
-                />
-              </label>
-              <div className="demo-form-grid">
-                <div className="f-line">
-                  <label className="f-lbl" htmlFor="d-name">{t.demoNameLabel}</label>
-                  <input
-                    className="f-inp"
-                    id="d-name"
-                    name="name"
-                    autoComplete="name"
-                    type="text"
-                    placeholder={t.demoNamePlaceholder}
-                    required
-                    value={demoName}
-                    onChange={(e) => setDemoName(e.target.value)}
-                    disabled={demoSubmitting}
-                  />
-                </div>
-                <div className="f-line">
-                  <label className="f-lbl" htmlFor="d-company">{t.demoCompanyLabel}</label>
-                  <input
-                    className="f-inp"
-                    id="d-company"
-                    name="company"
-                    autoComplete="organization"
-                    type="text"
-                    placeholder={t.demoCompanyPlaceholder}
-                    required
-                    value={demoCompany}
-                    onChange={(e) => setDemoCompany(e.target.value)}
-                    disabled={demoSubmitting}
-                  />
-                </div>
-                <div className="f-line">
-                  <label className="f-lbl" htmlFor="d-email">{t.demoEmailLabel}</label>
-                  <input
-                    className="f-inp"
-                    id="d-email"
-                    name="email"
-                    autoComplete="email"
-                    type="email"
-                    placeholder={t.demoEmailPlaceholder}
-                    required
-                    value={demoEmail}
-                    onChange={(e) => setDemoEmail(e.target.value)}
-                    disabled={demoSubmitting}
-                  />
-                </div>
-                <div className="f-line">
-                  <label className="f-lbl" htmlFor="d-phone">{t.demoPhoneLabel}</label>
-                  <input
-                    className="f-inp"
-                    id="d-phone"
-                    name="phone"
-                    autoComplete="tel"
-                    type="tel"
-                    placeholder={t.demoPhonePlaceholder}
-                    value={demoPhone}
-                    onChange={(e) => setDemoPhone(e.target.value)}
-                    disabled={demoSubmitting}
-                  />
-                </div>
-                <div className="f-line span2">
-                  <label className="f-lbl" htmlFor="d-industry">{t.demoIndustryLabel}</label>
-                  <select
-                    className="f-inp"
-                    id="d-industry"
-                    name="industry"
-                    required
-                    value={demoIndustry}
-                    onChange={(e) => setDemoIndustry(e.target.value)}
-                    disabled={demoSubmitting}
-                  >
-                    <option value="" disabled>{t.briefIndustryPlaceholder}</option>
-                    {t.industryOptions.map((opt: string) => (
-                      <option key={opt} value={opt}>{opt}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="f-line span2">
-                  <label className="f-lbl" htmlFor="d-teamsize">{t.demoTeamSizeLabel}</label>
-                  <select
-                    className="f-inp"
-                    id="d-teamsize"
-                    name="teamSize"
-                    required
-                    value={demoTeamSize}
-                    onChange={(e) => setDemoTeamSize(e.target.value)}
-                    disabled={demoSubmitting}
-                  >
-                    <option value="" disabled>{t.briefIndustryPlaceholder}</option>
-                    {t.teamSizeOptions.map((opt: string) => (
-                      <option key={opt} value={opt}>{opt}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <div className="f-actions" style={{ marginTop: 40 }}>
-                <button type="submit" className="btn-black" disabled={demoSubmitting}>
-                  {demoSubmitting ? '...' : `${t.demoSubmit} \u2192`}
-                </button>
-                {demoError ? (
-                  <p className="f-note" role="alert">{t.demoError}</p>
-                ) : (
-                  <p className="f-note">{t.demoNote}</p>
-                )}
-              </div>
-              <p className="demo-privacy">
-                {demoOffer[lang].privacy}{' '}
-                <a href={legalRouteFor(lang, 'privacy')}>{demoOffer[lang].privacyLink}</a>
-              </p>
-            </form>
-          ) : (
-            <div
-              ref={successRef}
-              className="f-success show"
-              role="status"
-              aria-live="polite"
-              tabIndex={-1}
-            >
-              <span className="f-success-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" role="img">
-                  <path d="m6.5 12.5 3.4 3.4 7.6-8" />
-                </svg>
-              </span>
-              <div className="f-success-copy">
-                <span className="f-success-eyebrow">{t.demoSuccessEyebrow}</span>
-                <p>{t.demoSuccess}</p>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </section>
+          </a>
+          <figcaption>{lang === 'es' ? 'Housekeeping · Datos de demostración · Abre la imagen para ver el tablero completo ↗' : 'Housekeeping · Demo data · Open the image to view the full board ↗'}</figcaption>
+        </figure>
+      </section>
+    </>
   );
 }
