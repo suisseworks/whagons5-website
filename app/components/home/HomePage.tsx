@@ -13,8 +13,8 @@ const content = {
       'Connect guest requests, room readiness, maintenance, inspections, and shifts in one operating view. Every job gets an owner, a due time, and proof it was done.',
     scoreCta: 'Assess my hotel for free',
     heroPoints: ['Works alongside your PMS', 'Mobile + web', 'Configured to your operation', 'Across Latin America'],
-    heroShotAlt: 'Whagons housekeeping board with tasks grouped by status',
-    heroShotCaption: 'Housekeeping board · Whagons',
+    heroShotAlt: 'Whagons task grid for a hotel maintenance team, with status, priority and assignee columns',
+    heroShotCaption: 'Task grid · Maintenance · Whagons',
     clientsLabel: 'Teams that trust Whagons',
     problemEyebrow: 'The operational layer',
     problemTitle: 'The work between teams should never disappear between shifts.',
@@ -86,8 +86,8 @@ const content = {
       'Conecta solicitudes de huéspedes, habitaciones, mantenimiento, inspecciones y turnos en una sola vista operativa. Cada tarea tiene responsable, plazo y evidencia de cierre.',
     scoreCta: 'Evaluar mi hotel gratis',
     heroPoints: ['Funciona junto a tu PMS', 'Móvil + web', 'Configurado para tu operación', 'En toda Latinoamérica'],
-    heroShotAlt: 'Tablero de Housekeeping en Whagons con tareas agrupadas por estado',
-    heroShotCaption: 'Tablero de Housekeeping · Whagons',
+    heroShotAlt: 'Grilla de tareas de Whagons para el equipo de mantenimiento de un hotel, con columnas de estado, prioridad y responsable',
+    heroShotCaption: 'Tareas · Mantenimiento · Whagons',
     clientsLabel: 'Equipos que confían en Whagons',
     problemEyebrow: 'La capa operativa',
     problemTitle: 'El trabajo entre equipos no debería perderse entre turnos.',
@@ -243,7 +243,7 @@ export default function HomePage({ lang }: { lang: Language }) {
         </div>
         <figure className={styles.shot}>
           <div className={styles.shotBar} aria-hidden="true"><i /><i /><i /><span>{t.heroShotCaption}</span></div>
-          <Image src="/images/demo-housekeeping-board.png" alt={t.heroShotAlt} width={1536} height={735} priority sizes="(max-width: 1240px) 100vw, 1180px" />
+          <Image src="/images/demo-task-grid.png" alt={t.heroShotAlt} width={2048} height={1146} priority sizes="(max-width: 1240px) 100vw, 1180px" />
         </figure>
       </section>
 

@@ -113,7 +113,7 @@
 .shotBar span { margin-left: 10px; color: #9a968f; font-size: 0.72rem; font-weight: 500; }
 .hero .shot { margin-bottom: -1px; border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: 0; }
 .hero .shot img { mask-image: linear-gradient(180deg, #000 78%, transparent 100%); -webkit-mask-image: linear-gradient(180deg, #000 78%, transparent 100%); }
-.hero .shot { max-height: 560px; }
+.hero .shot { max-height: 620px; }
 .shotWide { margin-top: 40px; }
 
 /* ── Customers strip ───────────────────────── */
@@ -286,7 +286,7 @@
   .actions .btnSecondary { width: 100%; }
   .points { justify-content: flex-start; }
   .shot { margin-top: 36px; }
-  .hero .shot { max-height: 320px; }
+  .hero .shot { max-height: 340px; }
   .shotBar span { display: none; }
   .clients { padding: 24px var(--gutter); }
   .cardGrid,
