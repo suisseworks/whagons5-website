@@ -245,7 +245,7 @@ export default function HomePage({ lang }: { lang: Language }) {
         </div>
         <figure className={styles.shot}>
           <div className={styles.shotBar} aria-hidden="true"><i /><i /><i /><span>{t.heroShotCaption}</span></div>
-          <Image src={shots.grid.src} alt={t.heroShotAlt} width={shots.grid.width} height={shots.grid.height} priority sizes="(max-width: 1240px) 100vw, 1180px" />
+          <Image src={shots.grid.src} alt={t.heroShotAlt} width={shots.grid.width} height={shots.grid.height} priority sizes="(max-width: 1240px) 100vw, 1180px" quality={90} />
         </figure>
       </section>
 
@@ -293,7 +293,7 @@ export default function HomePage({ lang }: { lang: Language }) {
           <a className={styles.btnSecondary} href={platformHref}>{t.platformCta}<Arrow /></a>
         </div>
         <div className={styles.processShot}>
-          <Image src={shots.boardDetail.src} alt={t.processShotAlt} width={shots.boardDetail.width} height={shots.boardDetail.height} sizes="(max-width: 1000px) 100vw, 620px" />
+          <Image src={shots.boardDetail.src} alt={t.processShotAlt} width={shots.boardDetail.width} height={shots.boardDetail.height} sizes="(max-width: 1000px) 100vw, 620px" quality={90} />
         </div>
       </section>
 
@@ -306,7 +306,7 @@ export default function HomePage({ lang }: { lang: Language }) {
         </div>
         <figure className={`${styles.shot} ${styles.shotWide}`}>
           <div className={styles.shotBar} aria-hidden="true"><i /><i /><i /><span>{t.productShotCaption}</span></div>
-          <Image src={shots.analytics.src} alt={t.productShotAlt} width={shots.analytics.width} height={shots.analytics.height} sizes="(max-width: 1240px) 100vw, 1180px" />
+          <Image src={shots.analytics.src} alt={t.productShotAlt} width={shots.analytics.width} height={shots.analytics.height} sizes="(max-width: 1240px) 100vw, 1180px" quality={90} />
         </figure>
         <div className={styles.featureGrid}>
           {t.capabilities.map(([title, text], index) => (

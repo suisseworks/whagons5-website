@@ -8,19 +8,6 @@ const MODULES: Record<Language, Module[]> = {
   es: [
     {
       num: '01',
-      name: 'Asistente con Inteligencia Artificial',
-      tagline: 'Tu copiloto estratégico, no un chatbot genérico',
-      desc: 'Un copiloto que busca, analiza y recomienda acciones con contexto real de tu operación. Habla para crear, actualizar o cerrar tareas al instante y toma decisiones basadas en datos, no en suposiciones.',
-      features: [
-        'Búsqueda inteligente en toda tu operación con lenguaje natural',
-        'Resúmenes automáticos de rendimiento por equipo, sede o periodo',
-        'Recomendaciones accionables basadas en patrones reales de tu data',
-        'Creación, actualización y cierre de tareas por voz o comandos conversacionales',
-        'Detección de anomalías y alertas proactivas antes de que escalen',
-      ],
-    },
-    {
-      num: '02',
       name: 'Flujos de Trabajo y Automatizaciones',
       tagline: 'Automatiza la lógica de negocio, no solo las tareas',
       desc: 'Automatiza aprobaciones, flujos secuenciales o por mayoría, broadcasts y escalamientos con SLAs configurables. Los workflows se adaptan a tu lógica de negocio, no al revés.',
@@ -33,7 +20,7 @@ const MODULES: Record<Language, Module[]> = {
       ],
     },
     {
-      num: '03',
+      num: '02',
       name: 'Integraciones',
       tagline: 'Conecta todo en una sola plataforma operativa',
       desc: 'Conecta Whagons con tus sistemas existentes vía API completa. ERP, CRM, herramientas de comunicación y más, todo en una sola plataforma operativa.',
@@ -46,7 +33,7 @@ const MODULES: Record<Language, Module[]> = {
       ],
     },
     {
-      num: '04',
+      num: '03',
       name: 'Planes de Trabajo y Programación',
       tagline: 'Todo trazable, todo medible',
       desc: 'Crea planes de trabajo, asigna tareas recurrentes, gestiona horarios y controla costos operativos. Ideal para programar personal de hotelería por turno, área u ocupación.',
@@ -60,7 +47,7 @@ const MODULES: Record<Language, Module[]> = {
       ],
     },
     {
-      num: '05',
+      num: '04',
       name: 'Formularios, Firmas y Aprobaciones',
       tagline: 'Captura datos en campo: digital, trazable, verificable',
       desc: 'Captura datos en campo con formularios digitales, firmas electrónicas y flujos de aprobación. Compatible con escaneo QR, códigos de barra, geolocalización GPS y toques NFC para iniciar, finalizar o validar tareas en sitio.',
@@ -74,7 +61,7 @@ const MODULES: Record<Language, Module[]> = {
       ],
     },
     {
-      num: '06',
+      num: '05',
       name: 'Documentación, SOPs y Cumplimiento',
       tagline: 'El manual de tu organización, siempre actualizado y auditable',
       desc: 'Centraliza manuales, normas ISO, procedimientos operativos y materiales de entrenamiento. Multimedia, multi-idioma, con confirmación de lectura y registros auditables.',
@@ -87,7 +74,7 @@ const MODULES: Record<Language, Module[]> = {
       ],
     },
     {
-      num: '07',
+      num: '06',
       name: 'Control Operativo en Tiempo Real',
       tagline: 'Visibilidad total, del piso operativo al directorio',
       desc: 'Dashboards con KPIs personalizados, analítica P50/P90/P95, SLAs con escalamiento y monitoreo de actividad en tiempo real.',
@@ -99,23 +86,23 @@ const MODULES: Record<Language, Module[]> = {
         'Exportación programada de reportes en PDF, Excel o vía API',
       ],
     },
+    {
+      num: '07',
+      name: 'Asistente inteligente',
+      tagline: 'Busca, resume y sugiere el siguiente paso con datos reales',
+      desc: 'Un copiloto que busca, analiza y recomienda acciones con contexto real de tu operación. Habla para crear, actualizar o cerrar tareas al instante y toma decisiones basadas en datos, no en suposiciones.',
+      features: [
+        'Búsqueda inteligente en toda tu operación con lenguaje natural',
+        'Resúmenes automáticos de rendimiento por equipo, sede o periodo',
+        'Recomendaciones accionables basadas en patrones reales de tu data',
+        'Creación, actualización y cierre de tareas por voz o comandos conversacionales',
+        'Detección de anomalías y alertas proactivas antes de que escalen',
+      ],
+    },
   ],
   en: [
     {
       num: '01',
-      name: 'AI-Powered Assistant',
-      tagline: 'Your strategic copilot, not a generic chatbot',
-      desc: 'A strategic copilot that searches, analyzes, and recommends actions with real context from your operation. Speak to create, update, or close tasks instantly and make decisions based on data, not assumptions.',
-      features: [
-        'Natural language search across your entire operation',
-        'Automatic performance summaries by team, location, or period',
-        'Actionable recommendations based on real patterns in your data',
-        'Task creation, updates, and completion through voice or conversational commands',
-        'Anomaly detection and proactive alerts before issues escalate',
-      ],
-    },
-    {
-      num: '02',
       name: 'Workflows & Automations',
       tagline: 'Automate business logic, not just tasks',
       desc: 'Automate approvals, sequential or majority flows, broadcasts, and escalations with configurable SLAs. Workflows adapt to your business logic, not the other way around.',
@@ -128,7 +115,7 @@ const MODULES: Record<Language, Module[]> = {
       ],
     },
     {
-      num: '03',
+      num: '02',
       name: 'Integrations',
       tagline: 'Connect everything in one operational platform',
       desc: 'Connect Whagons with your existing systems via a full API. ERP, CRM, communication tools, and more, all in one operational platform.',
@@ -141,7 +128,7 @@ const MODULES: Record<Language, Module[]> = {
       ],
     },
     {
-      num: '04',
+      num: '03',
       name: 'Work Plans & Scheduling',
       tagline: 'Fully traceable, fully measurable',
       desc: 'Create work plans, assign recurring tasks, manage schedules, and control operational costs. Ideal for hotel staff scheduling by shift, department, or occupancy.',
@@ -155,7 +142,7 @@ const MODULES: Record<Language, Module[]> = {
       ],
     },
     {
-      num: '05',
+      num: '04',
       name: 'Forms, Signatures & Approvals',
       tagline: 'Capture field data: digital, traceable, verifiable',
       desc: 'Capture field data with digital forms, electronic signatures, and approval workflows. Compatible with QR scanning, barcodes, GPS geolocation, and NFC taps to start, finish, or validate work on site.',
@@ -169,7 +156,7 @@ const MODULES: Record<Language, Module[]> = {
       ],
     },
     {
-      num: '06',
+      num: '05',
       name: 'Documentation, SOPs & Compliance',
       tagline: "Your organization's manual, always updated and auditable",
       desc: 'Centralize manuals, ISO standards, operating procedures, and training materials. Multimedia, multilingual, with read confirmations and auditable records.',
@@ -182,7 +169,7 @@ const MODULES: Record<Language, Module[]> = {
       ],
     },
     {
-      num: '07',
+      num: '06',
       name: 'Real-Time Operations Control',
       tagline: 'Full visibility, from the operations floor to the boardroom',
       desc: 'Dashboards with custom KPIs, P50/P90/P95 analytics, SLAs with escalation, and real-time activity monitoring.',
@@ -194,10 +181,23 @@ const MODULES: Record<Language, Module[]> = {
         'Scheduled report exports in PDF, Excel, or via API',
       ],
     },
+    {
+      num: '07',
+      name: 'Smart assistant',
+      tagline: 'Search, summarize and suggest the next step from real data',
+      desc: 'A strategic copilot that searches, analyzes, and recommends actions with real context from your operation. Speak to create, update, or close tasks instantly and make decisions based on data, not assumptions.',
+      features: [
+        'Natural language search across your entire operation',
+        'Automatic performance summaries by team, location, or period',
+        'Actionable recommendations based on real patterns in your data',
+        'Task creation, updates, and completion through voice or conversational commands',
+        'Anomaly detection and proactive alerts before issues escalate',
+      ],
+    },
   ],
 };
 
-const TONES = ['', 'blue', 'amber', 'violet', 'green', 'slate', ''] as const;
+const TONES = ['blue', 'amber', 'violet', 'green', 'slate', '', 'blue'] as const;
 
 const DIFFERENTIATORS: Record<Language, { title: string; lead: string; items: { title: string; desc: string }[] }> = {
   es: {
@@ -229,7 +229,7 @@ const DIFFERENTIATORS: Record<Language, { title: string; lead: string; items: { 
 const COPY = {
   es: {
     eyebrow: 'Plataforma',
-    title: 'Plataforma de operaciones hoteleras con inteligencia artificial',
+    title: 'La plataforma de operaciones para hoteles',
     lead: 'Siete módulos integrados para coordinar, automatizar y hacer visible el trabajo del hotel. Cada módulo funciona de forma independiente o como parte de una plataforma unificada.',
     primary: 'Ver en acción',
     secondary: 'Ver funcionalidades',
@@ -245,7 +245,7 @@ const COPY = {
   },
   en: {
     eyebrow: 'Platform',
-    title: 'AI-powered hotel operations platform',
+    title: 'The operations platform for hotels',
     lead: 'Seven integrated modules to coordinate, automate, and make hotel work visible. Each module works independently or as part of one unified platform.',
     primary: 'See it in action',
     secondary: 'View features',
@@ -292,7 +292,7 @@ export default function PlatformPageClient({ lang }: { lang: Language }) {
           </div>
           <figure className="pg-shot">
             <div className="pg-shot-bar" aria-hidden="true"><i /><i /><i /><span>{t.shotCaption}</span></div>
-            <Image src={shots.analytics.src} alt={t.shotAlt} width={shots.analytics.width} height={shots.analytics.height} priority sizes="(max-width: 1000px) 100vw, 560px" />
+            <Image src={shots.analytics.src} alt={t.shotAlt} width={shots.analytics.width} height={shots.analytics.height} priority sizes="(max-width: 1000px) 100vw, 560px" quality={90} />
           </figure>
         </div>
       </section>

@@ -167,7 +167,7 @@ export default function HotelOperationsPage({ lang = 'en' }: { lang?: HotelPageL
             </div>
             <figure className="pg-shot">
               <div className="pg-shot-bar" aria-hidden="true"><i /><i /><i /><span>{t.shotCaption}</span></div>
-              <Image src={shots.grid.src} alt={t.shotAlt} width={shots.grid.width} height={shots.grid.height} priority sizes="(max-width: 1000px) 100vw, 560px" />
+              <Image src={shots.grid.src} alt={t.shotAlt} width={shots.grid.width} height={shots.grid.height} priority sizes="(max-width: 1000px) 100vw, 560px" quality={90} />
             </figure>
           </div>
           <div className="pg-hero-inner pg-flow" aria-label={t.flow.controls}>

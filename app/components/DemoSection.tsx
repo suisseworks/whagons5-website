@@ -245,6 +245,7 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
           <a href={shots.board.src} target="_blank" rel="noopener noreferrer" aria-label={lang === 'es' ? 'Ver tablero completo de Housekeeping' : 'View the full maintenance board'}>
             <Image
               src={shots.boardDetail.src}
+              quality={90}
               alt={lang === 'es' ? 'Ejemplo de Housekeeping en Whagons: tareas en revisión y en espera. Datos de demostración.' : 'Whagons maintenance board example: tasks to do, in review and in progress. Demo data.'}
               width={shots.boardDetail.width}
               height={shots.boardDetail.height}
