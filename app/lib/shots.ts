@@ -1,4 +1,5 @@
-// Product screenshots per site language. Each page shows the app captured in
+// Product screenshots per site language, captured at 2x device pixel ratio so
+// they stay sharp on retina displays. Each page shows the app captured in
 // the visitor's language: Spanish UI for /es, English UI for /en.
 
 export type ShotLang = 'es' | 'en';
@@ -22,16 +23,16 @@ interface ShotSet {
 
 const SHOTS: Record<ShotLang, ShotSet> = {
   es: {
-    grid: { src: '/images/demo-task-grid.png', width: 1536, height: 860 },
-    board: { src: '/images/demo-housekeeping-board.png', width: 1536, height: 735 },
-    boardDetail: { src: '/images/demo-housekeeping-detail.png', width: 1774, height: 887 },
-    analytics: { src: '/images/whagons-analytics-dashboard.png', width: 1024, height: 515 },
+    grid: { src: '/images/demo-task-grid.png', width: 3072, height: 1720 },
+    board: { src: '/images/demo-board.png', width: 3072, height: 1720 },
+    boardDetail: { src: '/images/demo-board-detail.png', width: 1656, height: 1276 },
+    analytics: { src: '/images/whagons-analytics.png', width: 3072, height: 1720 },
   },
   en: {
-    grid: { src: '/images/en/demo-task-grid.png', width: 1536, height: 860 },
-    board: { src: '/images/en/demo-board.png', width: 1536, height: 860 },
-    boardDetail: { src: '/images/en/demo-board-detail.png', width: 828, height: 638 },
-    analytics: { src: '/images/en/whagons-analytics.png', width: 1536, height: 860 },
+    grid: { src: '/images/en/demo-task-grid.png', width: 3072, height: 1720 },
+    board: { src: '/images/en/demo-board.png', width: 3072, height: 1720 },
+    boardDetail: { src: '/images/en/demo-board-detail.png', width: 1656, height: 1276 },
+    analytics: { src: '/images/en/whagons-analytics.png', width: 3072, height: 1720 },
   },
 };
 

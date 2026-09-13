@@ -461,7 +461,7 @@ function Shot({ src, width, height, caption, alt, priority }: { src: string; wid
   return (
     <figure className="pg-shot">
       <div className="pg-shot-bar" aria-hidden="true"><i /><i /><i /><span>{caption}</span></div>
-      <Image src={src} alt={alt} width={width} height={height} priority={priority} sizes="(max-width: 1000px) 100vw, 560px" />
+      <Image src={src} alt={alt} width={width} height={height} priority={priority} quality={90} sizes="(max-width: 1000px) 100vw, 560px" />
     </figure>
   );
 }
