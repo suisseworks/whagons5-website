@@ -5,6 +5,8 @@ import { shotsFor } from '../../lib/shots';
 import styles from './HomePage.module.css';
 import ScorePromotion from '../hotel-score/ScorePromotion';
 import HospitalityAnalytics from '../hospitality/HospitalityAnalytics';
+import OperationsHeroDemo from './OperationsHeroDemo';
+import AnnotatedScreenshot from './AnnotatedScreenshot';
 
 const content = {
   en: {
@@ -14,6 +16,8 @@ const content = {
       'Connect guest requests, room readiness, maintenance, inspections, and shifts in one operating view. Every job gets an owner, a due time, and proof it was done.',
     scoreCta: 'Assess my hotel for free',
     heroPoints: ['Works alongside your PMS', 'Mobile + web', 'Configured to your operation', 'Across Latin America'],
+    offlineTitle: 'Works offline, too.',
+    offlineText: 'Access saved information and sync supported changes when you reconnect.',
     heroShotAlt: 'Whagons task grid for a hotel maintenance team, with status, priority and assignee columns',
     heroShotCaption: 'Task grid · Maintenance · Whagons',
     clientsLabel: 'Teams that trust Whagons',
@@ -87,6 +91,8 @@ const content = {
       'Conecta solicitudes de huéspedes, habitaciones, mantenimiento, inspecciones y turnos en una sola vista operativa. Cada tarea tiene responsable, plazo y evidencia de cierre.',
     scoreCta: 'Evaluar mi hotel gratis',
     heroPoints: ['Funciona junto a tu PMS', 'Móvil + web', 'Configurado para tu operación', 'En toda Latinoamérica'],
+    offlineTitle: 'También funciona offline.',
+    offlineText: 'Consulta la información guardada y sincroniza los cambios compatibles al reconectarte.',
     heroShotAlt: 'Grilla de tareas de Whagons para el equipo de mantenimiento de un hotel, con columnas de estado, prioridad y responsable',
     heroShotCaption: 'Tareas · Mantenimiento · Whagons',
     clientsLabel: 'Equipos que confían en Whagons',
@@ -231,6 +237,7 @@ export default function HomePage({ lang }: { lang: Language }) {
     <main className={styles.page}>
       {/* ── Hero ─────────────────────────────────────────── */}
       <section className={styles.hero}>
+        <div className={styles.heroTop}>
         <div className={styles.heroCopy}>
           <p className={styles.eyebrow}>{t.heroEyebrow}</p>
           <h1>{t.heroTitle}</h1>
@@ -242,11 +249,16 @@ export default function HomePage({ lang }: { lang: Language }) {
           <ul className={styles.points}>
             {t.heroPoints.map((point) => <li key={point}><Check />{point}</li>)}
           </ul>
+          <div className={styles.offlineNote}>
+            <span className={styles.offlineIcon} aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 11a11 11 0 0 1 16 0M7 14a7 7 0 0 1 10 0M10 17a3 3 0 0 1 4 0M3 3l18 18" /><circle cx="12" cy="20" r=".8" fill="currentColor" stroke="none" /></svg>
+            </span>
+            <p><strong>{t.offlineTitle}</strong><span>{t.offlineText}</span></p>
+          </div>
         </div>
-        <figure className={styles.shot}>
-          <div className={styles.shotBar} aria-hidden="true"><i /><i /><i /><span>{t.heroShotCaption}</span></div>
-          <Image src={shots.grid.src} alt={t.heroShotAlt} width={shots.grid.width} height={shots.grid.height} priority sizes="(max-width: 1240px) 100vw, 1180px" quality={90} />
-        </figure>
+        <OperationsHeroDemo lang={lang} />
+        </div>
+        <AnnotatedScreenshot lang={lang} shot={shots.grid} alt={t.heroShotAlt} caption={t.heroShotCaption} />
       </section>
 
       {/* ── Customers strip ─────────────────────────────── */}

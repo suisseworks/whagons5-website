@@ -9,7 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "node --test --test-isolation=none tests/demo-delivery.test.mjs tests/hotel-score.test.mjs tests/hotel-score-capture.test.mjs"
+    "test": "node --test --test-isolation=none tests/demo-delivery.test.mjs tests/hotel-score.test.mjs tests/hotel-score-capture.test.mjs tests/pricing.test.mjs tests/parador-offer.test.mjs"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",

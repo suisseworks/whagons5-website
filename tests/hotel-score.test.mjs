@@ -34,3 +34,22 @@ test('email report recomputes score and includes relevant recommendations and te
   assert.match(report.text, /33\/100/); assert.match(report.html, /Whagons/); assert.match(report.html, /<table/);
   assert(!report.text.includes('100/100'));
 });
+
+test('location history gaps produce a matching recommendation and worksheet in both languages', () => {
+  for (const language of ['es', 'en']) {
+    const qs = questions[language];
+    const historyIndex = qs.findIndex(q => q.id === 'history');
+    assert.notEqual(historyIndex, -1);
+    assert.equal(qs.some(q => q.id === 'approvals'), false);
+    const answers = Array(qs.length).fill(3);
+    answers[historyIndex] = 0;
+    assert.deepEqual(calculateScore(answers).opportunities, [historyIndex]);
+    const report = buildScoreEmail({ ...data, language, answers });
+    assert(report.text.includes(qs[historyIndex].action));
+    for (const field of qs[historyIndex].template) assert(report.text.includes(field));
+    answers[historyIndex] = 2;
+    const strongerReport = buildScoreEmail({ ...data, language, answers });
+    assert(strongerReport.text.includes(qs[historyIndex].improve));
+    assert(!strongerReport.text.includes(qs[historyIndex].action));
+  }
+});

@@ -83,14 +83,24 @@
 /* ── Hero ──────────────────────────────────── */
 .hero {
   position: relative;
-  padding: 140px var(--gutter) 0;
+  padding: 112px var(--gutter) 0;
   background:
     radial-gradient(60% 50% at 50% 0%, rgba(212, 49, 10, 0.07), transparent 70%),
     var(--bg);
 }
-.heroCopy { max-width: 820px; margin: 0 auto; text-align: center; }
+.heroTop { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: 58px; align-items: center; max-width: 1180px; margin: auto; }
+.heroCopy { min-width: 0; max-width: 560px; text-align: left; }
+.heroCopy h1 { font-size: clamp(2.6rem, 4.3vw, 3.8rem); letter-spacing: -.05em; }
 .heroCopy h1 em { font-style: normal; color: var(--accent); }
-.heroCopy .lead { max-width: 640px; margin: 22px auto 0; font-size: clamp(1.05rem, 1.4vw, 1.2rem); }
+.heroCopy .lead { max-width: 520px; margin: 22px 0 0; font-size: 1.05rem; }
+.heroCopy .actions { justify-content: flex-start; gap: 10px; }
+.heroCopy .actions a { padding-left: 17px; padding-right: 17px; font-size: .83rem; }
+.heroCopy .points { justify-content: flex-start; gap: 13px 20px; }
+.heroCopy .points li { font-size: .78rem; }
+.offlineNote { display: flex; align-items: flex-start; gap: 12px; margin-top: 24px; padding: 15px 17px; border: 1px solid #dce5d4; border-radius: 10px; background: #eff4e9; max-width: 510px; }
+.offlineIcon { display: grid; place-items: center; flex-shrink: 0; color: #627c4e; padding-top: 2px; }
+.offlineNote strong { display: block; font-size: .85rem; font-weight: 600; color: #465d35; }
+.offlineNote p > span { display: block; margin-top: 5px; color: #718165; font-size: .74rem; line-height: 1.65; }
 .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 32px; }
 .actions a { box-sizing: border-box; }
 .points { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 24px; margin-top: 30px; }
@@ -111,9 +121,6 @@
 .shotBar { display: flex; align-items: center; gap: 6px; padding: 10px 14px; border-bottom: 1px solid var(--line); background: #faf8f4; }
 .shotBar i { width: 9px; height: 9px; border-radius: 50%; background: #e2ddd3; }
 .shotBar span { margin-left: 10px; color: #9a968f; font-size: 0.72rem; font-weight: 500; }
-.hero .shot { margin-bottom: -1px; border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: 0; }
-.hero .shot img { mask-image: linear-gradient(180deg, #000 78%, transparent 100%); -webkit-mask-image: linear-gradient(180deg, #000 78%, transparent 100%); }
-.hero .shot { max-height: 620px; }
 .shotWide { margin-top: 40px; }
 
 /* ── Customers strip ───────────────────────── */
@@ -269,6 +276,9 @@
 
 @media (max-width: 900px) {
   .hero { padding-top: 112px; }
+  .heroTop { grid-template-columns: 1fr; gap: 32px; max-width: 650px; }
+  .heroCopy { max-width: 650px; }
+  .heroCopy h1 { max-width: 600px; }
   .section { padding: 72px var(--gutter); }
   .proof { grid-template-columns: 1fr; gap: 32px; }
   .markets { grid-template-columns: 1fr; }
@@ -286,7 +296,6 @@
   .actions .btnSecondary { width: 100%; }
   .points { justify-content: flex-start; }
   .shot { margin-top: 36px; }
-  .hero .shot { max-height: 340px; }
   .shotBar span { display: none; }
   .clients { padding: 24px var(--gutter); }
   .cardGrid,

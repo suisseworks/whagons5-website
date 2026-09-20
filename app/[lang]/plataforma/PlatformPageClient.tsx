@@ -1,357 +1,90 @@
 import Image from 'next/image';
 import { Language } from '../../lib/i18n';
 import { shotsFor } from '../../lib/shots';
+import styles from './PlatformPage.module.css';
 
-type Module = { num: string; name: string; tagline: string; desc: string; features: string[] };
-
-const MODULES: Record<Language, Module[]> = {
-  es: [
-    {
-      num: '01',
-      name: 'Flujos de Trabajo y Automatizaciones',
-      tagline: 'Automatiza la lógica de negocio, no solo las tareas',
-      desc: 'Automatiza aprobaciones, flujos secuenciales o por mayoría, broadcasts y escalamientos con SLAs configurables. Los workflows se adaptan a tu lógica de negocio, no al revés.',
-      features: [
-        'Aprobaciones unánimes, por mayoría o secuenciales con reglas configurables',
-        'Escalamiento automático en 3 niveles cuando un SLA se aproxima a su límite',
-        'Broadcasts y notificaciones masivas con segmentación por equipo o sede',
-        'Timeouts inteligentes que reasignan tareas automáticamente',
-        'Condicionales por campo: distintos flujos según prioridad, categoría o sede',
-      ],
-    },
-    {
-      num: '02',
-      name: 'Integraciones',
-      tagline: 'Conecta todo en una sola plataforma operativa',
-      desc: 'Conecta Whagons con tus sistemas existentes vía API completa. ERP, CRM, herramientas de comunicación y más, todo en una sola plataforma operativa.',
-      features: [
-        'API RESTful completa para integración con ERP, CRM, BI y sistemas legacy',
-        'Webhooks configurables para eventos en tiempo real',
-        'SSO (Single Sign-On) con SAML 2.0 y OIDC para autenticación empresarial',
-        'White-label completo: tu logo, colores y dominio personalizado',
-        'Offline-first con sincronización automática al recuperar conexión',
-      ],
-    },
-    {
-      num: '03',
-      name: 'Planes de Trabajo y Programación',
-      tagline: 'Todo trazable, todo medible',
-      desc: 'Crea planes de trabajo, asigna tareas recurrentes, gestiona horarios y controla costos operativos. Ideal para programar personal de hotelería por turno, área u ocupación.',
-      features: [
-        'Planes de trabajo con asignación por equipo, sede y calendario',
-        'Tareas recurrentes con frecuencias configurables y seguimiento automático',
-        'Gestión de horarios y turnos con costos operativos asociados',
-        'Programación de personal por área, turno y ocupación para hoteles',
-        'Vista de programación por día, semana o mes con arrastrar y soltar',
-        'Control de costos por tarea, proyecto o periodo con reportes detallados',
-      ],
-    },
-    {
-      num: '04',
-      name: 'Formularios, Firmas y Aprobaciones',
-      tagline: 'Captura datos en campo: digital, trazable, verificable',
-      desc: 'Captura datos en campo con formularios digitales, firmas electrónicas y flujos de aprobación. Compatible con escaneo QR, códigos de barra, geolocalización GPS y toques NFC para iniciar, finalizar o validar tareas en sitio.',
-      features: [
-        'Formularios dinámicos con campos condicionales y validaciones',
-        'Firmas electrónicas vinculadas a identidad y dispositivo',
-        'Escaneo de códigos QR y códigos de barra integrado',
-        'Toques NFC para iniciar, pausar, finalizar o confirmar tareas en sitio',
-        'Geolocalización GPS automática al capturar datos en campo',
-        'Flujos de aprobación con notificaciones y escalamiento automático',
-      ],
-    },
-    {
-      num: '05',
-      name: 'Documentación, SOPs y Cumplimiento',
-      tagline: 'El manual de tu organización, siempre actualizado y auditable',
-      desc: 'Centraliza manuales, normas ISO, procedimientos operativos y materiales de entrenamiento. Multimedia, multi-idioma, con confirmación de lectura y registros auditables.',
-      features: [
-        'Biblioteca organizada por departamento, rol y sede',
-        'Documentos multimedia: video, PDF, imágenes, listas de verificación',
-        'Confirmación de lectura con registro de quién leyó qué y cuándo',
-        'Registros digitales y trazables para apoyar programas ISO, FDA o HACCP',
-        'Retención configurable de registros con historial de cambios',
-      ],
-    },
-    {
-      num: '06',
-      name: 'Control Operativo en Tiempo Real',
-      tagline: 'Visibilidad total, del piso operativo al directorio',
-      desc: 'Dashboards con KPIs personalizados, analítica P50/P90/P95, SLAs con escalamiento y monitoreo de actividad en tiempo real.',
-      features: [
-        'KPIs en tiempo real por sede, equipo, categoría o periodo personalizado',
-        'SLAs con monitoreo P50/P90/P95 y tres niveles de alertas de escalamiento',
-        'Monitor de actividad en vivo: quién está haciendo qué, dónde, ahora mismo',
-        'Comparación de rendimiento histórico vs. actual con tendencias automáticas',
-        'Exportación programada de reportes en PDF, Excel o vía API',
-      ],
-    },
-    {
-      num: '07',
-      name: 'Asistente inteligente',
-      tagline: 'Busca, resume y sugiere el siguiente paso con datos reales',
-      desc: 'Un copiloto que busca, analiza y recomienda acciones con contexto real de tu operación. Habla para crear, actualizar o cerrar tareas al instante y toma decisiones basadas en datos, no en suposiciones.',
-      features: [
-        'Búsqueda inteligente en toda tu operación con lenguaje natural',
-        'Resúmenes automáticos de rendimiento por equipo, sede o periodo',
-        'Recomendaciones accionables basadas en patrones reales de tu data',
-        'Creación, actualización y cierre de tareas por voz o comandos conversacionales',
-        'Detección de anomalías y alertas proactivas antes de que escalen',
-      ],
-    },
-  ],
-  en: [
-    {
-      num: '01',
-      name: 'Workflows & Automations',
-      tagline: 'Automate business logic, not just tasks',
-      desc: 'Automate approvals, sequential or majority flows, broadcasts, and escalations with configurable SLAs. Workflows adapt to your business logic, not the other way around.',
-      features: [
-        'Unanimous, majority, or sequential approvals with configurable rules',
-        'Automatic 3-level escalation when an SLA approaches its limit',
-        'Broadcasts and mass notifications with team or location segmentation',
-        'Smart timeouts that automatically reassign tasks',
-        'Field-based conditionals: different flows based on priority, category, or location',
-      ],
-    },
-    {
-      num: '02',
-      name: 'Integrations',
-      tagline: 'Connect everything in one operational platform',
-      desc: 'Connect Whagons with your existing systems via a full API. ERP, CRM, communication tools, and more, all in one operational platform.',
-      features: [
-        'Complete RESTful API for integration with ERP, CRM, BI, and legacy systems',
-        'Configurable webhooks for real-time events',
-        'SSO (Single Sign-On) with SAML 2.0 and OIDC for enterprise authentication',
-        'Full white-label: your logo, colors, and custom domain',
-        'Offline-first with automatic sync when connectivity is restored',
-      ],
-    },
-    {
-      num: '03',
-      name: 'Work Plans & Scheduling',
-      tagline: 'Fully traceable, fully measurable',
-      desc: 'Create work plans, assign recurring tasks, manage schedules, and control operational costs. Ideal for hotel staff scheduling by shift, department, or occupancy.',
-      features: [
-        'Work plans with assignment by team, location, and calendar',
-        'Recurring tasks with configurable frequencies and automatic tracking',
-        'Schedule and shift management with associated operational costs',
-        'Staff scheduling by department, shift, and occupancy for hotels',
-        'Day, week, or month scheduling view with drag and drop',
-        'Cost control per task, project, or period with detailed reports',
-      ],
-    },
-    {
-      num: '04',
-      name: 'Forms, Signatures & Approvals',
-      tagline: 'Capture field data: digital, traceable, verifiable',
-      desc: 'Capture field data with digital forms, electronic signatures, and approval workflows. Compatible with QR scanning, barcodes, GPS geolocation, and NFC taps to start, finish, or validate work on site.',
-      features: [
-        'Dynamic forms with conditional fields and validations',
-        'Electronic signatures linked to identity and device',
-        'Integrated QR code and barcode scanning',
-        'NFC taps to start, pause, finish, or confirm on-site tasks',
-        'Automatic GPS geolocation when capturing field data',
-        'Approval workflows with notifications and automatic escalation',
-      ],
-    },
-    {
-      num: '05',
-      name: 'Documentation, SOPs & Compliance',
-      tagline: "Your organization's manual, always updated and auditable",
-      desc: 'Centralize manuals, ISO standards, operating procedures, and training materials. Multimedia, multilingual, with read confirmations and auditable records.',
-      features: [
-        'Library organized by department, role, and location',
-        'Multimedia documents: video, PDF, images, checklists',
-        'Read confirmation with records of who read what and when',
-        'Digital, traceable records to support ISO, FDA, or HACCP programs',
-        'Configurable record retention with change history',
-      ],
-    },
-    {
-      num: '06',
-      name: 'Real-Time Operations Control',
-      tagline: 'Full visibility, from the operations floor to the boardroom',
-      desc: 'Dashboards with custom KPIs, P50/P90/P95 analytics, SLAs with escalation, and real-time activity monitoring.',
-      features: [
-        'Real-time KPIs by location, team, category, or custom period',
-        'SLAs with P50/P90/P95 monitoring and three escalation alert levels',
-        "Live activity monitor: who's doing what, where, right now",
-        'Historical vs. current performance comparison with automatic trends',
-        'Scheduled report exports in PDF, Excel, or via API',
-      ],
-    },
-    {
-      num: '07',
-      name: 'Smart assistant',
-      tagline: 'Search, summarize and suggest the next step from real data',
-      desc: 'A strategic copilot that searches, analyzes, and recommends actions with real context from your operation. Speak to create, update, or close tasks instantly and make decisions based on data, not assumptions.',
-      features: [
-        'Natural language search across your entire operation',
-        'Automatic performance summaries by team, location, or period',
-        'Actionable recommendations based on real patterns in your data',
-        'Task creation, updates, and completion through voice or conversational commands',
-        'Anomaly detection and proactive alerts before issues escalate',
-      ],
-    },
-  ],
-};
-
-const TONES = ['blue', 'amber', 'violet', 'green', 'slate', '', 'blue'] as const;
-
-const DIFFERENTIATORS: Record<Language, { title: string; lead: string; items: { title: string; desc: string }[] }> = {
+const content = {
   es: {
-    title: '¿Por qué Whagons y no otra plataforma?',
-    lead: 'Seis decisiones de diseño que marcan la diferencia cuando la operación es real, distribuida y no siempre tiene conexión.',
-    items: [
-      { title: 'Implementación por etapas', desc: 'Empieza con un flujo prioritario, valida la adopción con el equipo y amplía desde un resultado operativo real.' },
-      { title: 'Offline-first por diseño', desc: 'Diseñado para equipos en campo sin conexión estable. Opera normalmente offline y sincroniza cuando hay red.' },
-      { title: 'White-label completo', desc: 'No es solo cambiar un logo. Tu dominio, tus colores, tu marca: la plataforma se siente 100% tuya.' },
-      { title: 'API abierta e integraciones', desc: 'Se conecta con tu ERP, CRM, BI y cualquier sistema existente. No reemplaza tu stack, lo complementa.' },
-      { title: 'Móvil + Web + iOS + Android', desc: 'Una sola plataforma que funciona igual en escritorio, tablet y teléfono. App nativa para campo.' },
-      { title: 'Seguridad enterprise', desc: 'SSO, roles granulares, cifrado en tránsito y reposo, y cumplimiento con estándares de privacidad de datos.' },
+    eyebrow: 'LA PLATAFORMA WHAGONS', title: 'Cada equipo conectado.', emphasis: 'Cada pendiente, visible.',
+    lead: 'Del primer aviso al trabajo verificado. Un lugar para coordinar la operación de tu hotel, con el contexto que cada equipo necesita.',
+    demo: 'Conocer Whagons', explore: 'Explorar la plataforma', screen: 'Dentro de Whagons', screenTitle: 'La operación tiene un lugar.',
+    screenAlt: 'Hotel Premium en Whagons: espacios de trabajo, tareas de mantenimiento, estados, ubicaciones y responsables en español',
+    screenNote: 'Hotel Premium · Datos de demostración',
+    lenses: [['Por equipo', 'Espacios para organizar quién se encarga.'], ['Por lugar', 'Habitaciones, equipos y áreas con contexto.'], ['Por estado', 'Lo pendiente, lo que avanza y lo resuelto.']],
+    flowLabel: 'UN MISMO HILO, DE PRINCIPIO A FIN', flowTitle: 'Un aviso no debería perderse entre departamentos.',
+    flowLead: 'Recepción, mantenimiento y supervisión trabajan sobre la misma tarea. Cada paso deja contexto para el siguiente.',
+    example: 'Ejemplo de un flujo configurado', task: 'Revisar fuga en el baño', room: 'Habitación 204 · Mantenimiento',
+    steps: [['Reportar', 'Recepción registra el aviso y su ubicación.', 'Solicitud recibida'], ['Coordinar', 'El equipo identifica al responsable y la prioridad.', 'Trabajo asignado'], ['Resolver', 'Mantenimiento documenta la intervención.', 'Resultado registrado'], ['Verificar', 'Supervisión revisa el cierre y su evidencia.', 'Servicio confirmado']],
+    capabilities: 'CAPACIDADES CONECTADAS', capabilitiesTitle: 'Configura la forma en que trabaja tu hotel.', capabilitiesLead: 'Empieza con lo que necesitas hoy. Incorpora más capacidades a medida que tu operación lo requiera.', detailHint: 'Abre cada capacidad para conocer su alcance.',
+    modules: [
+      ['Flujos y automatizaciones', 'Cada pendiente sabe cuál es su siguiente paso.', 'Define responsables, aprobaciones y reglas de seguimiento según el tipo de trabajo. Los plazos y las alertas ayudan al equipo a identificar qué requiere atención.', 'Aprobaciones · Reglas · Seguimiento'],
+      ['Integraciones', 'El trabajo conectado con tus sistemas.', 'Conecta información y procesos mediante API e integraciones definidas para tu operación. El alcance se revisa con tu equipo y con los sistemas que ya utiliza.', 'API · Sistemas existentes · Alcance acordado'],
+      ['Planes y programación', 'Lo recurrente también tiene responsable.', 'Organiza planes de trabajo y tareas recurrentes por equipo, área y calendario. Consulta lo previsto y coordina su ejecución con el trabajo del día.', 'Planes · Recurrencias · Calendario'],
+      ['Formularios y evidencia', 'El resultado queda documentado.', 'Guía la ejecución con formularios, verificaciones y evidencia vinculada a la tarea. QR y NFC conectan el trabajo con su ubicación, según la configuración.', 'Formularios · Evidencia · QR y NFC'],
+      ['Procedimientos y conocimiento', 'El contexto acompaña al equipo.', 'Reúne procedimientos, documentos y materiales de capacitación. Facilita que los equipos consulten las instrucciones y registren su lectura cuando corresponda.', 'Procedimientos · Documentos · Capacitación'],
+      ['Visibilidad operativa', 'Una vista clara de lo que necesita atención.', 'Consulta tareas, estados e indicadores para dar seguimiento a la operación. Revisa el avance del equipo y el historial del trabajo antes de decidir el siguiente paso.', 'Indicadores · Estados · Historial'],
+      ['Asistencia inteligente', 'Menos tiempo buscando el contexto.', 'Consulta información y recibe asistencia sobre el trabajo de tu operación. Las funciones de voz, las acciones disponibles y el consumo se definen según la configuración y el alcance contratado.', 'Consultas · Contexto · Asistencia por voz'],
     ],
+    connectLabel: 'EN TU OPERACIÓN', connectTitle: 'Tu PMS conoce la estadía. Whagons coordina el trabajo.', connectText: 'Conserva los sistemas que ya usas. Define con nuestro equipo qué información conectar y qué proceso ordenar primero.',
+    system: 'Tus sistemas', systemSub: 'PMS · ERP · otras herramientas', center: 'Trabajo coordinado', people: 'Tu equipo', peopleSub: 'Recepción · Operación · Gerencia',
+    rolloutTitle: 'Empieza con un flujo real.', rolloutText: 'Configuramos el alcance, capacitamos al equipo y acompañamos la puesta en marcha. Desde ahí, puedes ampliar la operación.',
+    offlineTitle: 'También donde la conexión falla.', offlineText: 'Consulta la información guardada y sincroniza los cambios compatibles al reconectarte.',
+    finalLabel: 'VEAMOS TU OPERACIÓN', finalTitle: 'Trae un proceso de tu hotel. Veamos cómo organizarlo.', finalText: 'Una demo enfocada en tus equipos, tus pendientes y tu forma de trabajar.', finalButton: 'Solicitar una demo', features: 'Consultar todas las funcionalidades',
   },
   en: {
-    title: 'Why Whagons over other platforms?',
-    lead: 'Six design decisions that matter once the operation is real, distributed, and not always online.',
-    items: [
-      { title: 'Phased implementation', desc: 'Start with one priority workflow, validate adoption with the team, and expand from a real operating result.' },
-      { title: 'Offline-first by design', desc: 'Built for field teams without stable connectivity. Operate fully offline and sync when back online.' },
-      { title: 'Full white-label', desc: "It's not just swapping a logo. Your domain, your colors, your brand: the platform feels 100% yours." },
-      { title: 'Open API & integrations', desc: "Connects with your ERP, CRM, BI, and any existing system. It doesn't replace your stack, it complements it." },
-      { title: 'Mobile + Web + iOS + Android', desc: 'A single platform that works the same on desktop, tablet, and phone. Native app for field operations.' },
-      { title: 'Enterprise security', desc: 'SSO, granular roles, encryption in transit and at rest, and compliance with data privacy standards.' },
+    eyebrow: 'THE WHAGONS PLATFORM', title: 'Every team connected.', emphasis: 'Every open task, visible.',
+    lead: 'From the first report to verified work. One place to coordinate hotel operations, with the context each team needs.',
+    demo: 'Meet Whagons', explore: 'Explore the platform', screen: 'Inside Whagons', screenTitle: 'A place for your operations.',
+    screenAlt: 'Hotel Premium in Whagons: workspaces, maintenance tasks, statuses, locations and assignees in English', screenNote: 'Hotel Premium · Demonstration data',
+    lenses: [['By team', 'Workspaces make ownership clear.'], ['By location', 'Rooms, equipment and areas with context.'], ['By status', 'What is pending, progressing and resolved.']],
+    flowLabel: 'ONE THREAD, FROM START TO FINISH', flowTitle: 'A request should never get lost between departments.', flowLead: 'Front desk, maintenance and supervisors work from the same task. Each step leaves context for the next.',
+    example: 'Example of a configured workflow', task: 'Check the bathroom leak', room: 'Room 204 · Maintenance',
+    steps: [['Report', 'Front desk records the request and its location.', 'Request received'], ['Coordinate', 'The team identifies the assignee and priority.', 'Work assigned'], ['Resolve', 'Maintenance documents the work performed.', 'Result recorded'], ['Verify', 'A supervisor reviews completion and evidence.', 'Service confirmed']],
+    capabilities: 'CONNECTED CAPABILITIES', capabilitiesTitle: 'Configure how your hotel works.', capabilitiesLead: 'Start with what you need today. Add capabilities as your operation requires them.', detailHint: 'Open each capability to explore its scope.',
+    modules: [
+      ['Workflows & automation', 'Every task has a next step.', 'Define owners, approvals and follow-up rules for each type of work. Deadlines and alerts help the team identify what needs attention.', 'Approvals · Rules · Follow-up'],
+      ['Integrations', 'Work connected to your systems.', 'Connect information and processes through APIs and integrations defined for your operation. Scope is reviewed with your team and the systems it already uses.', 'API · Existing systems · Agreed scope'],
+      ['Work plans & scheduling', 'Recurring work has an owner, too.', 'Organize work plans and recurring tasks by team, area and calendar. See what is planned and coordinate its execution alongside the day’s work.', 'Plans · Recurring tasks · Calendar'],
+      ['Forms & evidence', 'The result stays documented.', 'Guide execution with forms, checks and evidence attached to the task. QR and NFC connect work with its location, depending on configuration.', 'Forms · Evidence · QR & NFC'],
+      ['Procedures & knowledge', 'Context stays with the team.', 'Bring together procedures, documents and training materials. Help teams consult instructions and acknowledge reading them when needed.', 'Procedures · Documents · Training'],
+      ['Operational visibility', 'A clear view of what needs attention.', 'Review tasks, statuses and indicators to follow the operation. Check team progress and work history before deciding the next step.', 'Indicators · Statuses · History'],
+      ['Intelligent assistance', 'Less time searching for context.', 'Find information and get assistance with your operational work. Voice functions, available actions and usage depend on configuration and contracted scope.', 'Queries · Context · Voice assistance'],
     ],
+    connectLabel: 'WITHIN YOUR OPERATION', connectTitle: 'Your PMS knows the stay. Whagons coordinates the work.', connectText: 'Keep the systems you already use. Work with our team to define what to connect and which process to organize first.',
+    system: 'Your systems', systemSub: 'PMS · ERP · other tools', center: 'Coordinated work', people: 'Your team', peopleSub: 'Front desk · Operations · Management',
+    rolloutTitle: 'Start with a real workflow.', rolloutText: 'We configure the scope, train your team and support the rollout. From there, you can expand your operation.',
+    offlineTitle: 'Even when the connection drops.', offlineText: 'Access saved information and sync supported changes when you reconnect.',
+    finalLabel: 'LET’S LOOK AT YOUR OPERATION', finalTitle: 'Bring a hotel process. Let’s see how to organize it.', finalText: 'A demo focused on your teams, open tasks and way of working.', finalButton: 'Request a demo', features: 'Explore all features',
   },
 };
-
-const COPY = {
-  es: {
-    eyebrow: 'Plataforma',
-    title: 'La plataforma de operaciones para hoteles',
-    lead: 'Siete módulos integrados para coordinar, automatizar y hacer visible el trabajo del hotel. Cada módulo funciona de forma independiente o como parte de una plataforma unificada.',
-    primary: 'Ver en acción',
-    secondary: 'Ver funcionalidades',
-    navLabel: 'Módulos',
-    modulesEyebrow: 'Los siete módulos',
-    modulesTitle: 'Todo lo que necesita una operación, en una sola plataforma.',
-    includes: 'Incluye',
-    shotCaption: 'Analítica · Whagons',
-    shotAlt: 'Vista de analítica de Whagons con totales de tareas, tasa de finalización y gráficos de tendencia',
-    ctaTitle: '¿Listo para transformar tu operación?',
-    ctaText: 'Agenda una demostración personalizada y descubre qué módulos resuelven los desafíos específicos de tu hotel.',
-    ctaButton: 'Solicitar demo',
-  },
-  en: {
-    eyebrow: 'Platform',
-    title: 'The operations platform for hotels',
-    lead: 'Seven integrated modules to coordinate, automate, and make hotel work visible. Each module works independently or as part of one unified platform.',
-    primary: 'See it in action',
-    secondary: 'View features',
-    navLabel: 'Modules',
-    modulesEyebrow: 'The seven modules',
-    modulesTitle: 'Everything an operation needs, in one platform.',
-    includes: 'Includes',
-    shotCaption: 'Mission Control · Whagons',
-    shotAlt: 'Whagons Mission Control overview with open tasks, overdue work, completion and status breakdown',
-    ctaTitle: 'Ready to transform your operation?',
-    ctaText: "Schedule a personalized demo and discover which modules solve your hotel's specific challenges.",
-    ctaButton: 'Request demo',
-  },
-} as const;
-
-function Arrow() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-      <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
 
 export default function PlatformPageClient({ lang }: { lang: Language }) {
-  const modules = MODULES[lang];
-  const diff = DIFFERENTIATORS[lang];
-  const t = COPY[lang];
-  const shots = shotsFor(lang);
+  const t = content[lang];
+  const shot = shotsFor(lang).grid;
   const demoHref = `/${lang}/demo`;
-  const featuresHref = lang === 'en' ? '/en/features' : '/es/funcionalidades';
+  return <main className={styles.page}>
+    <section className={styles.hero}>
+      <p className={styles.eyebrow}>{t.eyebrow}</p>
+      <div className={styles.heroIntro}><h1>{t.title}<em>{t.emphasis}</em></h1><div><p className={styles.lead}>{t.lead}</p><div className={styles.actions}><a className={styles.primary} href={demoHref}>{t.demo}<span aria-hidden="true">↗</span></a><a className={styles.textLink} href="#platform-capabilities">{t.explore}<span aria-hidden="true">↓</span></a></div></div></div>
+      <div className={styles.productHeading}><span>{t.screen}</span><span>{t.screenNote}</span></div>
+      <figure className={styles.product}><Image src={shot.src} width={shot.width} height={shot.height} alt={t.screenAlt} priority sizes="(max-width: 1240px) 100vw, 1180px" quality={90} /><figcaption className={styles.lenses}>{t.lenses.map(([title,desc],i)=><div key={title}><span>0{i+1}</span><p><strong>{title}</strong>{desc}</p></div>)}</figcaption></figure>
+    </section>
 
-  return (
-    <main className="pg">
-      <section className="pg-hero">
-        <div className="pg-hero-inner pg-hero-split">
-          <div className="pg-hero-copy">
-            <p className="pg-eyebrow">{t.eyebrow}</p>
-            <h1>{t.title}</h1>
-            <p className="pg-lead">{t.lead}</p>
-            <div className="pg-actions">
-              <a href={demoHref} className="pg-btn">{t.primary}<Arrow /></a>
-              <a href={featuresHref} className="pg-btn-secondary">{t.secondary}</a>
-            </div>
-          </div>
-          <figure className="pg-shot">
-            <div className="pg-shot-bar" aria-hidden="true"><i /><i /><i /><span>{t.shotCaption}</span></div>
-            <Image src={shots.analytics.src} alt={t.shotAlt} width={shots.analytics.width} height={shots.analytics.height} priority sizes="(max-width: 1000px) 100vw, 560px" quality={90} />
-          </figure>
-        </div>
-      </section>
+    <section className={styles.flow}>
+      <div className={styles.sectionIntro}><div><p className={styles.eyebrow}>{t.flowLabel}</p><h2>{t.flowTitle}</h2></div><p className={styles.lead}>{t.flowLead}</p></div>
+      <div className={styles.example}><span>{t.example}</span><strong>{t.task}</strong><span>{t.room}</span></div>
+      <ol className={styles.steps}>{t.steps.map(([title,desc,status],i)=><li key={title}><span className={styles.stepNumber}>0{i+1}</span><h3>{title}</h3><p>{desc}</p><span className={styles.stepStatus}>{status}</span></li>)}</ol>
+    </section>
 
-      <div className="pg-subnav" role="navigation" aria-label={t.navLabel}>
-        {modules.map((mod) => (
-          <a key={mod.num} href={`#modulo-${mod.num}`}><span>{mod.num}</span>{mod.name}</a>
-        ))}
-      </div>
+    <section className={styles.capabilities} id="platform-capabilities">
+      <div className={styles.capabilityIntro}><p className={styles.eyebrow}>{t.capabilities}</p><h2>{t.capabilitiesTitle}</h2><p className={styles.lead}>{t.capabilitiesLead}</p><p className={styles.hint}>{t.detailHint}</p></div>
+      <div className={styles.moduleList}>{t.modules.map(([title,tagline,desc,terms],i)=><details key={title} id={`modulo-0${i+1}`} className={styles.module} open={i===0}><summary><span className={styles.moduleNumber}>0{i+1}</span><span><h3>{title}</h3><span className={styles.tagline}>{tagline}</span></span><span className={styles.expand} aria-hidden="true" /></summary><div className={styles.moduleBody}><p>{desc}</p><span>{terms}</span></div></details>)}</div>
+    </section>
 
-      <section className="pg-section">
-        <div className="pg-intro">
-          <p className="pg-eyebrow">{t.modulesEyebrow}</p>
-          <h2>{t.modulesTitle}</h2>
-        </div>
-        <div className="pg-grid-2">
-          {modules.map((mod, i) => (
-            <article className="pg-card" id={`modulo-${mod.num}`} key={mod.num}>
-              <span className="pg-icon" data-tone={TONES[i] || undefined} aria-hidden="true" />
-              <h3 style={{ marginTop: 6 }}>{mod.name}</h3>
-              <p className="pg-small" style={{ color: 'var(--accent)', fontWeight: 600 }}>{mod.tagline}</p>
-              <p>{mod.desc}</p>
-              <p className="pg-small" style={{ marginTop: 8, fontWeight: 600, color: 'var(--ink)' }}>{t.includes}</p>
-              <ul className="pg-checks">
-                {mod.features.map((f) => <li key={f}>{f}</li>)}
-              </ul>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="pg-band">
-        <div className="pg-section">
-          <div className="pg-intro">
-            <p className="pg-eyebrow">Whagons</p>
-            <h2>{diff.title}</h2>
-            <p className="pg-text">{diff.lead}</p>
-          </div>
-          <div className="pg-grid-3">
-            {diff.items.map((item, i) => (
-              <article className="pg-card" key={item.title} style={{ background: 'var(--bg)' }}>
-                <span className="pg-num">{i + 1}</span>
-                <h3>{item.title}</h3>
-                <p>{item.desc}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="pg-cta" style={{ paddingTop: 96 }}>
-        <div>
-          <h2>{t.ctaTitle}</h2>
-          <p className="pg-text">{t.ctaText}</p>
-          <div className="pg-actions">
-            <a href={demoHref} className="pg-btn">{t.ctaButton}<Arrow /></a>
-          </div>
-        </div>
-      </section>
-    </main>
-  );
+    <section className={styles.connections}><div className={styles.sectionIntro}><div><p className={styles.eyebrow}>{t.connectLabel}</p><h2>{t.connectTitle}</h2></div><p className={styles.lead}>{t.connectText}</p></div>
+      <div className={styles.connectionDiagram}><div><strong>{t.system}</strong><span>{t.systemSub}</span></div><span className={styles.connector} aria-hidden="true">↔</span><div className={styles.hub}><span>Whagons</span><strong>{t.center}</strong></div><span className={styles.connector} aria-hidden="true">↔</span><div><strong>{t.people}</strong><span>{t.peopleSub}</span></div></div>
+      <div className={styles.practical}><article><span aria-hidden="true">01 /</span><h3>{t.rolloutTitle}</h3><p>{t.rolloutText}</p></article><article><span aria-hidden="true">02 /</span><h3>{t.offlineTitle}</h3><p>{t.offlineText}</p></article></div>
+    </section>
+    <section className={styles.final}><p className={styles.eyebrow}>{t.finalLabel}</p><h2>{t.finalTitle}</h2><p className={styles.lead}>{t.finalText}</p><div className={styles.actions}><a className={styles.primary} href={demoHref}>{t.finalButton}<span aria-hidden="true">↗</span></a><a className={styles.textLink} href={lang==='es'?'/es/funcionalidades':'/en/features'}>{t.features}<span aria-hidden="true">→</span></a></div></section>
+  </main>;
 }

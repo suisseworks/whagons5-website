@@ -45,10 +45,14 @@ export type CoreRoute =
   | 'hotels'
   | 'markets'
   | 'hotelScore'
+  | 'pricing'
+  | 'paradorOffer'
   | 'demo';
 
 const FULL_PAGE_ROUTES: Record<'es' | 'en', Record<CoreRoute, string>> = {
   es: {
+    paradorOffer: '/es/propuestas/hotel-parador',
+    pricing: '/es/planes',
     home: '/es',
     hotelScore: '/es/hotel-operations-score',
     platform: '/es/plataforma',
@@ -58,6 +62,8 @@ const FULL_PAGE_ROUTES: Record<'es' | 'en', Record<CoreRoute, string>> = {
     demo: '/es/demo',
   },
   en: {
+    paradorOffer: '/en/proposals/hotel-parador',
+    pricing: '/en/pricing',
     home: '/en',
     hotelScore: '/en/hotel-operations-score',
     platform: '/en/platform',
@@ -81,6 +87,8 @@ export function routeKeyFromPath(pathname: string): CoreRoute | null {
   const pathWithoutLanguage = normalized.replace(/^\/(?:es|en)/, '') || '/';
 
   if (pathWithoutLanguage === '/') return 'home';
+  if (pathWithoutLanguage === '/propuestas/hotel-parador' || pathWithoutLanguage === '/proposals/hotel-parador') return 'paradorOffer';
+  if (pathWithoutLanguage === '/pricing' || pathWithoutLanguage === '/precios' || pathWithoutLanguage === '/planes') return 'pricing';
   if (pathWithoutLanguage === '/hotel-operations-score') return 'hotelScore';
   if (pathWithoutLanguage === '/demo' || pathWithoutLanguage === '/handoff-scan') return 'demo';
   if (pathWithoutLanguage === '/platform' || pathWithoutLanguage === '/plataforma') return 'platform';

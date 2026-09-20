@@ -1,0 +1,33 @@
+.figure { max-width: 1180px; margin: 56px auto 0; border: 1px solid var(--line, #e2ddd3); border-radius: 16px; background: #fff; box-shadow: var(--shadow); overflow: hidden; text-align: left; }
+.bar { display: flex; align-items: center; gap: 6px; padding: 10px 14px; border-bottom: 1px solid #e2ddd3; background: #faf8f4; }
+.bar i { width: 9px; height: 9px; border-radius: 50%; background: #e2ddd3; }
+.bar > span { margin-left: 10px; color: #726c63; font-size: .72rem; font-weight: 500; }
+.image { position: relative; }
+.image img { display: block; width: 100%; height: auto; }
+.markers { position: absolute; inset: 0; pointer-events: none; }
+.marker { appearance: none; display: inline-flex; align-items: center; justify-content: center; border: 0; cursor: pointer; font: inherit; font-weight: 700; color: #303b29; background: transparent; }
+.markers .marker { position: absolute; transform: translate(-50%, -50%); width: 44px; height: 44px; padding: 6px; pointer-events: auto; border-radius: 50%; }
+.marker > span:first-child { display: grid; place-items: center; flex-shrink: 0; width: 30px; height: 30px; border: 2px solid #fff; border-radius: 50%; background: #f5f1e9; box-shadow: 0 0 0 1px #65725b, 0 2px 6px #24301d26; font-size: .8rem; }
+.marker[aria-pressed='true'] > span:first-child { background: #bf3d1e; color: #fff; box-shadow: 0 0 0 2px #bf3d1e, 0 2px 8px #bf3d1e33; }
+.marker:hover > span:first-child { box-shadow: 0 0 0 3px #bf3d1e80; }
+.marker:focus-visible { outline: 3px solid #244d6b; outline-offset: 3px; }
+.caption { padding: 22px 28px 26px; border-top: 1px solid #e5ded2; background: #faf8f4; }
+.caption .hint { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 14px; margin: 0 0 18px; color: #333c2b; font-size: .82rem; font-weight: 600; }
+.hint span { color: #716b60; font-size: .76rem; font-weight: 400; }
+.explanation { display: flex; align-items: flex-start; gap: 14px; min-height: 64px; }
+.activeNumber { display: grid; place-items: center; flex-shrink: 0; width: 34px; height: 34px; border-radius: 10px; color: #a63217; background: #f7e7dc; font-size: .85rem; font-weight: 700; }
+.explanation strong { display: block; color: #293223; font-size: 1rem; }
+.caption .explanation p { margin: 6px 0 0; color: #625f57; font-size: .9rem; line-height: 1.6; }
+.mobileControls { display: none; }
+@media (max-width: 700px) {
+  .figure { margin-top: 36px; border-radius: 12px; }
+  .markers { display: none; }
+  .caption { padding: 18px 16px 20px; }
+  .caption .hint { margin-bottom: 14px; }
+  .mobileControls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-bottom: 20px; }
+  .mobileControls .marker { justify-content: flex-start; gap: 8px; padding: 8px; min-height: 44px; border: 1px solid #ddd6cb; border-radius: 9px; }
+  .mobileControls .marker[aria-pressed='true'] { border-color: #bf3d1e; background: #fff0e7; }
+  .mobileLabel { font-size: .76rem; }
+  .explanation { min-height: 105px; gap: 10px; }
+  .bar > span { font-size: .65rem; }
+}

@@ -9,6 +9,7 @@ const footerContent = {
     markets: 'Industries',
     resources: 'Resources',
     demo: 'Request demo',
+    login: 'Log in',
     privacy: 'Privacy',
     terms: 'Terms',
     security: 'Security',
@@ -23,6 +24,7 @@ const footerContent = {
     markets: 'Industrias',
     resources: 'Recursos',
     demo: 'Solicitar demo',
+    login: 'Iniciar sesión',
     privacy: 'Privacidad',
     terms: 'Términos',
     security: 'Seguridad',
@@ -63,6 +65,7 @@ export default function FooterBar({ lang }: { lang: Language }) {
         <a href={hrefs.hotels}>{t.hotels}</a>
         <a href={hrefs.markets}>{t.markets}</a>
         <a href={hrefs.demo}>{t.demo}</a>
+        <a href="https://app.whagons.com/">{t.login}</a>
         <a href={routeFor(lang, 'hotelScore')}>Hotel Operations Score</a>
         <a href="mailto:hello@whagons.com">{t.email} ↗</a>
         <a
