@@ -7,14 +7,14 @@ import styles from './AnnotatedScreenshot.module.css';
 
 const annotations = {
   es: [
-    { title: 'Espacios', text: 'Organiza el trabajo por departamento, como Mantenimiento o Housekeeping.', x: 17.2, y: 27.4 },
-    { title: 'Vistas', text: 'Consulta el espacio como lista de tareas, calendario, mapa o tablero Kanban.', x: 43.7, y: 25.2 },
-    { title: 'Filtros', text: 'Filtra las tareas por estado, prioridad, ubicación o responsable.', x: 74, y: 22.5 },
-    { title: 'Ubicaciones', text: 'Identifica la habitación, el piso o el área asociada a cada tarea.', x: 81, y: 30.7 },
+    { title: 'Espacios', text: 'Organiza el trabajo por departamento, como Mantenimiento o Ama de llaves.', x: 17.2, y: 25.5 },
+    { title: 'Vistas', text: 'Consulta el espacio como lista de tareas, calendario, mapa o tablero Kanban.', x: 33.8, y: 21 },
+    { title: 'Filtros', text: 'Filtra las tareas por estado, prioridad, ubicación o responsable.', x: 74, y: 21 },
+    { title: 'Ubicaciones', text: 'Identifica la habitación, el piso o el área asociada a cada tarea.', x: 81, y: 28.7 },
   ],
   en: [
     { title: 'Spaces', text: 'Organize work by department, such as Maintenance or Housekeeping.', x: 17.2, y: 25.5 },
-    { title: 'Views', text: 'See the workspace as a task list, calendar, map, or Kanban board.', x: 43.7, y: 23.5 },
+    { title: 'Views', text: 'See the workspace as a task list, calendar, map, or Kanban board.', x: 33.8, y: 21 },
     { title: 'Filters', text: 'Narrow tasks by status, priority, location, or assignee.', x: 74, y: 21 },
     { title: 'Locations', text: 'Identify the room, floor, or area associated with each task.', x: 81, y: 28.7 },
   ],

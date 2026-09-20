@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Language } from '../lib/i18n';
 import { LegalPageContent } from '../lib/legal';
+import { routeFor } from '../lib/locales';
 
 interface LegalPageProps {
   lang: Language;
@@ -65,8 +66,8 @@ export default function LegalPage({ lang, content }: LegalPageProps) {
           <h2>{content.ctaTitle}</h2>
           <p className="pg-text">{content.ctaDescription}</p>
           <div className="pg-actions">
-            <Link href={lang === 'en' ? '/en/handoff-scan' : `/${lang}/demo`} className="pg-btn">
-              {lang === 'en' ? 'Request a hotel handoff scan' : content.primaryCta} &rarr;
+            <Link href={routeFor(lang, 'demo')} className="pg-btn">
+              {content.primaryCta} &rarr;
             </Link>
             <a href="mailto:hello@whagons.com" className="pg-btn-secondary">
               {content.secondaryCta} {'↗'}

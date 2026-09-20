@@ -156,7 +156,7 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
                     />
                   </div>
                   <div className="pg-field">
-                    <label htmlFor="d-phone">{t.demoPhoneLabel}</label>
+                    <label htmlFor="d-phone">{t.demoPhoneLabel} <span className="pg-optional">{lang === 'es' ? '(opcional)' : '(optional)'}</span></label>
                     <input
                       id="d-phone"
                       name="phone"
@@ -206,7 +206,7 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
                 )}
                 <div className="pg-form-actions">
                   <button type="submit" className="pg-btn" disabled={demoSubmitting}>
-                    {demoSubmitting ? '...' : t.demoSubmit}
+                    {demoSubmitting ? (lang === 'es' ? 'Enviando…' : 'Sending…') : t.demoSubmit}
                     {!demoSubmitting && <Arrow />}
                   </button>
                   {!demoError && <p className="pg-note">{t.demoNote}</p>}
@@ -241,19 +241,19 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
 
       <section className="pg-section">
         <figure className="pg-shot">
-          <div className="pg-shot-bar" aria-hidden="true"><i /><i /><i /><span>{lang === 'es' ? 'Housekeeping · Whagons' : 'Maintenance board · Whagons'}</span></div>
-          <a href={shots.board.src} target="_blank" rel="noopener noreferrer" aria-label={lang === 'es' ? 'Ver tablero completo de Housekeeping' : 'View the full maintenance board'}>
+          <div className="pg-shot-bar" aria-hidden="true"><i /><i /><i /><span>{lang === 'es' ? 'Mantenimiento · Whagons' : 'Maintenance board · Whagons'}</span></div>
+          <a href={shots.board.src} target="_blank" rel="noopener noreferrer" aria-label={lang === 'es' ? 'Ver tablero completo de mantenimiento' : 'View the full maintenance board'}>
             <Image
               src={shots.boardDetail.src}
               quality={90}
-              alt={lang === 'es' ? 'Ejemplo de Housekeeping en Whagons: tareas en revisión y en espera. Datos de demostración.' : 'Whagons maintenance board example: tasks to do, in review and in progress. Demo data.'}
+              alt={lang === 'es' ? 'Tablero de mantenimiento en Whagons: tareas por hacer, en progreso y en revisión. Datos de demostración.' : 'Whagons maintenance board example: tasks to do, in review and in progress. Demo data.'}
               width={shots.boardDetail.width}
               height={shots.boardDetail.height}
               sizes="(max-width: 1180px) 100vw, 1180px"
               priority={false}
             />
           </a>
-          <figcaption>{lang === 'es' ? 'Housekeeping · Datos de demostración · Abre la imagen para ver el tablero completo ↗' : 'Maintenance · Demo data · Open the image to view the full board ↗'}</figcaption>
+          <figcaption>{lang === 'es' ? 'Mantenimiento · Datos de demostración · Abre la imagen para ver el tablero completo ↗' : 'Maintenance · Demo data · Open the image to view the full board ↗'}</figcaption>
         </figure>
       </section>
     </>

@@ -103,3 +103,6 @@
 .position { font-size: .8125rem; color: #747c69; white-space: nowrap; }
 .emailLink { border: 0; background: transparent; color: #a44123; text-decoration: underline; text-underline-offset: 4px; font: 500 .875rem var(--sans); cursor: pointer; padding: 12px 0 0; }
 @media (max-width:600px) { .questionNumbers { grid-template-columns: repeat(5,minmax(0,1fr)); gap: 8px; } .previousButton { padding: 12px 13px; font-size: .875rem; } .position { display: none; } .topActions > button, .actions > button { flex: 1; } .topActions :global(.pg-btn), .actions :global(.pg-btn) { gap: 8px; text-align: center; justify-content: center; } }
+
+.availability { margin-top: 20px; padding: 16px; background: #f7eddd; border-left: 3px solid #a26419; color: #614619; font-size: 13px; line-height: 1.6; }
+.availability a { color: inherit; text-underline-offset: 3px; overflow-wrap: anywhere; }

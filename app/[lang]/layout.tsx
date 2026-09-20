@@ -154,12 +154,15 @@ export default function LangLayout({ children, params }: LangLayoutProps) {
       className={instrumentSans.variable}
     >
       <body suppressHydrationWarning>
+        <a className="skip-link" href="#page-content">
+          {lang === 'es' ? 'Saltar al contenido' : 'Skip to content'}
+        </a>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
         <NavBar lang={lang} />
-        {children}
+        <div id="page-content" tabIndex={-1}>{children}</div>
         <FooterBar lang={lang} />
       </body>
     </html>

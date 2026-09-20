@@ -16,7 +16,7 @@ export const demoOffer = {
     deliverable: 'Share your details and our team will contact you to arrange the demonstration.',
     privacy: 'We will use your details to respond and coordinate this request.',
     privacyLink: 'Privacy policy',
-    source: 'Testimonials published in 2022. Roles and organizations reflect that publication.',
+    source: 'Testimonials published in 2022, translated from the original Spanish. Roles and organizations reflect that publication.',
     sourceLink: 'Historical source: prices and terms do not represent the current offer',
   },
 } as const;

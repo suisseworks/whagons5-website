@@ -10,7 +10,7 @@ import s from './HotelOperationsPage.module.css';
 type Language = 'en' | 'es';
 const copy = {
   es: {
-    eyebrow: 'WHAGONS PARA HOSPITALIDAD', title: 'Una gran estadía empieza', accent: 'detrás de escena.',
+    eyebrow: 'WHAGONS PARA HOSPITALIDAD', brand: 'Whagons · Hospitalidad', title: 'Una gran estadía empieza', accent: 'detrás de escena.',
     lead: 'Conecta recepción, ama de llaves y mantenimiento para que cada solicitud tenga responsable y cada turno sepa qué sigue.',
     demo: 'Conversemos sobre tu hotel', explore: 'Ver cómo se conecta', photo: 'Hotel con piscina y palmeras al atardecer',
     ribbon: ['Cada solicitud, con responsable', 'Cada lugar, con historial', 'Cada turno, con contexto'],
@@ -29,7 +29,7 @@ const copy = {
     endTitle:'Que el buen servicio se note. Y el trabajo detrás también.', endNote:'Te mostramos cómo organizar un flujo de tu operación.',
   },
   en: {
-    eyebrow:'WHAGONS FOR HOSPITALITY', title:'A great stay starts', accent:'behind the scenes.',
+    eyebrow:'WHAGONS FOR HOSPITALITY', brand:'Whagons · Hospitality', title:'A great stay starts', accent:'behind the scenes.',
     lead:'Connect front desk, housekeeping and maintenance so every request has an owner and every shift knows what comes next.',
     demo:'Let’s talk about your hotel', explore:'See how it connects', photo:'Hotel pool and palm trees at sunset',
     ribbon:['Every request, with an owner', 'Every place, with a history', 'Every shift, with context'],
@@ -61,7 +61,7 @@ export default function HotelOperationsPage({lang='en'}:{lang?:Language}) {
     <main className={s.page}>
       <section className={s.hero}>
         <div className={s.heroCopy}><p className={s.eyebrow}>{t.eyebrow}</p><h1>{t.title} <em>{t.accent}</em></h1><p className={s.lead}>{t.lead}</p><div className={s.actions}><a className={s.button} href={`/${lang}/demo`} data-track="operations_demo_click">{t.demo} <span aria-hidden="true">↗</span></a><a className={s.textLink} href="#hotel-workflow">{t.explore} ↓</a></div></div>
-        <figure className={s.heroPhoto}><Image src="/images/industries/hoteleria.jpg" alt={t.photo} fill priority sizes="(max-width: 800px) 100vw, 50vw"/><figcaption><span>Whagons · Hospitality</span><strong>{t.roomNote}</strong></figcaption></figure>
+        <figure className={s.heroPhoto}><Image src="/images/industries/hoteleria.jpg" alt={t.photo} fill priority sizes="(max-width: 800px) 100vw, 50vw"/><figcaption><span>{t.brand}</span><strong>{t.roomNote}</strong></figcaption></figure>
       </section>
       <div className={s.ribbon}>{t.ribbon.map((item,i)=><span key={item}><b>0{i+1}</b>{item}</span>)}</div>
       <section className={s.workflow} id="hotel-workflow">
@@ -72,7 +72,7 @@ export default function HotelOperationsPage({lang='en'}:{lang?:Language}) {
       <section className={s.capture}><div><p className={s.eyebrow}>{t.captureLabel}</p><h2>{t.captureTitle}</h2><p>{t.captureText}</p><div className={s.captureWords} aria-hidden="true"><span>{lang==='es'?'Voz':'Voice'}</span><span>QR</span><span>NFC</span></div></div><OperationsHeroDemo lang={lang}/></section>
       <section className={s.product} id="shift-handoff"><div className={s.productIntro}><div><p className={s.eyebrow}>{t.productLabel}</p><h2>{t.productTitle}</h2></div><div><p>{t.productText}</p><a className={s.textLink} href={platform}>{t.platform} →</a></div></div><figure className={s.screenshot}><div><span aria-hidden="true">● ● ●</span> Whagons · Hotel Premium</div><Image src={shot.src} width={shot.width} height={shot.height} alt={t.shotAlt} sizes="(max-width: 1200px) 94vw, 1140px"/></figure></section>
       <section className={s.rollout} id="regional-teams"><p className={s.eyebrow}>{t.rollout}</p><h2>{t.rolloutTitle}</h2><p>{t.rolloutText}</p></section>
-      <section className={s.final}><p className={s.eyebrow}>WHAGONS · HOSPITALITY</p><h2>{t.endTitle}</h2><a className={s.button} href={`/${lang}/demo`} data-track="operations_final_demo_click">{t.demo} ↗</a><p>{t.endNote}</p></section>
+      <section className={s.final}><p className={s.eyebrow}>{t.brand}</p><h2>{t.endTitle}</h2><a className={s.button} href={`/${lang}/demo`} data-track="operations_final_demo_click">{t.demo} ↗</a><p>{t.endNote}</p></section>
     </main>
   </>;
 }

@@ -5,7 +5,8 @@ const footerContent = {
     market: 'Hotel operations',
     platform: 'Platform',
     features: 'Features',
-    hotels: 'Hotels',
+    hotels: 'Hospitality',
+    hotelScore: 'Hotel operations assessment',
     markets: 'Industries',
     resources: 'Resources',
     demo: 'Request demo',
@@ -20,7 +21,8 @@ const footerContent = {
     market: 'Operaciones hoteleras',
     platform: 'Plataforma',
     features: 'Funcionalidades',
-    hotels: 'Hoteles',
+    hotels: 'Hospitalidad',
+    hotelScore: 'Diagnóstico hotelero',
     markets: 'Industrias',
     resources: 'Recursos',
     demo: 'Solicitar demo',
@@ -66,7 +68,7 @@ export default function FooterBar({ lang }: { lang: Language }) {
         <a href={hrefs.markets}>{t.markets}</a>
         <a href={hrefs.demo}>{t.demo}</a>
         <a href="https://app.whagons.com/">{t.login}</a>
-        <a href={routeFor(lang, 'hotelScore')}>Hotel Operations Score</a>
+        <a href={routeFor(lang, 'hotelScore')}>{t.hotelScore}</a>
         <a href="mailto:hello@whagons.com">{t.email} ↗</a>
         <a
           href="https://www.linkedin.com/company/whagons/"

@@ -71,6 +71,7 @@ export default function ScorePage({lang}:{lang:Language}) {
         <p className={styles.eyebrow}>{t.eyebrow}</p>
         <h1>{t.title}</h1>
         <p className={styles.lead}>{t.intro}</p>
+        {captureAvailable === false && !sent && <p className={styles.availability} role="status">{lang === 'es' ? 'El envío del diagnóstico por correo no está disponible en este momento. Puedes explorar las preguntas o contactarnos para recibir ayuda.' : 'Email delivery of the assessment is currently unavailable. You can explore the questions or contact us for help.'} <a href="mailto:hello@whagons.com">hello@whagons.com</a></p>}
         <div className={styles.progressCard}>
           <div className={styles.dial} aria-hidden="true"><svg viewBox="0 0 100 100"><circle className={styles.dialTrack} cx="50" cy="50" r="42" /><circle className={styles.dialValue} cx="50" cy="50" r="42" pathLength="100" strokeDasharray={`${answeredCount * 10} 100`} /></svg><strong>{answeredCount}<small>/10</small></strong></div>
           <div><strong>{lang === 'es' ? 'Tu progreso' : 'Your progress'}</strong><p>{answeredCount} {lang === 'es' ? 'de 10 preguntas respondidas' : 'of 10 questions answered'}</p><span>{lang === 'es' ? 'Un paso más cerca de tu diagnóstico.' : 'One step closer to your assessment.'}</span></div>

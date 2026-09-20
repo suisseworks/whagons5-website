@@ -300,3 +300,11 @@ a.pg-card:hover { border-color: #d9d2c6; box-shadow: var(--shadow); transform: t
 .pg-radios input { accent-color: var(--accent); }
 .pg-honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 .pg-field label small { display: block; margin-top: 2px; color: var(--muted); font-size: 0.78rem; font-weight: 400; }
+
+/* Industry navigation and examples. */
+.industry-jump { display: flex; justify-content: center; gap: 10px 20px; flex-wrap: wrap; margin-top: 32px; }
+.industry-jump a { font-size: 13px; text-decoration: none; border-bottom: 1px solid var(--line); padding: 10px 0; }
+.industry-jump a:hover { color: var(--accent); border-color: currentColor; }
+.industry-applications { display: flex; flex-wrap: wrap; gap: 8px; }
+.industry-applications li { background: #eff1e9; color: #4c5845; padding: 7px 10px; border-radius: 5px; font-size: 12px; line-height: 1.5; }
+.pg-optional { color: var(--muted); font-weight: 400; }

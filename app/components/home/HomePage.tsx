@@ -26,10 +26,10 @@ const content = {
     problemText:
       'Your PMS knows the stay. Whagons coordinates the work around it, across front desk, housekeeping, engineering, food and beverage, security, and leadership.',
     moments: [
-      { title: 'Guest requests', text: 'Route every request to the right team, set the response time, and keep the front desk informed through resolution.', tag: 'Service recovery' },
-      { title: 'Room readiness', text: 'Connect housekeeping, inspections, and maintenance so blockers are visible before they affect the guest.', tag: 'Cross-team handoffs' },
-      { title: 'Maintenance', text: 'Manage preventive plans and urgent work orders with ownership, priority, history, photos, and completion evidence.', tag: 'Assets + work orders' },
-      { title: 'Quality & compliance', text: 'Turn standards into repeatable checklists, inspections, approvals, and auditable records for every property.', tag: 'SOPs + inspections' },
+      { title: 'Guest requests', text: 'Give each request an owner and keep front desk informed until it is resolved.', tag: 'Service recovery' },
+      { title: 'Room readiness', text: 'Connect cleaning, repairs and inspection before the next arrival.', tag: 'Cross-team handoffs' },
+      { title: 'Maintenance', text: 'Coordinate repairs with location history and evidence of completion.', tag: 'Assets + work orders' },
+      { title: 'Quality & compliance', text: 'Turn each inspection finding into an assigned corrective action.', tag: 'SOPs + inspections' },
     ],
     learnMore: 'Learn more',
     processEyebrow: 'From signal to certainty',
@@ -52,7 +52,7 @@ const content = {
     capabilities: [
       ['Workflow automation', 'Move recurring and reactive work forward automatically.'],
       ['Mobile fieldwork', 'Photos, forms, signatures, QR, barcode, GPS, and NFC.'],
-      ['Escalations & approvals', 'Keep important work moving without manager follow-up.'],
+      ['Escalations & approvals', 'Notify the right person when work needs attention or approval.'],
       ['Analytics & AI', 'Find delays, recurring issues, and the next action faster.'],
       ['SOPs & knowledge', 'Keep procedures and training where the work happens.'],
       ['API & integrations', 'Connect the hotel systems your teams already rely on.'],
@@ -101,10 +101,10 @@ const content = {
     problemText:
       'Tu PMS conoce la estadía. Whagons coordina el trabajo a su alrededor: recepción, ama de llaves, ingeniería, alimentos y bebidas, seguridad y liderazgo.',
     moments: [
-      { title: 'Solicitudes de huéspedes', text: 'Dirige cada solicitud al equipo correcto, define el tiempo de respuesta y mantén informada a recepción hasta resolverla.', tag: 'Recuperación del servicio' },
-      { title: 'Habitaciones listas', text: 'Conecta limpieza, inspecciones y mantenimiento para detectar bloqueos antes de que afecten al huésped.', tag: 'Entregas entre equipos' },
-      { title: 'Mantenimiento', text: 'Gestiona planes preventivos y órdenes urgentes con responsable, prioridad, historial, fotos y evidencia de cierre.', tag: 'Activos + órdenes' },
-      { title: 'Calidad y cumplimiento', text: 'Convierte estándares en listas, inspecciones, aprobaciones y registros auditables para cada propiedad.', tag: 'SOPs + inspecciones' },
+      { title: 'Solicitudes de huéspedes', text: 'Asigna cada solicitud y mantén informada a recepción hasta resolverla.', tag: 'Recuperación del servicio' },
+      { title: 'Habitaciones listas', text: 'Coordina limpieza, reparaciones e inspección antes de la próxima llegada.', tag: 'Entregas entre equipos' },
+      { title: 'Mantenimiento', text: 'Organiza reparaciones con el historial del lugar y evidencia del trabajo.', tag: 'Activos + órdenes' },
+      { title: 'Calidad y cumplimiento', text: 'Convierte cada hallazgo de una inspección en una acción con responsable.', tag: 'Procedimientos + inspecciones' },
     ],
     learnMore: 'Ver más',
     processEyebrow: 'De la señal a la certeza',
@@ -117,19 +117,19 @@ const content = {
       ['Coordina', 'Asigna responsables, plazos, prioridades, aprobaciones y reglas de escalamiento según el hotel.'],
       ['Mejora', 'Verifica el cierre, revisa patrones y usa datos reales para fortalecer el siguiente turno.'],
     ],
-    processShotAlt: 'Dos tarjetas de tarea en Whagons, una en revisión y otra en espera, con la pregunta "¿Qué falta para continuar?"',
+    processShotAlt: 'Tablero Kanban de mantenimiento con tareas por hacer, en progreso y en revisión',
     productEyebrow: 'Una imagen operativa más clara',
     productTitle: 'Una vista para cada turno. El detalle correcto para cada rol.',
     productText:
       'El personal ve qué hacer ahora. Los gerentes ven excepciones antes de que se conviertan en problemas para el huésped. Los líderes ven los patrones detrás del desempeño.',
-    productShotAlt: 'Vista de analítica de Whagons con totales de tareas, tasa de finalización y gráficos de tendencia',
+    productShotAlt: 'Panel de Whagons con tareas abiertas, vencidas, completadas y distribución por estado',
     productShotCaption: 'Analítica · Whagons',
     capabilities: [
       ['Automatización de flujos', 'Mueve automáticamente el trabajo recurrente y reactivo.'],
-      ['Trabajo móvil', 'Fotos, formularios, firmas, QR, códigos, GPS y NFC.'],
-      ['Escalamientos y aprobaciones', 'Mantén el trabajo importante en marcha sin perseguir avances.'],
+      ['Trabajo móvil', 'Fotos, formularios, firmas, QR, códigos de barras, GPS y NFC.'],
+      ['Escalamientos y aprobaciones', 'Notifica al responsable cuando una tarea necesita atención o aprobación.'],
       ['Analítica e IA', 'Detecta demoras, problemas recurrentes y la próxima acción.'],
-      ['SOPs y conocimiento', 'Ubica procedimientos y capacitación donde ocurre el trabajo.'],
+      ['Procedimientos y conocimiento', 'Consulta instrucciones y capacitación mientras realizas el trabajo.'],
       ['API e integraciones', 'Conecta los sistemas que los equipos del hotel ya utilizan.'],
     ],
     featuresCta: 'Ver todas las funcionalidades',
@@ -162,15 +162,41 @@ const content = {
 } as const;
 
 const marketSlugs = ['retail', 'mantenimiento', 'farmaceutica', 'salud-educacion', 'construccion'];
+const momentFlows = {
+  es: [['Solicitud', 'Responsable', 'Resolución'], ['Limpieza', 'Inspección', 'Lista'], ['Reporte', 'Reparación', 'Historial'], ['Inspección', 'Corrección', 'Verificación']],
+  en: [['Request', 'Owner', 'Resolution'], ['Cleaning', 'Inspection', 'Ready'], ['Report', 'Repair', 'History'], ['Inspection', 'Correction', 'Verification']],
+} as const;
+
+function CapabilityIcon({ index }: { index: number }) {
+  const paths = [
+    <><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/><path d="M9 6h6a3 3 0 0 1 3 3v6m-3-3 3 3 3-3M6 9v9h5"/></>,
+    <><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 5h4m-3 14h2m-3-6 2 2 4-5"/></>,
+    <><path d="M12 21V3m-6 6 6-6 6 6M4 17h4m8-4h4"/><circle cx="5" cy="5" r="2"/></>,
+    <><path d="M3 3v18h18M7 16v-4m5 4V8m5 8V5"/><path d="m16 3 2-2 2 2"/></>,
+    <><path d="M12 5v16M3 4c4-1 6 0 9 2 3-2 5-3 9-2v15c-4-1-6 0-9 2-3-2-5-3-9-2z"/><path d="M6 8h3m6 0h3"/></>,
+    <><path d="m8 8-4 4 4 4m8-8 4 4-4 4m-3-12-2 16"/></>,
+  ];
+  return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">{paths[index]}</svg>;
+}
+
+function MomentIcon({ index }: { index: number }) {
+  return <svg width="46" height="46" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    {index === 0 ? <><path d="M9 12h30v21H22l-9 7v-7H9z"/><path d="M17 20h14M17 26h9"/><circle cx="38" cy="11" r="5" fill="currentColor" stroke="none"/></> :
+     index === 1 ? <><path d="M7 38V20m34 18V20M7 30h34M10 20V11h28v9M7 30v-7a3 3 0 0 1 3-3h28a3 3 0 0 1 3 3v7"/><path d="M16 15h5m6 0h5M11 38v-4m26 4v-4"/></> :
+     index === 2 ? <><path d="M29 8a11 11 0 0 0-13 14L7 33a5 5 0 0 0 8 7l10-12A11 11 0 0 0 39 14l-7 7-6-6z"/><circle cx="12" cy="36" r="1"/></> :
+     <><rect x="12" y="10" width="25" height="32" rx="3"/><rect x="19" y="6" width="11" height="8" rx="2" fill="var(--moment-bg)"/><path d="m18 27 5 5 9-11"/></>}
+  </svg>;
+}
+
 const hotelMomentAnchors = ['guest-requests', 'room-readiness', 'engineering', 'inspection-correction'];
 
 const customerNames = ['Grupo El Lagar', 'Colegio Humboldt', 'Rythmia', 'IQS', 'Grupo Colono', 'Refritec'];
 
 const customerProof = {
   en: {
-    eyebrow: 'Public customer evidence',
-    title: 'What operations leaders have said.',
-    text: 'With a presence across Latin America, published customer voices and an operational case make the result more concrete than a feature list alone.',
+    eyebrow: 'Our customers',
+    title: 'What operations leaders say.',
+    text: 'Their experiences with day-to-day processes, team coordination and quality management in Whagons.',
     testimonials: [
       { quote: 'Whagons makes it easier to control day-to-day processes. It is a very useful and easy-to-use tool.', name: 'Leela Wernscheid', role: 'Operations Manager · Colegio Humboldt' },
       { quote: 'I am very satisfied, because keeping more than 1,500 employees aligned around one discipline is not easy.', name: 'Guido Tenorio', role: 'Operations Manager · Grupo El Lagar' },
@@ -183,12 +209,12 @@ const customerProof = {
     caseTitle: 'From repeat visits to a digital equipment history.',
     caseText: 'A refrigeration maintenance team changed its operating flow in 60 days.',
     caseMetrics: [['−80%', 'repeat visits'], ['2 days → 4 h', 'resolution time'], ['100%', 'digital equipment history']],
-    sourceLabel: 'See public evidence',
+    sourceLabel: 'Read the published case',
   },
   es: {
-    eyebrow: 'Evidencia pública de clientes',
-    title: 'Lo que han dicho líderes de operaciones.',
-    text: 'Con presencia en toda Latinoamérica, voces de clientes y un caso operativo publicado hacen el resultado más concreto que una lista de funcionalidades.',
+    eyebrow: 'Nuestros clientes',
+    title: 'Lo que dicen los líderes de operaciones.',
+    text: 'Sus experiencias con los procesos diarios, la coordinación de equipos y la gestión de calidad en Whagons.',
     testimonials: [
       { quote: 'Facilita tener un control sobre los procesos del día a día. Es una herramienta muy útil y sencilla de utilizar.', name: 'Leela Wernscheid', role: 'Gerente de Operaciones · Colegio Humboldt' },
       { quote: 'De mi parte estoy muy satisfecho, porque controlar más de 1.500 empleados en una disciplina no es sencillo.', name: 'Guido Tenorio', role: 'Gerente de Operaciones · Grupo El Lagar' },
@@ -201,7 +227,7 @@ const customerProof = {
     caseTitle: 'De visitas repetidas a un historial digital de equipos.',
     caseText: 'Un equipo de mantenimiento de refrigeración cambió su flujo operativo en 60 días.',
     caseMetrics: [['−80%', 'visitas repetidas'], ['2 días → 4 h', 'tiempo de resolución'], ['100%', 'historial digital de equipos']],
-    sourceLabel: 'Ver evidencia pública',
+    sourceLabel: 'Leer el caso publicado',
   },
 } as const;
 
@@ -277,10 +303,18 @@ export default function HomePage({ lang }: { lang: Language }) {
         <div className={styles.cardGrid}>
           {t.moments.map((moment, index) => (
             <a className={styles.card} href={hasLocalizedDetailPages ? `${hotelHref}#${hotelMomentAnchors[index]}` : demoHref} key={moment.title}>
-              <span className={styles.tag} data-index={index}>{moment.tag}</span>
-              <h3>{moment.title}</h3>
-              <p>{moment.text}</p>
-              <span className={styles.cardLink}>{t.learnMore}<Arrow /></span>
+              <div className={styles.momentVisual} data-index={index} aria-hidden="true">
+                <span className={styles.momentNumber}>0{index + 1}</span>
+                <span className={styles.momentIcon}><MomentIcon index={index} /></span>
+                <div className={styles.momentFlow}>
+                  {momentFlows[lang][index].map((step, stepIndex) => <span key={step}><i>{stepIndex === 2 ? '✓' : `0${stepIndex + 1}`}</i>{step}</span>)}
+                </div>
+              </div>
+              <div className={styles.momentCopy}>
+                <h3>{moment.title}</h3>
+                <p>{moment.text}</p>
+                <span className={styles.cardLink}>{t.learnMore}<Arrow /></span>
+              </div>
             </a>
           ))}
         </div>
@@ -323,9 +357,9 @@ export default function HomePage({ lang }: { lang: Language }) {
         <div className={styles.featureGrid}>
           {t.capabilities.map(([title, text], index) => (
             <article key={title} className={styles.feature}>
-              <span className={styles.featureIcon} data-index={index} aria-hidden="true" />
-              <h3>{title}</h3>
-              <p>{text}</p>
+              <span className={styles.featureIcon} aria-hidden="true"><CapabilityIcon index={index} /></span>
+              <div><h3>{title}</h3><p>{text}</p></div>
+              <span className={styles.featureNumber} aria-hidden="true">0{index + 1}</span>
             </article>
           ))}
         </div>
@@ -402,8 +436,7 @@ export default function HomePage({ lang }: { lang: Language }) {
           ))}
         </div>
         <p className={styles.source}>
-          {demoOffer[lang].source}{' '}
-          <a href="https://whagons.com/docs/Whagons-2022.pdf" target="_blank" rel="noreferrer">{demoOffer[lang].sourceLink} ↗</a>
+          {demoOffer[lang].source}
         </p>
 
         <article className={styles.caseStudy}>

@@ -16,6 +16,25 @@ body {
   font-family: var(--sans);
   overflow-x: hidden;
 }
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 16px;
+  z-index: 1000;
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-160%);
+}
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 3px solid var(--red);
+  outline-offset: 3px;
+}
+#page-content { scroll-margin-top: 88px; }
 .hp-field {
   position: absolute !important;
   left: -10000px !important;

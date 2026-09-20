@@ -1,0 +1,20 @@
+.page .chapter { padding-top: 72px; padding-bottom: 72px; }
+.capabilities { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; border-top: 1px solid var(--line); }
+.capability { display: flex; gap: 15px; padding: 27px 0 8px; }
+.number { font-size: 11px; color: #a84627; padding-top: 5px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.capability h3 { font-size: 18px; line-height: 1.3; }
+.capability p { margin-top: 12px; color: var(--muted); font-size: 15px; line-height: 1.7; }
+.roles { background: #263829; color: #fff; }
+.roles :global(.pg-eyebrow) { color: #d3dfc5; }
+.roles :global(.pg-text) { color: #d3ddcf; }
+.roleGrid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 42px; }
+.role { border-top: 1px solid #718169; padding-top: 24px; display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+.role :global(.pg-num) { background: transparent; color: #d3dfc5; border: 1px solid #8b9d82; }
+.role p { color: #d3ddcf; font-size: 16px; line-height: 1.65; }
+.role :global(.pg-tag) { border-radius: 0; background: transparent; color: #d3dfc5; padding: 10px 0 0; font-size: 12px; }
+.boundary { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 30px; border-top: 1px solid var(--line); }
+.boundary article { padding: 28px 0 0; }
+.systemLabel { font-size: 12px; font-weight: 600; letter-spacing: .04em; color: #627259; display: block; margin-bottom: 14px; }
+.boundary p { color: var(--muted); line-height: 1.65; font-size: 15px; margin-top: 14px; }
+@media(max-width: 850px) { .capabilities { grid-template-columns: 1fr; gap: 0; } .capability { padding: 22px 0; border-bottom: 1px solid var(--line); } .capability p { margin-top: 7px; } .roleGrid,.boundary { grid-template-columns: 1fr; gap: 25px; } .role { gap: 12px; } }
+@media(max-width: 600px) { .page .chapter { padding-top: 50px; padding-bottom: 50px; } }

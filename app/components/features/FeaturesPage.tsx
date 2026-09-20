@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { shotsFor } from '../../lib/shots';
+import styles from './FeaturesPage.module.css';
 
 export type FeaturesLanguage = 'en' | 'es';
 
@@ -325,8 +326,8 @@ const content: Record<FeaturesLanguage, PageContent> = {
         signal: 'Operación → Registro → Gerencia',
         signalLabel: 'Contexto en campo',
         signalDetail: 'Capturado en el punto de trabajo',
-        shotCaption: 'Housekeeping · Detalle de tarea · Whagons',
-        shotAlt: 'Detalle de tarea de Whagons para una solicitud de housekeeping con estado, responsable, lista de control y actividad',
+        shotCaption: 'Mantenimiento · Tablero Kanban · Whagons',
+        shotAlt: 'Tablero Kanban de mantenimiento con tareas por hacer, en progreso y en revisión',
         features: [
           {
             title: 'Fotos, formularios y firmas',
@@ -378,7 +379,7 @@ const content: Record<FeaturesLanguage, PageContent> = {
         signalLabel: 'Vista gerencial',
         signalDetail: 'Abierto, atrasado, completado y recurrente',
         shotCaption: 'Analítica · Whagons',
-        shotAlt: 'Vista de analítica de Whagons con totales de tareas, tasa de finalización y gráficos de tendencia',
+        shotAlt: 'Panel de Whagons con tareas abiertas, vencidas, completadas y distribución por estado',
         features: [
           {
             title: 'Vistas operativas por rol',
@@ -447,7 +448,7 @@ const chapterShots = (lang: FeaturesLanguage) => {
   return [null, s.boardDetail, null, s.analytics];
 };
 
-const CARD_TONES = ['blue', 'amber', 'violet', 'green', 'slate'] as const;
+
 
 function Arrow() {
   return (
@@ -474,7 +475,7 @@ export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
   const platformHref = lang === 'es' ? '/es/plataforma' : '/en/platform';
 
   return (
-    <main className="pg">
+    <main className={`pg ${styles.page}`}>
       <section className="pg-hero">
         <div className="pg-hero-inner pg-hero-split">
           <div className="pg-hero-copy">
@@ -528,7 +529,7 @@ export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
           </div>
         );
         const section = (
-          <section className={chapterIndex === 3 ? 'pg-section pg-section-tight' : 'pg-section'} id={chapter.id} key={chapter.id}>
+          <section className={`pg-section ${styles.chapter}`} id={chapter.id} key={chapter.id}>
             {shot && chapter.shotCaption && chapter.shotAlt ? (
               <div className={chapterIndex % 2 === 1 ? 'pg-split' : 'pg-split pg-split-reverse'} style={{ marginBottom: 40 }}>
                 {intro}
@@ -537,12 +538,11 @@ export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
             ) : (
               intro
             )}
-            <div className="pg-grid-3">
+            <div className={styles.capabilities}>
               {chapter.features.map((feature, featureIndex) => (
-                <article className="pg-card" key={feature.title} style={band ? { background: 'var(--bg)' } : undefined}>
-                  <span className="pg-icon" data-tone={CARD_TONES[(chapterIndex + featureIndex) % CARD_TONES.length]} aria-hidden="true" />
-                  <h3 style={{ marginTop: 6 }}>{feature.title}</h3>
-                  <p>{feature.text}</p>
+                <article className={styles.capability} key={feature.title}>
+                  <span className={styles.number} aria-hidden="true">{chapter.number}.{featureIndex + 1}</span>
+                  <div><h3>{feature.title}</h3><p>{feature.text}</p></div>
                 </article>
               ))}
             </div>
@@ -551,16 +551,16 @@ export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
         return band ? <div className="pg-band" key={chapter.id}>{section}</div> : section;
       })}
 
-      <section className="pg-band">
+      <section className={styles.roles}>
         <div className="pg-section">
           <div className="pg-intro">
             <p className="pg-eyebrow">{copy.roles.eyebrow}</p>
             <h2>{copy.roles.title}</h2>
             <p className="pg-text">{copy.roles.lead}</p>
           </div>
-          <div className="pg-grid-3">
+          <div className={styles.roleGrid}>
             {copy.roles.items.map((role) => (
-              <article className="pg-card" key={role.title} style={{ background: 'var(--bg)' }}>
+              <article className={styles.role} key={role.title}>
                 <span className="pg-num">{role.number}</span>
                 <h3 style={{ marginTop: 6 }}>{role.title}</h3>
                 <p>{role.text}</p>
@@ -577,19 +577,19 @@ export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
           <h2>{copy.boundary.title}</h2>
           <p className="pg-text">{copy.boundary.lead}</p>
         </div>
-        <div className="pg-grid-3">
-          <article className="pg-card">
-            <span className="pg-icon" data-tone="green" aria-hidden="true" />
+        <div className={styles.boundary}>
+          <article>
+            <span className={styles.systemLabel}>PMS</span>
             <h3 style={{ marginTop: 6 }}>{copy.boundary.worksWith}</h3>
             <p>{copy.boundary.worksWithText}</p>
           </article>
-          <article className="pg-card">
-            <span className="pg-icon" data-tone="slate" aria-hidden="true" />
+          <article>
+            <span className={styles.systemLabel}>{lang === 'es' ? 'Tus sistemas' : 'Your systems'}</span>
             <h3 style={{ marginTop: 6 }}>{copy.boundary.notReplacement}</h3>
             <p>{copy.boundary.notReplacementText}</p>
           </article>
-          <article className="pg-card">
-            <span className="pg-icon" aria-hidden="true" />
+          <article>
+            <span className={styles.systemLabel}>Whagons</span>
             <h3 style={{ marginTop: 6 }}>{copy.boundary.startFocused}</h3>
             <p>{copy.boundary.startFocusedText}</p>
           </article>

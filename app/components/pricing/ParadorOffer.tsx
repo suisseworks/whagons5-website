@@ -30,7 +30,12 @@ export default function ParadorOffer({ lang }: { lang: Language }) {
   const t = (spanish: string, english: string) => es ? spanish : english;
   const monthlyLabel = t('/mes', '/mo');
   const from = draft.plan === 'enterprise' ? t('Desde ', 'From ') : '';
-  const duration = Number(draft.promoMonths) === 0 ? t('Mientras se mantenga este alcance', 'While this scope remains unchanged') : t(`Primeros ${draft.promoMonths} meses desde la activación`, `First ${draft.promoMonths} months from activation`);
+  const hasMonthlyBenefits = offer !== null && offer.monthlySavings > 0;
+  const duration = Number(draft.promoMonths) === 0
+    ? t('Mientras se mantenga este alcance', 'While this scope remains unchanged')
+    : Number(draft.promoMonths) === 1
+      ? t('Primer mes desde la activación', 'First month from activation')
+      : t(`Primeros ${draft.promoMonths} meses desde la activación`, `First ${draft.promoMonths} months from activation`);
   const expiry = draft.validUntil && /^\d{4}-\d{2}-\d{2}$/.test(draft.validUntil) && Number.isFinite(Date.parse(draft.validUntil)) ? new Intl.DateTimeFormat(es ? 'es-CR' : 'en-US', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(draft.validUntil)) : t('Por definir', 'To be agreed');
 
   useEffect(() => {
@@ -67,8 +72,8 @@ export default function ParadorOffer({ lang }: { lang: Language }) {
       `${t('Usuarios adicionales bonificados', 'Complimentary additional users')}: ${offer.effectiveBonusUsers}`,
       `${t('Descuento mensual aplicado', 'Applied monthly discount')}: ${money(offer.discount)}`,
       `${t('Mensualidad de la propuesta', 'Proposed monthly price')}: ${from}${money(offer.monthly)}`,
-      `${t('Duración de beneficios mensuales', 'Monthly benefit duration')}: ${duration}`,
-      ...(offer.promoMonths > 0 ? [`${t('Desde el mes', 'From month')} ${offer.promoMonths + 1}: ${from}${money(offer.regular.monthly)}${monthlyLabel} ${t('con el mismo alcance', 'with the same scope')}`] : []),
+      ...(hasMonthlyBenefits ? [`${t('Duración de beneficios mensuales', 'Monthly benefit duration')}: ${duration}`] : []),
+      ...(hasMonthlyBenefits && offer.promoMonths > 0 ? [`${t('Desde el mes', 'From month')} ${offer.promoMonths + 1}: ${from}${money(offer.regular.monthly)}${monthlyLabel} ${t('con el mismo alcance', 'with the same scope')}`] : []),
       `${t('Implementación y capacitación inicial, pago único', 'Implementation and initial training, one-time fee')}: ${from}${money(offer.implementation)} (${t('regular', 'regular')} ${money(offer.implementationRegular)})`,
       `${t('Primer mes + implementación', 'First month + implementation')}: ${from}${money(offer.firstMonth)}`,
       `${t('Inversión en 12 meses, incluida implementación', '12-month investment including implementation')}: ${from}${money(offer.firstYear)}`,
@@ -94,7 +99,7 @@ export default function ParadorOffer({ lang }: { lang: Language }) {
         {offer.userSavings > 0 && <div className={styles.savingLine}><dt>{offer.effectiveBonusUsers} {t('usuarios bonificados', 'complimentary users')}</dt><dd>−{money(offer.userSavings)}</dd></div>}
         {offer.discount > 0 && <div className={styles.savingLine}><dt>{t('Descuento mensual', 'Monthly discount')}</dt><dd>−{money(offer.discount)}</dd></div>}
       </dl>
-      <div className={styles.term}><span>{duration}</span>{offer.promoMonths > 0 && <strong>{t('Desde el mes', 'From month')} {offer.promoMonths + 1}: {from}{money(offer.regular.monthly)}{monthlyLabel}</strong>}</div>
+      {hasMonthlyBenefits && <div className={styles.term}><span>{t('Beneficios mensuales', 'Monthly benefits')}: {duration}</span>{offer.promoMonths > 0 && <strong>{t('Desde el mes', 'From month')} {offer.promoMonths + 1}: {from}{money(offer.regular.monthly)}{monthlyLabel}</strong>}</div>}
       <dl className={styles.breakdown}>
         <div><dt>{t('Implementación', 'Implementation')}<small>{t('Configuración + capacitación inicial', 'Configuration + initial training')}</small></dt><dd>{offer.implementationSavings > 0 && <s>{money(offer.implementationRegular)}</s>}{from}{money(offer.implementation)}</dd></div>
         <div className={styles.firstMonth}><dt>{t('Primer mes + puesta en marcha', 'First month + onboarding')}</dt><dd data-testid="offer-first-month">{from}{money(offer.firstMonth)}</dd></div>
@@ -172,7 +177,7 @@ export default function ParadorOffer({ lang }: { lang: Language }) {
       <div className={styles.scenario}><div className={styles.scenarioText}><span className={styles.scopeBadge}>{scenario.badge}</span><h3>{scenario.title}</h3><p>{scenario.description}</p><ol className={styles.flow}><li><b>01</b>{t('Capturar el contexto', 'Capture context')}</li><li><b>02</b>{t('Revisar y asignar', 'Review and assign')}</li><li><b>03</b>{t('Resolver con evidencia', 'Resolve with evidence')}</li></ol></div>
         <div className={styles.demoCard}><div className={styles.demoTop}><span>WHAGONS <i /> PARADOR</span><small>{t('Ejemplo ilustrativo', 'Illustrative example')}</small></div><div className={styles.demoIcon}><ChannelIcon channel={channel} /></div>{channel === 'voice' && <div className={styles.wave} aria-hidden="true">{[12,22,34,19,44,28,39,52,34,23,41,31,18,27,14].map((height,i) => <i key={i} style={{height}} />)}</div>}<p className={styles.demoInput}>{scenario.input}</p><button className={styles.demoButton} type="button" onClick={() => setDemoComplete(value => !value)}>{demoComplete ? t('Volver al inicio', 'Start again') : scenario.action}<span>→</span></button>{demoComplete && <div className={styles.demoResult} role="status"><span>✓ {scenario.result}</span><p>{scenario.outcome}</p></div>}<small className={styles.demoFoot}>{t('Simulación visual. No activa micrófono, cámara ni lectores.', 'Visual simulation. Does not activate microphone, camera or readers.')}</small></div>
       </div>
-      <div className={styles.channelNotes}><p><strong>{t('Voz', 'Voice')}</strong>{t('Dictado y comandos sujetos a configuración y alcance. Consumo por confirmar; no equivale al módulo Calling.', 'Dictation and commands depend on configuration and scope. Usage to be confirmed; separate from the Calling module.')}</p><p><strong>QR</strong>{t('Vinculado al grupo Control y mantenimiento. Configuración de códigos y formularios según el alcance acordado.', 'Part of Control & maintenance. Code and form setup depends on agreed scope.')}</p><p><strong>NFC</strong>{t('Vinculado al grupo Movilidad. Requiere dispositivos compatibles y etiquetas, cotizados por separado.', 'Part of Mobility. Requires compatible devices and tags, quoted separately.')}</p></div>
+      <div className={styles.channelNotes}><p><strong>{t('Voz', 'Voice')}</strong>{t('Dictado y comandos sujetos a configuración y alcance. Consumo por confirmar; no equivale al módulo Llamadas.', 'Dictation and commands depend on configuration and scope. Usage to be confirmed; separate from the Calling module.')}</p><p><strong>QR</strong>{t('Vinculado al grupo Control y mantenimiento. Configuración de códigos y formularios según el alcance acordado.', 'Part of Control & maintenance. Code and form setup depends on agreed scope.')}</p><p><strong>NFC</strong>{t('Vinculado al grupo Movilidad. Requiere dispositivos compatibles y etiquetas, cotizados por separado.', 'Part of Mobility. Requires compatible devices and tags, quoted separately.')}</p></div>
     </section>
 
     <section className={styles.nextSteps}><div><span className={styles.eyebrow}>{t('UNA PUESTA EN MARCHA ACOMPAÑADA', 'A GUIDED START')}</span><h2>{t('De la propuesta al primer turno.', 'From proposal to the first shift.')}</h2></div><ol><li><span>01</span><div><h3>{t('Acordar el alcance', 'Agree on scope')}</h3><p>{t('Confirmar usuarios, áreas y procesos con el equipo de Parador.', 'Confirm users, departments and workflows with the Parador team.')}</p></div></li><li><span>02</span><div><h3>{t('Configurar y capacitar', 'Configure and train')}</h3><p>{t('Preparar la plataforma y acompañar al equipo en sus primeros flujos.', 'Prepare the platform and guide the team through its first workflows.')}</p></div></li><li><span>03</span><div><h3>{t('Revisar la adopción', 'Review adoption')}</h3><p>{t('Revisar el uso y ajustar el alcance del acompañamiento según el plan.', 'Review usage and adjust support scope according to the plan.')}</p></div></li></ol></section>

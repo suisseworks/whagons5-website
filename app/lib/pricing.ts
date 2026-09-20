@@ -16,7 +16,7 @@ export const rates = {
 
 export const groups = [
   { id: 'daily', icon: 'sun', included: 0, cr: 0, us: 0,
-    es: { name: 'Operación diaria', description: 'Cada tarea, equipo y turno en el mismo lugar.', modules: ['Limpieza', 'Analytics', 'Comunicados', 'Broadcasts', 'Motivación', 'Workbench'] },
+    es: { name: 'Operación diaria', description: 'Cada tarea, equipo y turno en el mismo lugar.', modules: ['Limpieza', 'Analítica', 'Comunicados', 'Difusiones', 'Motivación', 'Mesa de trabajo'] },
     en: { name: 'Daily operations', description: 'Every task, team and shift in one place.', modules: ['Housekeeping', 'Analytics', 'Announcements', 'Broadcasts', 'Motivation', 'Workbench'] } },
   { id: 'maintenance', icon: 'tool', included: 1, cr: 199, us: 299,
     es: { name: 'Control y mantenimiento', description: 'Anticípate a las averías y mide el avance.', modules: ['Activos', 'Planes de trabajo', 'Códigos QR', 'Tarjetas KPI', 'Metas'] },
@@ -34,10 +34,10 @@ export const groups = [
     es: { name: 'Movilidad', description: 'Conecta el trabajo con el lugar donde sucede.', modules: ['Mapas y ubicación', 'NFC'] },
     en: { name: 'Mobility', description: 'Connect work to the place where it happens.', modules: ['Maps & location', 'NFC'] } },
   { id: 'sales', icon: 'chart', included: 3, cr: 199, us: 299,
-    es: { name: 'Gestión comercial', description: 'De la primera conversación a la relación comercial.', modules: ['CRM', 'Investigación de empresas', 'Calling'] },
+    es: { name: 'Gestión comercial', description: 'De la primera conversación a la relación comercial.', modules: ['CRM', 'Investigación de empresas', 'Llamadas'] },
     en: { name: 'Sales management', description: 'From the first conversation to a customer relationship.', modules: ['CRM', 'Company research', 'Calling'] } },
   { id: 'ai', icon: 'spark', included: 3, cr: 149, us: 249,
-    es: { name: 'Operations Manager con IA', description: 'Asistencia inteligente para tu operación.', modules: ['Operations Manager con IA', 'Consumo de IA por separado'] },
+    es: { name: 'Asistente de operaciones con IA', description: 'Asistencia inteligente para tu operación.', modules: ['Asistente de operaciones con IA', 'Consumo de IA por separado'] },
     en: { name: 'AI Operations Manager', description: 'Intelligent assistance for your operations.', modules: ['AI Operations Manager', 'AI usage billed separately'] } },
 ] as const;
 export type GroupId = typeof groups[number]['id'];
