@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Language } from '../../lib/locales';
 import styles from './OperationsHeroDemo.module.css';
 
@@ -37,16 +37,93 @@ const copy = {
 export default function OperationsHeroDemo({ lang }: { lang: Language }) {
   const [channel, setChannel] = useState<Channel>('voice');
   const [complete, setComplete] = useState(false);
+  const [journey, setJourney] = useState(true);
+  const [step, setStep] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [foreground, setForeground] = useState(false);
+  const [reduced, setReduced] = useState(true);
+  const root = useRef<HTMLElement>(null);
+  const remaining = useRef(4000);
+  const generation = useRef(0);
+  const [replayId, setReplayId] = useState(0);
+  const es = lang === 'es';
+  const steps = es ? ['Reporte', 'Responsable', 'Reparación', 'Cierre'] : ['Report', 'Owner', 'Repair', 'Closed'];
+  const details = es ? [
+    ['Incidencia reportada', '“Hay una fuga en el baño de la habitación 204.”', 'Recepción registra el reporte.'],
+    ['Mantenimiento asignado', 'Un responsable y una prioridad visibles.', 'El equipo recibe la tarea y coordina la atención.'],
+    ['Reparación registrada', 'Reparación terminada. Sin fuga en la revisión.', 'El equipo adjunta la evidencia del trabajo.'],
+    ['Recepción informada', 'Cierre verificado y visible para el siguiente turno.', 'El reporte y su evidencia quedan en el historial.'],
+  ] : [
+    ['Issue reported', '“There is a leak in the bathroom in room 204.”', 'Reception records the report.'],
+    ['Maintenance assigned', 'A clear owner and a visible priority.', 'The team receives the task and coordinates the work.'],
+    ['Repair recorded', 'Repair finished. No leak found during the check.', 'The team attaches evidence of the work.'],
+    ['Reception informed', 'Verified closure, visible to the next shift.', 'The report and its evidence remain in the history.'],
+  ];
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const preference = () => setReduced(media.matches);
+    const visibility = () => setForeground(document.visibilityState === 'visible');
+    preference(); visibility();
+    media.addEventListener('change', preference);
+    document.addEventListener('visibilitychange', visibility);
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting && entry.intersectionRatio >= .5), { threshold: [0, .5] });
+    if (root.current) observer.observe(root.current);
+    return () => { observer.disconnect(); media.removeEventListener('change', preference); document.removeEventListener('visibilitychange', visibility); };
+  }, []);
+  const running = journey && !paused && visible && foreground && !reduced && step < 3;
+  useEffect(() => {
+    if (!running) return;
+    const started = performance.now();
+    const currentGeneration = generation.current;
+    let advanced = false;
+    const timer = window.setTimeout(() => {
+      advanced = true;
+      remaining.current = 4000;
+      setStep(value => Math.min(value + 1, 3));
+    }, remaining.current);
+    return () => {
+      window.clearTimeout(timer);
+      if (!advanced && currentGeneration === generation.current) remaining.current = Math.max(0, remaining.current - (performance.now() - started));
+    };
+  }, [running, step, replayId]);
+  function replay() {
+    generation.current += 1;
+    setReplayId(value => value + 1);
+    setJourney(true); setStep(0); setPaused(false); remaining.current = 4000;
+  }
   const t = copy[lang];
   const current = t.channels[channel];
-  return <section className={styles.demo} data-channel={channel} aria-label={t.title}>
+  return <section ref={root} className={`${styles.demo} tech-frame`} data-channel={channel} data-step={journey ? step : undefined} data-playing={running} aria-label={es ? 'Del reporte al cierre' : 'From report to resolution'}>
     <div className={styles.heading}><span>{t.eyebrow}</span><span className={styles.example}><i aria-hidden="true" />{t.example}</span></div>
-    <h2>{t.title}</h2>
+    <h2>{es ? 'Del reporte al cierre.' : 'From report to resolution.'}</h2>
     <p className={styles.appContext}>{t.appContext}</p>
     <div className={styles.channels} role="group" aria-label={t.choose}>
-      {(['voice', 'qr', 'nfc'] as Channel[]).map(id => <button key={id} type="button" aria-pressed={channel === id} onClick={() => { setChannel(id); setComplete(false); }}><span className={styles.channelIcon}><ChannelIcon channel={id} /></span><strong>{t.channels[id].name}</strong><small>{t.channels[id].verb}</small></button>)}
+      {(['voice', 'qr', 'nfc'] as Channel[]).map(id => <button key={id} type="button" aria-pressed={!journey && channel === id} onClick={() => { setJourney(false); setPaused(true); setChannel(id); setComplete(false); }}><span className={styles.channelIcon}><ChannelIcon channel={id} /></span><strong>{t.channels[id].name}</strong><small>{t.channels[id].verb}</small></button>)}
     </div>
-    <div className={styles.scenario}>
+    {journey ? <div className={styles.journey}>
+      <ol className={styles.timeline} aria-label={es ? 'Recorrido de la incidencia' : 'Issue journey'}>
+        {steps.map((label, index) => <li key={label} aria-current={step === index ? 'step' : undefined} data-done={index < step}><span>{index < step ? '✓' : `0${index + 1}`}</span>{label}</li>)}
+      </ol>
+      <div className={styles.journeyCard}>
+        <div className={styles.cardIdentity}><span>{es ? 'HABITACIÓN 204' : 'ROOM 204'}</span><span>{es ? 'Ejemplo' : 'Example'} · 001</span></div>
+        <h3>{es ? 'Fuga en el baño' : 'Bathroom leak'}</h3>
+        <div className={styles.journeyDetail} key={step}>
+          <span className={styles.stateBadge}>{step === 3 ? '✓ ' : ''}{details[step][0]}</span>
+          <p>{details[step][1]}</p>
+          <small>{details[step][2]}</small>
+          <div className={styles.evidence} data-ready={step >= 2}>
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="6" stroke="currentColor"/><path d="m9 16 5 5 9-11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            <span><strong>{step >= 2 ? (es ? 'Evidencia de cierre' : 'Completion evidence') : (es ? 'Seguimiento compartido' : 'Shared progress')}</strong><small>{step >= 2 ? (es ? 'Registro ilustrativo · Revisión sin fuga' : 'Illustrative record · No leak on inspection') : (es ? 'Recepción → Mantenimiento' : 'Reception → Maintenance')}</small></span>
+          </div>
+        </div>
+      </div>
+      <div className={styles.controls}>
+        {reduced ? <button type="button" disabled={step === 3} onClick={() => { setStep(value => Math.min(value + 1, 3)); remaining.current = 4000; }}>{es ? 'Siguiente paso' : 'Next step'} →</button> : <button type="button" disabled={step === 3} onClick={() => setPaused(value => !value)}>{paused ? (es ? 'Continuar' : 'Resume') : (es ? 'Pausar' : 'Pause')}{paused ? ' ▷' : ' Ⅱ'}</button>}
+        <button type="button" onClick={replay}>{es ? 'Repetir' : 'Replay'} ↺</button>
+      </div>
+      <p className={styles.journeyNote}>{es ? 'Ejemplo ilustrativo. Cada paso requiere la acción del equipo.' : 'Illustrative example. Each step requires action by the team.'}</p>
+    </div> : <div className={styles.scenario}>
       <h3>{current.title}</h3><p>{current.description}</p>
       <div className={styles.progress} aria-hidden="true"><span data-active={!complete}><b>01</b>{t.capture}</span><i /><span data-active={complete}><b>02</b>{t.review}</span><i /><span><b>03</b>{t.work}</span></div>
       <div className={styles.stage} aria-live="polite" aria-atomic="true">
@@ -62,6 +139,8 @@ export default function OperationsHeroDemo({ lang }: { lang: Language }) {
       <button className={styles.tryButton} type="button" onClick={() => setComplete(value => !value)}>{complete ? t.reset : current.action}<span aria-hidden="true">{complete ? '↺' : '→'}</span></button>
       <p className={styles.scope}>{current.foot}</p>
     </div>
+    }
+    {!journey && <button type="button" className={styles.backToJourney} onClick={replay}>{es ? 'Ver recorrido completo' : 'See the full journey'} →</button>}
     <p className={styles.note}>{t.note}</p>
   </section>;
 }

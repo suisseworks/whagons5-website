@@ -44,7 +44,7 @@ export default function AnnotatedScreenshot({ lang, shot, alt, caption }: {
     </div>;
   }
 
-  return <figure className={styles.figure}>
+  return <figure className={`${styles.figure} tech-frame`}>
     <div className={styles.bar} aria-hidden="true"><i /><i /><i /><span>{caption}</span></div>
     <div className={styles.image}>
       <Image src={shot.src} alt={alt} width={shot.width} height={shot.height} priority sizes="(max-width: 1240px) 100vw, 1180px" quality={90} />
