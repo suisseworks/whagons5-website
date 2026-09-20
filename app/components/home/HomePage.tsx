@@ -428,12 +428,16 @@ export default function HomePage({ lang }: { lang: Language }) {
           <p>{proof.text}</p>
         </div>
         <div className={styles.quoteGrid}>
-          {proof.testimonials.map((item) => (
-            <figure className={styles.quote} key={item.name}>
+          {[2, 1, 0, 3, 4, 5].map((sourceIndex, index) => {
+            const item = proof.testimonials[sourceIndex];
+            const [role, company] = item.role.split(' · ');
+            const initials = item.name.split(' ').map(part => part[0]).filter((_, i, parts) => i === 0 || i === parts.length - 1).join('');
+            return <figure className={`${styles.quote} ${index === 0 ? 'tech-frame' : ''}`} data-featured={index < 2} key={item.name}>
+              <div className={styles.quoteBrand}><span>{company}</span><span className={styles.quoteMark} aria-hidden="true">“</span></div>
               <blockquote>“{item.quote}”</blockquote>
-              <figcaption><strong>{item.name}</strong><span>{item.role}</span></figcaption>
-            </figure>
-          ))}
+              <figcaption><span className={styles.quoteAvatar} aria-hidden="true">{initials}</span><div><strong>{item.name}</strong><span>{role}</span></div></figcaption>
+            </figure>;
+          })}
         </div>
         <p className={styles.source}>
           {demoOffer[lang].source}

@@ -55,7 +55,7 @@ export default function FooterBar({ lang }: { lang: Language }) {
 
   return (
     <footer id="site-footer" className="hospitality-footer">
-      <SiteAtmosphere lang={lang} />
+      <SiteAtmosphere />
       <a href={hrefs.home} className="f-logo" aria-label={`Whagons — ${t.market}`}>
         <div className="f-logo-stack">
           <span className="f-logo-icon" aria-hidden="true" />
