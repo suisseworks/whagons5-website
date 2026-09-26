@@ -25,51 +25,51 @@ const INDUSTRY_DETAILS: Record<string, { es: { features: string[]; useCases: str
   },
   retail: {
     es: {
-      features: ['Operaciones unificadas multi-sede', 'Auditoría de visual merchandising', 'Gestión de inventario y activos', 'Flujos de aprobación centralizados', 'KPIs por tienda en tiempo real'],
+      features: ['Rutinas de apertura y cierre por tienda', 'Inspecciones con evidencia fotográfica', 'Pendientes y responsables por sede'],
       useCases: ['Cadenas de tiendas departamentales', 'Franquicias de comida rápida', 'Supermercados y autoservicios', 'Tiendas de conveniencia'],
     },
     en: {
-      features: ['Unified multi-site operations', 'Visual merchandising audits', 'Inventory and asset management', 'Centralized approval workflows', 'Per-store real-time KPIs'],
+      features: ['Store opening and closing routines', 'Inspections with photographic evidence', 'Open work and owners by location'],
       useCases: ['Department store chains', 'Fast food franchises', 'Supermarkets and grocery stores', 'Convenience stores'],
     },
   },
   mantenimiento: {
     es: {
-      features: ['Mantenimiento preventivo automatizado', 'Órdenes de trabajo inteligentes', 'Gestión de activos con depreciación', 'Inspecciones con escaneo QR', 'Analítica predictiva de fallas'],
+      features: ['Rutinas de mantenimiento programadas', 'Órdenes de trabajo con responsable e historial', 'Inspecciones con formularios vinculados por QR'],
       useCases: ['Plantas industriales', 'Flotas de vehículos', 'Edificios comerciales', 'Infraestructura pública'],
     },
     en: {
-      features: ['Automated preventive maintenance', 'Smart work orders', 'Asset management with depreciation', 'QR scanning inspections', 'Predictive failure analytics'],
+      features: ['Scheduled maintenance routines', 'Work orders with ownership and history', 'Inspections with QR-linked forms'],
       useCases: ['Industrial plants', 'Vehicle fleets', 'Commercial buildings', 'Public infrastructure'],
     },
   },
   farmaceutica: {
     es: {
-      features: ['Trazabilidad de cadena de custodia', 'Control de temperatura y condiciones', 'Cumplimiento de normativas FDA/INVIMA', 'Registros de lote auditables', 'Firmas digitales certificadas'],
+      features: ['Registro de controles y observaciones', 'Procedimientos y evidencia de ejecución', 'Seguimiento de hallazgos y acciones correctivas'],
       useCases: ['Laboratorios farmacéuticos', 'Plantas de alimentos', 'Distribuidoras de medicamentos', 'Cadenas de frío'],
     },
     en: {
-      features: ['Chain of custody traceability', 'Temperature and condition control', 'FDA/regulatory compliance', 'Auditable batch records', 'Certified digital signatures'],
+      features: ['Records of checks and observations', 'Procedures and evidence of completion', 'Findings and corrective-action tracking'],
       useCases: ['Pharmaceutical labs', 'Food processing plants', 'Drug distributors', 'Cold chain operations'],
     },
   },
   'salud-educacion': {
     es: {
-      features: ['Protocolos de seguridad institucional', 'Gestión de certificaciones del personal', 'Auditoría de cumplimiento normativo', 'Flujos de incidentes y emergencias', 'Reportes para acreditaciones'],
+      features: ['Inspecciones de instalaciones y áreas comunes', 'Reporte y seguimiento de incidencias', 'Procedimientos disponibles para el equipo'],
       useCases: ['Colegios y universidades', 'Hospitales y clínicas', 'Centros de cuidado infantil', 'Instituciones de formación técnica'],
     },
     en: {
-      features: ['Institutional safety protocols', 'Staff certification management', 'Regulatory compliance auditing', 'Incident and emergency workflows', 'Accreditation reporting'],
+      features: ['Facility and common-area inspections', 'Issue reporting and follow-up', 'Procedures available to the team'],
       useCases: ['Schools and universities', 'Hospitals and clinics', 'Childcare centers', 'Technical training institutions'],
     },
   },
   construccion: {
     es: {
-      features: ['Seguimiento de avance en tiempo real', 'Checklists de seguridad en obra', 'Gestión de subcontratistas', 'Control de calidad de materiales', 'Documentación fotográfica geolocalizada'],
+      features: ['Tareas de obra con responsables y plazos', 'Listas de revisión por área o etapa', 'Documentación fotográfica de avances'],
       useCases: ['Desarrollos inmobiliarios', 'Proyectos de infraestructura', 'Remodelaciones comerciales', 'Obras civiles'],
     },
     en: {
-      features: ['Real-time progress tracking', 'Construction site safety checklists', 'Subcontractor management', 'Material quality control', 'Geolocated photo documentation'],
+      features: ['Site tasks with owners and deadlines', 'Checklists by area or stage', 'Photographic progress records'],
       useCases: ['Real estate developments', 'Infrastructure projects', 'Commercial renovations', 'Civil works'],
     },
   },
@@ -94,8 +94,8 @@ export default function IndustriasPageClient({ lang }: { lang: Language }) {
   const t = translations[lang];
   const otherMarkets = t.industries.filter((industry: any) => industry.slug !== 'hoteleria');
   const eyebrow = lang === 'es' ? 'Industrias' : 'Industries';
-  const featuresLabel = lang === 'es' ? 'Funcionalidades clave' : 'Key features';
-  const useCasesLabel = lang === 'es' ? 'Casos de uso' : 'Use cases';
+  const featuresLabel = lang === 'es' ? 'Flujos que puedes configurar' : 'Workflows you can configure';
+  const useCasesLabel = lang === 'es' ? 'Aplicaciones' : 'Applications';
 
   return (
     <main className="pg">
@@ -105,6 +105,7 @@ export default function IndustriasPageClient({ lang }: { lang: Language }) {
             <p className="pg-eyebrow">{eyebrow}</p>
             <h1>{t.indPageTitle}</h1>
             <p className="pg-lead">{t.indPageDesc}</p>
+            <div className="industry-jump" aria-label={lang === 'es' ? 'Explorar industrias' : 'Explore industries'}>{otherMarkets.map((industry) => <a href={`#${industry.slug}`} key={industry.slug}>{sentenceCase(industry.name)} <span aria-hidden="true">↗</span></a>)}</div>
           </div>
         </div>
       </section>
@@ -145,7 +146,7 @@ export default function IndustriasPageClient({ lang }: { lang: Language }) {
                     </div>
                     <div>
                       <h3 className="pg-small" style={{ marginBottom: 12, fontWeight: 600, color: 'var(--ink)' }}>{useCasesLabel}</h3>
-                      <ul className="pg-checks">
+                      <ul className="industry-applications">
                         {details.useCases.map((u, i) => <li key={i}>{u}</li>)}
                       </ul>
                     </div>

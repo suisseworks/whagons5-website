@@ -31,7 +31,7 @@ export default function ContactSection({ t, language }: ContactSectionProps) {
           <h2>{contactHeading(t, language)}</h2>
           <p className="pg-text" style={{ marginTop: 12 }}>
             {isEs
-              ? 'Escríbenos y te respondemos en menos de 24 horas hábiles.'
+              ? 'Escríbenos y te respondemos en un día hábil.'
               : 'Write to us and we reply within one business day.'}
           </p>
         </div>

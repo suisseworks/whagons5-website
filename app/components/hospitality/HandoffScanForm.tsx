@@ -143,6 +143,9 @@ export default function HandoffScanForm() {
         <input name="consent" type="checkbox" value="yes" required />
         <span>I agree to be contacted about the handoff scan I requested.</span>
       </label>
+      <p className="pg-note">
+        Read our <a href="/en/privacy">privacy policy</a> to learn how we handle your details.
+      </p>
 
       <label className="pg-honeypot" aria-hidden="true">
         Website

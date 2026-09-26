@@ -1,0 +1,92 @@
+/* FIG 01 on the home page: the product capture on a sand mat with numbered
+   markers. The image keeps its own box so the % marker positions stay exact. */
+
+.figure { margin: 0; border: 1px solid var(--line-soft); background: var(--sand); text-align: left; }
+.bar {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--bg);
+}
+.bar i { display: none; }
+.bar::before { content: 'FIG 01'; flex-shrink: 0; font-family: var(--mono); font-size: 0.75rem; font-weight: 500; color: var(--ink-2); }
+.bar > span { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.01em; color: var(--ink-3); }
+.image {
+  position: relative;
+  margin: clamp(14px, 3.4vw, 52px) clamp(14px, 3.4vw, 52px) 0;
+  border: 1px solid rgba(var(--ink-rgb), 0.1);
+  border-bottom: 0;
+  border-radius: 10px 10px 0 0;
+  background: var(--paper);
+  box-shadow: 0 18px 48px rgba(60, 44, 22, 0.14);
+  overflow: hidden;
+}
+.image img { display: block; width: 100%; height: auto; }
+.markers { position: absolute; inset: 0; pointer-events: none; }
+.marker {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+.markers .marker { position: absolute; width: 44px; height: 44px; padding: 6px; transform: translate(-50%, -50%); pointer-events: auto; }
+.marker > span:first-child {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--ink);
+  background: var(--bg);
+  box-shadow: 0 0 0 3px rgba(250, 249, 246, 0.85), 0 4px 10px rgba(22, 21, 19, 0.2);
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+.marker[aria-pressed='true'] > span:first-child { border-color: var(--accent); background: var(--accent); color: #fff; }
+.marker:hover > span:first-child { border-color: var(--accent); }
+.marker:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
+
+.caption {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 16px 32px;
+  align-items: start;
+  padding: 18px 16px 20px;
+  border-top: 1px solid var(--line-soft);
+  background: var(--bg);
+}
+.caption .hint {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.hint span { font-family: var(--sans); font-size: 0.875rem; letter-spacing: 0; text-transform: none; color: var(--ink-3); }
+.explanation { display: flex; align-items: flex-start; gap: 14px; min-height: 56px; }
+.activeNumber { display: grid; place-items: center; flex-shrink: 0; width: 28px; height: 28px; background: var(--accent); color: #fff; font-family: var(--mono); font-size: 0.8125rem; font-weight: 500; }
+.explanation strong { display: block; font-size: 1rem; font-weight: 500; color: var(--ink); }
+.caption .explanation p { margin: 4px 0 0; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.55; }
+.mobileControls { display: none; }
+
+@media (max-width: 700px) {
+  .markers { display: none; }
+  .caption { grid-template-columns: 1fr; padding: 16px; }
+  .mobileControls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .mobileControls .marker { justify-content: flex-start; gap: 8px; min-height: 44px; padding: 8px; border: 1px solid var(--line-soft); }
+  .mobileControls .marker[aria-pressed='true'] { border-color: var(--accent); }
+  .mobileLabel { font-size: 0.875rem; }
+  .explanation { min-height: 96px; gap: 10px; }
+  .bar > span { font-size: 0.6875rem; }
+}

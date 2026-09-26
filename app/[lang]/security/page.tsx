@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     es: {
       title: 'Política de Seguridad',
       description:
-        'Conoce el enfoque de Whagons para seguridad, control de acceso, protección de datos, monitoreo e incident response.',
+        'Conoce el enfoque de Whagons para seguridad, control de acceso, protección de datos, monitoreo y respuesta a incidentes.',
       alternates: {
         canonical: 'https://whagons.com/es/security',
         languages: { en: 'https://whagons.com/en/security', es: 'https://whagons.com/es/security' },

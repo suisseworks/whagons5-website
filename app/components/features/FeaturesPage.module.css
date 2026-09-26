@@ -1,0 +1,35 @@
+/* Features page, on the shared editorial system: numbered capability rows on
+   hairlines, one ink band for the roles, mono system labels. */
+
+.page .chapter { padding-top: 72px; padding-bottom: 72px; }
+.capabilities { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; border-top: 1px solid var(--line-soft); }
+.capability { display: flex; gap: 16px; padding: 28px 0 8px; }
+.number { padding-top: 4px; font-family: var(--mono); font-size: 0.75rem; font-variant-numeric: tabular-nums; color: var(--accent); white-space: nowrap; }
+.capability h3 { font-size: 1.125rem; font-weight: 500; letter-spacing: -0.01em; line-height: 1.3; }
+.capability p { margin-top: 10px; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.7; }
+.roles { background: var(--ink); color: var(--bg); }
+.roles h2,
+.roles h3 { color: var(--bg); }
+.roles :global(.pg-eyebrow) { color: rgba(250, 249, 246, 0.55); }
+.roles :global(.pg-text) { color: rgba(250, 249, 246, 0.7); }
+.roleGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
+.role { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding-top: 24px; border-top: 1px solid rgba(250, 249, 246, 0.16); }
+.role :global(.pg-num) { border: 0; background: transparent; color: #ff8a65; }
+.role p { color: rgba(250, 249, 246, 0.7); font-size: 1rem; line-height: 1.65; }
+.role :global(.pg-tag) { padding: 10px 0 0; border: 0; border-radius: 0; background: transparent; color: rgba(250, 249, 246, 0.55); }
+.boundary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; border-top: 1px solid var(--line-soft); }
+.boundary article { padding: 28px 0 0; }
+.systemLabel { display: block; margin-bottom: 14px; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.02em; text-transform: uppercase; color: var(--ink-3); }
+.boundary p { margin-top: 14px; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.65; }
+
+@media (max-width: 850px) {
+  .capabilities { grid-template-columns: 1fr; gap: 0; }
+  .capability { padding: 22px 0; border-bottom: 1px solid var(--line-soft); }
+  .capability p { margin-top: 7px; }
+  .roleGrid,
+  .boundary { grid-template-columns: 1fr; gap: 24px; }
+  .role { gap: 12px; }
+}
+@media (max-width: 600px) {
+  .page .chapter { padding-top: 50px; padding-bottom: 50px; }
+}

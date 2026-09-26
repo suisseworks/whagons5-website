@@ -27,8 +27,8 @@ export default function HandoffScanPage() {
               <p className="pg-eyebrow">Request the working session</p>
               <h2 style={{ fontSize: '1.5rem' }}>Tell us which handoff you want to examine.</h2>
               <p className="pg-small" style={{ marginTop: 10, marginBottom: 24 }}>
-                Your request is reviewed directly by the U.S. hospitality lead, not sent to the
-                Latin America WhatsApp route or a generic newsletter list.
+                Our U.S. hospitality team will review your request and follow up using your
+                preferred contact method to arrange the session.
               </p>
               <HandoffScanForm />
             </div>

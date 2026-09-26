@@ -17,24 +17,23 @@ interface NavBarProps {
 
 const navContent = {
   en: {
-    platform: 'Platform', hotels: 'Hotels', markets: 'Industries', blog: 'Blog', score: 'Hotel Score',
-    login: 'Log in', loginShort: 'Log in', demo: 'Request demo', menu: 'Toggle menu', primaryNav: 'Primary navigation',
-    language: 'Language', market: 'Hotel operations', skip: 'Skip to content',
+    platform: 'Platform', hotels: 'Hospitality', markets: 'Industries', blog: 'Blog',
+    demo: 'Request demo', menu: 'Toggle menu', primaryNav: 'Primary navigation',
+    language: 'Language', market: 'Hotel operations',
   },
   es: {
-    platform: 'Plataforma', hotels: 'Hoteles', markets: 'Industrias', blog: 'Blog', score: 'Hotel Score',
-    login: 'Iniciar sesión', loginShort: 'Ingresar', demo: 'Solicitar demo', menu: 'Abrir o cerrar menú', primaryNav: 'Navegación principal',
-    language: 'Idioma', market: 'Operaciones hoteleras', skip: 'Saltar al contenido',
+    platform: 'Plataforma', hotels: 'Hospitalidad', markets: 'Industrias', blog: 'Blog',
+    demo: 'Solicitar demo', menu: 'Abrir o cerrar menú', primaryNav: 'Navegación principal',
+    language: 'Idioma', market: 'Operaciones hoteleras',
   },
 } as const;
 
 // Single-letter shortcuts, shown as [P] next to each item like a terminal menu.
-const ITEMS: { key: string; route: CoreRoute; label: 'platform' | 'hotels' | 'markets' | 'blog' | 'score' }[] = [
+const ITEMS: { key: string; route: CoreRoute; label: 'platform' | 'hotels' | 'markets' | 'blog' }[] = [
   { key: 'P', route: 'platform', label: 'platform' },
   { key: 'H', route: 'hotels', label: 'hotels' },
   { key: 'I', route: 'markets', label: 'markets' },
   { key: 'B', route: 'blog', label: 'blog' },
-  { key: 'S', route: 'hotelScore', label: 'score' },
 ];
 
 const LANG_SHORT: Record<Language, string> = { es: 'ES', en: 'EN' };
@@ -204,7 +203,6 @@ export default function NavBar({ lang }: NavBarProps) {
 
   return (
     <header className={`nav${menuOpen ? ' is-open' : ''}`}>
-      <a className="skip-link" href="#main">{t.skip}</a>
       <div className="wrap nav-in">
         <a href={hrefFor('home')} onClick={closeMenu} className="nav-brand" aria-label={`Whagons — ${t.market}`}>
           <span className="logo-icon" aria-hidden="true" />
@@ -229,7 +227,6 @@ export default function NavBar({ lang }: NavBarProps) {
         </nav>
         <div className="nav-cta">
           {languageLinks}
-          <a href="https://app.whagons.com/" className="nav-login">{t.loginShort}</a>
           <a href={hrefFor('demo')} className="btn">{t.demo}</a>
         </div>
         <button
@@ -257,7 +254,6 @@ export default function NavBar({ lang }: NavBarProps) {
           })}
           <div className="nav-panel-foot">
             {languageLinks}
-            <a href="https://app.whagons.com/" className="nav-login">{t.login}</a>
             <a href={hrefFor('demo')} onClick={closeMenu} className="btn">{t.demo}</a>
           </div>
         </div>

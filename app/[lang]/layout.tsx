@@ -167,12 +167,15 @@ export default function LangLayout({ children, params }: LangLayoutProps) {
     >
       <body suppressHydrationWarning>
         <script dangerouslySetInnerHTML={{ __html: REVEAL_BOOT }} />
+        <a className="skip-link" href="#page-content">
+          {lang === 'es' ? 'Saltar al contenido' : 'Skip to content'}
+        </a>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
         <NavBar lang={lang} />
-        <div id="main" tabIndex={-1}>{children}</div>
+        <div id="page-content" tabIndex={-1}>{children}</div>
         <FooterBar lang={lang} />
         <RevealObserver />
       </body>

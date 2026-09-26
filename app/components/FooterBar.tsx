@@ -9,10 +9,10 @@ const footerContent = {
     contact: 'Contact',
     platform: 'Platform',
     features: 'Features',
-    hotels: 'Hotels',
+    hotels: 'Hospitality',
+    hotelScore: 'Hotel operations assessment',
     markets: 'Industries',
     blog: 'Blog',
-    score: 'Hotel Operations Score',
     demo: 'Request demo',
     login: 'Log in',
     email: 'Email',
@@ -29,10 +29,10 @@ const footerContent = {
     contact: 'Contacto',
     platform: 'Plataforma',
     features: 'Funcionalidades',
-    hotels: 'Hoteles',
+    hotels: 'Hospitalidad',
+    hotelScore: 'Diagnóstico hotelero',
     markets: 'Industrias',
     blog: 'Blog',
-    score: 'Hotel Operations Score',
     demo: 'Solicitar demo',
     login: 'Iniciar sesión',
     email: 'Correo',
@@ -79,7 +79,7 @@ export default function FooterBar({ lang }: { lang: Language }) {
           <div className="lbl">{t.resources}</div>
           <ul>
             <li><a href={routeFor(lang, 'blog')}>{t.blog}</a></li>
-            <li><a href={routeFor(lang, 'hotelScore')}>{t.score}</a></li>
+            <li><a href={routeFor(lang, 'hotelScore')}>{t.hotelScore}</a></li>
             <li><a href={routeFor(lang, 'demo')}>{t.demo}</a></li>
             <li><a href="https://app.whagons.com/">{t.login}<External /></a></li>
           </ul>

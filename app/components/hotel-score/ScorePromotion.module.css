@@ -1,0 +1,115 @@
+/* Hotel Operations Score promotion on the home page: a raised band with the
+   pitch on the left and a sample report on paper on the right. */
+
+.promotion {
+  margin-top: 136px;
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--bg-raised);
+  color: var(--ink);
+  font-family: var(--sans);
+  scroll-margin-top: 24px;
+}
+.panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 56px;
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 72px var(--gutter) 64px;
+}
+.copy { min-width: 0; max-width: 560px; }
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  color: var(--accent);
+}
+.eyebrow svg { flex-shrink: 0; }
+.copy h2 { margin: 20px 0 16px; font-size: var(--type-h2); font-weight: 500; letter-spacing: -0.02em; line-height: 1.15; text-wrap: balance; }
+.copy h2 em { display: block; font-style: normal; color: var(--ink-3); }
+.description { max-width: 500px; color: var(--ink-2); font-size: 1.0625rem; line-height: 1.6; }
+.benefits { display: grid; gap: 10px; margin: 24px 0 28px; padding: 0; list-style: none; }
+.benefits li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.975rem; line-height: 1.5; }
+.benefits svg { flex-shrink: 0; margin-top: 2px; color: var(--ok); }
+.primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 46px;
+  padding: 0 20px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+.primary:hover,
+.primary:focus-visible { border-color: var(--accent); background: var(--accent); color: #fff; }
+.delivery { margin-top: 14px; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.02em; color: var(--ink-3); }
+
+.report { min-width: 0; padding: 24px; border: 1px solid var(--line-soft); background: var(--paper); box-shadow: 0 18px 48px rgba(60, 44, 22, 0.1); }
+.reportHeader { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 18px; border-bottom: 1px solid var(--line-soft); }
+.reportHeader > span:first-child { font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.04em; line-height: 1.6; color: var(--ink-3); }
+.reportHeader strong { font-size: 1rem; letter-spacing: 0.04em; color: var(--ink); }
+.example { padding: 2px 8px; border: 1px solid var(--line-soft); font-family: var(--mono); font-size: 0.6875rem; color: var(--ink-3); }
+.scoreOverview { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 20px; align-items: center; padding: 22px 0; }
+.gauge { position: relative; aspect-ratio: 1; }
+.gauge svg { display: block; width: 100%; height: 100%; transform: rotate(-90deg); fill: none; stroke-width: 8; stroke-linecap: butt; }
+.track { stroke: var(--bg-panel); }
+.fill { stroke: var(--ink); }
+.gauge > div { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.gauge strong { font-size: 2.6rem; font-weight: 500; letter-spacing: -0.04em; line-height: 1.1; }
+.gauge span { font-family: var(--mono); font-size: 0.6875rem; color: var(--ink-3); }
+.scoreLabel > span { font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.02em; text-transform: uppercase; color: var(--ink-3); }
+.scoreLabel > strong { display: block; margin: 6px 0; font-size: 1.3rem; font-weight: 500; letter-spacing: -0.015em; line-height: 1.3; }
+.scoreLabel p { color: var(--ink-2); font-size: 0.9rem; line-height: 1.55; }
+.prioritiesHeader { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding-top: 18px; border-top: 1px solid var(--line-soft); }
+.prioritiesHeader h3 { font-size: 1rem; font-weight: 500; }
+.prioritiesHeader > span { font-family: var(--mono); font-size: 0.6875rem; color: var(--ink-3); }
+.priorities { margin: 8px 0 0; padding: 0; list-style: none; }
+.priorities li { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line-soft); }
+.priorities li:last-child { padding-bottom: 4px; border-bottom: 0; }
+.number { flex-shrink: 0; font-family: var(--mono); font-size: 0.8125rem; color: var(--accent); }
+.number::before { content: '['; }
+.number::after { content: ']'; }
+.priorities strong { display: block; font-size: 0.95rem; font-weight: 500; line-height: 1.45; }
+.priorities p { margin: 3px 0 0; color: var(--ink-2); font-size: 0.875rem; line-height: 1.5; }
+.reportNote { margin-top: 14px; font-family: var(--mono); font-size: 0.6875rem; line-height: 1.6; color: var(--ink-3); }
+
+.footer {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 0 var(--gutter) 40px;
+}
+.footer > span { display: flex; align-items: baseline; gap: 14px; padding: 18px 20px 0 0; border-top: 1px solid var(--line-soft); color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; }
+.footer > span + span { padding-left: 20px; border-left: 1px solid var(--line-soft); }
+.footer strong { flex-shrink: 0; font-size: 1.9rem; font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; color: var(--ink); }
+
+@media (max-width: 950px) {
+  .panel { grid-template-columns: 1fr; gap: 36px; padding-top: 56px; }
+  .report { max-width: 580px; }
+}
+@media (max-width: 900px) {
+  .promotion { margin-top: 96px; }
+}
+@media (max-width: 600px) {
+  .panel { padding-bottom: 44px; }
+  .report { padding: 18px 16px; }
+  .scoreOverview { grid-template-columns: 104px minmax(0, 1fr); gap: 14px; }
+  .gauge strong { font-size: 2.1rem; }
+  .primary { width: 100%; justify-content: center; }
+  .footer { grid-template-columns: 1fr; gap: 0; }
+  .footer > span { padding: 14px 0; }
+  .footer > span + span { padding-left: 0; border-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .primary { transition: none; } }

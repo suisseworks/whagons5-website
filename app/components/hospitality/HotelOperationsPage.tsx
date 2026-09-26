@@ -1,256 +1,78 @@
-import HospitalityAnalytics from './HospitalityAnalytics';
-import { shotsFor } from '../../lib/shots';
+'use client';
+
+import { useState } from 'react';
 import Image from 'next/image';
+import HospitalityAnalytics from './HospitalityAnalytics';
+import OperationsHeroDemo from '../home/OperationsHeroDemo';
+import { shotsFor } from '../../lib/shots';
+import s from './HotelOperationsPage.module.css';
 
-type HotelPageLanguage = 'en' | 'es';
-
-const content = {
-  en: {
-    heroEyebrow: 'Built for the work between hotel departments',
-    heroTitle: <>One operating layer. <span className="pg-accent">Every handoff visible.</span></>,
-    heroLead:
-      'Hotels already have systems of record. Whagons focuses on the work that moves between people, departments, shifts, and properties after a request or standard needs action.',
-    primaryCta: 'Request a tailored demo',
-    secondaryCta: 'Explore the platform',
-    shotCaption: 'Task grid · Maintenance · Whagons',
-    shotAlt: 'Whagons task grid showing maintenance work with owners, due times, and status',
-    flow: {
-      signal: 'Guest request',
-      first: 'Front desk',
-      second: 'Operating department',
-      third: 'Manager verification',
-      controls: 'Owner · due time · escalation · evidence',
-    },
-    departmentsEyebrow: 'Department-level clarity',
-    departmentsTitle: 'Give each team the part of the workflow it owns.',
-    departmentsLead:
-      'The goal is not to make every employee a project manager. Each role sees the work, context, standard, and next action required from that role.',
-    departments: [
-      ['01', 'Front desk', 'Capture the request, set the operational handoff in motion, and see whether guest follow-up has happened.'],
-      ['02', 'Housekeeping', 'Own room-readiness exceptions, inspections, corrective actions, and cross-shift carryover.'],
-      ['03', 'Engineering', 'Receive complete requests, work against due times, attach completion evidence, and flag exceptions.'],
-      ['04', 'Operations leaders', 'See late work, escalations, repeated failure points, and where a handoff needs intervention.'],
-      ['05', 'Regional teams', 'Compare an agreed workflow across properties without forcing every hotel into one generic process.'],
-    ],
-    momentsEyebrow: 'High-value handoff moments',
-    momentsTitle: 'Start where ambiguity creates guest or manager risk.',
-    momentsLead:
-      'A strong first workflow crosses a boundary, happens often enough to observe, and matters enough that the hotel will measure whether it improves.',
-    moments: [
-      ['Guest request to resolution', 'The guest-facing team can see who owns the operating response and whether follow-up is still required.'],
-      ['Room exception to release', 'The teams preparing, inspecting, repairing, and releasing the room share one visible chain of work.'],
-      ['Inspection finding to correction', 'A failed standard creates assigned corrective work and manager verification instead of another static report.'],
-      ['Open item to next shift', 'Unfinished work carries forward with context, ownership, and timing rather than an informal message.'],
-    ],
-    operatorTypes: [
-      {
-        eyebrow: 'Independent hotels',
-        title: 'Control one property without enterprise overhead.',
-        text: 'Begin with one workflow, one sponsor, and the people already responsible for doing the work.',
-      },
-      {
-        eyebrow: 'Management companies',
-        title: 'Standardize the control, not every local detail.',
-        text: 'Define what must be owned, timed, proven, and reviewed while allowing property-specific roles and terminology.',
-      },
-      {
-        eyebrow: 'Multi-property operators',
-        title: 'Expand after one workflow is proven.',
-        text: 'Use the results from the first workflow to decide where the same operating pattern belongs next.',
-      },
-    ],
-    finalEyebrow: 'Your hotel operation, made visible',
-    finalTitle: 'Which handoff costs your managers the most follow-up?',
-    finalCta: 'Request a tailored demo',
-    finalNote: 'We will focus on one real workflow, the teams involved, and the operational result you need.',
-  },
+type Language = 'en' | 'es';
+const copy = {
   es: {
-    heroEyebrow: 'Diseñado para el trabajo entre departamentos del hotel',
-    heroTitle: <>Una sola capa operativa. <span className="pg-accent">Cada entrega, visible.</span></>,
-    heroLead:
-      'Los hoteles ya cuentan con sistemas de registro. Whagons se enfoca en el trabajo que se mueve entre personas, departamentos, turnos y propiedades cuando una solicitud o estándar requiere acción.',
-    primaryCta: 'Solicitar un demo personalizado',
-    secondaryCta: 'Explorar la plataforma',
-    shotCaption: 'Tareas · Mantenimiento · Whagons',
-    shotAlt: 'Tabla de tareas de Whagons con trabajo de mantenimiento, responsables, plazos y estado',
-    flow: {
-      signal: 'Solicitud del huésped',
-      first: 'Recepción',
-      second: 'Departamento responsable',
-      third: 'Verificación gerencial',
-      controls: 'Responsable · plazo · escalamiento · evidencia',
-    },
-    departmentsEyebrow: 'Claridad por departamento',
-    departmentsTitle: 'Dale a cada equipo la parte del flujo que le corresponde.',
-    departmentsLead:
-      'El objetivo no es convertir a cada colaborador en gerente de proyectos. Cada rol ve el trabajo, el contexto, el estándar y la próxima acción que le corresponde.',
-    departments: [
-      ['01', 'Recepción', 'Registra la solicitud, pone en marcha la entrega operativa y confirma si se dio seguimiento al huésped.'],
-      ['02', 'Ama de llaves', 'Gestiona excepciones de habitaciones listas, inspecciones, acciones correctivas y pendientes entre turnos.'],
-      ['03', 'Ingeniería', 'Recibe solicitudes completas, trabaja según los plazos, adjunta evidencia de cierre y señala excepciones.'],
-      ['04', 'Líderes de operaciones', 'Ven tareas atrasadas, escalamientos, fallas recurrentes y entregas que requieren intervención.'],
-      ['05', 'Equipos regionales', 'Comparan un flujo acordado entre propiedades sin forzar a cada hotel a seguir un proceso genérico.'],
+    eyebrow: 'WHAGONS PARA HOSPITALIDAD', brand: 'Whagons · Hospitalidad', title: 'Una gran estadía empieza', accent: 'detrás de escena.',
+    lead: 'Conecta recepción, ama de llaves y mantenimiento para que cada solicitud tenga responsable y cada turno sepa qué sigue.',
+    demo: 'Conversemos sobre tu hotel', explore: 'Ver cómo se conecta', photo: 'Hotel con piscina y palmeras al atardecer',
+    ribbon: ['Cada solicitud, con responsable', 'Cada lugar, con historial', 'Cada turno, con contexto'],
+    example: 'EJEMPLO DE OPERACIÓN', room: 'Habitación 204', roomNote: 'Una habitación. Varios equipos. Un mismo contexto.',
+    teamsTitle: 'El huésped ve un hotel. Tu equipo también debería.', teamsLead: 'Explora cómo cada equipo participa en la atención de una misma habitación.',
+    teams: [
+      {id:'front-desk', name:'Recepción', title:'La solicitud no termina al pasar el mensaje.', text:'Registra lo que necesita el huésped y consulta el avance para darle seguimiento sin perseguir respuestas.', time:'09:10', action:'El huésped reporta una fuga en el baño.', status:'Solicitud registrada', next:'Mantenimiento recibe la ubicación y el detalle.'},
+      {id:'engineering', name:'Mantenimiento', title:'Llega al lugar con el contexto completo.', text:'Consulta qué se reparó antes, registra lo que encontraste y deja evidencia del trabajo para la próxima visita.', time:'09:18', action:'Revisión de la fuga y del historial de reparaciones.', status:'En atención', next:'El técnico registra la reparación y avisa al equipo.'},
+      {id:'housekeeping', name:'Ama de llaves', title:'Sabe cuándo puede continuar.', text:'Coordina la limpieza después de una reparación y deja constancia de la revisión de la habitación.', time:'09:40', action:'Revisión y limpieza después de la reparación.', status:'Lista para revisión', next:'Recepción puede consultar el resultado.'},
+      {id:'operations-leaders', name:'Gerencia', title:'Ve dónde hace falta intervenir.', text:'Consulta pendientes, reportes recurrentes y responsables para decidir qué necesita atención.', time:'10:00', action:'Verificación del cierre y seguimiento al huésped.', status:'Caso verificado', next:'El historial queda disponible para futuras incidencias.'},
     ],
-    momentsEyebrow: 'Entregas operativas de alto valor',
-    momentsTitle: 'Empieza donde la ambigüedad crea riesgo para el huésped o la gerencia.',
-    momentsLead:
-      'Un buen primer flujo cruza una frontera entre equipos, ocurre con suficiente frecuencia y produce un resultado que el hotel puede medir y mejorar.',
-    moments: [
-      ['De la solicitud a la resolución', 'El equipo de cara al huésped ve quién responde por la operación y si todavía hace falta darle seguimiento.'],
-      ['De la excepción a la liberación de la habitación', 'Los equipos que preparan, inspeccionan, reparan y liberan la habitación comparten una sola cadena visible de trabajo.'],
-      ['Del hallazgo a la corrección', 'Un estándar incumplido genera trabajo correctivo asignado y verificación gerencial, no otro informe estático.'],
-      ['Del pendiente al siguiente turno', 'El trabajo sin terminar continúa con contexto, responsable y plazo, en vez de depender de un mensaje informal.'],
+    next:'SIGUIENTE PASO', history:'Historial del lugar', historyDetail:'Reporte → reparación → revisión → seguimiento',
+    captureLabel:'DESDE EL LUGAR DONDE PASA', captureTitle:'Reportar debería ser la parte fácil.', captureText:'Una nota de voz, un código en la habitación o una etiqueta en el equipo. Explora distintas formas de iniciar el trabajo con su ubicación y contexto.',
+    productLabel:'EL TRABAJO, A LA VISTA', productTitle:'Menos preguntas sobre el estado. Más claridad para actuar.', productText:'Organiza tareas por equipo, ubicación y prioridad. El siguiente turno puede retomar los pendientes y consultar lo que ya se hizo.', shotAlt:'Tabla de tareas de mantenimiento en Whagons, con ubicaciones, prioridades y responsables', platform:'Explorar la plataforma',
+    rollout:'DE UNA PROPIEDAD A VARIAS', rolloutTitle:'Empieza por un día real de tu hotel.', rolloutText:'Una solicitud frecuente, los equipos involucrados y un resultado que puedas revisar. Desde ahí, amplía el flujo a más áreas o propiedades.',
+    endTitle:'Que el buen servicio se note. Y el trabajo detrás también.', endNote:'Te mostramos cómo organizar un flujo de tu operación.',
+  },
+  en: {
+    eyebrow:'WHAGONS FOR HOSPITALITY', brand:'Whagons · Hospitality', title:'A great stay starts', accent:'behind the scenes.',
+    lead:'Connect front desk, housekeeping and maintenance so every request has an owner and every shift knows what comes next.',
+    demo:'Let’s talk about your hotel', explore:'See how it connects', photo:'Hotel pool and palm trees at sunset',
+    ribbon:['Every request, with an owner', 'Every place, with a history', 'Every shift, with context'],
+    example:'ILLUSTRATIVE WORKFLOW', room:'Room 204', roomNote:'One room. Several teams. Shared context.',
+    teamsTitle:'Guests see one hotel. Your team should, too.', teamsLead:'Explore how each team helps resolve an issue in the same room.',
+    teams:[
+      {id:'front-desk',name:'Front desk',title:'A request goes beyond passing a message.',text:'Record what the guest needs and check progress to follow up without chasing replies.',time:'09:10',action:'The guest reports a bathroom leak.',status:'Request recorded',next:'Maintenance receives the location and details.'},
+      {id:'engineering',name:'Maintenance',title:'Arrive with the full context.',text:'Check previous repairs, record what you find and leave evidence of your work for the next visit.',time:'09:18',action:'Inspecting the leak and reviewing previous repairs.',status:'In progress',next:'The technician records the repair and notifies the team.'},
+      {id:'housekeeping',name:'Housekeeping',title:'Know when it is your turn.',text:'Coordinate cleaning after a repair and record the room inspection.',time:'09:40',action:'Room inspection and cleaning after the repair.',status:'Ready for review',next:'Front desk can check the outcome.'},
+      {id:'operations-leaders',name:'Management',title:'See where you need to step in.',text:'Review open work, recurring reports and ownership to decide what needs attention.',time:'10:00',action:'Verifying completion and guest follow-up.',status:'Case verified',next:'The history stays available for future issues.'},
     ],
-    operatorTypes: [
-      {
-        eyebrow: 'Hoteles independientes',
-        title: 'Controla una propiedad sin complejidad corporativa.',
-        text: 'Empieza con un flujo, un patrocinador y las personas que ya son responsables de ejecutar el trabajo.',
-      },
-      {
-        eyebrow: 'Empresas administradoras',
-        title: 'Estandariza el control, no cada detalle local.',
-        text: 'Define qué debe tener responsable, plazo, evidencia y revisión, conservando los roles y términos propios de cada propiedad.',
-      },
-      {
-        eyebrow: 'Operadores multipropiedad',
-        title: 'Expande después de comprobar un flujo.',
-        text: 'Usa los resultados del primer flujo para decidir dónde aplicar después el mismo patrón operativo.',
-      },
-    ],
-    finalEyebrow: 'Tu operación hotelera, visible',
-    finalTitle: '¿Qué entrega entre equipos exige más seguimiento de tus gerentes?',
-    finalCta: 'Solicitar un demo personalizado',
-    finalNote: 'Nos enfocaremos en un flujo real, los equipos involucrados y el resultado operativo que necesitas.',
+    next:'NEXT STEP',history:'Location history',historyDetail:'Report → repair → inspection → follow-up',
+    captureLabel:'WHERE THE WORK HAPPENS',captureTitle:'Reporting should be the easy part.',captureText:'A voice note, a room code or a tag on a piece of equipment. Explore ways to start work with its location and context.',
+    productLabel:'WORK IN VIEW',productTitle:'Fewer questions about status. More clarity to act.',productText:'Organize tasks by team, location and priority. The next shift can pick up open work and check what has already been done.',shotAlt:'Whagons maintenance task grid with locations, priorities and assignees',platform:'Explore the platform',
+    rollout:'FROM ONE PROPERTY TO SEVERAL',rolloutTitle:'Start with a real day at your hotel.',rolloutText:'A frequent request, the teams involved and an outcome you can review. Then extend the workflow to more areas or properties.',
+    endTitle:'Make great service visible. And the work behind it, too.',endNote:'See how a workflow from your operation could work.',
   },
 } as const;
 
-const departmentIds = ['front-desk', 'housekeeping', 'engineering', 'operations-leaders', 'regional-teams'];
-const momentIds = ['guest-requests', 'room-readiness', 'inspection-correction', 'shift-handoff'];
-const momentTones = ['', 'blue', 'amber', 'green'] as const;
-const operatorTones = ['blue', 'violet', 'green'] as const;
-
-function Arrow() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-      <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-export default function HotelOperationsPage({ lang = 'en' }: { lang?: HotelPageLanguage }) {
-  const t = content[lang];
-  const shots = shotsFor(lang);
-  const demoHref = `/${lang}/demo`;
-  const platformHref = lang === 'en' ? '/en/platform' : '/es/plataforma';
-  const analyticsMarket = lang === 'es' ? 'latam' : 'us';
-
-  return (
-    <>
-      <HospitalityAnalytics page={`${analyticsMarket}_hotel_operations`} market={analyticsMarket} />
-      <main className="pg">
-        <section className="pg-hero">
-          <div className="pg-hero-inner pg-hero-split">
-            <div className="pg-hero-copy">
-              <p className="pg-eyebrow">{t.heroEyebrow}</p>
-              <h1>{t.heroTitle}</h1>
-              <p className="pg-lead">{t.heroLead}</p>
-              <div className="pg-actions">
-                <a className="pg-btn" href={demoHref} data-track="operations_demo_click">
-                  {t.primaryCta}
-                  <Arrow />
-                </a>
-                <a className="pg-btn-secondary" href={platformHref}>
-                  {t.secondaryCta} <span aria-hidden="true">→</span>
-                </a>
-              </div>
-            </div>
-            <figure className="pg-shot">
-              <div className="pg-shot-bar" aria-hidden="true"><i /><i /><i /><span>{t.shotCaption}</span></div>
-              <Image src={shots.grid.src} alt={t.shotAlt} width={shots.grid.width} height={shots.grid.height} priority sizes="(max-width: 1000px) 100vw, 560px" quality={90} />
-            </figure>
-          </div>
-          <div className="pg-hero-inner pg-flow" aria-label={t.flow.controls}>
-            <ol className="pg-flow-chain">
-              <li><span className="pg-tag" data-tone="neutral">{t.flow.signal}</span></li>
-              <li><span className="pg-tag" data-tone="blue">{t.flow.first}</span></li>
-              <li><span className="pg-tag" data-tone="amber">{t.flow.second}</span></li>
-              <li><span className="pg-tag" data-tone="green">{t.flow.third}</span></li>
-            </ol>
-            <p className="pg-small">{t.flow.controls}</p>
-          </div>
-        </section>
-
-        <section className="pg-section">
-          <div className="pg-intro">
-            <p className="pg-eyebrow">{t.departmentsEyebrow}</p>
-            <h2>{t.departmentsTitle}</h2>
-            <p className="pg-text">{t.departmentsLead}</p>
-          </div>
-          <div className="pg-grid-3">
-            {t.departments.map(([number, name, text], index) => (
-              <article className="pg-card" id={departmentIds[index]} key={number}>
-                <span className="pg-num">{number}</span>
-                <h3>{name}</h3>
-                <p>{text}</p>
-              </article>
-            ))}
-            <article className="pg-card pg-card-soft">
-              <span className="pg-icon" aria-hidden="true" />
-              <h3>{t.flow.controls}</h3>
-              <a className="pg-card-link" href={platformHref}>
-                {t.secondaryCta}
-                <Arrow />
-              </a>
-            </article>
-          </div>
-        </section>
-
-        <section className="pg-band">
-          <div className="pg-section">
-            <div className="pg-intro">
-              <p className="pg-eyebrow">{t.momentsEyebrow}</p>
-              <h2>{t.momentsTitle}</h2>
-              <p className="pg-text">{t.momentsLead}</p>
-            </div>
-            <div className="pg-grid-2">
-              {t.moments.map(([title, text], index) => (
-                <article className="pg-card" id={momentIds[index]} key={title} style={{ background: 'var(--bg)' }}>
-                  <span className="pg-tag" data-tone={momentTones[index] || undefined}>0{index + 1}</span>
-                  <h3>{title}</h3>
-                  <p>{text}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="pg-section">
-          <div className="pg-grid-3">
-            {t.operatorTypes.map((operator, index) => (
-              <article className="pg-card pg-card-raised" key={operator.eyebrow}>
-                <span className="pg-tag" data-tone={operatorTones[index]}>{operator.eyebrow}</span>
-                <h3>{operator.title}</h3>
-                <p>{operator.text}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="pg-cta">
-          <div>
-            <p className="pg-eyebrow">{t.finalEyebrow}</p>
-            <h2>{t.finalTitle}</h2>
-            <div className="pg-actions">
-              <a className="pg-btn" href={demoHref} data-track="operations_final_demo_click">
-                {t.finalCta}
-                <Arrow />
-              </a>
-            </div>
-            <small>{t.finalNote}</small>
-          </div>
-        </section>
-      </main>
-    </>
-  );
+export default function HotelOperationsPage({lang='en'}:{lang?:Language}) {
+  const t=copy[lang];
+  const [selected,setSelected]=useState(0);
+  const team=t.teams[selected];
+  const shot=shotsFor(lang).grid;
+  const platform=lang==='es'?'/es/plataforma':'/en/platform';
+  const market=lang==='es'?'latam':'us';
+  return <>
+    <HospitalityAnalytics page={`${market}_hotel_operations`} market={market}/>
+    <main className={s.page}>
+      <section className={s.hero}>
+        <div className={s.heroCopy}><p className={s.eyebrow}>{t.eyebrow}</p><h1>{t.title} <em>{t.accent}</em></h1><p className={s.lead}>{t.lead}</p><div className={s.actions}><a className={s.button} href={`/${lang}/demo`} data-track="operations_demo_click">{t.demo} <span aria-hidden="true">↗</span></a><a className={s.textLink} href="#hotel-workflow">{t.explore} ↓</a></div></div>
+        <figure className={s.heroPhoto}><Image src="/images/industries/hoteleria.jpg" alt={t.photo} fill priority sizes="(max-width: 800px) 100vw, 50vw"/><figcaption><span>{t.brand}</span><strong>{t.roomNote}</strong></figcaption></figure>
+      </section>
+      <div className={s.ribbon}>{t.ribbon.map((item,i)=><span key={item}><b>0{i+1}</b>{item}</span>)}</div>
+      <section className={s.workflow} id="hotel-workflow">
+        <div className={s.sectionIntro} id="guest-requests"><p className={s.eyebrow}>{t.example}</p><h2>{t.teamsTitle}</h2><p>{t.teamsLead}</p></div>
+        <div className={s.teamButtons} aria-label={lang==='es'?'Explorar por equipo':'Explore by team'}>{t.teams.map((item,i)=><button key={item.id} id={item.id} type="button" aria-pressed={selected===i} aria-controls="hotel-team-example" onClick={()=>setSelected(i)}><span>0{i+1}</span>{item.name}<span aria-hidden="true">↗</span></button>)}</div>
+        <div className={s.teamScene} id="hotel-team-example" aria-live="polite" aria-atomic="true"><div className={s.teamCopy}><span className={s.eyebrow}>{team.name}</span><h3>{team.title}</h3><p>{team.text}</p><a className={s.textLink} href={platform}>{t.platform} →</a></div><div className={s.room} id="room-readiness"><div className={s.roomHeader}><span>{t.room}</span><span className={s.status}>{team.status}</span></div><div className={s.event}><span className={s.time}>{team.time}</span><strong>{team.action}</strong></div><div className={s.next}><span>{t.next}</span><p>{team.next}</p></div><div className={s.history} id="inspection-correction"><span aria-hidden="true">↺</span><div><strong>{t.history}</strong><p>{t.historyDetail}</p></div></div></div></div>
+      </section>
+      <section className={s.capture}><div><p className={s.eyebrow}>{t.captureLabel}</p><h2>{t.captureTitle}</h2><p>{t.captureText}</p><div className={s.captureWords} aria-hidden="true"><span>{lang==='es'?'Voz':'Voice'}</span><span>QR</span><span>NFC</span></div></div><OperationsHeroDemo lang={lang}/></section>
+      <section className={s.product} id="shift-handoff"><div className={s.productIntro}><div><p className={s.eyebrow}>{t.productLabel}</p><h2>{t.productTitle}</h2></div><div><p>{t.productText}</p><a className={s.textLink} href={platform}>{t.platform} →</a></div></div><figure className={s.screenshot}><div><span aria-hidden="true">● ● ●</span> Whagons · Hotel Premium</div><Image src={shot.src} width={shot.width} height={shot.height} alt={t.shotAlt} sizes="(max-width: 1480px) 92vw, 1320px"/></figure></section>
+      <section className={s.rollout} id="regional-teams"><p className={s.eyebrow}>{t.rollout}</p><h2>{t.rolloutTitle}</h2><p>{t.rolloutText}</p></section>
+      <section className={s.final}><p className={s.eyebrow}>{t.brand}</p><h2>{t.endTitle}</h2><a className={s.button} href={`/${lang}/demo`} data-track="operations_final_demo_click">{t.demo} ↗</a><p>{t.endNote}</p></section>
+    </main>
+  </>;
 }

@@ -91,9 +91,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   overflow: hidden !important;
 }
 .skip-link {
-  position: absolute;
-  top: 8px;
-  left: 8px;
+  position: fixed;
+  top: 10px;
+  left: 10px;
   z-index: 400;
   padding: 8px 12px;
   background: var(--ink);
@@ -269,12 +269,9 @@ html[data-nav='hidden'] .nav:not(.is-open) { transform: translateY(-100%); }
   color: var(--ink);
   text-decoration: none;
 }
-/* The links line up with the page grid: column 4 on laptops, column 5 (where
-   titles start) on wide screens. Narrower desktops centre them instead. */
-@media (min-width: 1400px) {
-  .nav-brand { width: calc(25% - 24px); }
-}
-@media (min-width: 1640px) {
+/* The links line up with column 5 of the page grid, where titles start.
+   Narrower desktops centre them instead. */
+@media (min-width: 1240px) {
   .nav-brand { width: calc(100% / 3 - 24px); }
 }
 .logo-icon {
@@ -288,7 +285,7 @@ html[data-nav='hidden'] .nav:not(.is-open) { transform: translateY(-100%); }
 }
 .nav-word { font-size: 1.05rem; font-weight: 600; letter-spacing: -0.01em; }
 .nav-links { display: flex; flex: 1 1 auto; align-items: center; gap: clamp(18px, 1.9vw, 32px); }
-@media (max-width: 1399px) {
+@media (max-width: 1239px) {
   .nav-links { justify-content: center; }
 }
 .nav-links a,
@@ -310,16 +307,6 @@ html[data-nav='hidden'] .nav:not(.is-open) { transform: translateY(-100%); }
 .nav-links a[aria-current='page'] .k,
 .nav-links a.is-hit .k { color: var(--accent); }
 .nav-cta { display: flex; flex: 0 0 auto; align-items: center; gap: 18px; margin-left: auto; }
-.nav-login {
-  font-family: var(--mono);
-  font-size: 0.8125rem;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-  text-decoration: none;
-  white-space: nowrap;
-}
-.nav-login:hover { color: var(--ink); }
 .nav-cta .btn { min-height: 40px; padding: 0 16px; font-size: 0.95rem; }
 .lang-switch {
   display: inline-flex;
@@ -421,4 +408,4 @@ html[data-nav='hidden'] .nav:not(.is-open) { transform: translateY(-100%); }
   }
 }
 
-#main:focus { outline: none; }
+#page-content:focus { outline: none; }

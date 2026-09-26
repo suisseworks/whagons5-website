@@ -521,3 +521,27 @@ html[data-nav='shown'] .pg-toc { top: calc(var(--nav-h) + 24px); }
 .pg-radios label { display: inline-flex; align-items: center; gap: 8px; color: var(--ink-2); font-size: 0.92rem; }
 .pg-radios input { accent-color: var(--ink); }
 .pg-honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+
+/* Industry navigation and examples. */
+.industry-jump { display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 6px 22px; margin-top: 32px; }
+.industry-jump a {
+  padding: 4px 0;
+  border-bottom: 1px solid var(--line-soft);
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  text-decoration: none;
+}
+.industry-jump a:hover { border-color: var(--ink); color: var(--ink); }
+.industry-applications { display: flex; flex-wrap: wrap; gap: 6px; }
+.industry-applications li {
+  padding: 2px 8px;
+  border: 1px solid var(--line-soft);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+.pg-optional { color: var(--ink-3); font-weight: 400; text-transform: none; letter-spacing: 0; }
