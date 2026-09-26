@@ -1,0 +1,141 @@
+---
+title: Getting the most out of the Cleaning powerup
+standfirst: Every room with its status, every cleaning as a task, and the shift's progress on one screen. How to set up the housekeeping board in Whagons.
+category: powerups
+powerup: Cleaning
+author: Whagons Team
+date: 2026-09-25
+translationKey: cleaning
+cover: /media/blog/en/cleaning-cover.jpg
+coverVideo: /media/blog/en/cleaning-cover.mp4
+coverAlt: Room cards moving from dirty to clean while daily progress climbs
+ogImage: /media/blog/en/cleaning-og.jpg
+---
+
+Housekeeping answers one question all day long: which room is ready? The answer usually travels by radio, through a WhatsApp group, or on a sheet someone updates when they get a minute. The Cleaning powerup puts that answer on one screen. Every room shows its cleaning status, who cleaned it and how long ago, and the status changes on its own as the team works through its tasks. This guide covers how to set it up, how to run a shift with it, and what to check before you open it to the whole team.
+
+## Try this first
+
+**Three things for your first shift with Cleaning**
+
+1. Create your cleaning statuses and flag the ones that count as ready as clean.
+2. Map each status of the cleaning task to a room status.
+3. Open Cleaning Management at the start of the shift and look at Daily progress.
+
+## 1. Set up the basics
+
+### Check that rooms exist as spots
+
+**What to do.** Make sure every room exists as a spot in Whagons and has a type, like Double room or Suite.
+
+**Why it matters.** The board shows spots of the types you pick under Applicable Spot Types, and if you pick none, it shows all of them. Spots that group others, like a whole floor, don't show up as cards. A good type keeps the lobby and the laundry out of the room list.
+
+**How.** The setup lives in Settings, under Powerups, in Cleaning. On the configuration tab, pick your room types under Applicable Spot Types.
+
+### Create your cleaning statuses
+
+**What to do.** On the Estados tab, use Agregar Estado for each status your team uses, for example Dirty, Cleaning, Clean and Inspected. Tick Estado Limpio on the ones that count as ready. These setup labels show in Spanish even in the English app for now.
+
+**Why it matters.** Whagons ships with no cleaning statuses. You define them, with the names your team already uses on the radio. The clean flag decides which rooms count toward Daily progress and when the last cleaning gets recorded.
+
+**How.** Fewer statuses work better. If nobody inspects rooms, don't create Inspected.
+
+### Connect the task to the room
+
+**What to do.** In the configuration, pick your team's cleaning task under Categories & Templates and fill in the Task Status to Cleaning Status Mapping.
+
+**Why it matters.** With the mapping, the room changes status every time its task does. When the task finishes in a status that maps to a clean one, Whagons records the time and the person for the last cleaning. The team updates one thing, their task.
+
+**How.** A simple mapping to start with:
+
+```text
+to do        →  Dirty
+in progress  →  Cleaning
+completed    →  Clean
+```
+
+<Video name="cleaning-flow" fig="A" caption="The task changes status and the room follows it, through the mapping." label="Animation: a checkout cleaning task for room 204 moves from to do to in progress and then to completed. At the same time the room card goes from Dirty to Cleaning to Clean and records the last cleaning with the time and the person." />
+
+## 2. During the shift
+
+### Start with Daily progress
+
+**What to do.** Open Cleaning Management, on the Dashboard tab, when the shift starts.
+
+**Why it matters.** At the top you get Daily progress and one card per status with its room count. Progress is the share of rooms in a clean status right now. It rises as the team finishes and drops if a room turns dirty again. It's a snapshot of the moment, not a counter that adds up over the day.
+
+**How.** Shape the view with the status tabs, Group by and Sort by. Sorting by last cleaned puts the rooms that have gone longest without cleaning first, along with the ones never cleaned.
+
+<Video name="cleaning-board" fig="B" caption="Over the shift, rooms turn clean and progress climbs." label="Animation: the Cleaning Management board with twelve rooms. One by one they move from Dirty to Cleaning to Clean, the count for each status changes and Daily progress climbs from 25 to 83 percent." />
+
+### Create cleanings for several rooms at once
+
+**What to do.** Use Create Cleaning. Pick the rooms under Spots, then the Cleaning Task, the priority, who does it under Assign to, and the dates.
+
+**Why it matters.** Whagons creates one task per room, fully filled in. Each task stands on its own, so two people can split a floor without stepping on each other.
+
+**How.** Use it at the start of the day for departures, with every checkout room in one pass.
+
+<Video name="cleaning-create" fig="C" caption="Three rooms picked in Create Cleaning become three tasks." label="Animation: in the Create Cleaning dialog three rooms are picked, with the Checkout cleaning task, high priority and one assignee. On create, each of the three room cards shows a new task and a notice confirms three tasks were created." />
+
+### Change several statuses at once
+
+**What to do.** Hold Ctrl, or Cmd on a Mac, click several cards and use Change status.
+
+**Why it matters.** It's for bulk changes, like marking a floor dirty after an event. A room with an active cleaning task won't take manual changes, and if even one room in the group has one, the change applies to none of them.
+
+**How.** Keep manual changes for exceptions. Normally the status should change with the task.
+
+### Schedule what repeats
+
+**What to do.** Open a room and use the Programar button, which shows in Spanish for now, to set up a cleaning that repeats, like a suite that gets prepared every day.
+
+**Why it matters.** It creates a series for that room and its first task right away.
+
+**How.** To reset many rooms at once, for example setting everything to Dirty every morning at 6:00, use the scheduled resets on the Schedules tab of the Cleaning settings. They run daily, weekly or monthly, at the time and time zone you choose, and skip rooms with an active task.
+
+## 3. The floor team
+
+**What to do.** The team works cleaning tasks like any other Whagons task.
+
+**Why it matters.** The Cleaning board isn't in the mobile app yet, but the tasks are. When someone changes their task status from a phone, the room updates on the board.
+
+**How.** Keep the board open on a computer in the housekeeping office or at the supervisor's desk, and have the floor team work from their tasks.
+
+## 4. Permissions
+
+The Cleaning setup needs the cleaning configuration permission, and creating statuses needs the status configuration permission. Admins have both.
+
+Changing a room's status by hand requires being an admin or having the Cleaning access permission. The Leader and Member roles don't have it by default, so grant it in Roles & permissions to the people who supervise the shift.
+
+The Assigned filter shows the rooms assigned to a person in their profile, not the tasks assigned to them.
+
+If Cleaning doesn't show up in your organization, ask your admin or your Whagons contact to turn it on.
+
+## Your Cleaning checklist
+
+Go through it with housekeeping before the first shift.
+
+<Video name="cleaning-checklist" fig="D" caption="The checklist at a glance." label="Animation: a card with the Cleaning checklist in four groups. The boxes tick one by one." />
+
+**The basics**
+
+- [ ] Rooms are spots of an applicable type
+- [ ] There is a template for the cleaning task
+
+**Statuses**
+
+- [ ] Dirty, Cleaning and Clean exist, plus Inspected if you use it
+- [ ] Ready statuses have the clean flag
+
+**The link**
+
+- [ ] Every task status maps to a cleaning status
+- [ ] The task's final status leads to a clean status
+
+**The shift**
+
+- [ ] Someone checks Daily progress at the start
+- [ ] Whoever changes statuses by hand has the permission
+
+When the team stops asking on the radio which room is ready, the board is doing its job.

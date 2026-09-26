@@ -1,0 +1,141 @@
+---
+title: Cómo sacarle el máximo provecho al powerup de Limpieza
+standfirst: Cada habitación con su estado, cada limpieza como una tarea y el avance del turno en una sola pantalla. Así se prepara el tablero de ama de llaves en Whagons.
+category: powerups
+powerup: Limpieza
+author: Equipo Whagons
+date: 2026-09-25
+translationKey: cleaning
+cover: /media/blog/es/cleaning-cover.jpg
+coverVideo: /media/blog/es/cleaning-cover.mp4
+coverAlt: Tarjetas de habitaciones que pasan de sucia a limpia mientras sube el progreso del día
+ogImage: /media/blog/es/cleaning-og.jpg
+---
+
+En ama de llaves hay una pregunta que se repite todo el día: qué habitación está lista. La respuesta suele viajar por radio, por un grupo de WhatsApp o por una hoja que alguien actualiza cuando puede. El powerup de Limpieza pone esa respuesta en una pantalla. Cada habitación muestra su estado de limpieza, quién la limpió y hace cuánto, y el estado cambia solo a medida que el equipo avanza sus tareas. Esta guía cubre cómo prepararlo, cómo usarlo durante el turno y qué revisar antes de abrirlo a todo el equipo.
+
+## Prueba esto primero
+
+**Tres cosas para tu primer turno con Limpieza**
+
+1. Crea tus estados de limpieza y marca como limpios los que cuentan como listos.
+2. Conecta cada estado de la tarea de limpieza con un estado de la habitación.
+3. Abre Gestión de Limpieza al empezar el turno y mira el Progreso del día.
+
+## 1. Prepara la base
+
+### Revisa que las habitaciones existan como spots
+
+**Qué hacer.** Confirma que cada habitación exista como spot en Whagons y que tenga un tipo, como Habitación doble o Suite.
+
+**Por qué importa.** El tablero muestra los spots de los tipos que elijas en Tipos de Spot Aplicables, y si no eliges ninguno, muestra todos. Los spots que agrupan a otros, como un piso completo, no aparecen como tarjetas. Un tipo bien puesto evita que el lobby o la lavandería se mezclen con las habitaciones.
+
+**Cómo.** La configuración está en Ajustes, dentro de Powerups, en Limpieza. En la pestaña de configuración, elige los tipos de habitación en Tipos de Spot Aplicables.
+
+### Crea tus estados de limpieza
+
+**Qué hacer.** En la pestaña Estados, usa Agregar Estado para cada estado que usa tu equipo, por ejemplo Sucia, En limpieza, Limpia e Inspeccionada. Marca Estado Limpio en los que cuentan como listos.
+
+**Por qué importa.** Whagons no trae estados de limpieza predefinidos. Los defines tú, con los mismos nombres que tu equipo ya usa por radio. La marca de Estado Limpio decide qué habitaciones suman al Progreso del día y cuándo se registra la última limpieza.
+
+**Cómo.** Menos estados funcionan mejor. Si nadie inspecciona las habitaciones, no crees Inspeccionada.
+
+### Conecta la tarea con la habitación
+
+**Qué hacer.** En la configuración, elige la tarea de limpieza de tu equipo en Categorías y plantillas y completa el Mapeo de Estado de Ticket a Estado de Limpieza.
+
+**Por qué importa.** Con el mapeo, la habitación cambia de estado cada vez que su tarea cambia de estado. Cuando la tarea termina en un estado que lleva a un estado limpio, Whagons anota la hora y la persona de la última limpieza. El equipo actualiza una sola cosa, su tarea.
+
+**Cómo.** Un mapeo simple para empezar:
+
+```text
+por hacer    →  Sucia
+en progreso  →  En limpieza
+completado   →  Limpia
+```
+
+<Video name="cleaning-flow" fig="A" caption="La tarea cambia de estado y la habitación la sigue, según el mapeo." label="Animación: una tarea de limpieza de salida para la habitación 204 pasa de por hacer a en progreso y luego a completado. En paralelo, la tarjeta de la habitación pasa de Sucia a En limpieza y a Limpia, y registra la última limpieza con la hora y la persona." />
+
+## 2. Durante el turno
+
+### Empieza por el Progreso del día
+
+**Qué hacer.** Abre Gestión de Limpieza, en la pestaña Panel, al empezar el turno.
+
+**Por qué importa.** Arriba está el Progreso del día y una tarjeta por cada estado con su cantidad de habitaciones. El progreso es el porcentaje de habitaciones que están en un estado limpio en ese momento. Sube cuando el equipo termina y baja si una habitación vuelve a quedar sucia. Es una foto del momento, no un contador que se acumula durante el día.
+
+**Cómo.** Arma la vista con las pestañas de estado, Agrupar por y Ordenar por. Ordenar por Última limpieza pone primero las habitaciones que llevan más tiempo sin limpiarse y las que nunca se limpiaron.
+
+<Video name="cleaning-board" fig="B" caption="Durante el turno, las habitaciones pasan a limpia y el progreso sube." label="Animación: el tablero de Gestión de Limpieza con doce habitaciones. Una por una pasan de Sucia a En limpieza y a Limpia, los contadores de cada estado cambian y el Progreso del día sube de 25 a 83 por ciento." />
+
+### Crea limpiezas para varias habitaciones a la vez
+
+**Qué hacer.** Usa Crear limpieza. Elige las habitaciones en Ubicaciones, la Tarea de Limpieza, la prioridad, a quién asignarla en Asignar a y las fechas.
+
+**Por qué importa.** Whagons crea una tarea por habitación, con todo completo. Cada tarea es independiente, así que dos personas pueden repartirse un piso sin pisarse.
+
+**Cómo.** Úsalo al empezar el día para las salidas, con todas las habitaciones de check-out en una sola pasada.
+
+<Video name="cleaning-create" fig="C" caption="Tres habitaciones elegidas en Crear limpieza son tres tareas." label="Animación: en el diálogo Crear limpieza se eligen tres habitaciones, la tarea Limpieza de salida, prioridad alta y una responsable. Al crear, cada una de las tres tarjetas de habitación muestra una tarea nueva y aparece el aviso de tres tareas creadas." />
+
+### Cambia varios estados de una vez
+
+**Qué hacer.** Mantén presionado Ctrl, o Cmd en Mac, haz clic en varias tarjetas y usa Cambiar estado.
+
+**Por qué importa.** Sirve para cambios en bloque, como marcar un piso como sucio después de un evento. Una habitación con una tarea de limpieza activa no acepta cambios manuales. Si una sola del grupo la tiene, el cambio no se aplica a ninguna.
+
+**Cómo.** Deja el cambio manual para las excepciones. Lo normal es que el estado cambie con la tarea.
+
+### Programa lo que se repite
+
+**Qué hacer.** Abre una habitación y usa Programar para crear una limpieza que se repite, como la de una suite que se prepara todos los días.
+
+**Por qué importa.** Programar crea una serie para esa habitación y su primera tarea de inmediato.
+
+**Cómo.** Para reiniciar muchas habitaciones a la vez, por ejemplo pasar todo a Sucia cada mañana a las 06:00, usa los restablecimientos programados de la pestaña Schedules en la configuración de Limpieza. Corren a diario, cada semana o cada mes, a la hora y en la zona horaria que elijas, y saltan las habitaciones que tienen una tarea activa.
+
+## 3. El equipo de piso
+
+**Qué hacer.** El equipo trabaja las tareas de limpieza como cualquier otra tarea de Whagons.
+
+**Por qué importa.** El tablero de Limpieza todavía no está en la app móvil, pero las tareas sí. Cuando alguien cambia el estado de su tarea desde el teléfono, la habitación se actualiza en el tablero.
+
+**Cómo.** Deja el tablero abierto en la computadora de la oficina de ama de llaves o de la supervisión, y que el equipo de piso trabaje desde sus tareas.
+
+## 4. Permisos
+
+La configuración de Limpieza necesita el permiso de configuración de limpieza, y crear estados necesita el de configuración de estados. Los administradores tienen los dos.
+
+Cambiar el estado de una habitación a mano necesita ser administrador o tener el permiso de acceso a Limpieza. Los roles Líder y Miembro no lo tienen por defecto, así que dáselo en Roles y permisos a quienes supervisan el turno.
+
+El filtro Asignado muestra las habitaciones asignadas a la persona en su perfil, no las tareas que tiene asignadas.
+
+Si Limpieza no aparece en tu organización, pídele a tu administrador o a tu contacto en Whagons que lo active.
+
+## Tu lista para Limpieza
+
+Revísala con ama de llaves antes del primer turno.
+
+<Video name="cleaning-checklist" fig="D" caption="La lista, de un vistazo." label="Animación: una tarjeta con la lista de verificación de Limpieza en cuatro grupos. Las casillas se marcan una por una." />
+
+**La base**
+
+- [ ] Las habitaciones son spots de un tipo aplicable
+- [ ] Existe una plantilla para la tarea de limpieza
+
+**Los estados**
+
+- [ ] Están Sucia, En limpieza y Limpia, más Inspeccionada si se usa
+- [ ] Los estados listos tienen marcado Estado Limpio
+
+**La conexión**
+
+- [ ] Cada estado de la tarea tiene su estado de limpieza
+- [ ] El estado final de la tarea lleva a un estado limpio
+
+**El turno**
+
+- [ ] Alguien revisa el Progreso del día al abrir
+- [ ] Quien cambia estados a mano tiene el permiso
+
+Cuando el equipo deje de preguntar por radio qué habitación está lista, el tablero está haciendo su trabajo.

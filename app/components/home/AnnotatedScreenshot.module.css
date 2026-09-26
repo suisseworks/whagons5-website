@@ -1,33 +1,92 @@
-.figure { max-width: 1180px; margin: 56px auto 0; border: 1px solid var(--line, #e2ddd3); border-radius: 16px; background: #fff; box-shadow: var(--shadow); overflow: hidden; text-align: left; }
-.bar { display: flex; align-items: center; gap: 6px; padding: 10px 14px; border-bottom: 1px solid #e2ddd3; background: #faf8f4; }
-.bar i { width: 9px; height: 9px; border-radius: 50%; background: #e2ddd3; }
-.bar > span { margin-left: 10px; color: #726c63; font-size: .72rem; font-weight: 500; }
-.image { position: relative; }
+/* FIG 01 on the home page: the product capture on a sand mat with numbered
+   markers. The image keeps its own box so the % marker positions stay exact. */
+
+.figure { margin: 0; border: 1px solid var(--line-soft); background: var(--sand); text-align: left; }
+.bar {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--bg);
+}
+.bar i { display: none; }
+.bar::before { content: 'FIG 01'; flex-shrink: 0; font-family: var(--mono); font-size: 0.75rem; font-weight: 500; color: var(--ink-2); }
+.bar > span { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.01em; color: var(--ink-3); }
+.image {
+  position: relative;
+  margin: clamp(14px, 3.4vw, 52px) clamp(14px, 3.4vw, 52px) 0;
+  border: 1px solid rgba(var(--ink-rgb), 0.1);
+  border-bottom: 0;
+  border-radius: 10px 10px 0 0;
+  background: var(--paper);
+  box-shadow: 0 18px 48px rgba(60, 44, 22, 0.14);
+  overflow: hidden;
+}
 .image img { display: block; width: 100%; height: auto; }
 .markers { position: absolute; inset: 0; pointer-events: none; }
-.marker { appearance: none; display: inline-flex; align-items: center; justify-content: center; border: 0; cursor: pointer; font: inherit; font-weight: 700; color: #303b29; background: transparent; }
-.markers .marker { position: absolute; transform: translate(-50%, -50%); width: 44px; height: 44px; padding: 6px; pointer-events: auto; border-radius: 50%; }
-.marker > span:first-child { display: grid; place-items: center; flex-shrink: 0; width: 30px; height: 30px; border: 2px solid #fff; border-radius: 50%; background: #f5f1e9; box-shadow: 0 0 0 1px #65725b, 0 2px 6px #24301d26; font-size: .8rem; }
-.marker[aria-pressed='true'] > span:first-child { background: #bf3d1e; color: #fff; box-shadow: 0 0 0 2px #bf3d1e, 0 2px 8px #bf3d1e33; }
-.marker:hover > span:first-child { box-shadow: 0 0 0 3px #bf3d1e80; }
-.marker:focus-visible { outline: 3px solid #244d6b; outline-offset: 3px; }
-.caption { padding: 22px 28px 26px; border-top: 1px solid #e5ded2; background: #faf8f4; }
-.caption .hint { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 14px; margin: 0 0 18px; color: #333c2b; font-size: .82rem; font-weight: 600; }
-.hint span { color: #716b60; font-size: .76rem; font-weight: 400; }
-.explanation { display: flex; align-items: flex-start; gap: 14px; min-height: 64px; }
-.activeNumber { display: grid; place-items: center; flex-shrink: 0; width: 34px; height: 34px; border-radius: 10px; color: #a63217; background: #f7e7dc; font-size: .85rem; font-weight: 700; }
-.explanation strong { display: block; color: #293223; font-size: 1rem; }
-.caption .explanation p { margin: 6px 0 0; color: #625f57; font-size: .9rem; line-height: 1.6; }
+.marker {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+.markers .marker { position: absolute; width: 44px; height: 44px; padding: 6px; transform: translate(-50%, -50%); pointer-events: auto; }
+.marker > span:first-child {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--ink);
+  background: var(--bg);
+  box-shadow: 0 0 0 3px rgba(250, 249, 246, 0.85), 0 4px 10px rgba(22, 21, 19, 0.2);
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+.marker[aria-pressed='true'] > span:first-child { border-color: var(--accent); background: var(--accent); color: #fff; }
+.marker:hover > span:first-child { border-color: var(--accent); }
+.marker:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
+
+.caption {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 16px 32px;
+  align-items: start;
+  padding: 18px 16px 20px;
+  border-top: 1px solid var(--line-soft);
+  background: var(--bg);
+}
+.caption .hint {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.hint span { font-family: var(--sans); font-size: 0.875rem; letter-spacing: 0; text-transform: none; color: var(--ink-3); }
+.explanation { display: flex; align-items: flex-start; gap: 14px; min-height: 56px; }
+.activeNumber { display: grid; place-items: center; flex-shrink: 0; width: 28px; height: 28px; background: var(--accent); color: #fff; font-family: var(--mono); font-size: 0.8125rem; font-weight: 500; }
+.explanation strong { display: block; font-size: 1rem; font-weight: 500; color: var(--ink); }
+.caption .explanation p { margin: 4px 0 0; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.55; }
 .mobileControls { display: none; }
+
 @media (max-width: 700px) {
-  .figure { margin-top: 36px; border-radius: 12px; }
   .markers { display: none; }
-  .caption { padding: 18px 16px 20px; }
-  .caption .hint { margin-bottom: 14px; }
-  .mobileControls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-bottom: 20px; }
-  .mobileControls .marker { justify-content: flex-start; gap: 8px; padding: 8px; min-height: 44px; border: 1px solid #ddd6cb; border-radius: 9px; }
-  .mobileControls .marker[aria-pressed='true'] { border-color: #bf3d1e; background: #fff0e7; }
-  .mobileLabel { font-size: .76rem; }
-  .explanation { min-height: 105px; gap: 10px; }
-  .bar > span { font-size: .65rem; }
+  .caption { grid-template-columns: 1fr; padding: 16px; }
+  .mobileControls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .mobileControls .marker { justify-content: flex-start; gap: 8px; min-height: 44px; padding: 8px; border: 1px solid var(--line-soft); }
+  .mobileControls .marker[aria-pressed='true'] { border-color: var(--accent); }
+  .mobileLabel { font-size: 0.875rem; }
+  .explanation { min-height: 96px; gap: 10px; }
+  .bar > span { font-size: 0.6875rem; }
 }

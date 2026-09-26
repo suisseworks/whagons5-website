@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Instrument_Sans } from 'next/font/google';
+import { Instrument_Sans, JetBrains_Mono } from 'next/font/google';
 import {
   ALTERNATE_LANGUAGES,
   HTML_LANG,
@@ -10,15 +10,27 @@ import {
 } from '../lib/locales';
 import NavBar from '../components/NavBar';
 import FooterBar from '../components/FooterBar';
+import RevealObserver from '../components/RevealObserver';
 import '../globals.css';
 import '../styles/pages.css';
 
 const instrumentSans = Instrument_Sans({
-  weight: ['400', '500', '600'],
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
 });
+
+const jetBrainsMono = JetBrains_Mono({
+  weight: ['400', '500'],
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+});
+
+// Runs before first paint so [data-reveal] content can start hidden without a
+// flash. If the reveal observer has not started within three seconds (script
+// blocked or failed), everything is shown instead.
+const REVEAL_BOOT = `(function(d){d.classList.add('js');setTimeout(function(){if(!window.__whReveal)d.classList.add('no-reveal')},3000)})(document.documentElement);`;
 
 interface LangLayoutProps {
   children: React.ReactNode;
@@ -151,9 +163,10 @@ export default function LangLayout({ children, params }: LangLayoutProps) {
     <html
       lang={documentLang}
       suppressHydrationWarning
-      className={instrumentSans.variable}
+      className={`${instrumentSans.variable} ${jetBrainsMono.variable}`}
     >
       <body suppressHydrationWarning>
+        <script dangerouslySetInnerHTML={{ __html: REVEAL_BOOT }} />
         <a className="skip-link" href="#page-content">
           {lang === 'es' ? 'Saltar al contenido' : 'Skip to content'}
         </a>
@@ -164,6 +177,7 @@ export default function LangLayout({ children, params }: LangLayoutProps) {
         <NavBar lang={lang} />
         <div id="page-content" tabIndex={-1}>{children}</div>
         <FooterBar lang={lang} />
+        <RevealObserver />
       </body>
     </html>
   );
