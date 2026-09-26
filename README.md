@@ -10,9 +10,52 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Open `http://localhost:3000`. English and Spanish pages live under `/en` and `/es`. Retired language URLs permanently redirect to equivalent English paths; their translations and lead-routing configuration have been removed. The site has no blog or editorial article routes.
+Open `http://localhost:3000`. English and Spanish pages live under `/en` and `/es`. Retired language URLs permanently redirect to equivalent English paths; their translations and lead-routing configuration have been removed.
 
 The home and demo pages share the 20-minute operational diagnostic offer in `app/lib/demo-offer.ts`. Requests continue through the existing demo delivery flow. Testimonials link to their historical 2022 source with a notice that its commercial terms are not the current offer.
+
+## Blog
+
+Posts live in `content/blog/<lang>/<slug>.mdx` and render at `/<lang>/blog/<slug>`. The index is `/<lang>/blog`, with an RSS feed at `/<lang>/blog/rss.xml`. Pages are generated at build time; a new file needs a rebuild.
+
+Frontmatter:
+
+```yaml
+title: Getting the most out of Work Plans
+standfirst: One or two sentences under the title, also used as the meta description.
+category: powerups        # powerups | guides | product
+powerup: Work Plans       # optional, shown in the meta row
+author: Whagons Team
+date: 2026-09-25          # YYYY-MM-DD
+translationKey: work-plans  # same value in the es and en files links the two
+featured: true            # optional, pins the post to the top of the index
+cover: /media/blog/en/work-plans-cover.jpg        # 4:3
+coverVideo: /media/blog/en/work-plans-cover.mp4   # optional loop, cover is its poster
+coverAlt: Short description of the cover
+ogImage: /media/blog/en/work-plans-og.jpg         # 1200x630
+draft: true               # optional, hidden unless BLOG_DRAFTS=1
+```
+
+Articles follow one structure: an intro paragraph, `## Try this first`, numbered `##` sections, `###` subsections with **What to do.**, **Why it matters.** and **How.**, and a closing checklist. Every `##` becomes a section in the contents rail.
+
+In the body you can use:
+
+- `<Video name="work-plans-schedule" fig="A" caption="..." label="..." />` for an animation from `public/media/blog/<lang>/`. `label` is the spoken description for screen readers.
+- `<Figure src="/images/..." alt="..." fig="B" caption="..." />` for a still image.
+- Fenced blocks with `message`, `label`, `naming`, `checklist` or `text` as the language. They render as a template with a copy button.
+- `- [ ] item` task lists, which render as a checklist readers can tick.
+
+## Blog animations
+
+The animations in the articles are rendered from code in `scripts/blog-media/`. Each scene is a small HTML/JS module drawn frame by frame in headless Chrome and encoded with ffmpeg, once per language.
+
+```bash
+pnpm blog:media                       # every scene, es + en
+pnpm blog:media work-plans --lang es  # scenes whose id contains "work-plans"
+pnpm blog:media cleaning-board --frames 0,4000   # review stills in .media-preview/
+```
+
+It needs ffmpeg and Chrome or Chromium; set `CHROME_PATH` if Chrome is not found. Output goes to `public/media/blog/<lang>/<group>-<scene>.mp4` with a `.jpg` poster. See `scripts/blog-media/README.md` for the scene format.
 
 ## Lead delivery
 

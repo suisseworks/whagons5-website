@@ -45,6 +45,7 @@ export type CoreRoute =
   | 'hotels'
   | 'markets'
   | 'hotelScore'
+  | 'blog'
   | 'demo';
 
 const FULL_PAGE_ROUTES: Record<'es' | 'en', Record<CoreRoute, string>> = {
@@ -55,6 +56,7 @@ const FULL_PAGE_ROUTES: Record<'es' | 'en', Record<CoreRoute, string>> = {
     features: '/es/funcionalidades',
     hotels: '/es/operaciones-hoteleras',
     markets: '/es/industrias',
+    blog: '/es/blog',
     demo: '/es/demo',
   },
   en: {
@@ -64,6 +66,7 @@ const FULL_PAGE_ROUTES: Record<'es' | 'en', Record<CoreRoute, string>> = {
     features: '/en/features',
     hotels: '/en/hotel-operations',
     markets: '/en/industries',
+    blog: '/en/blog',
     demo: '/en/demo',
   },
 };
@@ -87,5 +90,6 @@ export function routeKeyFromPath(pathname: string): CoreRoute | null {
   if (pathWithoutLanguage === '/features' || pathWithoutLanguage === '/funcionalidades') return 'features';
   if (pathWithoutLanguage === '/hotel-operations' || pathWithoutLanguage === '/operaciones-hoteleras') return 'hotels';
   if (pathWithoutLanguage === '/industries' || pathWithoutLanguage === '/industrias') return 'markets';
+  if (pathWithoutLanguage === '/blog' || pathWithoutLanguage.startsWith('/blog/')) return 'blog';
   return null;
 }
