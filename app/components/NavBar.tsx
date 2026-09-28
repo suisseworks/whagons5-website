@@ -17,12 +17,12 @@ interface NavBarProps {
 
 const navContent = {
   en: {
-    market: 'Hotel operations', platform: 'Platform', hotels: 'Hospitality', markets: 'Industries',
+    market: 'Hotel operations', platform: 'Platform', hotels: 'Hospitality', markets: 'Industries', blog: 'Blog',
     resources: 'Resources', demo: 'Request demo', menu: 'Toggle menu',
     closeMenu: 'Close menu', primaryNav: 'Primary navigation', language: 'Choose language',
   },
   es: {
-    market: 'Operaciones hoteleras', platform: 'Plataforma', hotels: 'Hospitalidad', markets: 'Industrias',
+    market: 'Operaciones hoteleras', platform: 'Plataforma', hotels: 'Hospitalidad', markets: 'Industrias', blog: 'Blog',
     resources: 'Recursos', demo: 'Solicitar demo', menu: 'Abrir o cerrar menú',
     closeMenu: 'Cerrar menú', primaryNav: 'Navegación principal', language: 'Elegir idioma',
   },
@@ -40,6 +40,7 @@ export default function NavBar({ lang }: NavBarProps) {
     platform: routeFor(lang, 'platform'),
     hotels: routeFor(lang, 'hotels'),
     markets: routeFor(lang, 'markets'),
+    blog: routeFor(lang, 'blog'),
     demo: routeFor(lang, 'demo'),
   };
 
@@ -49,7 +50,16 @@ export default function NavBar({ lang }: NavBarProps) {
       return legalRouteFor(nextLang, legalMatch[1] as 'privacy' | 'terms' | 'security');
     }
 
-    return routeFor(nextLang, routeKeyFromPath(pathname) || 'home');
+    // Blog posts declare their translation with <link rel="alternate">.
+    const routeKey = routeKeyFromPath(pathname);
+    if (routeKey === 'blog') {
+      const alternate = document.querySelector<HTMLLinkElement>(`link[rel="alternate"][hreflang="${nextLang}"]`);
+      if (alternate?.href) {
+        try { return new URL(alternate.href).pathname; } catch { /* fall back below */ }
+      }
+    }
+
+    return routeFor(nextLang, routeKey || 'home');
   };
 
   const closeMenu = useCallback(() => {
@@ -150,6 +160,7 @@ export default function NavBar({ lang }: NavBarProps) {
         <a href={hrefs.platform} onClick={closeMenu} aria-current={isActive(hrefs.platform) ? 'page' : undefined} className={`nl${isActive(hrefs.platform) ? ' nl-active' : ''}`}>{t.platform}</a>
         <a href={hrefs.hotels} onClick={closeMenu} aria-current={isActive(hrefs.hotels) ? 'page' : undefined} className={`nl${isActive(hrefs.hotels) ? ' nl-active' : ''}`}>{t.hotels}</a>
         <a href={hrefs.markets} onClick={closeMenu} aria-current={isActive(hrefs.markets) ? 'page' : undefined} className={`nl${isActive(hrefs.markets) ? ' nl-active' : ''}`}>{t.markets}</a>
+        <a href={hrefs.blog} onClick={closeMenu} aria-current={isActive(hrefs.blog) ? 'page' : undefined} className={`nl${isActive(hrefs.blog) ? ' nl-active' : ''}`}>{t.blog}</a>
         <a href={hrefs.demo} onClick={closeMenu} className="nd">{t.demo} <span aria-hidden="true">→</span></a>
         <label className="language-picker">
           <span className="sr-only">{t.language}</span>

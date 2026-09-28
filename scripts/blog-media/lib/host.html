@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/lib/stage.css">
+</head>
+<body>
+  <div id="stage"></div>
+  <script type="module">
+    const params = new URLSearchParams(location.search);
+    // Layout depends on the web fonts, and scenes measure layout in build().
+    await Promise.all([
+      document.fonts.load('600 13px "Instrument Sans"'),
+      document.fonts.load('500 10px "JetBrains Mono"'),
+    ]);
+    const { mount } = await import('/lib/kit.js');
+    const { default: scene } = await import(`/scenes/${params.get('scene')}.js`);
+    window.__scene = await mount(scene, { lang: params.get('lang') || 'es' });
+    await document.fonts.ready;
+    window.__ready = true;
+  </script>
+</body>
+</html>

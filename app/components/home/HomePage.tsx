@@ -1,12 +1,14 @@
 import Image from 'next/image';
 import { demoOffer } from '../../lib/demo-offer';
-import { Language, routeFor } from '../../lib/locales';
+import { Language, legalRouteFor, routeFor } from '../../lib/locales';
 import { shotsFor } from '../../lib/shots';
 import styles from './HomePage.module.css';
 import ScorePromotion from '../hotel-score/ScorePromotion';
 import HospitalityAnalytics from '../hospitality/HospitalityAnalytics';
 import OperationsHeroDemo from './OperationsHeroDemo';
 import AnnotatedScreenshot from './AnnotatedScreenshot';
+import SellingPoints from './SellingPoints';
+import CountUp from './CountUp';
 
 const content = {
   en: {
@@ -21,6 +23,8 @@ const content = {
     heroShotAlt: 'Whagons task grid for a hotel maintenance team, with status, priority and assignee columns',
     heroShotCaption: 'Task grid · Maintenance · Whagons',
     clientsLabel: 'Teams that trust Whagons',
+    awardShort: 'Innovative Product of the Year 2017',
+    whatsAppCta: 'Message us on WhatsApp',
     problemEyebrow: 'The operational layer',
     problemTitle: 'The work between teams should never disappear between shifts.',
     problemText:
@@ -53,7 +57,7 @@ const content = {
       ['Workflow automation', 'Move recurring and reactive work forward automatically.'],
       ['Mobile fieldwork', 'Photos, forms, signatures, QR, barcode, GPS, and NFC.'],
       ['Escalations & approvals', 'Notify the right person when work needs attention or approval.'],
-      ['Analytics & AI', 'Find delays, recurring issues, and the next action faster.'],
+      ['KPI cards', 'The shift’s numbers at the top of every space: total, in progress, overdue and done today.'],
       ['SOPs & knowledge', 'Keep procedures and training where the work happens.'],
       ['API & integrations', 'Connect the hotel systems your teams already rely on.'],
     ],
@@ -83,6 +87,19 @@ const content = {
       ['Construction', 'Progress and site control'],
     ],
     finalEyebrow: 'Your operation, made visible',
+    faqEyebrow: 'Frequently asked questions',
+    faqTitle: 'What hotels usually ask us.',
+    faqLead: 'If your question is not here, write to us and we will answer within one business day.',
+    faqWhatsApp: 'Message us on WhatsApp',
+    faq: [
+      ['Do I have to change my PMS?', 'No. Your PMS stays the record of the stay. Whagons coordinates the work around it: guest requests, rooms, maintenance and inspections.'],
+      ['Which teams use it?', 'Front desk, housekeeping, maintenance, food and beverage, security and management. Each team works in its own space, on mobile and on the web.'],
+      ['Does it work offline?', 'Yes. Your team can check saved information, and supported changes sync once the connection is back.'],
+      ['How do we get started?', 'With one real workflow from your hotel. We configure the scope, train the team and support the rollout. From there you add more areas or properties.'],
+      ['Does it connect to other systems?', 'Yes, through the API and integrations defined for your operation. We review the scope with your team and the systems it already uses.'],
+      ['How is our information protected?', 'Access follows each person’s role, and our security policy describes the controls we apply.'],
+    ],
+    faqSecurity: 'Read the security policy',
   },
   es: {
     heroEyebrow: 'Software de operaciones para hoteles',
@@ -96,6 +113,8 @@ const content = {
     heroShotAlt: 'Grilla de tareas de Whagons para el equipo de mantenimiento de un hotel, con columnas de estado, prioridad y responsable',
     heroShotCaption: 'Tareas · Mantenimiento · Whagons',
     clientsLabel: 'Equipos que confían en Whagons',
+    awardShort: 'Producto Innovador del Año 2017',
+    whatsAppCta: 'Escríbenos por WhatsApp',
     problemEyebrow: 'La capa operativa',
     problemTitle: 'El trabajo entre equipos no debería perderse entre turnos.',
     problemText:
@@ -128,7 +147,7 @@ const content = {
       ['Automatización de flujos', 'Mueve automáticamente el trabajo recurrente y reactivo.'],
       ['Trabajo móvil', 'Fotos, formularios, firmas, QR, códigos de barras, GPS y NFC.'],
       ['Escalamientos y aprobaciones', 'Notifica al responsable cuando una tarea necesita atención o aprobación.'],
-      ['Analítica e IA', 'Detecta demoras, problemas recurrentes y la próxima acción.'],
+      ['Tarjetas KPI', 'Los números del turno arriba de cada espacio: total, en progreso, vencidas y terminadas hoy.'],
       ['Procedimientos y conocimiento', 'Consulta instrucciones y capacitación mientras realizas el trabajo.'],
       ['API e integraciones', 'Conecta los sistemas que los equipos del hotel ya utilizan.'],
     ],
@@ -158,6 +177,19 @@ const content = {
       ['Construcción', 'Avance y control en obra'],
     ],
     finalEyebrow: 'Tu operación, visible',
+    faqEyebrow: 'Preguntas frecuentes',
+    faqTitle: 'Lo que suelen preguntarnos los hoteles.',
+    faqLead: 'Si tu pregunta no está aquí, escríbenos y te respondemos en un día hábil.',
+    faqWhatsApp: 'Escríbenos por WhatsApp',
+    faq: [
+      ['¿Tengo que cambiar mi PMS?', 'No. Tu PMS sigue siendo el registro de la estadía. Whagons coordina el trabajo a su alrededor: solicitudes, habitaciones, mantenimiento e inspecciones.'],
+      ['¿Qué equipos lo usan?', 'Recepción, ama de llaves, mantenimiento, alimentos y bebidas, seguridad y gerencia. Cada equipo trabaja en su propio espacio, en móvil y en web.'],
+      ['¿Funciona sin conexión?', 'Sí. El equipo puede consultar la información guardada, y los cambios compatibles se sincronizan al volver la conexión.'],
+      ['¿Cómo empezamos?', 'Con un flujo real de tu hotel. Configuramos el alcance, capacitamos al equipo y acompañamos la puesta en marcha. Desde ahí sumas más áreas o propiedades.'],
+      ['¿Se conecta con otros sistemas?', 'Sí, mediante API e integraciones definidas para tu operación. Revisamos el alcance con tu equipo y con los sistemas que ya usa.'],
+      ['¿Cómo se protege la información?', 'El acceso sigue el rol de cada persona, y nuestra política de seguridad describe los controles que aplicamos.'],
+    ],
+    faqSecurity: 'Leer la política de seguridad',
   },
 } as const;
 
@@ -208,7 +240,7 @@ const customerProof = {
     caseLabel: 'Anonymized case published by Whagons',
     caseTitle: 'From repeat visits to a digital equipment history.',
     caseText: 'A refrigeration maintenance team changed its operating flow in 60 days.',
-    caseMetrics: [['−80%', 'repeat visits'], ['2 days → 4 h', 'resolution time'], ['100%', 'digital equipment history']],
+    caseMetrics: [['−80%', 'repeat visits'], ['2\u00a0days → 4\u00a0h', 'resolution time'], ['100%', 'digital equipment history']],
     sourceLabel: 'Read the published case',
   },
   es: {
@@ -226,10 +258,14 @@ const customerProof = {
     caseLabel: 'Caso anonimizado publicado por Whagons',
     caseTitle: 'De visitas repetidas a un historial digital de equipos.',
     caseText: 'Un equipo de mantenimiento de refrigeración cambió su flujo operativo en 60 días.',
-    caseMetrics: [['−80%', 'visitas repetidas'], ['2 días → 4 h', 'tiempo de resolución'], ['100%', 'historial digital de equipos']],
+    caseMetrics: [['−80%', 'visitas repetidas'], ['2\u00a0días → 4\u00a0h', 'tiempo de resolución'], ['100%', 'historial digital de equipos']],
     sourceLabel: 'Leer el caso publicado',
   },
 } as const;
+
+function initials(name: string) {
+  return name.split(' ').filter(Boolean).slice(0, 2).map((part) => part[0]).join('');
+}
 
 function Arrow() {
   return (
@@ -265,24 +301,26 @@ export default function HomePage({ lang }: { lang: Language }) {
       <section className={styles.hero}>
         <div className={styles.heroTop}>
         <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}>{t.heroEyebrow}</p>
-          <h1>{t.heroTitle}</h1>
-          <p className={styles.lead}>{t.heroLead}</p>
-          <div className={styles.actions}>
+          <p className={styles.eyebrow} data-rise="">{t.heroEyebrow}</p>
+          <h1 data-rise="" style={{ ['--d' as string]: '.05s' }}>{t.heroTitle}</h1>
+          <p className={styles.lead} data-rise="" style={{ ['--d' as string]: '.1s' }}>{t.heroLead}</p>
+          <div className={styles.actions} data-rise="" style={{ ['--d' as string]: '.15s' }}>
             <a className={styles.btnPrimary} href={demoHref}>{demoOffer[lang].cta}<Arrow /></a>
             <a className={styles.btnSecondary} data-track="hotel_score_hero_click" href={routeFor(lang, 'hotelScore')}>{t.scoreCta}</a>
           </div>
-          <ul className={styles.points}>
+          <ul className={styles.points} data-rise="" style={{ ['--d' as string]: '.2s' }}>
             {t.heroPoints.map((point) => <li key={point}><Check />{point}</li>)}
           </ul>
-          <div className={styles.offlineNote}>
+          <div className={styles.offlineNote} data-rise="" style={{ ['--d' as string]: '.25s' }}>
             <span className={styles.offlineIcon} aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 11a11 11 0 0 1 16 0M7 14a7 7 0 0 1 10 0M10 17a3 3 0 0 1 4 0M3 3l18 18" /><circle cx="12" cy="20" r=".8" fill="currentColor" stroke="none" /></svg>
             </span>
             <p><strong>{t.offlineTitle}</strong><span>{t.offlineText}</span></p>
           </div>
         </div>
-        <OperationsHeroDemo lang={lang} />
+        <div className={styles.heroDemo} data-rise="" style={{ ['--d' as string]: '.2s' }}>
+          <OperationsHeroDemo lang={lang} />
+        </div>
         </div>
         <AnnotatedScreenshot lang={lang} shot={shots.grid} alt={t.heroShotAlt} caption={t.heroShotCaption} />
       </section>
@@ -290,19 +328,25 @@ export default function HomePage({ lang }: { lang: Language }) {
       {/* ── Customers strip ─────────────────────────────── */}
       <section className={styles.clients} aria-label={t.clientsLabel}>
         <span>{t.clientsLabel}</span>
-        <ul>{customerNames.map((name) => <li key={name}>{name}</li>)}</ul>
+        <div className={styles.marquee}>
+          <ul>{customerNames.map((name) => <li key={name}>{name}</li>)}</ul>
+          <ul aria-hidden="true">{customerNames.map((name) => <li key={name}>{name}</li>)}</ul>
+        </div>
+        <p className={styles.clientsAward}><span aria-hidden="true">★</span>{t.awardShort}</p>
       </section>
+
+      <SellingPoints lang={lang} />
 
       {/* ── Moments ─────────────────────────────────────── */}
       <section className={styles.section} id="hotel-operations">
-        <div className={styles.intro}>
+        <div className={styles.intro} data-reveal="">
           <p className={styles.eyebrow}>{t.problemEyebrow}</p>
           <h2>{t.problemTitle}</h2>
           <p>{t.problemText}</p>
         </div>
         <div className={styles.cardGrid}>
           {t.moments.map((moment, index) => (
-            <a className={styles.card} href={hasLocalizedDetailPages ? `${hotelHref}#${hotelMomentAnchors[index]}` : demoHref} key={moment.title}>
+            <a className={styles.card} href={hasLocalizedDetailPages ? `${hotelHref}#${hotelMomentAnchors[index]}` : demoHref} key={moment.title} data-reveal="" style={{ ['--d' as string]: `${(index % 2) * 0.08}s` }}>
               <div className={styles.momentVisual} data-index={index} aria-hidden="true">
                 <span className={styles.momentNumber}>0{index + 1}</span>
                 <span className={styles.momentIcon}><MomentIcon index={index} /></span>
@@ -324,7 +368,7 @@ export default function HomePage({ lang }: { lang: Language }) {
 
       {/* ── Process ─────────────────────────────────────── */}
       <section className={`${styles.section} ${styles.process}`} id="how-it-works">
-        <div className={styles.processCopy}>
+        <div className={styles.processCopy} data-reveal="">
           <p className={styles.eyebrow}>{t.processEyebrow}</p>
           <h2>{t.processTitle}</h2>
           <p>{t.processLead}</p>
@@ -338,25 +382,25 @@ export default function HomePage({ lang }: { lang: Language }) {
           </ol>
           <a className={styles.btnSecondary} href={platformHref}>{t.platformCta}<Arrow /></a>
         </div>
-        <div className={styles.processShot}>
+        <div className={styles.processShot} data-reveal="" style={{ ['--d' as string]: '.1s' }}>
           <Image src={shots.boardDetail.src} alt={t.processShotAlt} width={shots.boardDetail.width} height={shots.boardDetail.height} sizes="(max-width: 1000px) 100vw, 620px" quality={90} />
         </div>
       </section>
 
       {/* ── Product ─────────────────────────────────────── */}
       <section className={styles.section} id="features">
-        <div className={styles.intro}>
+        <div className={styles.intro} data-reveal="">
           <p className={styles.eyebrow}>{t.productEyebrow}</p>
           <h2>{t.productTitle}</h2>
           <p>{t.productText}</p>
         </div>
-        <figure className={`${styles.shot} ${styles.shotWide}`}>
+        <figure className={`${styles.shot} ${styles.shotWide}`} data-reveal="">
           <div className={styles.shotBar} aria-hidden="true"><i /><i /><i /><span>{t.productShotCaption}</span></div>
           <Image src={shots.analytics.src} alt={t.productShotAlt} width={shots.analytics.width} height={shots.analytics.height} sizes="(max-width: 1240px) 100vw, 1180px" quality={90} />
         </figure>
         <div className={styles.featureGrid}>
           {t.capabilities.map(([title, text], index) => (
-            <article key={title} className={styles.feature}>
+            <article key={title} className={styles.feature} data-reveal="" style={{ ['--d' as string]: `${(index % 2) * 0.08}s` }}>
               <span className={styles.featureIcon} aria-hidden="true"><CapabilityIcon index={index} /></span>
               <div><h3>{title}</h3><p>{text}</p></div>
               <span className={styles.featureNumber} aria-hidden="true">0{index + 1}</span>
@@ -372,7 +416,7 @@ export default function HomePage({ lang }: { lang: Language }) {
 
       {/* ── Proof ───────────────────────────────────────── */}
       <section className={`${styles.section} ${styles.proof}`}>
-        <div>
+        <div data-reveal="">
           <p className={styles.eyebrow}>{t.proofEyebrow}</p>
           <h2>{t.proofTitle}</h2>
           <p className={styles.text}>{t.proofText}</p>
@@ -381,7 +425,7 @@ export default function HomePage({ lang }: { lang: Language }) {
             <div><strong>{t.awardTitle}</strong><p>{t.awardEvent}</p><small>{t.awardNote}</small></div>
           </div>
         </div>
-        <aside className={styles.proofCard}>
+        <aside className={styles.proofCard} data-reveal="" style={{ ['--d' as string]: '.1s' }}>
           <p className={styles.eyebrow}>{t.proofCardEyebrow}</p>
           <h3>{t.proofCardTitle}</h3>
           <ul>
@@ -392,12 +436,12 @@ export default function HomePage({ lang }: { lang: Language }) {
 
       {/* ── Markets ─────────────────────────────────────── */}
       <section className={styles.section} id="markets">
-        <div className={styles.intro}>
+        <div className={styles.intro} data-reveal="">
           <p className={styles.eyebrow}>{t.marketsEyebrow}</p>
           <h2>{t.marketsTitle}</h2>
           <p>{t.marketsText}</p>
         </div>
-        <div className={styles.markets}>
+        <div className={styles.markets} data-reveal="">
           <a className={styles.featuredMarket} href={hotelHref}>
             <Image src="/images/industries/hoteleria.jpg" alt="" fill sizes="(max-width: 1000px) 100vw, 560px" />
             <div>
@@ -422,16 +466,19 @@ export default function HomePage({ lang }: { lang: Language }) {
 
       {/* ── Testimonials ────────────────────────────────── */}
       <section className={`${styles.section} ${styles.testimonials}`} aria-labelledby="customer-proof-title">
-        <div className={styles.intro}>
+        <div className={styles.intro} data-reveal="">
           <p className={styles.eyebrow}>{proof.eyebrow}</p>
           <h2 id="customer-proof-title">{proof.title}</h2>
           <p>{proof.text}</p>
         </div>
         <div className={styles.quoteGrid}>
-          {proof.testimonials.map((item) => (
-            <figure className={styles.quote} key={item.name}>
+          {proof.testimonials.map((item, index) => (
+            <figure className={styles.quote} key={item.name} data-reveal="" style={{ ['--d' as string]: `${(index % 3) * 0.07}s` }}>
               <blockquote>“{item.quote}”</blockquote>
-              <figcaption><strong>{item.name}</strong><span>{item.role}</span></figcaption>
+              <figcaption>
+                <span className={styles.avatar} aria-hidden="true">{initials(item.name)}</span>
+                <span className={styles.who}><strong>{item.name}</strong><span>{item.role}</span></span>
+              </figcaption>
             </figure>
           ))}
         </div>
@@ -439,7 +486,7 @@ export default function HomePage({ lang }: { lang: Language }) {
           {demoOffer[lang].source}
         </p>
 
-        <article className={styles.caseStudy}>
+        <article className={styles.caseStudy} data-reveal="">
           <div>
             <p className={styles.eyebrow}>{proof.caseLabel}</p>
             <h3>{proof.caseTitle}</h3>
@@ -450,19 +497,54 @@ export default function HomePage({ lang }: { lang: Language }) {
           </div>
           <dl className={styles.metrics}>
             {proof.caseMetrics.map(([value, label]) => (
-              <div key={label}><dt>{label}</dt><dd>{value}</dd></div>
+              <div key={label}><dt>{label}</dt><dd><CountUp value={value} /></dd></div>
             ))}
           </dl>
         </article>
       </section>
 
+      {/* ── FAQ ─────────────────────────────────────────── */}
+      <section className={`${styles.section} ${styles.faq}`} id="faq" aria-labelledby="faq-title">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: t.faq.map(([question, answer]) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } })),
+          }) }}
+        />
+        <div className={styles.faqIntro} data-reveal="">
+          <p className={styles.eyebrow}>{t.faqEyebrow}</p>
+          <h2 id="faq-title">{t.faqTitle}</h2>
+          <p>{t.faqLead}</p>
+          <div className={styles.faqContact}>
+            <a className={styles.btnSecondary} href="https://wa.me/50670717099" data-track="whatsapp_faq_click">{t.faqWhatsApp}</a>
+            <a href="mailto:hello@whagons.com">hello@whagons.com</a>
+          </div>
+        </div>
+        <div className={styles.faqList} data-reveal="" style={{ ['--d' as string]: '.08s' }}>
+          {t.faq.map(([question, answer], index) => (
+            <details key={question} className={styles.faqItem}>
+              <summary>{question}<span className={styles.faqIcon} aria-hidden="true" /></summary>
+              <p>
+                {answer}
+                {index === t.faq.length - 1 && <> <a href={legalRouteFor(lang, 'security')}>{t.faqSecurity}</a></>}
+              </p>
+            </details>
+          ))}
+        </div>
+      </section>
+
       {/* ── Final CTA ───────────────────────────────────── */}
       <section className={styles.finalCta}>
-        <div>
+        <div data-reveal="">
           <p className={styles.eyebrow}>{t.finalEyebrow}</p>
           <h2>{demoOffer[lang].title}</h2>
           <p>{demoOffer[lang].description}</p>
-          <a className={styles.btnPrimary} href={demoHref}>{demoOffer[lang].cta}<Arrow /></a>
+          <div className={styles.finalActions}>
+            <a className={styles.btnPrimary} href={demoHref}>{demoOffer[lang].cta}<Arrow /></a>
+            <a className={styles.btnSecondary} href="https://wa.me/50670717099" data-track="whatsapp_final_click">{t.whatsAppCta}</a>
+          </div>
           <small>{demoOffer[lang].deliverable}</small>
         </div>
       </section>

@@ -199,8 +199,8 @@ const content: Record<FeaturesLanguage, PageContent> = {
             text: 'Frontline teams see the next action while managers review open work, late work, and exceptions.',
           },
           {
-            title: 'Analytics and AI assistance',
-            text: 'Review delays and recurring issues, and use operating context to help identify the next action.',
+            title: 'KPI cards',
+            text: 'Show total tasks, work in progress, tasks finished today, overdue work and the weekly trend at the top of every space.',
           },
           {
             title: 'API and integrations',
@@ -239,12 +239,12 @@ const content: Record<FeaturesLanguage, PageContent> = {
       title: 'Built to coordinate hotel work, not replace the hotel stack.',
       lead:
         'Whagons fits around the systems and processes already in place, then adds control where work crosses people, departments, and shifts.',
-      worksWith: 'Works alongside',
-      worksWithText: 'Your PMS and the other systems that hold core hotel records.',
-      notReplacement: 'Does not replace',
-      notReplacementText: 'A PMS, booking engine, point-of-sale system, or the teams responsible for the work.',
-      startFocused: 'Starts focused',
-      startFocusedText: 'Configure one meaningful workflow around your roles, terminology, priorities, and standards.',
+      worksWith: 'Works alongside your PMS',
+      worksWithText: 'Your PMS and other systems keep the hotel’s core records. Whagons coordinates the work around them.',
+      notReplacement: 'Replaces nothing you rely on',
+      notReplacementText: 'Your PMS, booking engine and point of sale stay, and so do the teams responsible for the work.',
+      startFocused: 'Starts with one workflow',
+      startFocusedText: 'Configure one meaningful workflow around your roles, terminology, priorities and standards, then grow from there.',
     },
     finalCta: {
       eyebrow: 'See it around your operation',
@@ -386,8 +386,8 @@ const content: Record<FeaturesLanguage, PageContent> = {
             text: 'Los equipos de primera línea ven la siguiente acción; los gerentes revisan trabajo abierto, atrasado y excepciones.',
           },
           {
-            title: 'Analítica y asistencia con IA',
-            text: 'Revisa atrasos y problemas recurrentes, y usa el contexto operativo para ayudar a identificar la siguiente acción.',
+            title: 'Tarjetas KPI',
+            text: 'Muestra arriba de cada espacio el total de tareas, lo que está en progreso, lo terminado hoy, lo vencido y la tendencia semanal.',
           },
           {
             title: 'API e integraciones',
@@ -426,12 +426,12 @@ const content: Record<FeaturesLanguage, PageContent> = {
       title: 'Diseñado para coordinar el trabajo hotelero, no para reemplazar los sistemas del hotel.',
       lead:
         'Whagons se adapta a los sistemas y procesos que ya existen y agrega control donde el trabajo cruza personas, departamentos y turnos.',
-      worksWith: 'Funciona junto a',
-      worksWithText: 'Tu PMS y los demás sistemas que conservan los registros principales del hotel.',
-      notReplacement: 'No reemplaza',
-      notReplacementText: 'Un PMS, motor de reservas, punto de venta ni a los equipos responsables del trabajo.',
-      startFocused: 'Empieza con enfoque',
-      startFocusedText: 'Configura un flujo relevante según tus roles, términos, prioridades y estándares.',
+      worksWith: 'Funciona junto a tu PMS',
+      worksWithText: 'Tu PMS y tus demás sistemas conservan los registros principales del hotel. Whagons coordina el trabajo a su alrededor.',
+      notReplacement: 'No reemplaza lo que ya usas',
+      notReplacementText: 'Tu PMS, tu motor de reservas y tu punto de venta se quedan, igual que los equipos responsables del trabajo.',
+      startFocused: 'Empieza con un flujo',
+      startFocusedText: 'Configura un flujo relevante según tus roles, términos, prioridades y estándares, y crece desde ahí.',
     },
     finalCta: {
       eyebrow: 'Míralo aplicado a tu operación',
@@ -529,7 +529,7 @@ export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
           </div>
         );
         const section = (
-          <section className={`pg-section ${styles.chapter}`} id={chapter.id} key={chapter.id}>
+          <section className={`pg-section ${styles.chapter}`} id={chapter.id} key={chapter.id} data-reveal-kids="">
             {shot && chapter.shotCaption && chapter.shotAlt ? (
               <div className={chapterIndex % 2 === 1 ? 'pg-split' : 'pg-split pg-split-reverse'} style={{ marginBottom: 40 }}>
                 {intro}
@@ -551,7 +551,7 @@ export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
         return band ? <div className="pg-band" key={chapter.id}>{section}</div> : section;
       })}
 
-      <section className={styles.roles}>
+      <section className={styles.roles} data-reveal-kids="">
         <div className="pg-section">
           <div className="pg-intro">
             <p className="pg-eyebrow">{copy.roles.eyebrow}</p>
@@ -571,7 +571,7 @@ export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
         </div>
       </section>
 
-      <section className="pg-section">
+      <section className="pg-section" data-reveal-kids="">
         <div className="pg-intro">
           <p className="pg-eyebrow">{copy.boundary.eyebrow}</p>
           <h2>{copy.boundary.title}</h2>
@@ -596,7 +596,7 @@ export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
         </div>
       </section>
 
-      <section className="pg-cta">
+      <section className="pg-cta" data-reveal-kids="">
         <div>
           <p className="pg-eyebrow">{copy.finalCta.eyebrow}</p>
           <h2>{copy.finalCta.title}</h2>

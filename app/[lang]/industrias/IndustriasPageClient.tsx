@@ -110,7 +110,7 @@ export default function IndustriasPageClient({ lang }: { lang: Language }) {
         </div>
       </section>
 
-      <section className="pg-section pg-industries">
+      <section className="pg-section pg-industries" data-reveal-kids="">
         {otherMarkets.map((ind: any, idx: number) => {
           const details = INDUSTRY_DETAILS[ind.slug]?.[lang];
           const imageSrc = INDUSTRY_IMAGES[ind.slug];
@@ -158,7 +158,7 @@ export default function IndustriasPageClient({ lang }: { lang: Language }) {
         })}
       </section>
 
-      <section className="pg-cta">
+      <section className="pg-cta" data-reveal-kids="">
         <div>
           <h2>{t.indPageCta}</h2>
           <div className="pg-actions">

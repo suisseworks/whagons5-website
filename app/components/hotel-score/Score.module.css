@@ -28,17 +28,17 @@
 .journey { display: flex; align-items: center; justify-content: space-between; gap: 12px; list-style: none; margin: 0 0 25px; padding: 0 0 24px; border-bottom: 1px solid #e9e6db; }
 .journey li { display: flex; align-items: center; gap: 8px; font-size: .75rem; line-height: 1.4; color: #777b6b; }
 .journey li > span { width: 28px; height: 28px; flex-shrink: 0; display: grid; place-items: center; border: 1px solid #dcded1; background: #f7f6f0; border-radius: 50%; font-size: .75rem; }
-.journey li[aria-current] { color: #ac4121; font-weight: 500; }
-.journey li[aria-current] > span { background: #bd4424; color: #fff; border-color: #bd4424; box-shadow: 0 0 0 4px #bd442410; }
+.journey li[aria-current] { color: #b82a09; font-weight: 500; }
+.journey li[aria-current] > span { background: #d4310a; color: #fff; border-color: #d4310a; box-shadow: 0 0 0 4px #d4310a10; }
 .journey li[data-complete="true"] { color: #48663d; }
 .journey li[data-complete="true"] > span { border-color: #d4e0c7; background: #e9f0df; color: #42613b; }
 .progressLabel { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: .8125rem; color: #69715f; }
-.progressLabel > span:last-child { color: #ac4424; font-variant-numeric: tabular-nums; }
+.progressLabel > span:last-child { color: #b82a09; font-variant-numeric: tabular-nums; }
 .assessment :global(.pg-progress) { height: 5px; background: #eeeade; }
 .assessment :global(.pg-progress)::-webkit-progress-bar { background: #eeeade; }
-.assessment :global(.pg-progress)::-webkit-progress-value { background: #bd4424; transition: width .3s; }
-.assessment :global(.pg-progress)::-moz-progress-bar { background: #bd4424; }
-.area { display: inline-flex; align-items: center; margin: 27px 0 13px; padding: 5px 10px; border-radius: 6px; border: 1px solid #e9d8c6; background: #fbf1e6; color: #9f512c; font-size: .8125rem; font-weight: 500; }
+.assessment :global(.pg-progress)::-webkit-progress-value { background: #d4310a; transition: width .3s; }
+.assessment :global(.pg-progress)::-moz-progress-bar { background: #d4310a; }
+.area { display: inline-flex; align-items: center; margin: 27px 0 13px; padding: 5px 10px; border-radius: 6px; border: 1px solid #e9d8c6; background: #fbf1e6; color: #b82a09; font-size: .8125rem; font-weight: 500; }
 .page .assessment h2 { font-size: clamp(1.375rem,2.25vw,1.75rem); font-weight: 500; letter-spacing: -.03em; line-height: 1.28; color: #263b2e; }
 .page section h2:focus { outline: none; }
 .hint { margin: 12px 0 22px; color: #767868; font-size: .875rem; line-height: 1.65; }
@@ -56,8 +56,8 @@
 .skipAnswers label[data-selected="true"] { color: #305032; background: #edf3e5; border-color: #71915d; }
 .skipAnswers input { margin-top: 0; accent-color: #547749; }
 .actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 25px; padding-top: 22px; border-top: 1px solid #e9e6db; }
-.assessment :global(.pg-btn) { border-radius: 10px; padding: 14px 20px; min-height: 50px; font-size: .9375rem; background: #bb4323; box-shadow: 0 6px 18px #a53f211f; }
-.assessment :global(.pg-btn):not(:disabled):hover { background: #9e351a; }
+.assessment :global(.pg-btn) { border-radius: 10px; padding: 14px 20px; min-height: 50px; font-size: .9375rem; background: #d4310a; box-shadow: 0 6px 18px #a53f211f; }
+.assessment :global(.pg-btn):not(:disabled):hover { background: #b82a09; }
 .assessment :global(.pg-btn):disabled { background: #eae7de; color: #77766a; box-shadow: none; }
 .assessment :global(.pg-btn):focus-visible, .assessment :global(.pg-btn-text):focus-visible { outline: 3px solid #547749; outline-offset: 3px; }
 .footnote { margin-top: 21px; text-align: center; color: #797b6a; font-size: .75rem; line-height: 1.65; }
@@ -91,9 +91,9 @@
 .questionNumbers { display: grid; grid-template-columns: repeat(10,minmax(0,1fr)); gap: 6px; }
 .questionNumbers button { position: relative; display: grid; place-items: center; min-height: 46px; padding: 7px 2px; border: 1px dashed #aeb5a2; border-radius: 8px; background: #faf9f3; color: #65715b; cursor: pointer; font: 600 1rem var(--sans); }
 .questionNumbers button[data-answered="true"] { background: #345c3f; border-color: #345c3f; border-style: solid; color: #fff; }
-.questionNumbers button[aria-current="step"] { border-color: #b94723; border-style: solid; box-shadow: 0 0 0 2px #fffefa, 0 0 0 4px #b94723; }
+.questionNumbers button[aria-current="step"] { border-color: #d4310a; border-style: solid; box-shadow: 0 0 0 2px #fffefa, 0 0 0 4px #d4310a; }
 .questionNumbers button:hover:not(:disabled):not([aria-current]) { border-color: #496940; }
-.questionNumbers button:focus-visible, .previousButton:focus-visible, .emailLink:focus-visible { outline: 3px solid #b94723; outline-offset: 3px; }
+.questionNumbers button:focus-visible, .previousButton:focus-visible, .emailLink:focus-visible { outline: 3px solid #d4310a; outline-offset: 3px; }
 .questionNumbers button:disabled { opacity: .5; cursor: default; }
 .questionNav > p { font-size: .75rem; color: #767c6b; line-height: 1.55; margin: 12px 0 0; }
 .topActions { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 18px; }
@@ -101,7 +101,7 @@
 .previousButton:hover:not(:disabled) { background: #e7efdc; border-color: #688452; }
 .previousButton:disabled { opacity: .45; cursor: default; }
 .position { font-size: .8125rem; color: #747c69; white-space: nowrap; }
-.emailLink { border: 0; background: transparent; color: #a44123; text-decoration: underline; text-underline-offset: 4px; font: 500 .875rem var(--sans); cursor: pointer; padding: 12px 0 0; }
+.emailLink { border: 0; background: transparent; color: #b82a09; text-decoration: underline; text-underline-offset: 4px; font: 500 .875rem var(--sans); cursor: pointer; padding: 12px 0 0; }
 @media (max-width:600px) { .questionNumbers { grid-template-columns: repeat(5,minmax(0,1fr)); gap: 8px; } .previousButton { padding: 12px 13px; font-size: .875rem; } .position { display: none; } .topActions > button, .actions > button { flex: 1; } .topActions :global(.pg-btn), .actions :global(.pg-btn) { gap: 8px; text-align: center; justify-content: center; } }
 
 .availability { margin-top: 20px; padding: 16px; background: #f7eddd; border-left: 3px solid #a26419; color: #614619; font-size: 13px; line-height: 1.6; }

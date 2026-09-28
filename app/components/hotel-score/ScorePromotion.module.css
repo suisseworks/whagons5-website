@@ -1,17 +1,17 @@
 .promotion { max-width: 1180px; margin: 0 auto 96px; border: 1px solid #e5d7ca; border-radius: 26px; background: #f6ede3; color: #24382d; font-family: var(--sans); overflow: hidden; scroll-margin-top: 100px; }
 .panel { display: grid; grid-template-columns: 1.05fr 1fr; align-items: center; gap: 52px; padding: 52px; background: radial-gradient(ellipse at 100% 0%, #e9d7c2 0%, transparent 60%); }
 .copy { min-width: 0; }
-.eyebrow { display: flex; align-items: center; gap: 10px; color: #a34121; font-size: .75rem; font-weight: 600; line-height: 1.5; letter-spacing: .07em; }
+.eyebrow { display: flex; align-items: center; gap: 10px; color: #b82a09; font-size: .75rem; font-weight: 600; line-height: 1.5; letter-spacing: .07em; }
 .eyebrow svg { flex-shrink: 0; }
 .copy h2 { font-size: clamp(2rem, 3.5vw, 2.9rem); font-weight: 500; line-height: 1.1; letter-spacing: -.045em; margin: 23px 0 20px; }
-.copy h2 em { display: block; font-style: normal; color: #ac4525; }
+.copy h2 em { display: block; font-style: normal; color: #d4310a; }
 .description { font-size: 1rem; line-height: 1.75; color: #626257; max-width: 480px; }
 .benefits { display: grid; gap: 14px; list-style: none; padding: 0; margin: 27px 0 30px; }
 .benefits li { display: flex; align-items: flex-start; gap: 10px; font-size: .875rem; line-height: 1.5; }
 .benefits svg { flex-shrink: 0; color: #406446; margin-top: 2px; }
-.primary { display: inline-flex; align-items: center; justify-content: space-between; gap: 22px; min-height: 56px; padding: 10px 11px 10px 20px; border: 1px solid #b83d1b; border-radius: 11px; background: #bd4424; color: #fff; text-decoration: none; font-size: .9375rem; font-weight: 500; box-shadow: 0 7px 19px #9d3d2323; transition: background .2s, box-shadow .2s; }
+.primary { display: inline-flex; align-items: center; justify-content: space-between; gap: 22px; min-height: 56px; padding: 10px 11px 10px 20px; border: 1px solid #d4310a; border-radius: 11px; background: #d4310a; color: #fff; text-decoration: none; font-size: .9375rem; font-weight: 500; box-shadow: 0 7px 19px #9d3d2323; transition: background .2s, box-shadow .2s; }
 .primary span { display: grid; place-items: center; width: 33px; height: 33px; border-radius: 7px; font-size: 23px; background: #ffffff17; }
-.primary:hover { background: #9f3519; box-shadow: 0 9px 22px #9d3d2333; }
+.primary:hover { background: #b82a09; box-shadow: 0 9px 22px #9d3d2333; }
 .primary:focus-visible { outline: 3px solid #24382d; outline-offset: 5px; }
 .delivery { font-size: .8125rem; line-height: 1.6; color: #676459; margin-top: 14px; }
 .report { min-width: 0; border: 1px solid #dedcd1; border-radius: 18px; background: #fffef9; padding: 26px; box-shadow: 0 22px 45px -20px #6b493d40, 0 5px 0 -1px #f9f5ed, 0 6px 0 #d9cec0; }
