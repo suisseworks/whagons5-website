@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     es: {
       title: 'Política de Retención y Eliminación de Datos',
       description:
-        'Cuánto tiempo conserva Whagons cada tipo de dato, cómo lo elimina y cómo pedir la eliminación, incluidos los datos financieros recibidos a través de Plaid.',
+        'Controles actuales de retención, plazos propuestos y brechas de eliminación de Whagons Systems LLC, incluidos los datos financieros de Plaid.',
       alternates: {
         canonical: 'https://whagons.com/es/data-retention',
         languages: { en: 'https://whagons.com/en/data-retention', es: 'https://whagons.com/es/data-retention' },
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     en: {
       title: 'Data Retention and Disposal Policy',
       description:
-        'How long Whagons Systems LLC keeps each category of data, how it deletes it, and how to request deletion, including financial data received through Plaid.',
+        'Current retention controls, proposed schedules and known deletion gaps at Whagons Systems LLC, including financial data received through Plaid.',
       alternates: {
         canonical: 'https://whagons.com/en/data-retention',
         languages: { en: 'https://whagons.com/en/data-retention', es: 'https://whagons.com/es/data-retention' },
