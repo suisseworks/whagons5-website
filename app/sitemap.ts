@@ -14,6 +14,7 @@ const pairs = [
   ['/es/privacy', '/en/privacy'],
   ['/es/terms', '/en/terms'],
   ['/es/security', '/en/security'],
+  ['/es/data-retention', '/en/data-retention'],
 ];
 
 function blogEntries(): MetadataRoute.Sitemap {

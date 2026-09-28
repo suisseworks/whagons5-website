@@ -4,6 +4,7 @@ export interface LegalSection {
   title: string;
   body: string[];
   bullets?: string[];
+  links?: { label: string; href: string }[];
 }
 
 export interface LegalPageContent {
@@ -26,7 +27,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
     intro:
       'Esta Política de Privacidad explica cómo Whagons recopila, usa, protege y comparte información cuando visitas nuestro sitio web, solicitas un brief o demo, o utilizas la plataforma Whagons para gestionar operaciones, automatizaciones, documentación y flujos de trabajo empresariales.',
     updatedLabel: 'Última actualización',
-    updatedDate: '9 de septiembre de 2026',
+    updatedDate: '28 de septiembre de 2026',
     sections: [
       {
         title: 'Hotel Operations Score',
@@ -100,7 +101,9 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         body: [
           'Aplicamos medidas administrativas, técnicas y organizativas razonables para proteger la información contra acceso no autorizado, pérdida, alteración o divulgación indebida. Ningún sistema es completamente infalible, por lo que no podemos garantizar seguridad absoluta.',
           'Conservamos la información durante el tiempo necesario para los fines descritos en esta política, para cumplir obligaciones legales, resolver disputas, hacer cumplir acuerdos y mantener registros comerciales y operativos legítimos.',
+          'Los plazos de retención por categoría y la forma en que eliminamos los datos, incluidos los datos financieros recibidos a través de Plaid, están en nuestra Política de Retención y Eliminación de Datos.',
         ],
+        links: [{ label: 'Política de Retención y Eliminación de Datos', href: '/es/data-retention' }],
       },
       {
         title: '9. Transferencias internacionales',
@@ -146,7 +149,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
     intro:
       'This Privacy Policy explains how Whagons Systems LLC (Whagons, we, or us) collects, uses, protects, and shares information when you visit the U.S. website, request a Hotel Handoff Leak Scan, or use the Whagons platform.',
     updatedLabel: 'Last updated',
-    updatedDate: 'September 9, 2026',
+    updatedDate: 'September 28, 2026',
     sections: [
       {
         title: 'Hotel Operations Score',
@@ -220,7 +223,9 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         body: [
           'We apply reasonable administrative, technical, and organizational measures to protect information against unauthorized access, loss, alteration, or improper disclosure. No system is completely fail-safe, so we cannot guarantee absolute security.',
           'We retain information for as long as needed for the purposes described in this policy, to comply with legal obligations, resolve disputes, enforce agreements, and maintain legitimate business and operational records.',
+          'Retention periods for each category, and how we delete data, including financial data received through Plaid, are set out in our Data Retention and Disposal Policy.',
         ],
+        links: [{ label: 'Data Retention and Disposal Policy', href: '/en/data-retention' }],
       },
       {
         title: '9. International transfers',
@@ -716,4 +721,243 @@ export const securityContent: Record<Language, LegalPageContent> = {
     primaryCta: 'Request a demo',
     secondaryCta: 'Contact Whagons',
   },
+};
+
+export const dataRetentionContent: Record<Language, LegalPageContent> = {
+  "es": {
+    "eyebrow": "Legal",
+    "title": "Política de Retención y Eliminación de Datos",
+    "intro": "Esta política documenta los controles de retención actuales y el calendario propuesto de Whagons Systems LLC. Los controles propuestos no son garantías implementadas ni verificadas. Las brechas descritas siguen abiertas al 28 de septiembre de 2026.",
+    "updatedLabel": "Fecha de vigencia",
+    "updatedDate": "28 de septiembre de 2026",
+    "sections": [
+      {
+        "title": "1. Alcance",
+        "body": [
+          "Esta política aplica a Whagons Systems LLC y a toda persona que trabaje en sus sistemas. Cubre estas categorías de información:"
+        ],
+        "bullets": [
+          "Datos de la plataforma cargados o generados por clientes en Whagons, como tareas, formularios, archivos, comentarios y registros operativos.",
+          "Datos de cuenta, usuarios y facturación de los clientes.",
+          "Datos del sitio web y de prospectos, como solicitudes de demo, briefs, resultados del Hotel Operations Score y contactos de marketing.",
+          "Registros técnicos y de seguridad de nuestros servidores.",
+          "Datos de cuentas financieras recibidos a través de Plaid."
+        ]
+      },
+      {
+        "title": "2. Uso actual de Plaid",
+        "body": [
+          "La integración financiera de Life está destinada a un panel interno de finanzas personales del propietario, de solo lectura. El código solicita el producto Transactions de Plaid y consulta saldos. No inicia pagos ni transferencias. Esta política no certifica la aprobación de acceso a producción ni la conexión de cuentas bancarias reales.",
+          "Una integración de Plaid para clientes requeriría una revisión independiente y una política actualizada antes de su lanzamiento."
+        ]
+      },
+      {
+        "title": "3. Retención actual y brechas conocidas",
+        "body": [],
+        "bullets": [
+          "Life guarda actualmente transacciones y saldos financieros en su tabla de eventos de solo anexado. Desconectar una cuenta de Plaid no elimina los registros ya recopilados. No se ha verificado una purga financiera automática ni un plazo máximo de retención.",
+          "Life también conserva indefinidamente los eventos de comportamiento para recalcular sus interpretaciones. La eliminación financiera propuesta debe tener un alcance separado del historial de comportamiento. Esta política no afirma que dichos eventos se borren actualmente.",
+          "El código de desconexión intenta llamar a /item/remove de Plaid y quita el token cifrado de la lista activa. Actualmente omite los errores de Plaid, por lo que la eliminación local no demuestra que la revocación en Plaid haya tenido éxito.",
+          "No se han verificado la caducidad de respaldos, la reaplicación de eliminaciones al restaurar, la eliminación al terminar contratos, ni la limpieza en proveedores o exportaciones locales según los plazos propuestos."
+        ]
+      },
+      {
+        "title": "4. Calendario de retención propuesto",
+        "body": [
+          "Estos plazos son objetivos de implementación, no máximos aplicados actualmente. El responsable debe verificar los procesos de eliminación y la configuración de respaldos antes de presentarlos como garantías operativas."
+        ],
+        "bullets": [
+          "Datos de plataforma, cuentas y usuarios: objetivo de eliminación de producción dentro de 90 días al terminar la suscripción, sujeto a exportaciones acordadas y retenciones legales.",
+          "Facturas, contabilidad e impuestos: retención propuesta de 7 años, sujeta a los requisitos aplicables. Es un calendario empresarial propuesto, no una afirmación de que todo registro fiscal estadounidense exija siete años.",
+          "Datos del sitio y de prospectos: objetivo de eliminación dentro de 24 meses desde la última interacción, o antes a solicitud, conservando un registro mínimo de exclusión para respetar las bajas.",
+          "Respuestas del Hotel Operations Score: el código del navegador considera vencidas las respuestas guardadas después de 24 horas al leerlas. Esto no demuestra la eliminación de copias enviadas a proveedores de gestión de prospectos.",
+          "Registros técnicos y de seguridad: máximo propuesto de 12 meses.",
+          "Tokens de Plaid: objetivo de revocación verificada y eliminación al desconectar, con manejo de errores y reintentos.",
+          "Transacciones y saldos de Plaid: objetivo de eliminación de producción dentro de 30 días tras desconectar o verificar una solicitud de eliminación.",
+          "Respaldos: objetivo de caducidad de los datos eliminados de producción dentro de otros 90 días. Falta verificar el inventario y la aplicación de este límite."
+        ]
+      },
+      {
+        "title": "5. Cómo protegemos y eliminamos los datos de Plaid",
+        "body": [
+          "El código revisado de Life implementa los siguientes controles. Estas afirmaciones describen el comportamiento de la aplicación; no certifican la configuración de todos los entornos desplegados."
+        ],
+        "bullets": [
+          "Las credenciales bancarias se ingresan en Plaid Link. Nunca llegan a nuestros servidores.",
+          "Los tokens de acceso de Plaid se cifran con AES-256-GCM en la aplicación antes de guardarse en la base de datos. La clave de cifrado vive en la configuración del servidor, no en la base de datos.",
+          "Las transacciones y saldos se guardan en PostgreSQL. Las rutas financieras aceptan una sesión autenticada del propietario o el token Bearer compartido de Life. Ese token no está limitado al envío de eventos.",
+          "El acceso es de solo lectura. No iniciamos pagos ni transferencias.",
+          "El resumen financiero estándar del coach contiene agregados, como totales por categoría, por comercio y saldos, en lugar de transacciones individuales o tokens. Esto no constituye una barrera de acceso para un agente con permisos más amplios sobre el servidor o la base de datos."
+        ]
+      },
+      {
+        "title": "6. Controles de eliminación propuestos",
+        "body": [
+          "Estos controles siguen pendientes de implementación o verificación."
+        ],
+        "bullets": [
+          "Confirmar la revocación en Plaid, conservar un estado que permita reintentar si falla y verificar la eliminación del token cifrado activo.",
+          "Implementar y probar la eliminación de registros financieros y copias derivadas sin borrar eventos de comportamiento ajenos a la solicitud.",
+          "Inventariar respaldos, aplicar su caducidad y repetir las eliminaciones completadas antes de restaurar el servicio desde una copia antigua.",
+          "La revocación del token impide nuevas llamadas solo si tiene éxito. No borra datos ya recopilados. La clave de cifrado compartida actual no se destruye al desconectar, por lo que no es un borrado criptográfico de las copias guardadas.",
+          "Verificar la eliminación de archivos relacionados, copias de proveedores y exportaciones locales, y registrar evidencia de finalización."
+        ]
+      },
+      {
+        "title": "7. Solicitudes de eliminación",
+        "body": [
+          "Envía las solicitudes de eliminación a hello@whagons.com. Verificaremos la identidad y evaluaremos los sistemas afectados. Completar la eliminación dentro de 30 días es el objetivo propuesto, no una capacidad integral verificada actualmente. La confirmación debe distinguir los datos borrados de producción de las copias retenidas o sujetas a retención legal.",
+          "Quien haya conectado una cuenta mediante Plaid también puede revocar ese acceso en el portal de Plaid (my.plaid.com).",
+          "Si la solicitud se refiere a datos que un cliente cargó en la plataforma, la coordinamos con ese cliente, que es quien controla esos datos."
+        ]
+      },
+      {
+        "title": "8. Retenciones legales",
+        "body": [
+          "Cuando una obligación legal aplicable exija conservar datos, el responsable debe documentar los registros, el motivo y el plazo antes de autorizar su eliminación. No se ha verificado la aplicación automatizada de retenciones legales."
+        ]
+      },
+      {
+        "title": "9. Responsable y revisión",
+        "body": [
+          "El Managing Member de Whagons Systems LLC es responsable de esta política y de que se cumpla.",
+          "El responsable debe revisar esta política al menos una vez al año y antes de cualquier cambio importante en el uso de datos. La próxima revisión vence en septiembre de 2027. Los controles propuestos solo podrán describirse como actuales tras su implementación y verificación."
+        ]
+      },
+      {
+        "title": "10. Contacto",
+        "body": [
+          "Para preguntas sobre esta política, escríbenos a hello@whagons.com."
+        ],
+        "links": [
+          {
+            "label": "Descargar la política en PDF, en inglés",
+            "href": "/policies/data-retention-and-disposal-policy.pdf"
+          }
+        ]
+      }
+    ],
+    "ctaTitle": "¿Tienes preguntas sobre tus datos?",
+    "ctaDescription": "Escríbenos y te respondemos sobre retención, eliminación o cualquier solicitud de datos.",
+    "primaryCta": "Solicitar demo",
+    "secondaryCta": "Escribir a Whagons"
+  },
+  "en": {
+    "eyebrow": "Legal",
+    "title": "Data Retention and Disposal Policy",
+    "intro": "This policy records the current retention controls and the proposed retention schedule for Whagons Systems LLC. Proposed controls are not implemented or verified guarantees. The implementation gaps below remain open as of September 28, 2026.",
+    "updatedLabel": "Effective date",
+    "updatedDate": "September 28, 2026",
+    "sections": [
+      {
+        "title": "1. Scope",
+        "body": [
+          "This policy applies to Whagons Systems LLC and to anyone who works on its systems. It covers these categories of information:"
+        ],
+        "bullets": [
+          "Platform data that customers upload to or create in Whagons, such as tasks, forms, files, comments, and operational records.",
+          "Customer account, user, and billing data.",
+          "Website and lead data, such as demo requests, briefs, Hotel Operations Score results, and marketing contacts.",
+          "Technical and security logs from our servers.",
+          "Financial account data received through Plaid."
+        ]
+      },
+      {
+        "title": "2. Current use of Plaid",
+        "body": [
+          "The Life finance integration is intended for an internal, read-only personal finance dashboard for the company owner. Its code requests the Plaid Transactions product and retrieves account balances. It does not initiate payments or transfers. This policy does not certify production access approval or that any live bank accounts are connected.",
+          "A customer-facing Plaid integration would require a separate review and an updated policy before launch."
+        ]
+      },
+      {
+        "title": "3. Current retention and known gaps",
+        "body": [],
+        "bullets": [
+          "Life currently stores financial transactions and balances in its append-only events table. Disconnecting a Plaid item does not erase those previously collected records. No automatic finance purge or maximum retention period has been verified.",
+          "Life also retains raw behavioral events indefinitely so that interpretations can be recomputed. Proposed finance deletion must be scoped separately from behavioral history; this policy does not claim that behavioral events are currently erased.",
+          "The disconnect code attempts Plaid /item/remove and removes the encrypted token from the active item list. It currently suppresses errors from Plaid, so local removal is not proof that upstream revocation succeeded.",
+          "Production backup expiry, restore-time deletion replay, customer offboarding deletion, vendor cleanup, and local export cleanup have not been verified against the proposed periods below."
+        ]
+      },
+      {
+        "title": "4. Proposed retention schedule",
+        "body": [
+          "These are implementation targets, not current enforced maximums. The policy owner must verify the relevant deletion workflows and backup settings before describing these periods as operational guarantees."
+        ],
+        "bullets": [
+          "Customer platform, account and user data: target deletion from production within 90 days after the subscription ends, subject to export arrangements and legal holds.",
+          "Invoices, accounting and tax records: proposed 7-year retention, subject to applicable requirements. This is a proposed business schedule, not a statement that every U.S. tax record requires seven years.",
+          "Website and lead data: target deletion within 24 months after the last interaction, or earlier on request, with a minimal suppression record to honor unsubscribes.",
+          "Hotel Operations Score answers: the browser storage code expires saved answers after 24 hours when reading them. This does not establish deletion of copies sent to lead-management providers.",
+          "Technical and security logs: proposed maximum of 12 months.",
+          "Plaid access tokens: target verified revocation and removal on disconnect, including failure handling and retries.",
+          "Plaid transactions and balances: target production deletion within 30 days after disconnect or a verified deletion request.",
+          "Backups: target expiry of deleted production data within a further 90 days. Backup inventory and enforcement remain to be verified."
+        ]
+      },
+      {
+        "title": "5. How we protect data received through Plaid",
+        "body": [
+          "The reviewed Life code implements the following controls. These statements describe application behavior; they do not certify the configuration of every deployed environment."
+        ],
+        "bullets": [
+          "Bank credentials are entered in Plaid Link. They never reach our servers.",
+          "Plaid access tokens are encrypted with AES-256-GCM in the application before they are written to the database. The encryption key lives in the server configuration, not in the database.",
+          "Transactions and balances are stored in PostgreSQL. Finance routes accept an authenticated owner session or the shared Life bearer token. The bearer token is not limited to ingest access.",
+          "Access is read-only. We do not initiate payments or transfers.",
+          "The standard finance summary supplied to the coach contains aggregates such as category totals, merchant totals and balances, rather than individual transactions or access tokens. This is not an access-control boundary for an agent with broader server or database access."
+        ]
+      },
+      {
+        "title": "6. Proposed disposal controls",
+        "body": [
+          "These controls remain implementation or verification work."
+        ],
+        "bullets": [
+          "Confirm successful Plaid revocation, retain a retryable failure state when revocation fails, and verify deletion of the active encrypted token.",
+          "Implement and test scoped deletion of financial records and derived copies without deleting unrelated behavioral events.",
+          "Inventory backups, enforce expiry, and re-apply completed deletions before restoring service from an older backup.",
+          "Token revocation prevents future API use only after it succeeds. It does not erase collected data. The current shared encryption key is not destroyed on disconnect, so this is not cryptographic erasure of stored copies.",
+          "Verify deletion of related files, vendor copies and local exports, and record completion evidence."
+        ]
+      },
+      {
+        "title": "7. Deletion requests",
+        "body": [
+          "Send deletion requests to hello@whagons.com. We will verify the requester and assess the affected systems. Completion within 30 days is the proposed service target, not a verified end-to-end capability today. A confirmation must distinguish deleted production data from any retained copies or legal holds.",
+          "Anyone who connected an account through Plaid can also revoke that access in the Plaid Portal (my.plaid.com).",
+          "If a request concerns data that a customer uploaded to the platform, we coordinate it with that customer, who controls that data."
+        ]
+      },
+      {
+        "title": "8. Legal holds",
+        "body": [
+          "Where an applicable legal obligation requires retention, the policy owner must document the affected records, reason and duration before authorizing deletion. Automated legal-hold enforcement has not been verified."
+        ]
+      },
+      {
+        "title": "9. Owner and review",
+        "body": [
+          "The Managing Member of Whagons Systems LLC owns this policy and is responsible for carrying it out.",
+          "The owner must review this policy at least annually and before any material change in data use. The next review is due by September 2027. Proposed controls may be relabeled as current only after implementation and verification."
+        ]
+      },
+      {
+        "title": "10. Contact",
+        "body": [
+          "Questions about this policy can be sent to hello@whagons.com."
+        ],
+        "links": [
+          {
+            "label": "Download the policy PDF",
+            "href": "/policies/data-retention-and-disposal-policy.pdf"
+          }
+        ]
+      }
+    ],
+    "ctaTitle": "Questions about your data?",
+    "ctaDescription": "Write to us about retention, deletion, or any data request.",
+    "primaryCta": "Request a demo",
+    "secondaryCta": "Email Whagons"
+  }
 };

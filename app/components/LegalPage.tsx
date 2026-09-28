@@ -56,6 +56,11 @@ export default function LegalPage({ lang, content }: LegalPageProps) {
                   ))}
                 </ul>
               ) : null}
+              {section.links?.map((link) => (
+                <p key={link.href}>
+                  <Link href={link.href}>{link.label} &rarr;</Link>
+                </p>
+              ))}
             </article>
           ))}
         </div>
