@@ -244,16 +244,16 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
           <div className="pg-shot-bar" aria-hidden="true"><i /><i /><i /><span>{lang === 'es' ? 'Mantenimiento · Whagons' : 'Maintenance board · Whagons'}</span></div>
           <a href={shots.board.src} target="_blank" rel="noopener noreferrer" aria-label={lang === 'es' ? 'Ver tablero completo de mantenimiento' : 'View the full maintenance board'}>
             <Image
-              src={shots.boardDetail.src}
+              src={shots.board.src}
               quality={90}
               alt={lang === 'es' ? 'Tablero de mantenimiento en Whagons: tareas por hacer, en progreso y en revisión. Datos de demostración.' : 'Whagons maintenance board example: tasks to do, in review and in progress. Demo data.'}
-              width={shots.boardDetail.width}
-              height={shots.boardDetail.height}
+              width={shots.board.width}
+              height={shots.board.height}
               sizes="(max-width: 1180px) 100vw, 1180px"
               priority={false}
             />
           </a>
-          <figcaption>{lang === 'es' ? 'Mantenimiento · Datos de demostración · Abre la imagen para ver el tablero completo ↗' : 'Maintenance · Demo data · Open the image to view the full board ↗'}</figcaption>
+          <figcaption>{lang === 'es' ? 'Mantenimiento · Datos de demostración · Abre la imagen en tamaño completo ↗' : 'Maintenance · Demo data · Open the image at full size ↗'}</figcaption>
         </figure>
       </section>
     </>

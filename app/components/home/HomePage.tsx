@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { demoOffer } from '../../lib/demo-offer';
-import { Language, routeFor } from '../../lib/locales';
+import { Language, legalRouteFor, routeFor } from '../../lib/locales';
 import { shotsFor } from '../../lib/shots';
 import styles from './HomePage.module.css';
 import ScorePromotion from '../hotel-score/ScorePromotion';
@@ -23,6 +23,8 @@ const content = {
     heroShotAlt: 'Whagons task grid for a hotel maintenance team, with status, priority and assignee columns',
     heroShotCaption: 'Task grid · Maintenance · Whagons',
     clientsLabel: 'Teams that trust Whagons',
+    awardShort: 'Innovative Product of the Year 2017',
+    whatsAppCta: 'Message us on WhatsApp',
     problemEyebrow: 'The operational layer',
     problemTitle: 'The work between teams should never disappear between shifts.',
     problemText:
@@ -85,6 +87,19 @@ const content = {
       ['Construction', 'Progress and site control'],
     ],
     finalEyebrow: 'Your operation, made visible',
+    faqEyebrow: 'Frequently asked questions',
+    faqTitle: 'What hotels usually ask us.',
+    faqLead: 'If your question is not here, write to us and we will answer within one business day.',
+    faqWhatsApp: 'Message us on WhatsApp',
+    faq: [
+      ['Do I have to change my PMS?', 'No. Your PMS stays the record of the stay. Whagons coordinates the work around it: guest requests, rooms, maintenance and inspections.'],
+      ['Which teams use it?', 'Front desk, housekeeping, maintenance, food and beverage, security and management. Each team works in its own space, on mobile and on the web.'],
+      ['Does it work offline?', 'Yes. Your team can check saved information, and supported changes sync once the connection is back.'],
+      ['How do we get started?', 'With one real workflow from your hotel. We configure the scope, train the team and support the rollout. From there you add more areas or properties.'],
+      ['Does it connect to other systems?', 'Yes, through the API and integrations defined for your operation. We review the scope with your team and the systems it already uses.'],
+      ['How is our information protected?', 'Access follows each person’s role, and our security policy describes the controls we apply.'],
+    ],
+    faqSecurity: 'Read the security policy',
   },
   es: {
     heroEyebrow: 'Software de operaciones para hoteles',
@@ -98,6 +113,8 @@ const content = {
     heroShotAlt: 'Grilla de tareas de Whagons para el equipo de mantenimiento de un hotel, con columnas de estado, prioridad y responsable',
     heroShotCaption: 'Tareas · Mantenimiento · Whagons',
     clientsLabel: 'Equipos que confían en Whagons',
+    awardShort: 'Producto Innovador del Año 2017',
+    whatsAppCta: 'Escríbenos por WhatsApp',
     problemEyebrow: 'La capa operativa',
     problemTitle: 'El trabajo entre equipos no debería perderse entre turnos.',
     problemText:
@@ -160,6 +177,19 @@ const content = {
       ['Construcción', 'Avance y control en obra'],
     ],
     finalEyebrow: 'Tu operación, visible',
+    faqEyebrow: 'Preguntas frecuentes',
+    faqTitle: 'Lo que suelen preguntarnos los hoteles.',
+    faqLead: 'Si tu pregunta no está aquí, escríbenos y te respondemos en un día hábil.',
+    faqWhatsApp: 'Escríbenos por WhatsApp',
+    faq: [
+      ['¿Tengo que cambiar mi PMS?', 'No. Tu PMS sigue siendo el registro de la estadía. Whagons coordina el trabajo a su alrededor: solicitudes, habitaciones, mantenimiento e inspecciones.'],
+      ['¿Qué equipos lo usan?', 'Recepción, ama de llaves, mantenimiento, alimentos y bebidas, seguridad y gerencia. Cada equipo trabaja en su propio espacio, en móvil y en web.'],
+      ['¿Funciona sin conexión?', 'Sí. El equipo puede consultar la información guardada, y los cambios compatibles se sincronizan al volver la conexión.'],
+      ['¿Cómo empezamos?', 'Con un flujo real de tu hotel. Configuramos el alcance, capacitamos al equipo y acompañamos la puesta en marcha. Desde ahí sumas más áreas o propiedades.'],
+      ['¿Se conecta con otros sistemas?', 'Sí, mediante API e integraciones definidas para tu operación. Revisamos el alcance con tu equipo y con los sistemas que ya usa.'],
+      ['¿Cómo se protege la información?', 'El acceso sigue el rol de cada persona, y nuestra política de seguridad describe los controles que aplicamos.'],
+    ],
+    faqSecurity: 'Leer la política de seguridad',
   },
 } as const;
 
@@ -233,6 +263,10 @@ const customerProof = {
   },
 } as const;
 
+function initials(name: string) {
+  return name.split(' ').filter(Boolean).slice(0, 2).map((part) => part[0]).join('');
+}
+
 function Arrow() {
   return (
     <svg className={styles.arrow} width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
@@ -298,6 +332,7 @@ export default function HomePage({ lang }: { lang: Language }) {
           <ul>{customerNames.map((name) => <li key={name}>{name}</li>)}</ul>
           <ul aria-hidden="true">{customerNames.map((name) => <li key={name}>{name}</li>)}</ul>
         </div>
+        <p className={styles.clientsAward}><span aria-hidden="true">★</span>{t.awardShort}</p>
       </section>
 
       <SellingPoints lang={lang} />
@@ -440,7 +475,10 @@ export default function HomePage({ lang }: { lang: Language }) {
           {proof.testimonials.map((item, index) => (
             <figure className={styles.quote} key={item.name} data-reveal="" style={{ ['--d' as string]: `${(index % 3) * 0.07}s` }}>
               <blockquote>“{item.quote}”</blockquote>
-              <figcaption><strong>{item.name}</strong><span>{item.role}</span></figcaption>
+              <figcaption>
+                <span className={styles.avatar} aria-hidden="true">{initials(item.name)}</span>
+                <span className={styles.who}><strong>{item.name}</strong><span>{item.role}</span></span>
+              </figcaption>
             </figure>
           ))}
         </div>
@@ -465,13 +503,48 @@ export default function HomePage({ lang }: { lang: Language }) {
         </article>
       </section>
 
+      {/* ── FAQ ─────────────────────────────────────────── */}
+      <section className={`${styles.section} ${styles.faq}`} id="faq" aria-labelledby="faq-title">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: t.faq.map(([question, answer]) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } })),
+          }) }}
+        />
+        <div className={styles.faqIntro} data-reveal="">
+          <p className={styles.eyebrow}>{t.faqEyebrow}</p>
+          <h2 id="faq-title">{t.faqTitle}</h2>
+          <p>{t.faqLead}</p>
+          <div className={styles.faqContact}>
+            <a className={styles.btnSecondary} href="https://wa.me/50670717099" data-track="whatsapp_faq_click">{t.faqWhatsApp}</a>
+            <a href="mailto:hello@whagons.com">hello@whagons.com</a>
+          </div>
+        </div>
+        <div className={styles.faqList} data-reveal="" style={{ ['--d' as string]: '.08s' }}>
+          {t.faq.map(([question, answer], index) => (
+            <details key={question} className={styles.faqItem}>
+              <summary>{question}<span className={styles.faqIcon} aria-hidden="true" /></summary>
+              <p>
+                {answer}
+                {index === t.faq.length - 1 && <> <a href={legalRouteFor(lang, 'security')}>{t.faqSecurity}</a></>}
+              </p>
+            </details>
+          ))}
+        </div>
+      </section>
+
       {/* ── Final CTA ───────────────────────────────────── */}
       <section className={styles.finalCta}>
         <div data-reveal="">
           <p className={styles.eyebrow}>{t.finalEyebrow}</p>
           <h2>{demoOffer[lang].title}</h2>
           <p>{demoOffer[lang].description}</p>
-          <a className={styles.btnPrimary} href={demoHref}>{demoOffer[lang].cta}<Arrow /></a>
+          <div className={styles.finalActions}>
+            <a className={styles.btnPrimary} href={demoHref}>{demoOffer[lang].cta}<Arrow /></a>
+            <a className={styles.btnSecondary} href="https://wa.me/50670717099" data-track="whatsapp_final_click">{t.whatsAppCta}</a>
+          </div>
           <small>{demoOffer[lang].deliverable}</small>
         </div>
       </section>

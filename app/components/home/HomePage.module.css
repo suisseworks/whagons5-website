@@ -95,7 +95,7 @@
 .heroCopy .lead { max-width: 520px; margin: 22px 0 0; font-size: 1.05rem; }
 .heroCopy .actions { justify-content: flex-start; gap: 10px; }
 .heroCopy .actions a { padding-left: 17px; padding-right: 17px; font-size: .83rem; }
-.heroCopy .points { justify-content: flex-start; gap: 13px 20px; }
+.heroCopy .points { display: grid; grid-template-columns: repeat(2, max-content); justify-content: start; gap: 12px 22px; }
 .heroCopy .points li { font-size: .78rem; }
 .offlineNote { display: flex; align-items: flex-start; gap: 12px; margin-top: 24px; padding: 15px 17px; border: 1px solid #dce5d4; border-radius: 10px; background: #eff4e9; max-width: 510px; }
 .offlineIcon { display: grid; place-items: center; flex-shrink: 0; color: #627c4e; padding-top: 2px; }
@@ -158,7 +158,7 @@
   transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
 }
 .card:hover { border-color: #c7cdbd; box-shadow: 0 12px 30px #2835240c; transform: translateY(-3px); }
-.momentVisual { --moment-bg: #f7e9df; --moment-ink: #a34126; background: var(--moment-bg); color: var(--moment-ink); padding: 25px 22px; position: relative; display: flex; flex-direction: column; justify-content: center; }
+.momentVisual { --moment-bg: #f7e9df; --moment-ink: #b82a09; background: var(--moment-bg); color: var(--moment-ink); padding: 25px 22px; position: relative; display: flex; flex-direction: column; justify-content: center; }
 .momentVisual[data-index="1"] { --moment-bg: #e8ede5; --moment-ink: #4b6549; }
 .momentVisual[data-index="2"] { --moment-bg: #edeae0; --moment-ink: #756338; }
 .momentVisual[data-index="3"] { --moment-bg: #e6edef; --moment-ink: #46656f; }
@@ -267,7 +267,7 @@
 .quoteGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .quote { display: flex; flex-direction: column; justify-content: space-between; gap: 22px; margin: 0; padding: 26px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
 .quote blockquote { margin: 0; font-size: 1.05rem; line-height: 1.55; letter-spacing: -0.01em; }
-.quote figcaption { display: grid; gap: 3px; padding-top: 16px; border-top: 1px solid var(--line); }
+.quote figcaption { display: flex; align-items: center; gap: 12px; padding-top: 16px; border-top: 1px solid var(--line); }
 .quote figcaption strong { font-size: 0.9rem; }
 .quote figcaption span { color: var(--muted); font-size: 0.82rem; }
 .source { margin-top: 18px; color: var(--muted); font-size: 0.82rem; line-height: 1.6; }
@@ -278,7 +278,7 @@
 .caseStudy .text { margin-top: 12px; }
 .caseStudy > div > a { display: inline-flex; margin-top: 20px; color: var(--accent); font-size: 0.9rem; font-weight: 600; text-decoration: none; }
 .caseStudy > div > a:hover { text-decoration: underline; text-underline-offset: 3px; }
-.metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 0; min-width: 0; }
+.metrics { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr) minmax(0, 0.9fr); gap: 10px; margin: 0; min-width: 0; }
 .metrics > div { display: flex; flex-direction: column-reverse; gap: 8px; padding: 20px 16px; border-radius: 12px; background: var(--surface-2); }
 .metrics dt { color: var(--muted); font-size: 0.78rem; line-height: 1.35; }
 .metrics dd { margin: 0; color: var(--accent); font-size: clamp(1.3rem, 1.8vw, 1.7rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; overflow-wrap: anywhere; }
@@ -288,7 +288,7 @@
 .finalCta > div { display: flex; flex-direction: column; align-items: center; max-width: 1180px; margin: 0 auto; padding: 72px 32px; border: 1px solid var(--line); border-radius: 22px; background: linear-gradient(180deg, #fff6f1, #fff); text-align: center; }
 .finalCta h2 { max-width: 700px; }
 .finalCta > div > p:not(.eyebrow) { max-width: 600px; margin-top: 16px; color: var(--muted); font-size: 1.05rem; line-height: 1.65; }
-.finalCta .btnPrimary { margin-top: 30px; }
+.finalActions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 30px; }
 .finalCta small { max-width: 520px; margin-top: 16px; color: var(--muted); font-size: 0.85rem; line-height: 1.5; }
 
 /* ── Responsive ────────────────────────────── */
@@ -332,7 +332,7 @@
   .proofCard { padding: 24px; }
   .featuredMarket > div { padding: 22px; }
   .finalCta > div { padding: 48px 22px; }
-  .finalCta .btnPrimary { width: 100%; }
+  .finalActions { flex-direction: column; align-items: stretch; width: 100%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -383,4 +383,51 @@
   .clients .marquee ul { flex-wrap: wrap; justify-content: center; animation: none; }
   .marquee ul[aria-hidden='true'] { display: none; }
   .marquee { -webkit-mask-image: none; mask-image: none; }
+}
+
+/* Trust strip: the award sits beside the customer names. */
+.clients .clientsAward { display: inline-flex; flex-shrink: 0; align-items: center; gap: 8px; padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); color: var(--ink); font-size: 0.8rem; font-weight: 600; }
+.clientsAward span { color: var(--accent); }
+
+/* Testimonials: initials next to the name. */
+.quote figcaption .avatar { display: grid; flex-shrink: 0; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.02em; }
+.quote figcaption .who { display: grid; gap: 3px; min-width: 0; }
+.quote figcaption .who > span { color: var(--muted); font-size: 0.82rem; }
+.metrics dd { overflow-wrap: normal; }
+
+@media (max-width: 640px) {
+  /* Quotes become a row you can swipe instead of a long stack. */
+  .quoteGrid { display: flex; gap: 12px; margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter) 10px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: 0 var(--gutter); scrollbar-width: none; }
+  .quoteGrid::-webkit-scrollbar { display: none; }
+  .quote { flex: 0 0 84%; scroll-snap-align: start; }
+  .clients .clientsAward { align-self: center; }
+}
+
+/* FAQ: the usual objections, answered with what the product does today. */
+.section.faq { padding-top: 56px; }
+.faq { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 56px; align-items: start; max-width: calc(1180px + 2 * var(--gutter)); }
+.faqIntro > p:not(.eyebrow) { margin-top: 16px; color: var(--muted); font-size: 1.05rem; line-height: 1.65; }
+.faqContact { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 26px; }
+.faqContact > a:last-child { color: var(--accent); font-size: 0.92rem; font-weight: 600; text-decoration: none; }
+.faqContact > a:last-child:hover { text-decoration: underline; text-underline-offset: 3px; }
+.faqList { display: grid; gap: 10px; }
+.faqItem { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); transition: border-color 160ms ease, box-shadow 160ms ease; }
+.faqItem[open] { border-color: #d9d2c6; box-shadow: var(--shadow); }
+.faqItem summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 22px; font-size: 1.02rem; font-weight: 600; letter-spacing: -0.01em; list-style: none; cursor: pointer; }
+.faqItem summary::-webkit-details-marker { display: none; }
+.faqItem summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: var(--radius); }
+.faqIcon { position: relative; flex-shrink: 0; width: 28px; height: 28px; border: 1px solid var(--line); border-radius: 50%; }
+.faqIcon::before,
+.faqIcon::after { content: ''; position: absolute; top: 50%; left: 50%; width: 10px; height: 1.5px; background: var(--accent); transform: translate(-50%, -50%); transition: transform 200ms ease; }
+.faqIcon::after { transform: translate(-50%, -50%) rotate(90deg); }
+.faqItem[open] .faqIcon::after { transform: translate(-50%, -50%) rotate(0deg); }
+.faqItem p { margin: 0; padding: 0 22px 20px; color: var(--muted); font-size: 0.95rem; line-height: 1.65; }
+.faqItem p a { color: var(--accent); font-weight: 600; text-decoration: none; }
+.faqItem p a:hover { text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 900px) {
+  .faq { grid-template-columns: 1fr; gap: 28px; }
+}
+@media (max-width: 520px) {
+  .heroCopy .points { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 14px; }
+  .heroCopy .points li { align-items: flex-start; }
 }

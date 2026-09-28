@@ -3,116 +3,98 @@ import { Language, legalRouteFor, routeFor } from '../lib/locales';
 const footerContent = {
   en: {
     market: 'Hotel operations',
+    tag: 'Make every hotel handoff visible: an owner, a due time and proof it was done.',
+    award: 'Innovative Product of the Year · Exphore 2017',
+    product: 'Product',
+    resources: 'Resources',
+    contact: 'Contact',
     platform: 'Platform',
     features: 'Features',
     hotels: 'Hospitality',
-    hotelScore: 'Hotel operations assessment',
     markets: 'Industries',
     blog: 'Blog',
-    resources: 'Resources',
+    hotelScore: 'Hotel operations assessment',
     demo: 'Request demo',
     login: 'Log in',
     privacy: 'Privacy',
     terms: 'Terms',
     security: 'Security',
-    email: 'Email',
-    tag: 'Make every hotel handoff visible.',
+    legal: 'Legal',
+    siteLinks: 'Site links',
+    whatsApp: 'Sales WhatsApp: +506 7071-7099',
   },
   es: {
     market: 'Operaciones hoteleras',
+    tag: 'Haz visible cada entrega operativa del hotel: responsable, plazo y evidencia de cierre.',
+    award: 'Producto Innovador del Año · Exphore 2017',
+    product: 'Producto',
+    resources: 'Recursos',
+    contact: 'Contacto',
     platform: 'Plataforma',
     features: 'Funcionalidades',
     hotels: 'Hospitalidad',
-    hotelScore: 'Diagnóstico hotelero',
     markets: 'Industrias',
     blog: 'Blog',
-    resources: 'Recursos',
+    hotelScore: 'Diagnóstico hotelero',
     demo: 'Solicitar demo',
     login: 'Iniciar sesión',
     privacy: 'Privacidad',
     terms: 'Términos',
     security: 'Seguridad',
-    email: 'Correo',
-    tag: 'Haz visible cada entrega operativa del hotel.',
+    legal: 'Legal',
+    siteLinks: 'Enlaces del sitio',
+    whatsApp: 'WhatsApp de ventas: +506 7071-7099',
   },
 } as const;
 
 export default function FooterBar({ lang }: { lang: Language }) {
   const t = footerContent[lang];
-  const hrefs = {
-    home: routeFor(lang, 'home'),
-    platform: routeFor(lang, 'platform'),
-    features: routeFor(lang, 'features'),
-    hotels: routeFor(lang, 'hotels'),
-    markets: routeFor(lang, 'markets'),
-    blog: routeFor(lang, 'blog'),
-    demo: routeFor(lang, 'demo'),
-  };
-  const siteLinksLabel: Record<Language, string> = {
-    es: 'Enlaces del sitio', en: 'Site links',
-  };
-  const whatsAppLabel: Record<Language, string> = {
-    es: 'WhatsApp de ventas: +506 7071-7099', en: 'Sales WhatsApp: +506 7071-7099',
-  };
 
   return (
-    <footer id="site-footer" className="hospitality-footer">
-      <a href={hrefs.home} className="f-logo" aria-label={`Whagons — ${t.market}`}>
-        <div className="f-logo-stack">
-          <span className="f-logo-icon" aria-hidden="true" />
-          <span className="f-logo-name">Whagons</span>
+    <footer id="site-footer" className="site-footer">
+      <div className="sf-in">
+        <div className="sf-brand">
+          <a href={routeFor(lang, 'home')} className="f-logo" aria-label={`Whagons — ${t.market}`}>
+            <div className="f-logo-stack">
+              <span className="f-logo-icon" aria-hidden="true" />
+              <span className="f-logo-name">Whagons</span>
+            </div>
+            <span className="logo-market">{t.market}</span>
+          </a>
+          <p className="sf-tag">{t.tag}</p>
+          <p className="sf-award"><span aria-hidden="true">★</span>{t.award}</p>
         </div>
-        <span className="logo-market">{t.market}</span>
-      </a>
-      <div className="f-links" role="navigation" aria-label={siteLinksLabel[lang]}>
-        <a href={hrefs.platform}>{t.platform}</a>
-        <a href={hrefs.features}>{t.features}</a>
-        <a href={hrefs.hotels}>{t.hotels}</a>
-        <a href={hrefs.markets}>{t.markets}</a>
-        <a href={hrefs.blog}>{t.blog}</a>
-        <a href={hrefs.demo}>{t.demo}</a>
-        <a href="https://app.whagons.com/">{t.login}</a>
-        <a href={routeFor(lang, 'hotelScore')}>{t.hotelScore}</a>
-        <a href="mailto:hello@whagons.com">{t.email} ↗</a>
-        <a
-          href="https://www.linkedin.com/company/whagons/"
-          className="f-social-link f-social-primary"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="LinkedIn — Whagons"
-        >
-          LinkedIn <span aria-hidden="true">↗</span>
-        </a>
-        <a
-          href="https://www.facebook.com/whagons/"
-          className="f-social-link"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Facebook — Whagons"
-        >
-          Facebook <span aria-hidden="true">↗</span>
-        </a>
-        <a
-          href="https://www.instagram.com/whagons/"
-          className="f-social-link"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Instagram — Whagons"
-        >
-          Instagram <span aria-hidden="true">↗</span>
-        </a>
-        <a
-          href="https://wa.me/50670717099"
-          aria-label={whatsAppLabel[lang]}
-        >
-          WhatsApp ↗
-        </a>
-        <a href={legalRouteFor(lang, 'privacy')}>{t.privacy}</a>
-        <a href={legalRouteFor(lang, 'terms')}>{t.terms}</a>
-        <a href={legalRouteFor(lang, 'security')}>{t.security}</a>
+        <div className="sf-col" role="navigation" aria-label={`${t.siteLinks}: ${t.product}`}>
+          <p className="sf-h">{t.product}</p>
+          <a href={routeFor(lang, 'platform')}>{t.platform}</a>
+          <a href={routeFor(lang, 'features')}>{t.features}</a>
+          <a href={routeFor(lang, 'hotels')}>{t.hotels}</a>
+          <a href={routeFor(lang, 'markets')}>{t.markets}</a>
+        </div>
+        <div className="sf-col" role="navigation" aria-label={`${t.siteLinks}: ${t.resources}`}>
+          <p className="sf-h">{t.resources}</p>
+          <a href={routeFor(lang, 'blog')}>{t.blog}</a>
+          <a href={routeFor(lang, 'hotelScore')}>{t.hotelScore}</a>
+          <a href={routeFor(lang, 'demo')}>{t.demo}</a>
+          <a href="https://app.whagons.com/">{t.login} <span aria-hidden="true">↗</span></a>
+        </div>
+        <div className="sf-col" role="navigation" aria-label={`${t.siteLinks}: ${t.contact}`}>
+          <p className="sf-h">{t.contact}</p>
+          <a href="mailto:hello@whagons.com">hello@whagons.com</a>
+          <a href="https://wa.me/50670717099" aria-label={t.whatsApp}>WhatsApp +506 7071-7099</a>
+          <a href="https://www.linkedin.com/company/whagons/" target="_blank" rel="noreferrer" aria-label="LinkedIn — Whagons">LinkedIn <span aria-hidden="true">↗</span></a>
+          <a href="https://www.facebook.com/whagons/" target="_blank" rel="noreferrer" aria-label="Facebook — Whagons">Facebook <span aria-hidden="true">↗</span></a>
+          <a href="https://www.instagram.com/whagons/" target="_blank" rel="noreferrer" aria-label="Instagram — Whagons">Instagram <span aria-hidden="true">↗</span></a>
+        </div>
       </div>
-      <div className="f-tag">{t.tag}</div>
-      <div className="f-copy">© 2026 Whagons</div>
+      <div className="sf-bottom">
+        <span>© 2026 Whagons</span>
+        <div className="sf-legal" role="navigation" aria-label={t.legal}>
+          <a href={legalRouteFor(lang, 'privacy')}>{t.privacy}</a>
+          <a href={legalRouteFor(lang, 'terms')}>{t.terms}</a>
+          <a href={legalRouteFor(lang, 'security')}>{t.security}</a>
+        </div>
+      </div>
     </footer>
   );
 }

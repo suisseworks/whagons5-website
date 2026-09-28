@@ -1,7 +1,7 @@
 .page .chapter { padding-top: 72px; padding-bottom: 72px; }
 .capabilities { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; border-top: 1px solid var(--line); }
 .capability { display: flex; gap: 15px; padding: 27px 0 8px; }
-.number { font-size: 11px; color: #a84627; padding-top: 5px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.number { font-size: 11px; color: #b82a09; padding-top: 5px; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .capability h3 { font-size: 18px; line-height: 1.3; }
 .capability p { margin-top: 12px; color: var(--muted); font-size: 15px; line-height: 1.7; }
 .roles { background: #263829; color: #fff; }
