@@ -19,6 +19,7 @@ const footerContent = {
     privacy: 'Privacy',
     terms: 'Terms',
     security: 'Security',
+    dataRetention: 'Data retention',
     legal: 'Legal',
     siteLinks: 'Site links',
     whatsApp: 'Sales WhatsApp: +506 7071-7099',
@@ -41,6 +42,7 @@ const footerContent = {
     privacy: 'Privacidad',
     terms: 'Términos',
     security: 'Seguridad',
+    dataRetention: 'Retención de datos',
     legal: 'Legal',
     siteLinks: 'Enlaces del sitio',
     whatsApp: 'WhatsApp de ventas: +506 7071-7099',
@@ -93,6 +95,7 @@ export default function FooterBar({ lang }: { lang: Language }) {
           <a href={legalRouteFor(lang, 'privacy')}>{t.privacy}</a>
           <a href={legalRouteFor(lang, 'terms')}>{t.terms}</a>
           <a href={legalRouteFor(lang, 'security')}>{t.security}</a>
+          <a href={legalRouteFor(lang, 'data-retention')}>{t.dataRetention}</a>
         </div>
       </div>
     </footer>

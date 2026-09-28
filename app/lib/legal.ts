@@ -4,6 +4,7 @@ export interface LegalSection {
   title: string;
   body: string[];
   bullets?: string[];
+  links?: { label: string; href: string }[];
 }
 
 export interface LegalPageContent {
@@ -26,7 +27,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
     intro:
       'Esta Política de Privacidad explica cómo Whagons recopila, usa, protege y comparte información cuando visitas nuestro sitio web, solicitas un brief o demo, o utilizas la plataforma Whagons para gestionar operaciones, automatizaciones, documentación y flujos de trabajo empresariales.',
     updatedLabel: 'Última actualización',
-    updatedDate: '9 de septiembre de 2026',
+    updatedDate: '28 de septiembre de 2026',
     sections: [
       {
         title: 'Hotel Operations Score',
@@ -100,7 +101,9 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         body: [
           'Aplicamos medidas administrativas, técnicas y organizativas razonables para proteger la información contra acceso no autorizado, pérdida, alteración o divulgación indebida. Ningún sistema es completamente infalible, por lo que no podemos garantizar seguridad absoluta.',
           'Conservamos la información durante el tiempo necesario para los fines descritos en esta política, para cumplir obligaciones legales, resolver disputas, hacer cumplir acuerdos y mantener registros comerciales y operativos legítimos.',
+          'Los plazos de retención por categoría y la forma en que eliminamos los datos, incluidos los datos financieros recibidos a través de Plaid, están en nuestra Política de Retención y Eliminación de Datos.',
         ],
+        links: [{ label: 'Política de Retención y Eliminación de Datos', href: '/es/data-retention' }],
       },
       {
         title: '9. Transferencias internacionales',
@@ -146,7 +149,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
     intro:
       'This Privacy Policy explains how Whagons Systems LLC (Whagons, we, or us) collects, uses, protects, and shares information when you visit the U.S. website, request a Hotel Handoff Leak Scan, or use the Whagons platform.',
     updatedLabel: 'Last updated',
-    updatedDate: 'September 9, 2026',
+    updatedDate: 'September 28, 2026',
     sections: [
       {
         title: 'Hotel Operations Score',
@@ -220,7 +223,9 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         body: [
           'We apply reasonable administrative, technical, and organizational measures to protect information against unauthorized access, loss, alteration, or improper disclosure. No system is completely fail-safe, so we cannot guarantee absolute security.',
           'We retain information for as long as needed for the purposes described in this policy, to comply with legal obligations, resolve disputes, enforce agreements, and maintain legitimate business and operational records.',
+          'Retention periods for each category, and how we delete data, including financial data received through Plaid, are set out in our Data Retention and Disposal Policy.',
         ],
+        links: [{ label: 'Data Retention and Disposal Policy', href: '/en/data-retention' }],
       },
       {
         title: '9. International transfers',
@@ -715,5 +720,224 @@ export const securityContent: Record<Language, LegalPageContent> = {
       'We can share more context on controls, implementation, and operational expectations for your use case.',
     primaryCta: 'Request a demo',
     secondaryCta: 'Contact Whagons',
+  },
+};
+
+export const dataRetentionContent: Record<Language, LegalPageContent> = {
+  es: {
+    eyebrow: 'Legal',
+    title: 'Política de Retención y Eliminación de Datos',
+    intro:
+      'Esta política explica cuánto tiempo conserva Whagons Systems LLC la información que tiene bajo su control y cómo la elimina cuando ese plazo termina. Aplica al sitio web, a la plataforma Whagons y a los datos de cuentas financieras que recibimos a través de Plaid.',
+    updatedLabel: 'Fecha de vigencia',
+    updatedDate: '28 de septiembre de 2026',
+    sections: [
+      {
+        title: '1. Alcance',
+        body: [
+          'Esta política aplica a Whagons Systems LLC y a toda persona que trabaje en sus sistemas. Cubre estas categorías de información:',
+        ],
+        bullets: [
+          'Datos de la plataforma cargados o generados por clientes en Whagons, como tareas, formularios, archivos, comentarios y registros operativos.',
+          'Datos de cuenta, usuarios y facturación de los clientes.',
+          'Datos del sitio web y de prospectos, como solicitudes de demo, briefs, resultados del Hotel Operations Score y contactos de marketing.',
+          'Registros técnicos y de seguridad de nuestros servidores.',
+          'Datos de cuentas financieras recibidos a través de Plaid.',
+        ],
+      },
+      {
+        title: '2. Uso actual de Plaid',
+        body: [
+          'Hoy Whagons usa Plaid solo para un panel interno de finanzas personales, de solo lectura, que opera el propietario de la empresa. Usamos únicamente el producto Transactions y conectamos un número pequeño de cuentas propias del propietario. No recibimos datos bancarios de clientes ni de terceros a través de Plaid.',
+          'Si en el futuro Whagons ofrece a sus clientes una integración con Plaid, esta política aplicará a esos datos y la actualizaremos antes del lanzamiento.',
+        ],
+      },
+      {
+        title: '3. Principios',
+        body: [],
+        bullets: [
+          'Conservamos información solo mientras la necesita un propósito definido en esta política o en la Política de Privacidad.',
+          'Cuando el propósito termina, eliminamos los datos. No los archivamos "por si acaso".',
+          'La eliminación cubre la base de datos de producción y las copias de respaldo, dentro de los plazos de la sección 6.',
+          'La única excepción es una retención legal (sección 8).',
+        ],
+      },
+      {
+        title: '4. Plazos de retención',
+        body: ['Estos son los plazos máximos por categoría:'],
+        bullets: [
+          'Datos de la plataforma del cliente: mientras la suscripción esté activa. Al terminar el contrato, los eliminamos de producción dentro de 90 días, salvo que el cliente pida antes una exportación o aplique una retención legal.',
+          'Datos de cuenta y usuarios: mientras la cuenta esté activa. Se eliminan junto con los datos de la plataforma del cliente.',
+          'Facturas y registros contables y fiscales: 7 años, para cumplir obligaciones fiscales de Estados Unidos.',
+          'Datos del sitio web y de prospectos: hasta 24 meses desde la última interacción, o antes si la persona lo solicita. Si alguien se da de baja, conservamos solo su correo en una lista de exclusión para respetar esa decisión.',
+          'Respuestas del Hotel Operations Score guardadas en el navegador: 24 horas en la pestaña del navegador.',
+          'Registros técnicos y de seguridad: hasta 12 meses.',
+          'Tokens de acceso de Plaid: mientras la cuenta bancaria siga conectada. Se eliminan en el momento de la desconexión.',
+          'Transacciones y saldos recibidos de Plaid: mientras la cuenta siga conectada y el panel los necesite. Se eliminan de producción dentro de 30 días después de la desconexión o de una solicitud de eliminación.',
+          'Copias de respaldo: se reemplazan de forma rotativa. Los datos eliminados de producción desaparecen de los respaldos a más tardar 90 días después.',
+        ],
+      },
+      {
+        title: '5. Cómo protegemos y eliminamos los datos de Plaid',
+        body: ['Así manejamos hoy los datos recibidos a través de Plaid:'],
+        bullets: [
+          'Las credenciales bancarias se ingresan en Plaid Link. Nunca llegan a nuestros servidores.',
+          'Los tokens de acceso de Plaid se cifran con AES-256-GCM en la aplicación antes de guardarse en la base de datos. La clave de cifrado vive en la configuración del servidor, no en la base de datos.',
+          'Las transacciones y saldos se guardan en una base de datos PostgreSQL en un servidor en Estados Unidos operado por Whagons. Solo se accede a ellos con una sesión autenticada del propietario.',
+          'El acceso es de solo lectura. No iniciamos pagos ni transferencias.',
+          'Las funciones de asistente interno reciben solo resúmenes agregados, como totales por categoría y saldos. No reciben transacciones individuales ni tokens de acceso.',
+        ],
+      },
+      {
+        title: '6. Métodos de eliminación segura',
+        body: [],
+        bullets: [
+          'Desconexión de una cuenta de Plaid: llamamos al endpoint /item/remove de Plaid, que invalida el token de acceso en Plaid. Luego borramos el token cifrado y, dentro de 30 días, las transacciones y saldos de esa cuenta.',
+          'Base de datos: borramos los registros de forma definitiva. No usamos marcas de "eliminado" que dejen los datos en su lugar.',
+          'Respaldos: expiran de forma rotativa dentro de 90 días. Solo restauramos un respaldo para recuperación ante desastres, y en ese caso volvemos a aplicar las eliminaciones pendientes antes de poner el sistema en uso.',
+          'Borrado criptográfico: como los tokens de Plaid están cifrados y revocados en Plaid, una copia que quede en un respaldo ya no sirve para acceder a ninguna cuenta, incluso antes de que el respaldo expire.',
+          'Archivos: borramos los objetos del almacenamiento de archivos junto con los registros que los referencian.',
+          'Proveedores: cuando eliminamos datos que también compartimos con un proveedor, como la herramienta de gestión de prospectos, también los eliminamos allí.',
+          'Copias locales y exportaciones: se borran cuando termina la tarea que las necesitó.',
+        ],
+      },
+      {
+        title: '7. Solicitudes de eliminación',
+        body: [
+          'Cualquier persona puede pedir la eliminación de sus datos escribiendo a hello@whagons.com. Verificamos la identidad, completamos la eliminación dentro de 30 días y confirmamos por correo cuando termina.',
+          'Quien haya conectado una cuenta mediante Plaid también puede revocar ese acceso en el portal de Plaid (my.plaid.com).',
+          'Si la solicitud se refiere a datos que un cliente cargó en la plataforma, la coordinamos con ese cliente, que es quien controla esos datos.',
+        ],
+      },
+      {
+        title: '8. Retenciones legales',
+        body: [
+          'Si un litigio, una investigación o un requerimiento legal exige conservar información, el responsable de esta política suspende la eliminación de los datos afectados y registra el motivo. Cuando la retención termina, los datos vuelven a los plazos normales de esta política.',
+        ],
+      },
+      {
+        title: '9. Responsable y revisión',
+        body: [
+          'El Managing Member de Whagons Systems LLC es responsable de esta política y de que se cumpla.',
+          'Revisamos esta política al menos una vez al año y cada vez que cambia el uso de datos de forma importante, por ejemplo al agregar un producto de Plaid o una integración con Plaid para clientes. La próxima revisión será a más tardar en septiembre de 2027.',
+        ],
+      },
+      {
+        title: '10. Contacto',
+        body: ['Para preguntas sobre esta política, escríbenos a hello@whagons.com.'],
+      },
+    ],
+    ctaTitle: '¿Tienes preguntas sobre tus datos?',
+    ctaDescription: 'Escríbenos y te respondemos sobre retención, eliminación o cualquier solicitud de datos.',
+    primaryCta: 'Solicitar demo',
+    secondaryCta: 'Escribir a Whagons',
+  },
+  en: {
+    eyebrow: 'Legal',
+    title: 'Data Retention and Disposal Policy',
+    intro:
+      'This policy explains how long Whagons Systems LLC keeps the information it controls and how it deletes that information when the time is up. It covers the website, the Whagons platform, and financial account data we receive through Plaid.',
+    updatedLabel: 'Effective date',
+    updatedDate: 'September 28, 2026',
+    sections: [
+      {
+        title: '1. Scope',
+        body: [
+          'This policy applies to Whagons Systems LLC and to anyone who works on its systems. It covers these categories of information:',
+        ],
+        bullets: [
+          'Platform data that customers upload to or create in Whagons, such as tasks, forms, files, comments, and operational records.',
+          'Customer account, user, and billing data.',
+          'Website and lead data, such as demo requests, briefs, Hotel Operations Score results, and marketing contacts.',
+          'Technical and security logs from our servers.',
+          'Financial account data received through Plaid.',
+        ],
+      },
+      {
+        title: '2. Current use of Plaid',
+        body: [
+          'Today Whagons uses Plaid only for an internal, read-only personal finance dashboard operated by the company owner. We use the Transactions product only and connect a small number of the owner\'s own accounts. We do not receive bank data from customers or other third parties through Plaid.',
+          'If Whagons later offers a Plaid integration to customers, this policy will apply to that data and we will update it before launch.',
+        ],
+      },
+      {
+        title: '3. Principles',
+        body: [],
+        bullets: [
+          'We keep information only while a purpose stated in this policy or our Privacy Policy needs it.',
+          'When the purpose ends, we delete the data. We do not archive it "just in case".',
+          'Deletion covers the production database and backups, within the windows in section 6.',
+          'The only exception is a legal hold (section 8).',
+        ],
+      },
+      {
+        title: '4. Retention periods',
+        body: ['These are the maximum periods for each category:'],
+        bullets: [
+          'Customer platform data: for as long as the subscription is active. After the contract ends, we delete it from production within 90 days, unless the customer first asks for an export or a legal hold applies.',
+          'Account and user data: while the account is active. It is deleted together with the customer\'s platform data.',
+          'Invoices, accounting, and tax records: 7 years, to meet U.S. tax obligations.',
+          'Website and lead data: up to 24 months after the last interaction, or sooner on request. If someone unsubscribes, we keep only their email address on a suppression list so we can honor that choice.',
+          'Hotel Operations Score answers stored in the browser: 24 hours, in that browser tab.',
+          'Technical and security logs: up to 12 months.',
+          'Plaid access tokens: while the bank account stays connected. Deleted at the moment of disconnection.',
+          'Transactions and balances received from Plaid: while the account stays connected and the dashboard needs them. Deleted from production within 30 days after disconnection or a deletion request.',
+          'Backups: replaced on a rolling schedule. Data deleted from production is gone from backups no later than 90 days afterwards.',
+        ],
+      },
+      {
+        title: '5. How we protect data received through Plaid',
+        body: ['This is how we handle data received through Plaid today:'],
+        bullets: [
+          'Bank credentials are entered in Plaid Link. They never reach our servers.',
+          'Plaid access tokens are encrypted with AES-256-GCM in the application before they are written to the database. The encryption key lives in the server configuration, not in the database.',
+          'Transactions and balances are stored in a PostgreSQL database on a server in the United States operated by Whagons. They can only be accessed through an authenticated owner session.',
+          'Access is read-only. We do not initiate payments or transfers.',
+          'Internal assistant features receive only aggregated summaries, such as totals by category and account balances. They do not receive individual transactions or access tokens.',
+        ],
+      },
+      {
+        title: '6. Secure disposal methods',
+        body: [],
+        bullets: [
+          'Disconnecting a Plaid account: we call Plaid\'s /item/remove endpoint, which invalidates the access token at Plaid. We then delete the encrypted token and, within 30 days, the transactions and balances for that account.',
+          'Database records: we delete records permanently. We do not use "deleted" flags that leave the data in place.',
+          'Backups: they expire on a rolling schedule within 90 days. We restore a backup only for disaster recovery, and in that case we re-apply pending deletions before the system goes back into use.',
+          'Crypto-erase: because Plaid access tokens are encrypted and revoked at Plaid, a copy left in a backup cannot be used to access any account, even before the backup expires.',
+          'Files: we delete objects from file storage together with the records that reference them.',
+          'Vendors: when we delete data that we also shared with a vendor, such as our lead-management tool, we delete it there too.',
+          'Local copies and exports: deleted when the task that needed them is finished.',
+        ],
+      },
+      {
+        title: '7. Deletion requests',
+        body: [
+          'Anyone can ask us to delete their data by writing to hello@whagons.com. We verify identity, complete the deletion within 30 days, and confirm by email when it is done.',
+          'Anyone who connected an account through Plaid can also revoke that access in the Plaid Portal (my.plaid.com).',
+          'If a request concerns data that a customer uploaded to the platform, we coordinate it with that customer, who controls that data.',
+        ],
+      },
+      {
+        title: '8. Legal holds',
+        body: [
+          'If litigation, an investigation, or a legal request requires us to keep information, the policy owner suspends deletion of the affected data and records the reason. When the hold ends, that data returns to the normal schedule in this policy.',
+        ],
+      },
+      {
+        title: '9. Owner and review',
+        body: [
+          'The Managing Member of Whagons Systems LLC owns this policy and is responsible for carrying it out.',
+          'We review this policy at least once a year and whenever our use of data changes in a material way, for example when we add a Plaid product or a customer-facing Plaid integration. The next review is due no later than September 2027.',
+        ],
+      },
+      {
+        title: '10. Contact',
+        body: ['Questions about this policy can be sent to hello@whagons.com.'],
+      },
+    ],
+    ctaTitle: 'Questions about your data?',
+    ctaDescription: 'Write to us about retention, deletion, or any data request.',
+    primaryCta: 'Request a demo',
+    secondaryCta: 'Email Whagons',
   },
 };

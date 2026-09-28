@@ -81,7 +81,7 @@ export function routeFor(lang: Language, route: CoreRoute): string {
   return FULL_PAGE_ROUTES[lang][route];
 }
 
-export function legalRouteFor(lang: Language, page: 'privacy' | 'terms' | 'security'): string {
+export function legalRouteFor(lang: Language, page: 'privacy' | 'terms' | 'security' | 'data-retention'): string {
   return `/${lang === 'es' ? 'es' : 'en'}/${page}`;
 }
 
