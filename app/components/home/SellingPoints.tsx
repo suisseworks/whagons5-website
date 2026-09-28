@@ -143,11 +143,12 @@ export default function SellingPoints({ lang }: { lang: Language }) {
     return () => window.cancelAnimationFrame(frame);
   }, [active]);
 
+  // Rewind only when the video is about to play: seeking hides the poster,
+  // and each animation's first frame is still blank.
   const show = (index: number) => {
     const video = videos.current[index];
-    if (video) video.currentTime = 0;
+    if (video && !paused && video.currentTime > 0) video.currentTime = 0;
     setActive(index);
-    setPaused(false);
   };
 
   const current = t.items[active];
