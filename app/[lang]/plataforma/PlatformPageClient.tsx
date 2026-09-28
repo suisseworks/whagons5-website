@@ -23,7 +23,7 @@ const content = {
       ['Formularios y evidencia', 'El resultado queda documentado.', 'Guía la ejecución con formularios, verificaciones y evidencia vinculada a la tarea. QR y NFC conectan el trabajo con su ubicación, según la configuración.', 'Formularios · Evidencia · QR y NFC'],
       ['Procedimientos y conocimiento', 'El contexto acompaña al equipo.', 'Reúne procedimientos, documentos y materiales de capacitación. Facilita que los equipos consulten las instrucciones y registren su lectura cuando corresponda.', 'Procedimientos · Documentos · Capacitación'],
       ['Visibilidad operativa', 'Una vista clara de lo que necesita atención.', 'Consulta tareas, estados e indicadores para dar seguimiento a la operación. Revisa el avance del equipo y el historial del trabajo antes de decidir el siguiente paso.', 'Indicadores · Estados · Historial'],
-      ['Asistencia inteligente', 'Menos tiempo buscando el contexto.', 'Consulta información y recibe asistencia sobre el trabajo de tu operación. Las funciones de voz, las acciones disponibles y el consumo se definen según la configuración y el alcance contratado.', 'Consultas · Contexto · Asistencia por voz'],
+      ['Powerups', 'Activa solo lo que tu operación necesita.', 'Suma módulos como planes de trabajo, limpieza de habitaciones o tarjetas KPI cuando tu operación los necesite. Se activan para toda la organización y los permisos de cada rol deciden quién los usa.', 'Planes de trabajo · Limpieza · Tarjetas KPI'],
     ],
     connectLabel: 'EN TU OPERACIÓN', connectTitle: 'Tu PMS conoce la estadía. Whagons coordina el trabajo.', connectText: 'Conserva los sistemas que ya usas. Define con nuestro equipo qué información conectar y qué proceso ordenar primero.',
     system: 'Tus sistemas', systemSub: 'PMS · ERP · otras herramientas', center: 'Trabajo coordinado', people: 'Tu equipo', peopleSub: 'Recepción · Operación · Gerencia',
@@ -48,7 +48,7 @@ const content = {
       ['Forms & evidence', 'The result stays documented.', 'Guide execution with forms, checks and evidence attached to the task. QR and NFC connect work with its location, depending on configuration.', 'Forms · Evidence · QR & NFC'],
       ['Procedures & knowledge', 'Context stays with the team.', 'Bring together procedures, documents and training materials. Help teams consult instructions and acknowledge reading them when needed.', 'Procedures · Documents · Training'],
       ['Operational visibility', 'A clear view of what needs attention.', 'Review tasks, statuses and indicators to follow the operation. Check team progress and work history before deciding the next step.', 'Indicators · Statuses · History'],
-      ['Intelligent assistance', 'Less time searching for context.', 'Find information and get assistance with your operational work. Voice functions, available actions and usage depend on configuration and contracted scope.', 'Queries · Context · Voice assistance'],
+      ['Powerups', 'Turn on only what your operation needs.', 'Add modules such as work plans, room cleaning or KPI cards when your operation needs them. They switch on for the whole organization, and each role’s permissions decide who uses them.', 'Work plans · Cleaning · KPI cards'],
     ],
     connectLabel: 'WITHIN YOUR OPERATION', connectTitle: 'Your PMS knows the stay. Whagons coordinates the work.', connectText: 'Keep the systems you already use. Work with our team to define what to connect and which process to organize first.',
     system: 'Your systems', systemSub: 'PMS · ERP · other tools', center: 'Coordinated work', people: 'Your team', peopleSub: 'Front desk · Operations · Management',
@@ -67,24 +67,24 @@ export default function PlatformPageClient({ lang }: { lang: Language }) {
       <p className={styles.eyebrow}>{t.eyebrow}</p>
       <div className={styles.heroIntro}><h1>{t.title}<em>{t.emphasis}</em></h1><div><p className={styles.lead}>{t.lead}</p><div className={styles.actions}><a className={styles.primary} href={demoHref}>{t.demo}<span aria-hidden="true">↗</span></a><a className={styles.textLink} href="#platform-capabilities">{t.explore}<span aria-hidden="true">↓</span></a></div></div></div>
       <div className={styles.productHeading}><span>{t.screen}</span><span>{t.screenNote}</span></div>
-      <figure className={styles.product}><Image src={shot.src} width={shot.width} height={shot.height} alt={t.screenAlt} priority sizes="(max-width: 1480px) 92vw, 1320px" quality={90} /><figcaption className={styles.lenses}>{t.lenses.map(([title,desc],i)=><div key={title}><span>0{i+1}</span><p><strong>{title}</strong>{desc}</p></div>)}</figcaption></figure>
+      <figure className={styles.product}><Image src={shot.src} width={shot.width} height={shot.height} alt={t.screenAlt} priority sizes="(max-width: 1240px) 100vw, 1180px" quality={90} /><figcaption className={styles.lenses}>{t.lenses.map(([title,desc],i)=><div key={title}><span>0{i+1}</span><p><strong>{title}</strong>{desc}</p></div>)}</figcaption></figure>
     </section>
 
-    <section className={styles.flow}>
+    <section className={styles.flow} data-reveal-kids="">
       <div className={styles.sectionIntro}><div><p className={styles.eyebrow}>{t.flowLabel}</p><h2>{t.flowTitle}</h2></div><p className={styles.lead}>{t.flowLead}</p></div>
       <div className={styles.example}><span>{t.example}</span><strong>{t.task}</strong><span>{t.room}</span></div>
       <ol className={styles.steps}>{t.steps.map(([title,desc,status],i)=><li key={title}><span className={styles.stepNumber}>0{i+1}</span><h3>{title}</h3><p>{desc}</p><span className={styles.stepStatus}>{status}</span></li>)}</ol>
     </section>
 
-    <section className={styles.capabilities} id="platform-capabilities">
+    <section className={styles.capabilities} id="platform-capabilities" data-reveal-kids="">
       <div className={styles.capabilityIntro}><p className={styles.eyebrow}>{t.capabilities}</p><h2>{t.capabilitiesTitle}</h2><p className={styles.lead}>{t.capabilitiesLead}</p><p className={styles.hint}>{t.detailHint}</p></div>
       <div className={styles.moduleList}>{t.modules.map(([title,tagline,desc,terms],i)=><details key={title} id={`modulo-0${i+1}`} className={styles.module} open={i===0}><summary><span className={styles.moduleNumber}>0{i+1}</span><span><h3>{title}</h3><span className={styles.tagline}>{tagline}</span></span><span className={styles.expand} aria-hidden="true" /></summary><div className={styles.moduleBody}><p>{desc}</p><span>{terms}</span></div></details>)}</div>
     </section>
 
-    <section className={styles.connections}><div className={styles.sectionIntro}><div><p className={styles.eyebrow}>{t.connectLabel}</p><h2>{t.connectTitle}</h2></div><p className={styles.lead}>{t.connectText}</p></div>
+    <section className={styles.connections} data-reveal-kids=""><div className={styles.sectionIntro}><div><p className={styles.eyebrow}>{t.connectLabel}</p><h2>{t.connectTitle}</h2></div><p className={styles.lead}>{t.connectText}</p></div>
       <div className={styles.connectionDiagram}><div><strong>{t.system}</strong><span>{t.systemSub}</span></div><span className={styles.connector} aria-hidden="true">↔</span><div className={styles.hub}><span>Whagons</span><strong>{t.center}</strong></div><span className={styles.connector} aria-hidden="true">↔</span><div><strong>{t.people}</strong><span>{t.peopleSub}</span></div></div>
       <div className={styles.practical}><article><span aria-hidden="true">01 /</span><h3>{t.rolloutTitle}</h3><p>{t.rolloutText}</p></article><article><span aria-hidden="true">02 /</span><h3>{t.offlineTitle}</h3><p>{t.offlineText}</p></article></div>
     </section>
-    <section className={styles.final}><p className={styles.eyebrow}>{t.finalLabel}</p><h2>{t.finalTitle}</h2><p className={styles.lead}>{t.finalText}</p><div className={styles.actions}><a className={styles.primary} href={demoHref}>{t.finalButton}<span aria-hidden="true">↗</span></a><a className={styles.textLink} href={lang==='es'?'/es/funcionalidades':'/en/features'}>{t.features}<span aria-hidden="true">→</span></a></div></section>
+    <section className={styles.final} data-reveal-kids=""><p className={styles.eyebrow}>{t.finalLabel}</p><h2>{t.finalTitle}</h2><p className={styles.lead}>{t.finalText}</p><div className={styles.actions}><a className={styles.primary} href={demoHref}>{t.finalButton}<span aria-hidden="true">↗</span></a><a className={styles.textLink} href={lang==='es'?'/es/funcionalidades':'/en/features'}>{t.features}<span aria-hidden="true">→</span></a></div></section>
   </main>;
 }

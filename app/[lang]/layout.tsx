@@ -15,11 +15,13 @@ import '../globals.css';
 import '../styles/pages.css';
 
 const instrumentSans = Instrument_Sans({
+  weight: ['400', '500', '600'],
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
 });
 
+// Labels in the blog and small captions elsewhere.
 const jetBrainsMono = JetBrains_Mono({
   weight: ['400', '500'],
   subsets: ['latin'],

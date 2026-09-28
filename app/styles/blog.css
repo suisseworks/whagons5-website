@@ -4,8 +4,150 @@
    reading progress and share links; a single prose column with numbered
    figures; related posts as feed rows. */
 
-.blog { padding-bottom: 96px; }
+.blog {
+  /* The blog keeps its own editorial system. Tokens live on main.blog so the
+     rest of the site, nav and footer included, keeps the site's own look. */
+  --bg: #faf9f6;
+  --bg-raised: #f3f1ec;
+  --bg-panel: #ebe7df;
+  --paper: #ffffff;
+  --ink: #161513;
+  --ink-2: #4a4843;
+  --ink-3: #78756d;
+  --ink-4: #aaa69c;
+  --ink-rgb: 22, 21, 19;
+  --line: rgba(22, 21, 19, 0.17);
+  --line-soft: rgba(22, 21, 19, 0.095);
+  --accent: #d4310a;
+  --sand: #e8dfd1;
+  --ok: #2f7d4a;
+  --ease-out: cubic-bezier(0.19, 1, 0.22, 1);
+  --gutter: 56px;
+  --wrap: 1552px;
+  --nav-h: 71px;
+  --type-h1: clamp(1.8rem, 1.25rem + 1.4vw, 2.6rem);
+  --type-sub: 1.125rem;
+  --type-p: 1.0625rem;
+  --type-data: 0.875rem;
+
+  display: block;
+  padding: var(--nav-h) 0 96px;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* Gutters match the site nav: 56px on desktop, 24px once it collapses. */
+@media (max-width: 1230px) { .blog { --nav-h: 77px; --gutter: 24px; } }
 .blog :where(h1, h2, h3, h4, p, ul, ol, figure, blockquote) { margin: 0; }
+:where(.blog) a { color: inherit; }
+:where(.blog) button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+:where(.blog) ::selection { background: rgba(212, 49, 10, 0.16); }
+:where(.blog) :focus-visible { outline: 1px solid var(--ink); outline-offset: 3px; }
+
+/* ── Editorial primitives ─────────────────────────────── */
+
+:where(.blog) .wrap { width: 100%; max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gutter); }
+:where(.blog) .g12 { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); }
+:where(.blog) .lbl {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+:where(.blog) .chip {
+  display: inline-block;
+  width: fit-content;
+  padding: 2px 8px;
+  border: 1px solid var(--line-soft);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: var(--ink-3);
+  white-space: nowrap;
+  text-decoration: none;
+}
+:where(.blog) .chip-accent { border-color: rgba(212, 49, 10, 0.28); color: var(--accent); }
+/* Tree branch drawn in CSS so it looks the same in every font. */
+:where(.blog) .br {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 0.55em;
+  height: 0.62em;
+  margin-right: 0.7em;
+  border-left: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  color: var(--ink-4);
+  transform: translateY(-0.2em);
+}
+:where(.blog) .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  min-height: 46px;
+  padding: 0 20px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--bg);
+  font: 500 1rem/1 var(--sans);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+:where(.blog) .btn:hover,
+:where(.blog) .btn:focus-visible { background: var(--accent); border-color: var(--accent); color: #fff; }
+:where(.blog) .tlink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+:where(.blog) .tlink:hover,
+:where(.blog) .tlink:focus-visible { color: var(--ink); }
+:where(.blog) .tlink .arr { transition: transform 0.2s var(--ease-out); }
+:where(.blog) .tlink:hover .arr { transform: translateX(3px); }
+/* Feed rows: hovering one row dims its siblings. */
+:where(.blog) .feed { border-top: 1px solid var(--line-soft); }
+:where(.blog) .frow {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: baseline;
+  padding: 1.05rem 2px;
+  border-bottom: 1px solid var(--line-soft);
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.25s;
+}
+:where(.blog) .frow::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: transparent;
+  transition: background 0.2s;
+}
+:where(.blog) a.frow:hover::before,
+:where(.blog) a.frow:focus-visible::before { background: var(--ink); }
+:where(.blog) a.frow:focus-visible { outline: none; border-bottom-color: var(--ink); }
+@media (hover: hover) {
+  :where(.blog) .feed:hover > .frow:not(:hover) { opacity: 0.35; }
+}
 
 /* ── Tabs (index + related) ───────────────────────────── */
 
@@ -65,11 +207,9 @@
   grid-column: 1 / 5;
   align-self: start;
   position: sticky;
-  top: 2rem;
+  top: calc(var(--nav-h) + 1.5rem);
   padding-right: 40px;
-  transition: top 0.4s var(--ease-out);
 }
-html[data-nav='shown'] .bi-hd { top: calc(var(--nav-h) + 1.5rem); }
 .bi-title { font-family: var(--mono); font-size: 2rem; font-weight: 400; letter-spacing: -0.01em; line-height: 1.1; }
 .bi-title span { color: var(--ink-4); }
 .bi-lead { max-width: 34ch; margin-top: 16px; color: var(--ink-2); font-size: 1.0625rem; line-height: 1.6; }
@@ -164,16 +304,14 @@ html[data-nav='shown'] .bi-hd { top: calc(var(--nav-h) + 1.5rem); }
   grid-column: 1 / 5;
   align-self: start;
   position: sticky;
-  top: 2rem;
+  top: calc(var(--nav-h) + 1.5rem);
   display: flex;
   flex-direction: column;
-  min-height: calc(100dvh - 4rem);
+  min-height: calc(100dvh - var(--nav-h) - 4rem);
   margin-top: -2px;
   margin-right: 32px;
   font-family: var(--mono);
-  transition: top 0.4s var(--ease-out), min-height 0.4s var(--ease-out);
 }
-html[data-nav='shown'] .rail { top: calc(var(--nav-h) + 1.5rem); min-height: calc(100dvh - var(--nav-h) - 4rem); }
 .rail-title {
   max-width: 40ch;
   max-height: 0;

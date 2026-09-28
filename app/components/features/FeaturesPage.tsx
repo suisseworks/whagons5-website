@@ -199,8 +199,8 @@ const content: Record<FeaturesLanguage, PageContent> = {
             text: 'Frontline teams see the next action while managers review open work, late work, and exceptions.',
           },
           {
-            title: 'Analytics and AI assistance',
-            text: 'Review delays and recurring issues, and use operating context to help identify the next action.',
+            title: 'KPI cards',
+            text: 'Show total tasks, work in progress, tasks finished today, overdue work and the weekly trend at the top of every space.',
           },
           {
             title: 'API and integrations',
@@ -386,8 +386,8 @@ const content: Record<FeaturesLanguage, PageContent> = {
             text: 'Los equipos de primera línea ven la siguiente acción; los gerentes revisan trabajo abierto, atrasado y excepciones.',
           },
           {
-            title: 'Analítica y asistencia con IA',
-            text: 'Revisa atrasos y problemas recurrentes, y usa el contexto operativo para ayudar a identificar la siguiente acción.',
+            title: 'Tarjetas KPI',
+            text: 'Muestra arriba de cada espacio el total de tareas, lo que está en progreso, lo terminado hoy, lo vencido y la tendencia semanal.',
           },
           {
             title: 'API e integraciones',
@@ -529,7 +529,7 @@ export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
           </div>
         );
         const section = (
-          <section className={`pg-section ${styles.chapter}`} id={chapter.id} key={chapter.id}>
+          <section className={`pg-section ${styles.chapter}`} id={chapter.id} key={chapter.id} data-reveal-kids="">
             {shot && chapter.shotCaption && chapter.shotAlt ? (
               <div className={chapterIndex % 2 === 1 ? 'pg-split' : 'pg-split pg-split-reverse'} style={{ marginBottom: 40 }}>
                 {intro}
@@ -551,7 +551,7 @@ export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
         return band ? <div className="pg-band" key={chapter.id}>{section}</div> : section;
       })}
 
-      <section className={styles.roles}>
+      <section className={styles.roles} data-reveal-kids="">
         <div className="pg-section">
           <div className="pg-intro">
             <p className="pg-eyebrow">{copy.roles.eyebrow}</p>
@@ -571,7 +571,7 @@ export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
         </div>
       </section>
 
-      <section className="pg-section">
+      <section className="pg-section" data-reveal-kids="">
         <div className="pg-intro">
           <p className="pg-eyebrow">{copy.boundary.eyebrow}</p>
           <h2>{copy.boundary.title}</h2>
@@ -596,7 +596,7 @@ export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
         </div>
       </section>
 
-      <section className="pg-cta">
+      <section className="pg-cta" data-reveal-kids="">
         <div>
           <p className="pg-eyebrow">{copy.finalCta.eyebrow}</p>
           <h2>{copy.finalCta.title}</h2>

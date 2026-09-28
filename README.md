@@ -55,6 +55,8 @@ pnpm blog:media work-plans --lang es  # scenes whose id contains "work-plans"
 pnpm blog:media cleaning-board --frames 0,4000   # review stills in .media-preview/
 ```
 
+The home page's "Whagons en acción" section plays `work-plans-schedule`, `cleaning-board` and `kpi-cards-template` from the same folder, so re-render those when the product screens change.
+
 It needs ffmpeg and Chrome or Chromium; set `CHROME_PATH` if Chrome is not found. Output goes to `public/media/blog/<lang>/<group>-<scene>.mp4` with a `.jpg` poster. See `scripts/blog-media/README.md` for the scene format.
 
 ## Lead delivery

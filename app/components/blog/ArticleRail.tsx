@@ -107,7 +107,7 @@ export default function ArticleRail({ lang, title, toc, url }: {
     <aside className="rail" data-rise="" style={{ ['--d' as string]: '.2s' }}>
       <div className={`rail-title${showTitle ? ' on' : ''}`} aria-hidden={!showTitle}>{title}</div>
       <div className="th lbl">{t.tree}</div>
-      <nav className="rail-tree" aria-label={t.tree}>
+      <div className="rail-tree" role="navigation" aria-label={t.tree}>
         {groups.map((group) => (
           <div key={group.item.id}>
             <a href={`#${group.item.id}`} className={activeGroup === group ? 'on' : undefined}>
@@ -128,7 +128,7 @@ export default function ArticleRail({ lang, title, toc, url }: {
             )}
           </div>
         ))}
-      </nav>
+      </div>
       <div className="prog" role="progressbar" aria-label={t.progress} aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct}>
         <span className="prog-bar"><b style={{ width: `${pct}%` }} /></span>
         <span className="pct">{String(pct).padStart(2, '0')}%</span>

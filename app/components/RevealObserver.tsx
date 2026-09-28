@@ -6,7 +6,10 @@ declare global {
   interface Window { __whReveal?: boolean }
 }
 
-/** Adds `is-in` to every [data-reveal] element once it scrolls into view. */
+/**
+ * Adds `is-in` to every [data-reveal] element once it scrolls into view.
+ * [data-reveal-kids] does the same for a section whose children rise in.
+ */
 export default function RevealObserver() {
   useEffect(() => {
     window.__whReveal = true;
@@ -24,7 +27,7 @@ export default function RevealObserver() {
       }
     }, { rootMargin: '0px 0px -6% 0px', threshold: 0.06 });
     const scan = () => {
-      document.querySelectorAll('[data-reveal]:not(.is-in)').forEach((el) => {
+      document.querySelectorAll('[data-reveal]:not(.is-in), [data-reveal-kids]:not(.is-in)').forEach((el) => {
         if (seen.has(el)) return;
         seen.add(el);
         io.observe(el);
