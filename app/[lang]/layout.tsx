@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Instrument_Sans, JetBrains_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 import {
   ALTERNATE_LANGUAGES,
   HTML_LANG,
@@ -14,17 +14,19 @@ import RevealObserver from '../components/RevealObserver';
 import '../globals.css';
 import '../styles/pages.css';
 
-const instrumentSans = Instrument_Sans({
-  weight: ['400', '500', '600'],
-  subsets: ['latin'],
+// Fonts are self-hosted (latin subset, variable weight) so builds never depend
+// on reaching Google Fonts.
+const instrumentSans = localFont({
+  src: '../fonts/instrument-sans-latin.woff2',
+  weight: '400 600',
   variable: '--font-sans',
   display: 'swap',
 });
 
 // Labels in the blog and small captions elsewhere.
-const jetBrainsMono = JetBrains_Mono({
-  weight: ['400', '500'],
-  subsets: ['latin'],
+const jetBrainsMono = localFont({
+  src: '../fonts/jetbrains-mono-latin.woff2',
+  weight: '400 500',
   variable: '--font-mono',
   display: 'swap',
 });
