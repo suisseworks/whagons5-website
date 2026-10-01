@@ -1,13 +1,13 @@
 import Image from 'next/image';
 import { demoOffer } from '../../lib/demo-offer';
 import { Language, legalRouteFor, routeFor } from '../../lib/locales';
-import { shotsFor } from '../../lib/shots';
 import styles from './HomePage.module.css';
 import ScorePromotion from '../hotel-score/ScorePromotion';
 import HospitalityAnalytics from '../hospitality/HospitalityAnalytics';
 import OperationsHeroDemo from './OperationsHeroDemo';
 import AnnotatedScreenshot from './AnnotatedScreenshot';
 import MissionControlMock from '../product/MissionControlMock';
+import KanbanCloseUp from '../product/KanbanCloseUp';
 import SellingPoints from './SellingPoints';
 import CountUp from './CountUp';
 
@@ -288,7 +288,6 @@ function Check() {
 export default function HomePage({ lang }: { lang: Language }) {
   const t = content[lang];
   const proof = customerProof[lang];
-  const shots = shotsFor(lang);
   const hasLocalizedDetailPages = lang === 'en' || lang === 'es';
   const demoHref = routeFor(lang, 'demo');
   const platformHref = hasLocalizedDetailPages ? routeFor(lang, 'platform') : routeFor(lang, 'features');
@@ -323,7 +322,7 @@ export default function HomePage({ lang }: { lang: Language }) {
           <OperationsHeroDemo lang={lang} />
         </div>
         </div>
-        <AnnotatedScreenshot lang={lang} shot={shots.grid} alt={t.heroShotAlt} caption={t.heroShotCaption} />
+        <AnnotatedScreenshot lang={lang} alt={t.heroShotAlt} caption={t.heroShotCaption} />
       </section>
 
       {/* ── Customers strip ─────────────────────────────── */}
@@ -384,7 +383,7 @@ export default function HomePage({ lang }: { lang: Language }) {
           <a className={styles.btnSecondary} href={platformHref}>{t.platformCta}<Arrow /></a>
         </div>
         <div className={styles.processShot} data-reveal="" style={{ ['--d' as string]: '.1s' }}>
-          <Image src={shots.boardDetail.src} alt={t.processShotAlt} width={shots.boardDetail.width} height={shots.boardDetail.height} sizes="(max-width: 1000px) 100vw, 620px" quality={90} />
+          <KanbanCloseUp lang={lang} label={t.processShotAlt} />
         </div>
       </section>
 

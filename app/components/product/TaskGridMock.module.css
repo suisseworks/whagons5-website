@@ -1,0 +1,49 @@
+/* Design pixels of the 1512×827 screenshot (see AppShell.module.css). The
+   grid starts at the content area's left edge, just below the tabs row. */
+.grid { position: absolute; top: 0; left: 0; right: calc(var(--u) * 24); height: calc(var(--u) * 585); overflow: hidden; }
+.head { position: absolute; top: 0; left: 0; right: 0; height: calc(var(--u) * 40); }
+.head > * { position: absolute; top: 50%; transform: translateY(-50%); }
+.head > span { top: 0; transform: none; line-height: calc(var(--u) * 40); color: #6b707a; font-size: calc(var(--u) * 11.5); font-weight: 600; letter-spacing: .045em; text-transform: uppercase; }
+.headFile { width: calc(var(--u) * 16); height: calc(var(--u) * 14); color: #62666e; }
+.headPin { width: calc(var(--u) * 11); height: calc(var(--u) * 14); color: #5b5f66; }
+.headPeople { width: calc(var(--u) * 16); height: calc(var(--u) * 13); color: #62666e; }
+
+.row { position: absolute; left: 0; right: 0; height: calc(var(--u) * 88); }
+.row:nth-child(odd) { background: #f7f9f9; }
+.row > * { position: absolute; }
+.bar { top: 0; bottom: 0; left: 0; width: calc(var(--u) * 4.5); background: color-mix(in srgb, var(--status) 62%, #fff); transition: background-color .6s; }
+.check { left: calc(var(--u) * 18); top: calc(var(--u) * 32.5); width: calc(var(--u) * 20); height: calc(var(--u) * 20); box-sizing: border-box; border: calc(var(--u) * 1.5) solid #c3c3c6; border-radius: 50%; background: #fff; }
+.tile { left: calc(var(--u) * 70); top: calc(var(--u) * 10); display: grid; place-items: center; width: calc(var(--u) * 24); height: calc(var(--u) * 24); border-radius: calc(var(--u) * 7); background: #2f60dc; color: #fff; }
+.tile svg { width: calc(var(--u) * 15); height: calc(var(--u) * 15); }
+.name { left: calc(var(--u) * 104); top: calc(var(--u) * 10); display: flex; align-items: center; gap: calc(var(--u) * 8); color: #1f2328; font-size: calc(var(--u) * 14.7); font-weight: 600; line-height: calc(var(--u) * 20); letter-spacing: -.025em; }
+.watch { display: grid; place-items: center; width: calc(var(--u) * 17); height: calc(var(--u) * 17); border-radius: 50%; background: #e3f5e9; color: #3fae6a; }
+.watch svg { width: calc(var(--u) * 10); height: calc(var(--u) * 10); }
+.tag { left: calc(var(--u) * 104); top: calc(var(--u) * 31); display: grid; place-items: center; width: calc(var(--u) * 20); height: calc(var(--u) * 20); box-sizing: border-box; border: calc(var(--u) * 1) dashed #cfcfd2; border-radius: calc(var(--u) * 5); color: #8f8f94; }
+.tag svg { width: calc(var(--u) * 10); height: calc(var(--u) * 10); }
+.desc { left: calc(var(--u) * 104); top: calc(var(--u) * 53); overflow: hidden; text-overflow: ellipsis; color: #5f636b; font-size: calc(var(--u) * 12.6); font-weight: 450; line-height: calc(var(--u) * 18); letter-spacing: -.025em; }
+.file { top: calc(var(--u) * 36); width: calc(var(--u) * 16); height: calc(var(--u) * 14); color: #a8a9ae; }
+.file[data-done] { color: #4caf50; }
+.notes { top: calc(var(--u) * 34); width: calc(var(--u) * 17); height: calc(var(--u) * 17); color: #a3a6ad; }
+.notes svg { width: 100%; height: 100%; }
+.notes[data-count] { color: #3fb24f; }
+.notes b { position: absolute; top: calc(var(--u) * -5); right: calc(var(--u) * -6); display: grid; place-items: center; width: calc(var(--u) * 11); height: calc(var(--u) * 11); border-radius: 50%; background: #3fb24f; color: #fff; font-size: calc(var(--u) * 7.5); font-weight: 700; line-height: calc(var(--u) * 11); }
+.status { top: calc(var(--u) * 33); height: calc(var(--u) * 20); display: flex; align-items: center; gap: calc(var(--u) * 8); box-sizing: border-box; padding: 0 calc(var(--u) * 13) 0 calc(var(--u) * 9); border-radius: calc(var(--u) * 99); background: var(--status); color: #fff; font-size: calc(var(--u) * 11.8); font-weight: 600; line-height: calc(var(--u) * 20); letter-spacing: -.02em; }
+.status svg { width: calc(var(--u) * 11); height: calc(var(--u) * 11); }
+.status[data-status='blocked'] { color: #3d2600; }
+.pin { top: calc(var(--u) * 36); width: calc(var(--u) * 9.5); height: calc(var(--u) * 12.5); margin-left: calc(var(--u) * -.5); color: #a5a8ae; }
+.place { top: calc(var(--u) * 34.5); color: #1f2328; font-size: calc(var(--u) * 12.6); font-weight: 450; line-height: calc(var(--u) * 18); letter-spacing: -.03em; }
+.priority { top: calc(var(--u) * 33); height: calc(var(--u) * 20); display: flex; align-items: center; gap: calc(var(--u) * 8); box-sizing: border-box; padding: 0 calc(var(--u) * 14) 0 calc(var(--u) * 8); border-radius: calc(var(--u) * 99); background: #e7eefc; color: #3a74e6; font-size: calc(var(--u) * 11.8); font-weight: 600; line-height: calc(var(--u) * 20); letter-spacing: -.02em; }
+.priority i { width: calc(var(--u) * 8); height: calc(var(--u) * 8); border-radius: 50%; background: currentColor; }
+.priority[data-urgent] { background: #fde9e9; color: #e0443f; }
+.avatar { top: calc(var(--u) * 30); display: grid; place-items: center; width: calc(var(--u) * 26); height: calc(var(--u) * 26); border-radius: 50%; background: #3b8fa8; color: #fff; font-size: calc(var(--u) * 10.5); font-weight: 700; letter-spacing: -.01em; line-height: calc(var(--u) * 26); }
+
+/* Live pickup: the pill pops in with its new status and the row glows once. */
+.row[data-live] .status { animation: pop .5s cubic-bezier(.22, .8, .24, 1) both; }
+.row[data-live]::after { content: ''; position: absolute; inset: 0; background: #3b82f6; opacity: 0; pointer-events: none; animation: glow 1.6s ease-out both; }
+@keyframes pop { 0% { opacity: 0; transform: scale(.8); } 60% { opacity: 1; transform: scale(1.06); } 100% { transform: none; } }
+@keyframes glow { 0% { opacity: 0; } 25% { opacity: .07; } 100% { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .row[data-live] .status, .row[data-live]::after { animation: none; }
+  .bar { transition: none; }
+}

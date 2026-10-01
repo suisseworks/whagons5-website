@@ -1,11 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import localFont from 'next/font/local';
+import { appFont } from './appFont';
 import styles from './MissionControlMock.module.css';
 
-// The app uses the system UI font; Inter renders the same way on every platform.
-const inter = localFont({ src: '../../fonts/inter-latin.woff2', weight: '400 700', display: 'swap' });
 
 /*
  * Mission Control from the Whagons app, rebuilt in HTML so it stays sharp on
@@ -145,7 +143,7 @@ export default function MissionControlMock({ lang }: { lang: string }) {
 
   const rows = t.tasks.map((task, i) => ({ task, ...taskMeta[i] })).filter(row => row.flags.includes(focus));
 
-  return <div ref={rootRef} className={`${styles.mc} ${inter.className}`} data-phase={phase}>
+  return <div ref={rootRef} className={`${styles.mc} ${appFont.className}`} data-phase={phase}>
     <header className={styles.head}>
       <div>
         <p className={styles.eyebrow}>{t.eyebrow}</p>

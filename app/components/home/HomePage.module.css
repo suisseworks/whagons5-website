@@ -221,6 +221,7 @@
   background: linear-gradient(180deg, #fff6f1, #fbf9f5);
 }
 .processShot img { display: block; width: 100%; height: auto; }
+.processShot > [role='img'] { overflow: hidden; border-radius: 12px; box-shadow: 0 0 0 1px var(--line), 0 10px 28px -16px #2a231a40; }
 
 /* ── Product ───────────────────────────────── */
 .featureGrid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); column-gap: 54px; margin-top: 48px; border-top: 1px solid var(--line); }
