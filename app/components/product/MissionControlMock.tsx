@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { Inter } from 'next/font/google';
+import localFont from 'next/font/local';
 import styles from './MissionControlMock.module.css';
 
 // The app uses the system UI font; Inter renders the same way on every platform.
-const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600', '700'], display: 'swap' });
+const inter = localFont({ src: '../../fonts/inter-latin.woff2', weight: '400 700', display: 'swap' });
 
 /*
  * Mission Control from the Whagons app, rebuilt in HTML so it stays sharp on
