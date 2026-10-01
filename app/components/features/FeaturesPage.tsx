@@ -1,6 +1,9 @@
+import type { ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { shotsFor } from '../../lib/shots';
+import KanbanCloseUp from '../product/KanbanCloseUp';
+import TaskGridMock from '../product/TaskGridMock';
 import styles from './FeaturesPage.module.css';
 
 export type FeaturesLanguage = 'en' | 'es';
@@ -443,9 +446,10 @@ const content: Record<FeaturesLanguage, PageContent> = {
   },
 };
 
+// The board chapter shows the HTML board (sharp at any density); the others use captures.
 const chapterShots = (lang: FeaturesLanguage) => {
   const s = shotsFor(lang);
-  return [null, s.boardDetail, null, s.analytics];
+  return [null, 'board' as const, null, s.analytics];
 };
 
 
@@ -458,18 +462,17 @@ function Arrow() {
   );
 }
 
-function Shot({ src, width, height, caption, alt, priority }: { src: string; width: number; height: number; caption: string; alt: string; priority?: boolean }) {
+function Shot({ src, width, height, caption, alt, priority, children }: { src?: string; width?: number; height?: number; caption: string; alt: string; priority?: boolean; children?: ReactNode }) {
   return (
     <figure className="pg-shot">
       <div className="pg-shot-bar" aria-hidden="true"><i /><i /><i /><span>{caption}</span></div>
-      <Image src={src} alt={alt} width={width} height={height} priority={priority} quality={90} sizes="(max-width: 1000px) 100vw, 560px" />
+      {children ?? (src && width && height && <Image src={src} alt={alt} width={width} height={height} priority={priority} quality={90} sizes="(max-width: 1000px) 100vw, 560px" />)}
     </figure>
   );
 }
 
 export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
   const copy = content[lang];
-  const shots = shotsFor(lang);
   const CHAPTER_SHOTS = chapterShots(lang);
   const demoHref = `/${lang}/demo`;
   const platformHref = lang === 'es' ? '/es/plataforma' : '/en/platform';
@@ -499,7 +502,7 @@ export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
               ))}
             </ul>
           </div>
-          <Shot src={shots.grid.src} width={shots.grid.width} height={shots.grid.height} caption={copy.hero.shotCaption} alt={copy.hero.shotAlt} priority />
+          <Shot caption={copy.hero.shotCaption} alt={copy.hero.shotAlt}><TaskGridMock lang={lang} label={copy.hero.shotAlt} /></Shot>
         </div>
       </section>
 
@@ -533,7 +536,9 @@ export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
             {shot && chapter.shotCaption && chapter.shotAlt ? (
               <div className={chapterIndex % 2 === 1 ? 'pg-split' : 'pg-split pg-split-reverse'} style={{ marginBottom: 40 }}>
                 {intro}
-                <Shot src={shot.src} width={shot.width} height={shot.height} caption={chapter.shotCaption} alt={chapter.shotAlt} />
+                {shot === 'board'
+                  ? <Shot caption={chapter.shotCaption} alt={chapter.shotAlt}><KanbanCloseUp lang={lang} label={chapter.shotAlt} /></Shot>
+                  : <Shot src={shot.src} width={shot.width} height={shot.height} caption={chapter.shotCaption} alt={chapter.shotAlt} />}
               </div>
             ) : (
               intro

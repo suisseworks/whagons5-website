@@ -4,6 +4,7 @@
 .bar > span { margin-left: 10px; color: #726c63; font-size: .72rem; font-weight: 500; }
 .barHint { margin-left: auto; color: #9a9389; font-size: .7rem; font-style: normal; }
 .image { position: relative; overflow: hidden; }
+.stage { position: relative; }
 .image img { display: block; width: 100%; height: auto; }
 
 /* Highlight that glides to the active area and gently dims everything else. */
@@ -45,7 +46,8 @@
 @media (max-width: 700px) {
   .figure { margin-top: 36px; border-radius: 12px; }
   .markers, .card, .barHint { display: none; }
-  .spotlight { border-radius: 6px; box-shadow: 0 0 0 1.5px #d4310a, 0 0 0 200vmax #1f1d1a2e; }
+  .stage { transform-origin: var(--ox) var(--oy); transform: translate(calc(50% - var(--ox)), calc(50% - var(--oy))) scale(var(--z)); transition: transform .7s var(--ease); }
+  .spotlight { border-radius: calc(6px / var(--z)); box-shadow: 0 0 0 calc(1.5px / var(--z)) #d4310a, 0 0 0 200vmax #1f1d1a2e; }
   .caption { display: block; padding: 18px 16px 20px; border-top: 1px solid #e5ded2; background: #faf8f4; }
   .caption .hint { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 14px; margin: 0 0 14px; color: #333c2b; font-size: .82rem; font-weight: 600; }
   .hint span { color: #716b60; font-size: .76rem; font-weight: 400; }
@@ -60,7 +62,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .spotlight, .card, .marker > span:first-child { transition: none; }
+  .spotlight, .card, .stage, .marker > span:first-child { transition: none; }
   .body, .markers .marker[aria-pressed='true'] > span:first-child::after { animation: none; }
   .progress { display: none; }
 }

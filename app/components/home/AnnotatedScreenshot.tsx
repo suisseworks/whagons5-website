@@ -1,11 +1,11 @@
 'use client';
 
-import Image from 'next/image';
 import { useEffect, useId, useRef, useState, type CSSProperties } from 'react';
-import type { Shot, ShotLang } from '../../lib/shots';
+import type { ShotLang } from '../../lib/shots';
+import TaskGridMock from '../product/TaskGridMock';
 import styles from './AnnotatedScreenshot.module.css';
 
-// Positions are percentages of the screenshot. `area` is the highlighted region,
+// Positions are percentages of the task grid's 1512×827 design size. `area` is the highlighted region,
 // `marker` the numbered button, and `card` where the callout sits: `side: 'right'`
 // puts the card's left edge at `x`, `side: 'left'` puts its right edge there.
 interface Annotation {
@@ -19,14 +19,14 @@ interface Annotation {
 const annotations: Record<ShotLang, Annotation[]> = {
   es: [
     { title: 'Espacios', text: 'Organiza el trabajo por departamento, como Mantenimiento o Ama de llaves.', area: { x: 2, y: 23.6, w: 14.6, h: 36.6 }, marker: { x: 17, y: 25.6 }, card: { x: 19, y: 31, side: 'right' } },
-    { title: 'Vistas', text: 'Consulta el espacio como lista de tareas, calendario, mapa o tablero Kanban.', area: { x: 20.6, y: 21.2, w: 21, h: 5.2 }, marker: { x: 33.8, y: 21.2 }, card: { x: 21.5, y: 29, side: 'right' } },
-    { title: 'Filtros', text: 'Filtra las tareas por estado, prioridad, ubicación o responsable.', area: { x: 72.9, y: 21.4, w: 6.8, h: 4.6 }, marker: { x: 79.7, y: 21.4 }, card: { x: 79.7, y: 28.5, side: 'left' } },
+    { title: 'Vistas', text: 'Consulta el espacio como lista de tareas, calendario, mapa o tablero Kanban.', area: { x: 20.6, y: 21.2, w: 21, h: 5.2 }, marker: { x: 43.6, y: 23.6 }, card: { x: 21.5, y: 29, side: 'right' } },
+    { title: 'Filtros', text: 'Filtra las tareas por estado, prioridad, ubicación o responsable.', area: { x: 72.9, y: 21.4, w: 6.8, h: 4.6 }, marker: { x: 79.7, y: 19.4 }, card: { x: 79.7, y: 28.5, side: 'left' } },
     { title: 'Ubicaciones', text: 'Identifica la habitación, el piso o el área asociada a cada tarea.', area: { x: 77.2, y: 26.6, w: 11.8, h: 70.4 }, marker: { x: 84.5, y: 28.6 }, card: { x: 75.6, y: 34, side: 'left' } },
   ],
   en: [
     { title: 'Spaces', text: 'Organize work by department, such as Maintenance or Housekeeping.', area: { x: 2, y: 23.6, w: 15, h: 36.6 }, marker: { x: 17.2, y: 25.6 }, card: { x: 19, y: 31, side: 'right' } },
-    { title: 'Views', text: 'See the workspace as a task list, calendar, map, or Kanban board.', area: { x: 21, y: 21.2, w: 20.6, h: 5.2 }, marker: { x: 33.8, y: 21.2 }, card: { x: 21.5, y: 29, side: 'right' } },
-    { title: 'Filters', text: 'Narrow tasks by status, priority, location, or assignee.', area: { x: 72.7, y: 21.4, w: 6.8, h: 4.6 }, marker: { x: 79.5, y: 21.4 }, card: { x: 79.5, y: 28.5, side: 'left' } },
+    { title: 'Views', text: 'See the workspace as a task list, calendar, map, or Kanban board.', area: { x: 21, y: 21.2, w: 20.6, h: 5.2 }, marker: { x: 43.6, y: 23.6 }, card: { x: 21.5, y: 29, side: 'right' } },
+    { title: 'Filters', text: 'Narrow tasks by status, priority, location, or assignee.', area: { x: 72.7, y: 21.4, w: 6.8, h: 4.6 }, marker: { x: 79.5, y: 19.4 }, card: { x: 79.5, y: 28.5, side: 'left' } },
     { title: 'Locations', text: 'Identify the room, floor, or area associated with each task.', area: { x: 73.6, y: 26.6, w: 11.6, h: 70.4 }, marker: { x: 81, y: 28.6 }, card: { x: 72, y: 34, side: 'left' } },
   ],
 };
@@ -38,8 +38,20 @@ const copy = {
 
 const pct = (n: number) => `${n}%`;
 
-export default function AnnotatedScreenshot({ lang, shot, alt, caption }: {
-  lang: ShotLang; shot: Shot; alt: string; caption: string;
+// On phones the whole screen is too small to read, so the view zooms in on the
+// active area: fit it (up to 3×, but at least 2× so text stays legible; very
+// tall areas show their top) and never pan past the screen's edges.
+function zoomOn(area: Annotation['area']) {
+  const z = Math.min(3, 90 / area.w, Math.max(2, 90 / area.h));
+  const half = 50 / z;
+  const clamp = (v: number) => Math.min(100 - half, Math.max(half, v));
+  const ox = clamp(area.x + area.w / 2);
+  const oy = clamp(area.y + Math.min(area.h / 2, 45 / z));
+  return { '--z': z, '--ox': pct(ox), '--oy': pct(oy) } as CSSProperties;
+}
+
+export default function AnnotatedScreenshot({ lang, alt, caption }: {
+  lang: ShotLang; alt: string; caption: string;
 }) {
   const [selected, setSelected] = useState(0);
   // Tours itself while on screen until the visitor takes over.
@@ -102,8 +114,10 @@ export default function AnnotatedScreenshot({ lang, shot, alt, caption }: {
       <em className={styles.barHint}>{t.hintMore}</em>
     </div>
     <div className={styles.image}>
-      <Image src={shot.src} alt={alt} width={shot.width} height={shot.height} priority sizes="(max-width: 1240px) 100vw, 1180px" quality={90} />
-      <div className={styles.spotlight} aria-hidden="true" style={{ left: pct(area.x), top: pct(area.y), width: pct(area.w), height: pct(area.h) }} />
+      <div className={styles.stage} style={zoomOn(area)}>
+        <TaskGridMock lang={lang} label={alt} />
+        <div className={styles.spotlight} aria-hidden="true" style={{ left: pct(area.x), top: pct(area.y), width: pct(area.w), height: pct(area.h) }} />
+      </div>
       {markers(false)}
       <div
         id={cardId}

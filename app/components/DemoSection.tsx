@@ -1,10 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState, FormEvent } from 'react';
-import Image from 'next/image';
 import { demoOffer } from '../lib/demo-offer';
 import { isLanguage, legalRouteFor } from '../lib/locales';
-import { shotsFor } from '../lib/shots';
+import BoardScreenMock from './product/BoardScreenMock';
 
 interface DemoSectionProps {
   t: any;
@@ -21,7 +20,6 @@ function Arrow() {
 
 export default function DemoSection({ t, language }: DemoSectionProps) {
   const lang = isLanguage(language) ? language : 'es';
-  const shots = shotsFor(lang);
   const offer = demoOffer[lang];
   const [demoName, setDemoName] = useState('');
   const [demoCompany, setDemoCompany] = useState('');
@@ -241,19 +239,9 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
 
       <section className="pg-section">
         <figure className="pg-shot">
-          <div className="pg-shot-bar" aria-hidden="true"><i /><i /><i /><span>{lang === 'es' ? 'Mantenimiento · Whagons' : 'Maintenance board · Whagons'}</span></div>
-          <a href={shots.board.src} target="_blank" rel="noopener noreferrer" aria-label={lang === 'es' ? 'Ver tablero completo de mantenimiento' : 'View the full maintenance board'}>
-            <Image
-              src={shots.board.src}
-              quality={90}
-              alt={lang === 'es' ? 'Tablero de mantenimiento en Whagons: tareas por hacer, en progreso y en revisión. Datos de demostración.' : 'Whagons maintenance board example: tasks to do, in review and in progress. Demo data.'}
-              width={shots.board.width}
-              height={shots.board.height}
-              sizes="(max-width: 1180px) 100vw, 1180px"
-              priority={false}
-            />
-          </a>
-          <figcaption>{lang === 'es' ? 'Mantenimiento · Datos de demostración · Abre la imagen en tamaño completo ↗' : 'Maintenance · Demo data · Open the image at full size ↗'}</figcaption>
+          <div className="pg-shot-bar" aria-hidden="true"><i /><i /><i /><span>{lang === 'es' ? 'Tablero de mantenimiento · Whagons' : 'Maintenance board · Whagons'}</span></div>
+          <BoardScreenMock lang={lang} label={lang === 'es' ? 'Tablero de mantenimiento en Whagons: tareas por hacer, en progreso y en revisión. Datos de demostración.' : 'Whagons maintenance board example: tasks to do, in review and in progress. Demo data.'} />
+          <figcaption>{lang === 'es' ? 'Mantenimiento · Datos de demostración' : 'Maintenance · Demo data'}</figcaption>
         </figure>
       </section>
     </>

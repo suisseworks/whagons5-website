@@ -1,6 +1,5 @@
-import Image from 'next/image';
 import { Language } from '../../lib/i18n';
-import { shotsFor } from '../../lib/shots';
+import TaskGridMock from '../../components/product/TaskGridMock';
 import styles from './PlatformPage.module.css';
 
 const content = {
@@ -60,14 +59,13 @@ const content = {
 
 export default function PlatformPageClient({ lang }: { lang: Language }) {
   const t = content[lang];
-  const shot = shotsFor(lang).grid;
   const demoHref = `/${lang}/demo`;
   return <main className={styles.page}>
     <section className={styles.hero}>
       <p className={styles.eyebrow}>{t.eyebrow}</p>
       <div className={styles.heroIntro}><h1>{t.title}<em>{t.emphasis}</em></h1><div><p className={styles.lead}>{t.lead}</p><div className={styles.actions}><a className={styles.primary} href={demoHref}>{t.demo}<span aria-hidden="true">↗</span></a><a className={styles.textLink} href="#platform-capabilities">{t.explore}<span aria-hidden="true">↓</span></a></div></div></div>
       <div className={styles.productHeading}><span>{t.screen}</span><span>{t.screenNote}</span></div>
-      <figure className={styles.product}><Image src={shot.src} width={shot.width} height={shot.height} alt={t.screenAlt} priority sizes="(max-width: 1240px) 100vw, 1180px" quality={90} /><figcaption className={styles.lenses}>{t.lenses.map(([title,desc],i)=><div key={title}><span>0{i+1}</span><p><strong>{title}</strong>{desc}</p></div>)}</figcaption></figure>
+      <figure className={styles.product}><TaskGridMock lang={lang} label={t.screenAlt} /><figcaption className={styles.lenses}>{t.lenses.map(([title,desc],i)=><div key={title}><span>0{i+1}</span><p><strong>{title}</strong>{desc}</p></div>)}</figcaption></figure>
     </section>
 
     <section className={styles.flow} data-reveal-kids="">
