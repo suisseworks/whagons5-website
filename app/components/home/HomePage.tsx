@@ -7,6 +7,7 @@ import ScorePromotion from '../hotel-score/ScorePromotion';
 import HospitalityAnalytics from '../hospitality/HospitalityAnalytics';
 import OperationsHeroDemo from './OperationsHeroDemo';
 import AnnotatedScreenshot from './AnnotatedScreenshot';
+import MissionControlMock from '../product/MissionControlMock';
 import SellingPoints from './SellingPoints';
 import CountUp from './CountUp';
 
@@ -394,9 +395,9 @@ export default function HomePage({ lang }: { lang: Language }) {
           <h2>{t.productTitle}</h2>
           <p>{t.productText}</p>
         </div>
-        <figure className={`${styles.shot} ${styles.shotWide}`} data-reveal="">
+        <figure className={`${styles.shot} ${styles.shotWide}`} data-reveal="" aria-label={t.productShotAlt}>
           <div className={styles.shotBar} aria-hidden="true"><i /><i /><i /><span>{t.productShotCaption}</span></div>
-          <Image src={shots.analytics.src} alt={t.productShotAlt} width={shots.analytics.width} height={shots.analytics.height} sizes="(max-width: 1240px) 100vw, 1180px" quality={90} />
+          <MissionControlMock lang={lang} />
         </figure>
         <div className={styles.featureGrid}>
           {t.capabilities.map(([title, text], index) => (
