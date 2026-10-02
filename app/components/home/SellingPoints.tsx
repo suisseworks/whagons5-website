@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { Language } from '../../lib/locales';
+import { videoSrc } from '../../lib/media';
 import styles from './SellingPoints.module.css';
 
 interface Point {
@@ -190,7 +191,7 @@ export default function SellingPoints({ lang }: { lang: Language }) {
                 key={item.video}
                 ref={(el) => { videos.current[index] = el; }}
                 className={index === active ? styles.on : undefined}
-                src={`/media/blog/${lang}/${item.video}.mp4`}
+                src={videoSrc(`/media/blog/${lang}/${item.video}.mp4`)}
                 poster={`/media/blog/${lang}/${item.video}.jpg`}
                 muted
                 playsInline

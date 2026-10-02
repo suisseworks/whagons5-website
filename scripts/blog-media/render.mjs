@@ -85,13 +85,20 @@ function serve() {
   return new Promise((resolve) => server.listen(0, '127.0.0.1', () => resolve(server)));
 }
 
+// Keep the stream simple enough for every hardware decoder. On its own,
+// -tune animation gives 10 reference frames, 5 pyramid B-frames and level
+// 5.0, and Chrome's hardware decoding sometimes showed green, half-decoded
+// frames. The overrides keep the tune's rate control but cap the stream at
+// level 4.0 with 3 refs and no B-pyramid.
 function encoder(file, width, height) {
   const ff = spawn('ffmpeg', [
     '-y', '-loglevel', 'error',
     '-f', 'image2pipe', '-framerate', String(fps), '-c:v', 'png', '-i', '-',
     '-vf', `scale=${width}:${height}:flags=lanczos,format=yuv420p`,
     '-c:v', 'libx264', '-preset', 'slow', '-tune', 'animation', '-crf', crf,
-    '-profile:v', 'high', '-movflags', '+faststart', '-an', file,
+    '-profile:v', 'high', '-level:v', '4.0',
+    '-x264-params', 'ref=3:bframes=2:b-pyramid=none:weightp=0',
+    '-movflags', '+faststart', '-an', file,
   ], { stdio: ['pipe', 'inherit', 'inherit'] });
   const done = new Promise((resolve, reject) => {
     ff.on('exit', (code) => (code === 0 ? resolve() : reject(new Error(`ffmpeg exited with ${code}`))));
