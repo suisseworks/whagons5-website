@@ -31,6 +31,13 @@ Helpers:
 - `lib/stage.css` is the visual kit: panels, pills, task rows, cards.
 - `lib/rooms.js`, `lib/space.js`, `lib/checklist.js` and `lib/og.js` build
   the room cards, KPI cards, closing checklists and social cards.
+- `lib/tasks.js` builds the task grid, approval badge, popovers, side sheet,
+  toast and photo thumbnail used by the first-day and approvals scenes.
+
+Scenes may carry `pt` and `de` strings too; render them with
+`--lang en,es,pt,de`. The Whagons app's Learn center plays these files, so
+every language a guide lists in `shared/learn/catalog.ts` (whagons5-client)
+needs its renders here.
 
 Review a scene with stills before rendering the video:
 
