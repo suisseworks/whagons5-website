@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { videoSrc } from '../../lib/media';
 
 /**
  * Cover image that becomes a muted looping animation when one is available
@@ -39,7 +40,7 @@ export default function CoverMedia({ image, video, alt = '', className, eager }:
 
   if (video && animate) {
     return (
-      <video ref={ref} className={className} src={video} poster={image} muted loop playsInline preload="metadata" aria-label={alt || undefined} aria-hidden={alt ? undefined : true} />
+      <video ref={ref} className={className} src={videoSrc(video)} poster={image} muted loop playsInline preload="metadata" aria-label={alt || undefined} aria-hidden={alt ? undefined : true} />
     );
   }
   // eslint-disable-next-line @next/next/no-img-element

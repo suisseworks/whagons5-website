@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { Language } from '../../lib/locales';
+import { videoSrc } from '../../lib/media';
 
 const copy = {
   es: { pause: 'Pausar', play: 'Reproducir', start: 'Ver animación' },
@@ -106,7 +107,7 @@ export default function ArticleVideo({ lang, name, fig, caption, label, ratio = 
           aria-label={label}
           onClick={toggle}
         >
-          <source src={`${base}.mp4`} type="video/mp4" />
+          <source src={videoSrc(`${base}.mp4`)} type="video/mp4" />
         </video>
         <button type="button" className="art-anim-play" hidden={!waiting || playing} onClick={toggle}>
           <span className="art-anim-pill"><span aria-hidden="true">▶</span>{t.start}</span>
