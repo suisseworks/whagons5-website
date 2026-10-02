@@ -1,0 +1,175 @@
+---
+title: "Approvals, from zero: get the right yes before the work starts"
+standfirst: Who has to say yes, what happens after the decision, and a record of who decided. How to set up an approval, attach it to the right work and decide one in Whagons.
+category: guides
+author: Whagons Team
+date: 2026-10-01
+translationKey: approvals
+cover: /media/blog/en/approvals-cover.jpg
+coverVideo: /media/blog/en/approvals-cover.mp4
+coverAlt: "Purchase requests arrive with an orange badge, the approver's yes lands on each one, and the badge turns green"
+ogImage: /media/blog/en/approvals-og.jpg
+draft: true
+---
+
+Some work shouldn't start until the right person says yes. A new set of mattresses, a contractor in an occupied room, overtime for the weekend. Without a rule, the request travels by chat, the yes gets lost, and two weeks later nobody can say who approved it. Approvals in Whagons puts that yes on the task itself: who has to decide, what happens after the decision, and a record of who decided and when. This guide shows how to create your first approval, how to attach it to the work that needs it, and how approvers decide.
+
+## Try this first
+
+**Three things for your first approval**
+
+1. Pick one kind of request that already needs a yes today, like purchases over a limit, and the person who gives it.
+2. Create the approval with that person by name, keep Require all approvers on, and attach it to the template the team uses for that request.
+3. Create a test task from that template and ask the approver to open the orange badge and decide.
+
+## 1. How an approval works
+
+### The yes lives on the task
+
+**What to do.** Nothing new for the person asking. They create the task as always, from the template they already use.
+
+**Why it matters.** The approval is part of the task, not a separate request somewhere else. The task keeps its status, comments and photos, and next to its status a small badge shows the approval: an orange clock while it waits, a green check when it's approved, a red cross when it's rejected. With more than one approver it shows the count, like 1/2.
+
+**How.** Anyone who can see the task can click the badge. The popup shows the approval's name, who has to decide, who already did, when, and their comments.
+
+<Video name="approvals-flow" fig="A" caption="The task waits with an orange badge, the approver says yes, and the badge turns green." label="Animation: a purchase request task for room 412 appears in the grid with an orange clock badge next to its status. The approver opens the badge, presses Approve, and the badge turns into a green check while the task's status moves to Approved to buy." />
+
+## 2. Create your first approval
+
+### Start in Settings
+
+**What to do.** Go to Settings, open Approvals and use Add approval. A wizard opens with five steps: Basics, Approvers, Trigger, Actions and Summary.
+
+**Why it matters.** An approval is a rule you reuse. You create "Purchase over $500" once and attach it to every template that needs it. When the rule changes, you change it in one place.
+
+**How.** Give it a name that says what is being approved. If it reads well in a notification, it works:
+
+```naming
+Purchase over $500
+Contractor in a guest room
+Weekend overtime
+```
+
+### Choose who approves
+
+**What to do.** In Approvers, pick User, Team or Job Position and search for the name. Each choice joins the list.
+
+**Why it matters.** Teams and job positions turn into people. Below the list, Whagons tells you how many people that really is, with a line like "All 3 unique people must approve." Someone who is in two of your choices only counts once.
+
+**How.** For your first approval, pick one person by name and keep Require all approvers on. It behaves exactly the way it reads, and it is easy to explain to the team.
+
+### Decide when it starts
+
+**What to do.** In Trigger, keep When task is created, or choose Conditional to start the approval only when the task has a certain status or priority.
+
+**Why it matters.** With When task is created, every task that uses this approval waits for a decision from the first minute. With Conditional, a rule like "Priority is equal to Urgent" asks for a yes only when it matters. Whagons checks the conditions when the task is created and every time its status changes.
+
+**How.** Start with When task is created. Move to Conditional once the team knows the flow.
+
+<Video name="approvals-wizard" fig="B" caption="The five steps of the wizard, from the name to Create Approval." label="Animation: the Add New Approval wizard. The name Purchase over $500 is typed in Basics, Laura, the head of housekeeping, is added in Approvers with Require all approvers on, When task is created is chosen in Trigger, a Change Status action is added under Approved, and Create Approval is pressed in Summary." />
+
+### Decide what happens after the decision
+
+**What to do.** In Actions, add what Whagons should do on its own. On the Approved tab, for example, Change Status to "Approved to buy". On the Rejected tab, Add Tags with "Needs changes".
+
+**Why it matters.** The decision moves the work forward without anyone remembering to update the task. The requester sees the result in the task they already follow.
+
+**How.** Use Change Status, Add Tags, Remove Tags and Assign User. The menu lists more actions, but today these four are the ones that run after a task approval.
+
+## 3. Put it on the work that needs it
+
+### Attach it to a template
+
+**What to do.** In Settings, open Templates, edit the template the team uses for that request, like "Purchase request", and choose your approval under Approval.
+
+**Why it matters.** Every task created from that template carries the approval. Nobody has to remember to ask for a yes, and nobody can skip it by accident.
+
+**How.** Leave Allow approval changes when creating tasks off, unless people really need to choose a different approval or none. You can also set an approval on a task type, in Task Types. It applies when the template doesn't bring one.
+
+<Video name="approvals-attach" fig="C" caption="The template brings the approval, so every new task arrives waiting for a yes." label="Animation: the Purchase request template is edited and the approval Purchase over $500 is chosen under Approval. Then three tasks are created from that template, and each one appears in the grid with an orange clock badge." />
+
+### Tell approvers where to look
+
+**What to do.** Agree with each approver on a habit: at the start of the shift, look for orange badges.
+
+**Why it matters.** Approvers can see the tasks they have to decide, even in a space they don't usually work in. The badge is the signal. The person who created the task gets a notification after every decision.
+
+**How.** Test it once: create a task with the approval and ask the approver to find it without help.
+
+## 4. Deciding
+
+### Approve or reject from the badge
+
+**What to do.** Click the orange badge, read the task and choose Approve or Reject.
+
+**Why it matters.** The decision is recorded with your name, the time and your comment. Approving asks for an optional comment. Rejecting asks for an optional reason, under Rejection reason (optional), and Submit rejection sends it.
+
+**How.** When you reject, always write the reason. It's the only thing the requester reads to fix the request.
+
+<Video name="approvals-decide" fig="D" caption="One approve, one reject. The reason travels with the decision." label="Animation: two tasks wait with orange badges. On the first one the approver presses Approve and the badge turns green. On the second one the approver presses Reject, writes Please get a second quote, presses Submit rejection, the badge turns red and a Needs changes tag appears on the task." />
+
+### What happens after a no
+
+**What to do.** After a rejection, read the task the way the requester will: the red badge, the reason, and what your Rejected actions did.
+
+**Why it matters.** A rejection doesn't delete the task or create a new one. The decision is stored, approvers who hadn't answered yet are skipped, the actions on the Rejected tab run, and the creator gets a notification.
+
+**How.** Give every rejection a visible next step with an action, like a "Needs changes" tag or a status your team reads as "send it back".
+
+## 5. Details before you rely on it
+
+### Keep Require all approvers on
+
+**What to do.** For now, build approvals where everyone on the list has to say yes.
+
+**Why it matters.** With Minimum approvals, the badge can look approved before Whagons runs the Approved actions. With Require all approvers, what the badge shows and what happens are the same.
+
+### Pause instead of deleting
+
+**What to do.** To stop using an approval, switch off Active in its row, then remove it from the templates that use it.
+
+**Why it matters.** A paused approval stops starting on new tasks and keeps its history. Deleting it doesn't remove it from templates or from tasks that are already waiting.
+
+### Leave signatures for later
+
+**What to do.** Leave Require signature on approval off for now.
+
+**Why it matters.** Not every screen where people approve asks for a signature yet, and an approval that requires one can't be completed from those screens.
+
+## Ideas for your team
+
+- **Room inspection.** The housekeeping supervisor approves a room after the checklist and photos. On approval, Change Status moves it to Inspected.
+- **Repair verification.** The maintenance lead accepts a technician's fix. On rejection, Add Tags marks it Rework, so it shows up in the team's filter.
+- **Purchases over a limit.** Requests above an amount use a template with the approval. Smaller ones use a template without it.
+- **Contractors in occupied areas.** The front office manager approves before the contractor's task can start.
+- **Safety fixes.** The safety lead accepts the photo of the corrected hazard before the task is closed.
+
+## Who can do what
+
+Creating and editing approvals needs access to Settings and the approvals configuration permission. Admins have both.
+
+Only the people on an approval can decide it. Admins can decide any approval.
+
+## Your approvals checklist
+
+Go through it before the team starts using it.
+
+<Video name="approvals-checklist" fig="E" caption="The checklist at a glance." label="Animation: a card with the approvals checklist in three groups. The boxes tick one by one." />
+
+**The approval**
+
+- [ ] Its name says what is being approved
+- [ ] It has named approvers and Require all approvers on
+- [ ] It changes status or adds a tag after each decision
+
+**The work**
+
+- [ ] It is attached to the template the team uses
+- [ ] A test task showed the orange badge
+
+**The people**
+
+- [ ] Approvers know to look for orange badges
+- [ ] Every rejection has a reason
+
+Start with one kind of request. When the first week of approvals goes through without a single message asking "did you approve it?", add the next one.
