@@ -9,7 +9,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "node --test --test-isolation=none tests/demo-delivery.test.mjs tests/hotel-score.test.mjs tests/hotel-score-capture.test.mjs tests/pricing.test.mjs tests/parador-offer.test.mjs",
+    "test": "node --test --test-isolation=none tests/demo-delivery.test.mjs tests/hotel-score.test.mjs tests/hotel-score-capture.test.mjs tests/hotel-score-notification.test.mjs tests/pricing.test.mjs tests/parador-offer.test.mjs",
+    "test:score-api": "node --test tests/hotel-score-api.test.mjs",
     "blog:media": "node scripts/blog-media/render.mjs"
   },
   "dependencies": {

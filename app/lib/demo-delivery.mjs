@@ -179,7 +179,7 @@ async function fetchWithTimeout(fetchImpl, url, init, timeoutMs) {
   }
 }
 
-async function fetchWithRetry({
+export async function fetchWithRetry({
   fetchImpl,
   url,
   init,
