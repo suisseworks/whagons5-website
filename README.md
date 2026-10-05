@@ -115,3 +115,23 @@ pnpm build
 ## Production
 
 The Docker image uses Node 22 and the Next.js standalone server. Secrets are runtime environment variables and must not be copied into the image or committed. Recreate the container after changing an environment variable.
+
+## Hotel Operations Score notifications
+
+When a visitor submits the completed ten-question assessment and their email,
+`/api/hotel-score` saves the lead in Flodesk and sends an internal notification to
+`marketing@whagons.com` through Resend. It includes the respondent's email,
+calculated score, language, optional newsletter consent, and all ten full questions
+with their selected answers, including “Not sure” and “Not applicable”. Questions
+and answers use the visitor's selected language. Replying contacts the respondent.
+
+This requires the existing `RESEND_API_KEY` and `DEMO_NOTIFICATION_FROM` settings,
+as well as the score's Flodesk configuration. The form reports unavailable when
+email delivery is not configured. Transient email failures are retried once; if
+delivery still fails, submission returns an error so the visitor can retry with
+their retained answers. Repeated identical requests use the same Resend idempotency
+key. This notification is independent of optional newsletter consent and does not
+replace the visitor's Flodesk acknowledgement or personalized report workflow.
+
+Run `pnpm build && pnpm test:score-api` to exercise the production HTTP route with
+intercepted Flodesk and Resend requests. No real email is sent by these tests.

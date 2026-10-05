@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createHash, randomBytes } from 'node:crypto';
-import { captureScoreLead, scoreSegmentForLanguage, scoreCaptureAvailable, scoreFieldMapping } from '../../lib/hotel-score-capture.mjs';
+import { scoreSegmentForLanguage, scoreCaptureAvailable, scoreFieldMapping } from '../../lib/hotel-score-capture.mjs';
+import { completeScoreRequest, scoreNotificationAvailable } from '../../lib/hotel-score-notification.mjs';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -9,7 +10,7 @@ const salt = randomBytes(32);
 const json = (body: object, status = 200) => NextResponse.json(body, {status, headers:{'Cache-Control':'no-store'}});
 export function GET(request: NextRequest) {
   const language=request.nextUrl.searchParams.get('language');
-  return json({captureAvailable:scoreCaptureAvailable(language)});
+  return json({captureAvailable:scoreCaptureAvailable(language) && scoreNotificationAvailable()});
 }
 export async function POST(request: NextRequest) {
   const origin = request.headers.get('origin');
@@ -34,7 +35,7 @@ export async function POST(request: NextRequest) {
     while (true) { const {done,value}=await reader.read(); if(done) break; size+=value.length; if(size>4096){await reader.cancel();return json({success:false},413);} chunks.push(value); }
     data=JSON.parse(Buffer.concat(chunks).toString('utf8'));
   } catch { return json({success:false},400); }
-  const captured=await captureScoreLead({data,apiKey:process.env.FLODESK_API_KEY,segmentId:scoreSegmentForLanguage(data?.language),fieldMapping:scoreFieldMapping()});
+  const captured=await completeScoreRequest({data,apiKey:process.env.FLODESK_API_KEY,segmentId:scoreSegmentForLanguage(data?.language),fieldMapping:scoreFieldMapping(),resendApiKey:process.env.RESEND_API_KEY,from:process.env.DEMO_NOTIFICATION_FROM});
   if(!captured.ok)return json({success:false},captured.status);
   // Flodesk sends the acknowledgement from the language-specific workflow.
   // The team prepares the personalized report separately within 24 hours.
