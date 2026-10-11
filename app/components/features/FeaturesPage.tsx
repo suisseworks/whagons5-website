@@ -1,9 +1,10 @@
 import type { ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { shotsFor } from '../../lib/shots';
 import KanbanCloseUp from '../product/KanbanCloseUp';
 import TaskGridMock from '../product/TaskGridMock';
+import MissionControlMock from '../product/MissionControlMock';
+import PhoneCrop from '../product/PhoneCrop';
 import styles from './FeaturesPage.module.css';
 
 export type FeaturesLanguage = 'en' | 'es';
@@ -447,10 +448,9 @@ const content: Record<FeaturesLanguage, PageContent> = {
 };
 
 // The board chapter shows the HTML board (sharp at any density); the others use captures.
-const chapterShots = (lang: FeaturesLanguage) => {
-  const s = shotsFor(lang);
-  return [null, 'board' as const, null, s.analytics];
-};
+// The board chapter shows the Kanban close-up; the visibility chapter shows
+// the live Mission Control, which reflows on phones.
+const CHAPTER_SHOTS = [null, 'board', null, 'overview'] as const;
 
 
 
@@ -473,7 +473,6 @@ function Shot({ src, width, height, caption, alt, priority, children }: { src?: 
 
 export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
   const copy = content[lang];
-  const CHAPTER_SHOTS = chapterShots(lang);
   const demoHref = `/${lang}/demo`;
   const platformHref = lang === 'es' ? '/es/plataforma' : '/en/platform';
 
@@ -502,7 +501,7 @@ export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
               ))}
             </ul>
           </div>
-          <Shot caption={copy.hero.shotCaption} alt={copy.hero.shotAlt}><TaskGridMock lang={lang} label={copy.hero.shotAlt} /></Shot>
+          <Shot caption={copy.hero.shotCaption} alt={copy.hero.shotAlt}><PhoneCrop><TaskGridMock lang={lang} label={copy.hero.shotAlt} /></PhoneCrop></Shot>
         </div>
       </section>
 
@@ -538,7 +537,7 @@ export default function FeaturesPage({ lang }: { lang: FeaturesLanguage }) {
                 {intro}
                 {shot === 'board'
                   ? <Shot caption={chapter.shotCaption} alt={chapter.shotAlt}><KanbanCloseUp lang={lang} label={chapter.shotAlt} /></Shot>
-                  : <Shot src={shot.src} width={shot.width} height={shot.height} caption={chapter.shotCaption} alt={chapter.shotAlt} />}
+                  : <Shot caption={chapter.shotCaption} alt={chapter.shotAlt}><div role="img" aria-label={chapter.shotAlt}><MissionControlMock lang={lang} /></div></Shot>}
               </div>
             ) : (
               intro

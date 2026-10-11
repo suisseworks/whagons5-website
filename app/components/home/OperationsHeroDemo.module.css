@@ -25,7 +25,7 @@
 .progress span[data-active="true"] b { background: #ffb68f18; border-radius: 5px; padding: 4px; }
 .progress > i { height: 1px; flex: 1; background: #aec1b32b; }
 .stage { border: 1px solid #fff7e5; border-radius: 15px; background: #fffcf5; color: #283c31; padding: 15px 19px 20px; box-shadow: 0 8px 24px #00000014; }
-.stageHeading { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 9px; color: #716f61; }
+.stageHeading { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 10px; color: #716f61; }
 .stageHeading > span:first-child { text-transform: uppercase; letter-spacing: .1em; }
 .stageHeading > span:last-child { border: 1px solid #dddccf; border-radius: 5px; padding: 3px 6px; }
 .stageContent { display: grid; align-items: center; min-height: 198px; animation: reveal .35s ease-out both; }
@@ -52,11 +52,11 @@
 .tryButton > span { display: grid; place-items: center; width: 29px; height: 29px; border-radius: 7px; background: #253a2b; color: #e1efce; font-size: 19px; transition: transform .2s; }
 .tryButton:hover { background: #e5f3d3; }
 .tryButton:hover > span { transform: translateX(2px); }
-.scenario .scope { font-size: 10px; line-height: 1.6; color: #bbcbbd; margin-top: 11px; min-height: 28px; }
-.note { border-top: 1px solid #bed2bd25; padding-top: 12px; margin-top: 7px !important; font-size: 9px; line-height: 1.6; color: #acbeae; }
+.scenario .scope { font-size: 11px; line-height: 1.6; color: #bbcbbd; margin-top: 11px; min-height: 28px; }
+.note { border-top: 1px solid #bed2bd25; padding-top: 12px; margin-top: 7px !important; font-size: 10.5px; line-height: 1.6; color: #acbeae; }
 @keyframes reveal { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes waveform { from { transform: scaleY(.55); } to { transform: scaleY(1); } }
-@media (max-width:600px) { .demo { padding: 23px 18px; border-radius: 20px; } .demo h2 { font-size: 29px; } .channels button { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px 5px; text-align: center; gap: 7px; } .channels small { font-size: 10px; } .stage { padding: 13px 14px 18px; } .heading { font-size: 8px; } .example { font-size: 9px; } .input > strong { font-size: 19px; } .progress { gap: 6px; } .progress > span { font-size: 9px; gap: 4px; } }
+@media (max-width:600px) { .demo { padding: 23px 18px; border-radius: 20px; } .demo h2 { font-size: 29px; } .channels button { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px 5px; text-align: center; gap: 7px; } .channels small { font-size: 11px; } .stage { padding: 13px 14px 18px; } .heading { font-size: 10px; } .example { font-size: 10.5px; } .input > strong { font-size: 19px; } .progress { gap: 6px; } .progress > span { font-size: 10.5px; gap: 4px; } }
 @media (prefers-reduced-motion:reduce) { .demo *, .demo *::before, .demo *::after { animation: none !important; transition: none !important; } }
 
 .appContext { margin: -12px 0 20px; max-width: 440px; color: #d3dfd4; font-size: 13px; line-height: 1.6; }

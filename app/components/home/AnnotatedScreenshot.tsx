@@ -38,15 +38,18 @@ const copy = {
 
 const pct = (n: number) => `${n}%`;
 
-// On phones the whole screen is too small to read, so the view zooms in on the
-// active area: fit it (up to 3×, but at least 2× so text stays legible; very
-// tall areas show their top) and never pan past the screen's edges.
+// On phones the whole screen is too small to read, so a 4:3 window zooms in
+// on the active area: fit it (up to 3×, but at least 2× so text stays
+// legible; very tall areas show their top) and never pan past the screen's
+// edges. The window is TALL times taller than the screen at the same width.
+const TALL = (3 / 4) / (827 / 1512);
 function zoomOn(area: Annotation['area']) {
-  const z = Math.min(3, 90 / area.w, Math.max(2, 90 / area.h));
-  const half = 50 / z;
-  const clamp = (v: number) => Math.min(100 - half, Math.max(half, v));
-  const ox = clamp(area.x + area.w / 2);
-  const oy = clamp(area.y + Math.min(area.h / 2, 45 / z));
+  const z = Math.max(TALL, Math.min(3, 90 / area.w, Math.max(2, 90 / area.h)));
+  const halfX = 50 / z;
+  const halfY = 50 * TALL / z;
+  const clamp = (v: number, half: number) => Math.min(100 - half, Math.max(half, v));
+  const ox = clamp(area.x + area.w / 2, halfX);
+  const oy = clamp(area.y + Math.min(area.h / 2, 45 * TALL / z), halfY);
   return { '--z': z, '--ox': pct(ox), '--oy': pct(oy) } as CSSProperties;
 }
 
