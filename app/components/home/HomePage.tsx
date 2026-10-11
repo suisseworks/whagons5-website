@@ -5,6 +5,7 @@ import styles from './HomePage.module.css';
 import ScorePromotion from '../hotel-score/ScorePromotion';
 import HospitalityAnalytics from '../hospitality/HospitalityAnalytics';
 import OperationsHeroDemo from './OperationsHeroDemo';
+import HeroVisual from './HeroVisual';
 import AnnotatedScreenshot from './AnnotatedScreenshot';
 import MissionControlMock from '../product/MissionControlMock';
 import KanbanCloseUp from '../product/KanbanCloseUp';
@@ -18,9 +19,11 @@ const content = {
     heroLead:
       'Connect guest requests, room readiness, maintenance, inspections, and shifts in one operating view. Every job gets an owner, a due time, and proof it was done.',
     scoreCta: 'Assess my hotel for free',
-    heroPoints: ['Works alongside your PMS', 'Mobile + web', 'Configured to your operation', 'Across Latin America'],
-    offlineTitle: 'Works offline, too.',
-    offlineText: 'Access saved information and sync supported changes when you reconnect.',
+    heroPoints: ['Works alongside your PMS', 'Mobile + web', 'Works offline', 'Configured to your operation', 'Across Latin America'],
+    heroPhotoAlt: 'A smiling member of the hotel team in a guest room',
+    captureAlt: 'A maintenance technician repairing the plumbing in a guest bathroom',
+    captureTime: 'Room 204 · 7:42 AM',
+    captureCaption: 'A leak, reported by voice and fixed before check-in.',
     heroShotAlt: 'Whagons task grid for a hotel maintenance team, with status, priority and assignee columns',
     heroShotCaption: 'Task grid · Maintenance · Whagons',
     clientsLabel: 'Teams that trust Whagons',
@@ -108,9 +111,11 @@ const content = {
     heroLead:
       'Conecta solicitudes de huéspedes, habitaciones, mantenimiento, inspecciones y turnos en una sola vista operativa. Cada tarea tiene responsable, plazo y evidencia de cierre.',
     scoreCta: 'Evaluar mi hotel gratis',
-    heroPoints: ['Funciona junto a tu PMS', 'Móvil + web', 'Configurado para tu operación', 'En toda Latinoamérica'],
-    offlineTitle: 'También funciona offline.',
-    offlineText: 'Consulta la información guardada y sincroniza los cambios compatibles al reconectarte.',
+    heroPoints: ['Funciona junto a tu PMS', 'Móvil + web', 'Funciona offline', 'Configurado para tu operación', 'En toda Latinoamérica'],
+    heroPhotoAlt: 'Una colaboradora del hotel sonriendo en una habitación',
+    captureAlt: 'Un técnico de mantenimiento reparando la plomería en el baño de una habitación',
+    captureTime: 'Habitación 204 · 7:42',
+    captureCaption: 'Una fuga, reportada por voz y reparada antes del check-in.',
     heroShotAlt: 'Grilla de tareas de Whagons para el equipo de mantenimiento de un hotel, con columnas de estado, prioridad y responsable',
     heroShotCaption: 'Tareas · Mantenimiento · Whagons',
     clientsLabel: 'Equipos que confían en Whagons',
@@ -212,14 +217,13 @@ function CapabilityIcon({ index }: { index: number }) {
   return <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">{paths[index]}</svg>;
 }
 
-function MomentIcon({ index }: { index: number }) {
-  return <svg width="46" height="46" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    {index === 0 ? <><path d="M9 12h30v21H22l-9 7v-7H9z"/><path d="M17 20h14M17 26h9"/><circle cx="38" cy="11" r="5" fill="currentColor" stroke="none"/></> :
-     index === 1 ? <><path d="M7 38V20m34 18V20M7 30h34M10 20V11h28v9M7 30v-7a3 3 0 0 1 3-3h28a3 3 0 0 1 3 3v7"/><path d="M16 15h5m6 0h5M11 38v-4m26 4v-4"/></> :
-     index === 2 ? <><path d="M29 8a11 11 0 0 0-13 14L7 33a5 5 0 0 0 8 7l10-12A11 11 0 0 0 39 14l-7 7-6-6z"/><circle cx="12" cy="36" r="1"/></> :
-     <><rect x="12" y="10" width="25" height="32" rx="3"/><rect x="19" y="6" width="11" height="8" rx="2" fill="var(--moment-bg)"/><path d="m18 27 5 5 9-11"/></>}
-  </svg>;
-}
+// Photo and focal point behind each hotel moment card.
+const momentPhotos = [
+  ['/images/photos/guest-requests.jpg', '62% center'],
+  ['/images/photos/room-readiness.jpg', '30% 40%'],
+  ['/images/photos/engineering.jpg', '42% center'],
+  ['/images/photos/quality.jpg', '50% 30%'],
+] as const;
 
 const hotelMomentAnchors = ['guest-requests', 'room-readiness', 'engineering', 'inspection-correction'];
 
@@ -299,28 +303,25 @@ export default function HomePage({ lang }: { lang: Language }) {
     <main className={styles.page}>
       {/* ── Hero ─────────────────────────────────────────── */}
       <section className={styles.hero}>
-        <div className={styles.heroTop}>
-        <div className={styles.heroCopy}>
-          <p className={styles.eyebrow} data-rise="">{t.heroEyebrow}</p>
-          <h1 data-rise="" style={{ ['--d' as string]: '.05s' }}>{t.heroTitle}</h1>
-          <p className={styles.lead} data-rise="" style={{ ['--d' as string]: '.1s' }}>{t.heroLead}</p>
-          <div className={styles.actions} data-rise="" style={{ ['--d' as string]: '.15s' }}>
-            <a className={styles.btnPrimary} href={demoHref}>{demoOffer[lang].cta}<Arrow /></a>
-            <a className={styles.btnSecondary} data-track="hotel_score_hero_click" href={routeFor(lang, 'hotelScore')}>{t.scoreCta}</a>
+        <div className={styles.heroCover}>
+          <Image className={styles.heroPhoto} src="/images/photos/hero-woman.jpg" alt={t.heroPhotoAlt} fill priority sizes="100vw" />
+          <div className={styles.heroTop}>
+            <div className={styles.heroCopy}>
+              <p className={styles.heroEyebrow} data-rise=""><span aria-hidden="true" />{t.heroEyebrow}</p>
+              <h1 data-rise="" style={{ ['--d' as string]: '.05s' }}>{t.heroTitle}</h1>
+              <p className={styles.lead} data-rise="" style={{ ['--d' as string]: '.1s' }}>{t.heroLead}</p>
+              <div className={styles.actions} data-rise="" style={{ ['--d' as string]: '.15s' }}>
+                <a className={styles.btnPrimary} href={demoHref}>{demoOffer[lang].cta}<Arrow /></a>
+                <a className={styles.btnSecondary} data-track="hotel_score_hero_click" href={routeFor(lang, 'hotelScore')}>{t.scoreCta}</a>
+              </div>
+              <ul className={styles.points} data-rise="" style={{ ['--d' as string]: '.2s' }}>
+                {t.heroPoints.map((point) => <li key={point}><Check />{point}</li>)}
+              </ul>
+            </div>
+            <div className={styles.heroVisual}>
+              <HeroVisual lang={lang} />
+            </div>
           </div>
-          <ul className={styles.points} data-rise="" style={{ ['--d' as string]: '.2s' }}>
-            {t.heroPoints.map((point) => <li key={point}><Check />{point}</li>)}
-          </ul>
-          <div className={styles.offlineNote} data-rise="" style={{ ['--d' as string]: '.25s' }}>
-            <span className={styles.offlineIcon} aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 11a11 11 0 0 1 16 0M7 14a7 7 0 0 1 10 0M10 17a3 3 0 0 1 4 0M3 3l18 18" /><circle cx="12" cy="20" r=".8" fill="currentColor" stroke="none" /></svg>
-            </span>
-            <p><strong>{t.offlineTitle}</strong><span>{t.offlineText}</span></p>
-          </div>
-        </div>
-        <div className={styles.heroDemo} data-rise="" style={{ ['--d' as string]: '.2s' }}>
-          <OperationsHeroDemo lang={lang} />
-        </div>
         </div>
         <AnnotatedScreenshot lang={lang} alt={t.heroShotAlt} caption={t.heroShotCaption} />
       </section>
@@ -335,6 +336,17 @@ export default function HomePage({ lang }: { lang: Language }) {
         <p className={styles.clientsAward}><span aria-hidden="true">★</span>{t.awardShort}</p>
       </section>
 
+      {/* ── Capture ─────────────────────────────────────── */}
+      <section className={styles.capture}>
+        <figure className={styles.capturePhoto} data-reveal="">
+          <Image src="/images/photos/maintenance.jpg" alt={t.captureAlt} fill sizes="(max-width: 900px) 100vw, 560px" />
+          <figcaption><span>{t.captureTime}</span><strong>{t.captureCaption}</strong></figcaption>
+        </figure>
+        <div className={styles.captureDemo} data-reveal="" style={{ ['--d' as string]: '.1s' }}>
+          <OperationsHeroDemo lang={lang} />
+        </div>
+      </section>
+
       <SellingPoints lang={lang} />
 
       {/* ── Moments ─────────────────────────────────────── */}
@@ -347,9 +359,9 @@ export default function HomePage({ lang }: { lang: Language }) {
         <div className={styles.cardGrid}>
           {t.moments.map((moment, index) => (
             <a className={styles.card} href={hasLocalizedDetailPages ? `${hotelHref}#${hotelMomentAnchors[index]}` : demoHref} key={moment.title} data-reveal="" style={{ ['--d' as string]: `${(index % 2) * 0.08}s` }}>
-              <div className={styles.momentVisual} data-index={index} aria-hidden="true">
+              <div className={styles.momentVisual} aria-hidden="true">
+                <Image src={momentPhotos[index][0]} alt="" fill sizes="(max-width: 640px) 40vw, (max-width: 1000px) 45vw, 250px" style={{ objectPosition: momentPhotos[index][1] }} />
                 <span className={styles.momentNumber}>0{index + 1}</span>
-                <span className={styles.momentIcon}><MomentIcon index={index} /></span>
                 <div className={styles.momentFlow}>
                   {momentFlows[lang][index].map((step, stepIndex) => <span key={step}><i>{stepIndex === 2 ? '✓' : `0${stepIndex + 1}`}</i>{step}</span>)}
                 </div>
@@ -474,7 +486,7 @@ export default function HomePage({ lang }: { lang: Language }) {
         <div className={styles.quoteGrid}>
           {proof.testimonials.map((item, index) => (
             <figure className={styles.quote} key={item.name} data-reveal="" style={{ ['--d' as string]: `${(index % 3) * 0.07}s` }}>
-              <blockquote>“{item.quote}”</blockquote>
+              <blockquote>{item.quote}</blockquote>
               <figcaption>
                 <span className={styles.avatar} aria-hidden="true">{initials(item.name)}</span>
                 <span className={styles.who}><strong>{item.name}</strong><span>{item.role}</span></span>
@@ -516,10 +528,15 @@ export default function HomePage({ lang }: { lang: Language }) {
         <div className={styles.faqIntro} data-reveal="">
           <p className={styles.eyebrow}>{t.faqEyebrow}</p>
           <h2 id="faq-title">{t.faqTitle}</h2>
-          <p>{t.faqLead}</p>
-          <div className={styles.faqContact}>
-            <a className={styles.btnSecondary} href="https://wa.me/50670717099" data-track="whatsapp_faq_click">{t.faqWhatsApp}</a>
-            <a href="mailto:hello@whagons.com">hello@whagons.com</a>
+          <div className={styles.faqCard}>
+            <div className={styles.faqPhoto}>
+              <Image src="/images/photos/faq-team.jpg" alt="" fill sizes="(max-width: 900px) 100vw, 460px" />
+            </div>
+            <p>{t.faqLead}</p>
+            <div className={styles.faqContact}>
+              <a className={styles.btnSecondary} href="https://wa.me/50670717099" data-track="whatsapp_faq_click">{t.faqWhatsApp}</a>
+              <a href="mailto:hello@whagons.com">hello@whagons.com</a>
+            </div>
           </div>
         </div>
         <div className={styles.faqList} data-reveal="" style={{ ['--d' as string]: '.08s' }}>
@@ -537,15 +554,18 @@ export default function HomePage({ lang }: { lang: Language }) {
 
       {/* ── Final CTA ───────────────────────────────────── */}
       <section className={styles.finalCta}>
-        <div data-reveal="">
-          <p className={styles.eyebrow}>{t.finalEyebrow}</p>
-          <h2>{demoOffer[lang].title}</h2>
-          <p>{demoOffer[lang].description}</p>
-          <div className={styles.finalActions}>
-            <a className={styles.btnPrimary} href={demoHref}>{demoOffer[lang].cta}<Arrow /></a>
-            <a className={styles.btnSecondary} href="https://wa.me/50670717099" data-track="whatsapp_final_click">{t.whatsAppCta}</a>
+        <div className={styles.finalPanel} data-reveal="">
+          <Image className={styles.finalPhoto} src="/images/photos/lobby.jpg" alt="" fill sizes="(max-width: 1240px) 100vw, 1180px" />
+          <div className={styles.finalBody}>
+            <p className={styles.eyebrow}>{t.finalEyebrow}</p>
+            <h2>{demoOffer[lang].title}</h2>
+            <p>{demoOffer[lang].description}</p>
+            <div className={styles.finalActions}>
+              <a className={styles.btnPrimary} href={demoHref}>{demoOffer[lang].cta}<Arrow /></a>
+              <a className={styles.btnSecondary} href="https://wa.me/50670717099" data-track="whatsapp_final_click">{t.whatsAppCta}</a>
+            </div>
+            <small>{demoOffer[lang].deliverable}</small>
           </div>
-          <small>{demoOffer[lang].deliverable}</small>
         </div>
       </section>
     </main>
