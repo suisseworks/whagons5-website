@@ -5,6 +5,7 @@ import Image from 'next/image';
 import HospitalityAnalytics from './HospitalityAnalytics';
 import OperationsHeroDemo from '../home/OperationsHeroDemo';
 import TaskGridMock from '../product/TaskGridMock';
+import PhoneCrop from '../product/PhoneCrop';
 import s from './HotelOperationsPage.module.css';
 
 type Language = 'en' | 'es';
@@ -69,7 +70,7 @@ export default function HotelOperationsPage({lang='en'}:{lang?:Language}) {
         <div className={s.teamScene} id="hotel-team-example" aria-live="polite" aria-atomic="true"><div className={s.teamCopy}><span className={s.eyebrow}>{team.name}</span><h3>{team.title}</h3><p>{team.text}</p><a className={s.textLink} href={platform}>{t.platform} →</a></div><div className={s.room} id="room-readiness"><div className={s.roomHeader}><span>{t.room}</span><span className={s.status}>{team.status}</span></div><div className={s.event}><span className={s.time}>{team.time}</span><strong>{team.action}</strong></div><div className={s.next}><span>{t.next}</span><p>{team.next}</p></div><div className={s.history} id="inspection-correction"><span aria-hidden="true">↺</span><div><strong>{t.history}</strong><p>{t.historyDetail}</p></div></div></div></div>
       </section>
       <section className={s.capture} data-reveal-kids=""><div><p className={s.eyebrow}>{t.captureLabel}</p><h2>{t.captureTitle}</h2><p>{t.captureText}</p><div className={s.captureWords} aria-hidden="true"><span>{lang==='es'?'Voz':'Voice'}</span><span>QR</span><span>NFC</span></div></div><OperationsHeroDemo lang={lang}/></section>
-      <section className={s.product} id="shift-handoff" data-reveal-kids=""><div className={s.productIntro}><div><p className={s.eyebrow}>{t.productLabel}</p><h2>{t.productTitle}</h2></div><div><p>{t.productText}</p><a className={s.textLink} href={platform}>{t.platform} →</a></div></div><figure className={s.screenshot}><div className={s.screenshotBar}><span aria-hidden="true">● ● ●</span> Whagons · Hotel Premium</div><TaskGridMock lang={lang} label={t.shotAlt}/></figure></section>
+      <section className={s.product} id="shift-handoff" data-reveal-kids=""><div className={s.productIntro}><div><p className={s.eyebrow}>{t.productLabel}</p><h2>{t.productTitle}</h2></div><div><p>{t.productText}</p><a className={s.textLink} href={platform}>{t.platform} →</a></div></div><figure className={s.screenshot}><div className={s.screenshotBar}><span aria-hidden="true">● ● ●</span> Whagons · Hotel Premium</div><PhoneCrop><TaskGridMock lang={lang} label={t.shotAlt}/></PhoneCrop></figure></section>
       <section className={s.rollout} id="regional-teams" data-reveal-kids=""><p className={s.eyebrow}>{t.rollout}</p><h2>{t.rolloutTitle}</h2><p>{t.rolloutText}</p></section>
       <section className={s.final} data-reveal-kids=""><p className={s.eyebrow}>{t.brand}</p><h2>{t.endTitle}</h2><div className={s.actions}><a className={s.button} href={`/${lang}/demo`} data-track="operations_final_demo_click">{t.demo} ↗</a><a className={s.textLink} href="https://wa.me/50670717099" data-track="operations_final_whatsapp_click">{lang==='es'?'Escríbenos por WhatsApp':'Message us on WhatsApp'} ↗</a></div><p>{t.endNote}</p></section>
     </main>

@@ -1,0 +1,7 @@
+/* The app screens are 1512 design px wide with a ~290 px sidebar. At 250 %
+   the visible width covers design px 290 to 895: names, notes and statuses. */
+@media (max-width: 640px) {
+  .crop { position: relative; overflow: hidden; }
+  .inner { width: 250%; margin-left: -48%; }
+  .crop::after { content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 56px; background: linear-gradient(90deg, rgba(255, 255, 255, 0), #fff); pointer-events: none; }
+}

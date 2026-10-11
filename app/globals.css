@@ -270,6 +270,11 @@ nav {
   .site-footer { padding-top: 48px; }
   .sf-in { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 24px; }
   .sf-col:last-child { grid-column: 1 / -1; }
+  /* Comfortable tap heights for the link columns. */
+  .sf-col { gap: 0; }
+  .sf-h { margin-bottom: 6px; }
+  .sf-col a { padding: 7px 0; }
+  .sf-legal a { padding: 8px 0; }
 }
 .f-logo {
   display: inline-flex;

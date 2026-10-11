@@ -81,14 +81,15 @@ const content = {
     marketsTitle: 'Hotels are the focus. Other operational teams are welcome.',
     marketsText:
       'The same operating principles, clear ownership, visible timing, consistent standards, and verified completion, also support complex work in other industries.',
-    featuredMarket: ['Hospitality', 'Guest service, rooms, maintenance, inspections, and every handoff between them.'],
     featuredLink: 'Explore hotel operations',
+    marketLink: 'See workflows',
     markets: [
-      ['Retail', 'Multi-location execution'],
-      ['Industrial maintenance', 'Assets and field work'],
-      ['Pharma & food', 'Traceability and compliance'],
-      ['Health & education', 'Protocols and standards'],
-      ['Construction', 'Progress and site control'],
+      { name: 'Hospitality', who: 'Hotels, resorts and boutique properties', examples: ['Guest requests with an owner and a due time', 'Rooms cleaned, inspected and released', 'Preventive maintenance by room and asset'] },
+      { name: 'Retail', who: 'Supermarkets, franchises and store chains', examples: ['Opening and closing checklists for every store', 'Shelf, price and display audits with photos', 'A broken freezer reported, assigned and fixed'] },
+      { name: 'Industrial maintenance', who: 'Plants, fleets and commercial buildings', examples: ['Preventive routines for chillers, pumps and vehicles', 'Scan a machine’s QR code to open its history', 'Breakdowns routed to the technician on shift'], proof: 'Published case: −80% repeat visits' },
+      { name: 'Pharma & food', who: 'Labs, food plants and cold-chain operations', examples: ['Temperature and sanitation checks every shift', 'Deviations turned into corrective actions', 'Records ready when the auditor asks'] },
+      { name: 'Health & education', who: 'Schools, universities and clinics', examples: ['Classroom and facility inspections', 'Issues reported by staff, fixed by maintenance', 'Protocols the whole team can follow'], proof: 'Customer: Colegio Humboldt' },
+      { name: 'Construction', who: 'Developers, contractors and renovation crews', examples: ['Daily site tasks per crew, with deadlines', 'Stage checklists before each handover', 'Progress photos tied to each area'] },
     ],
     finalEyebrow: 'Your operation, made visible',
     faqEyebrow: 'Frequently asked questions',
@@ -173,14 +174,15 @@ const content = {
     marketsTitle: 'Los hoteles son el foco. Otros equipos operativos también son bienvenidos.',
     marketsText:
       'Los mismos principios operativos (responsabilidad clara, tiempos visibles, estándares consistentes y cierres verificados) apoyan trabajo complejo en otras industrias.',
-    featuredMarket: ['Hotelería', 'Servicio al huésped, habitaciones, mantenimiento, inspecciones y cada entrega entre equipos.'],
     featuredLink: 'Explorar operaciones hoteleras',
+    marketLink: 'Ver flujos',
     markets: [
-      ['Retail', 'Ejecución en múltiples sedes'],
-      ['Mantenimiento industrial', 'Activos y trabajo en campo'],
-      ['Farma y alimentos', 'Trazabilidad y cumplimiento'],
-      ['Salud y educación', 'Protocolos y estándares'],
-      ['Construcción', 'Avance y control en obra'],
+      { name: 'Hotelería', who: 'Hoteles, resorts y hoteles boutique', examples: ['Solicitudes de huéspedes con responsable y plazo', 'Habitaciones limpias, inspeccionadas y liberadas', 'Mantenimiento preventivo por habitación y equipo'] },
+      { name: 'Retail', who: 'Supermercados, franquicias y cadenas de tiendas', examples: ['Checklists de apertura y cierre en cada tienda', 'Auditorías de góndola, precios y exhibición con fotos', 'Un congelador dañado: reportado, asignado y reparado'] },
+      { name: 'Mantenimiento industrial', who: 'Plantas, flotillas y edificios comerciales', examples: ['Rutinas preventivas de chillers, bombas y vehículos', 'Escanea el QR de una máquina y abre su historial', 'Averías asignadas al técnico de turno'], proof: 'Caso publicado: −80% de visitas repetidas' },
+      { name: 'Farma y alimentos', who: 'Laboratorios, plantas de alimentos y cadena de frío', examples: ['Controles de temperatura y sanitización en cada turno', 'Desviaciones convertidas en acciones correctivas', 'Registros listos cuando llega el auditor'] },
+      { name: 'Salud y educación', who: 'Colegios, universidades y clínicas', examples: ['Inspecciones de aulas e instalaciones', 'Incidencias reportadas por el personal y resueltas por mantenimiento', 'Protocolos que todo el equipo puede seguir'], proof: 'Cliente: Colegio Humboldt' },
+      { name: 'Construcción', who: 'Desarrolladoras, contratistas y equipos de remodelación', examples: ['Tareas diarias de obra por cuadrilla, con plazos', 'Checklists por etapa antes de cada entrega', 'Fotos de avance vinculadas a cada área'] },
     ],
     finalEyebrow: 'Tu operación, visible',
     faqEyebrow: 'Preguntas frecuentes',
@@ -199,7 +201,8 @@ const content = {
   },
 } as const;
 
-const marketSlugs = ['retail', 'mantenimiento', 'farmaceutica', 'salud-educacion', 'construccion'];
+// Industry slugs match the anchors and photos of the industries page; hospitality comes first.
+const marketSlugs = ['hoteleria', 'retail', 'mantenimiento', 'farmaceutica', 'salud-educacion', 'construccion'];
 const momentFlows = {
   es: [['Solicitud', 'Responsable', 'Resolución'], ['Limpieza', 'Inspección', 'Lista'], ['Reporte', 'Reparación', 'Historial'], ['Inspección', 'Corrección', 'Verificación']],
   en: [['Request', 'Owner', 'Resolution'], ['Cleaning', 'Inspection', 'Ready'], ['Report', 'Repair', 'History'], ['Inspection', 'Correction', 'Verification']],
@@ -453,27 +456,29 @@ export default function HomePage({ lang }: { lang: Language }) {
           <h2>{t.marketsTitle}</h2>
           <p>{t.marketsText}</p>
         </div>
-        <div className={styles.markets} data-reveal="">
-          <a className={styles.featuredMarket} href={hotelHref}>
-            <Image src="/images/industries/hoteleria.jpg" alt="" fill sizes="(max-width: 1000px) 100vw, 560px" />
-            <div>
-              <span>{t.priorityMarket}</span>
-              <h3>{t.featuredMarket[0]}</h3>
-              <p>{t.featuredMarket[1]}</p>
-              <strong>{t.featuredLink}<Arrow /></strong>
-            </div>
-          </a>
-          <ul className={styles.marketList}>
-            {t.markets.map(([title, text], index) => (
-              <li key={title}>
-                <a href={hasLocalizedDetailPages ? `${industriesHref}#${marketSlugs[index]}` : demoHref}>
-                  <div><h3>{title}</h3><p>{text}</p></div>
-                  <Arrow />
+        <ul className={styles.markets}>
+          {t.markets.map((market, index) => {
+            const featured = index === 0;
+            const href = featured ? hotelHref : hasLocalizedDetailPages ? `${industriesHref}#${marketSlugs[index]}` : demoHref;
+            return (
+              <li key={market.name} data-reveal="" style={{ ['--d' as string]: `${(index % 3) * 0.07}s` }}>
+                <a className={styles.market} href={href} data-featured={featured || undefined}>
+                  <span className={styles.marketPhoto}>
+                    <Image src={`/images/industries/${marketSlugs[index]}.jpg`} alt="" fill sizes="(max-width: 640px) 80vw, (max-width: 1000px) 45vw, 380px" />
+                    {featured && <span className={styles.marketBadge}>{t.priorityMarket}</span>}
+                  </span>
+                  <span className={styles.marketBody}>
+                    <h3>{market.name}</h3>
+                    <span className={styles.marketWho}>{market.who}</span>
+                    <ul>{market.examples.map((example) => <li key={example}><Check />{example}</li>)}</ul>
+                    {'proof' in market && <span className={styles.marketProof}>{market.proof}</span>}
+                    <strong>{featured ? t.featuredLink : t.marketLink}<Arrow /></strong>
+                  </span>
                 </a>
               </li>
-            ))}
-          </ul>
-        </div>
+            );
+          })}
+        </ul>
       </section>
 
       {/* ── Testimonials ────────────────────────────────── */}
