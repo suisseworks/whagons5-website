@@ -34,6 +34,9 @@ export default function NavBar({ lang }: NavBarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const menuPanelRef = useRef<HTMLDivElement>(null);
+  // On the home page the bar sits clear over the hero photo until the page scrolls.
+  const isHome = pathname === `/${lang}`;
+  const [atTop, setAtTop] = useState(true);
 
   const hrefs = {
     home: routeFor(lang, 'home'),
@@ -115,6 +118,14 @@ export default function NavBar({ lang }: NavBarProps) {
   }, [closeMenu, menuOpen]);
 
   useEffect(() => {
+    if (!isHome) return;
+    const onScroll = () => setAtTop(window.scrollY < 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [isHome]);
+
+  useEffect(() => {
     const desktopQuery = window.matchMedia('(min-width: 1231px)');
     const closeAtDesktopWidth = (event: MediaQueryListEvent) => {
       if (event.matches) setMenuOpen(false);
@@ -130,7 +141,7 @@ export default function NavBar({ lang }: NavBarProps) {
   };
 
   return (
-    <nav className="hospitality-nav" aria-label={t.primaryNav}>
+    <nav className={`hospitality-nav${isHome && atTop && !menuOpen ? ' nav-on-photo' : ''}`} aria-label={t.primaryNav}>
       <a href={hrefs.home} onClick={closeMenu} className="logo" aria-label={`Whagons — ${t.market}`}>
         <span className="logo-icon" aria-hidden="true" />
         Whagons
