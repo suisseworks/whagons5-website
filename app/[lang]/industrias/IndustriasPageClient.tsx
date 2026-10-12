@@ -1,86 +1,13 @@
-'use client';
-
 import Image from 'next/image';
-import { translations, Language } from '../../lib/i18n';
+import type { CSSProperties } from 'react';
+import { Language, routeFor } from '../../lib/locales';
+import IndustryMap from '../../components/industries/IndustryMap';
+import { INDUSTRY_COLORS, industriesContent } from '../../components/industries/content';
+import s from '../../components/industries/IndustriesPage.module.css';
 
-const INDUSTRY_IMAGES: Record<string, string> = {
-  hoteleria: '/images/industries/hoteleria.jpg',
-  retail: '/images/industries/retail.jpg',
-  mantenimiento: '/images/industries/mantenimiento.jpg',
-  farmaceutica: '/images/industries/farmaceutica.jpg',
-  'salud-educacion': '/images/industries/salud-educacion.jpg',
-  construccion: '/images/industries/construccion.jpg',
-};
-
-const INDUSTRY_DETAILS: Record<string, { es: { features: string[]; useCases: string[] }; en: { features: string[]; useCases: string[] } }> = {
-  hoteleria: {
-    es: {
-      features: ['Gestión de experiencia del huésped', 'Checklists de habitaciones y áreas comunes', 'SLAs de respuesta a solicitudes', 'Mantenimiento preventivo de instalaciones', 'Auditoría de estándares de servicio'],
-      useCases: ['Hoteles boutique y cadenas hoteleras', 'Resorts y centros de convenciones', 'Restaurantes y catering', 'Clubes y centros recreativos'],
-    },
-    en: {
-      features: ['Guest experience management', 'Room and common area checklists', 'Request response SLAs', 'Preventive facility maintenance', 'Service standards auditing'],
-      useCases: ['Boutique hotels and hotel chains', 'Resorts and convention centers', 'Restaurants and catering', 'Clubs and recreational centers'],
-    },
-  },
-  retail: {
-    es: {
-      features: ['Rutinas de apertura y cierre por tienda', 'Inspecciones con evidencia fotográfica', 'Pendientes y responsables por sede'],
-      useCases: ['Cadenas de tiendas departamentales', 'Franquicias de comida rápida', 'Supermercados y autoservicios', 'Tiendas de conveniencia'],
-    },
-    en: {
-      features: ['Store opening and closing routines', 'Inspections with photographic evidence', 'Open work and owners by location'],
-      useCases: ['Department store chains', 'Fast food franchises', 'Supermarkets and grocery stores', 'Convenience stores'],
-    },
-  },
-  mantenimiento: {
-    es: {
-      features: ['Rutinas de mantenimiento programadas', 'Órdenes de trabajo con responsable e historial', 'Inspecciones con formularios vinculados por QR'],
-      useCases: ['Plantas industriales', 'Flotas de vehículos', 'Edificios comerciales', 'Infraestructura pública'],
-    },
-    en: {
-      features: ['Scheduled maintenance routines', 'Work orders with ownership and history', 'Inspections with QR-linked forms'],
-      useCases: ['Industrial plants', 'Vehicle fleets', 'Commercial buildings', 'Public infrastructure'],
-    },
-  },
-  farmaceutica: {
-    es: {
-      features: ['Registro de controles y observaciones', 'Procedimientos y evidencia de ejecución', 'Seguimiento de hallazgos y acciones correctivas'],
-      useCases: ['Laboratorios farmacéuticos', 'Plantas de alimentos', 'Distribuidoras de medicamentos', 'Cadenas de frío'],
-    },
-    en: {
-      features: ['Records of checks and observations', 'Procedures and evidence of completion', 'Findings and corrective-action tracking'],
-      useCases: ['Pharmaceutical labs', 'Food processing plants', 'Drug distributors', 'Cold chain operations'],
-    },
-  },
-  'salud-educacion': {
-    es: {
-      features: ['Inspecciones de instalaciones y áreas comunes', 'Reporte y seguimiento de incidencias', 'Procedimientos disponibles para el equipo'],
-      useCases: ['Colegios y universidades', 'Hospitales y clínicas', 'Centros de cuidado infantil', 'Instituciones de formación técnica'],
-    },
-    en: {
-      features: ['Facility and common-area inspections', 'Issue reporting and follow-up', 'Procedures available to the team'],
-      useCases: ['Schools and universities', 'Hospitals and clinics', 'Childcare centers', 'Technical training institutions'],
-    },
-  },
-  construccion: {
-    es: {
-      features: ['Tareas de obra con responsables y plazos', 'Listas de revisión por área o etapa', 'Documentación fotográfica de avances'],
-      useCases: ['Desarrollos inmobiliarios', 'Proyectos de infraestructura', 'Remodelaciones comerciales', 'Obras civiles'],
-    },
-    en: {
-      features: ['Site tasks with owners and deadlines', 'Checklists by area or stage', 'Photographic progress records'],
-      useCases: ['Real estate developments', 'Infrastructure projects', 'Commercial renovations', 'Civil works'],
-    },
-  },
-};
-
-/* Industry names are stored in caps in i18n; render them in sentence case
-   so they match the light design system (no uppercase display type). */
-function sentenceCase(value: string) {
-  const lower = value.toLocaleLowerCase();
-  return lower.charAt(0).toLocaleUpperCase() + lower.slice(1);
-}
+// One page for every industry beyond hotels (which also has its own page):
+// a live map of an example day, the four rules that never change, then one
+// chapter per industry with the problem, a day in Whagons and what it tracks.
 
 function Arrow() {
   return (
@@ -90,79 +17,158 @@ function Arrow() {
   );
 }
 
+function Check() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+      <circle cx="9" cy="9" r="9" fill="currentColor" opacity=".14" />
+      <path d="M5.5 9.2 8 11.5l4.5-5" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export default function IndustriasPageClient({ lang }: { lang: Language }) {
-  const t = translations[lang];
-  const otherMarkets = t.industries.filter((industry: any) => industry.slug !== 'hoteleria');
-  const eyebrow = lang === 'es' ? 'Industrias' : 'Industries';
-  const featuresLabel = lang === 'es' ? 'Flujos que puedes configurar' : 'Workflows you can configure';
-  const useCasesLabel = lang === 'es' ? 'Aplicaciones' : 'Applications';
+  const t = industriesContent[lang === 'en' ? 'en' : 'es'];
+  const demoHref = routeFor(lang, 'demo');
+  const hotelHref = routeFor(lang, 'hotels');
 
   return (
-    <main className="pg">
-      <section className="pg-hero pg-hero-center">
-        <div className="pg-hero-inner">
-          <div className="pg-hero-copy">
-            <p className="pg-eyebrow">{eyebrow}</p>
-            <h1>{t.indPageTitle}</h1>
-            <p className="pg-lead">{t.indPageDesc}</p>
-            <div className="industry-jump" aria-label={lang === 'es' ? 'Explorar industrias' : 'Explore industries'}>{otherMarkets.map((industry) => <a href={`#${industry.slug}`} key={industry.slug}>{sentenceCase(industry.name)} <span aria-hidden="true">↗</span></a>)}</div>
+    <main className={`pg ${s.page}`}>
+      {/* ── Hero and live map ─────────────────────────── */}
+      <section className={s.hero}>
+        <div className={s.heroPhoto}>
+          <Image src="/images/photos/industries-hero.jpg" alt={t.hero.photoAlt} fill priority sizes="(max-width: 900px) 100vw, 64vw" />
+        </div>
+        <div className={s.heroCopy}>
+          <p className={s.eyebrow} data-rise=""><span aria-hidden="true" />{t.hero.eyebrow}</p>
+          <h1 data-rise="" style={{ ['--d' as string]: '.05s' }}>{t.hero.title[0]} <em>{t.hero.title[1]}</em></h1>
+          <p className={s.lead} data-rise="" style={{ ['--d' as string]: '.1s' }}>{t.hero.lead}</p>
+          <div className={s.actions} data-rise="" style={{ ['--d' as string]: '.15s' }}>
+            <a className={s.btnPrimary} href={demoHref}>{t.hero.cta}<Arrow /></a>
+            <a className={s.btnGhost} href="#industry-list">{t.hero.jump}<span aria-hidden="true">↓</span></a>
           </div>
+        </div>
+
+        <div className={s.mapIntro} data-reveal="">
+          <div>
+            <p className={s.mapEyebrow}>{t.map.eyebrow}</p>
+            <h2>{t.map.title}</h2>
+          </div>
+          <p>{t.map.text}</p>
+        </div>
+        <div data-reveal="" style={{ ['--d' as string]: '.08s' }}>
+          <IndustryMap t={t} ago={t.ago} />
+        </div>
+        <div className={s.points}>
+          {t.map.points.map(([title, text], index) => (
+            <article key={title} data-reveal="" style={{ ['--d' as string]: `${index * 0.08}s` }}>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section className="pg-section pg-industries" data-reveal-kids="">
-        {otherMarkets.map((ind: any, idx: number) => {
-          const details = INDUSTRY_DETAILS[ind.slug]?.[lang];
-          const imageSrc = INDUSTRY_IMAGES[ind.slug];
-          const isReversed = idx % 2 === 1;
-          return (
-            <article
-              className={`pg-split${isReversed ? ' pg-split-reverse' : ''}`}
-              key={ind.num}
-              id={ind.slug}
-            >
-              {imageSrc && (
-                <div className="pg-photo">
-                  <Image
-                    src={imageSrc}
-                    alt={ind.name}
-                    width={600}
-                    height={400}
-                    sizes="(max-width: 1000px) 100vw, 560px"
-                  />
-                </div>
-              )}
-              <div>
-                <span className="pg-num">{String(idx + 1).padStart(2, '0')}</span>
-                <h2 style={{ marginTop: 16 }}>{sentenceCase(ind.name)}</h2>
-                <p className="pg-text" style={{ marginTop: 14 }}>{ind.desc}</p>
-                {details && (
-                  <div className="pg-grid-2" style={{ marginTop: 28, gap: 24 }}>
-                    <div>
-                      <h3 className="pg-small" style={{ marginBottom: 12, fontWeight: 600, color: 'var(--ink)' }}>{featuresLabel}</h3>
-                      <ul className="pg-checks">
-                        {details.features.map((f, i) => <li key={i}>{f}</li>)}
-                      </ul>
-                    </div>
-                    <div>
-                      <h3 className="pg-small" style={{ marginBottom: 12, fontWeight: 600, color: 'var(--ink)' }}>{useCasesLabel}</h3>
-                      <ul className="industry-applications">
-                        {details.useCases.map((u, i) => <li key={i}>{u}</li>)}
-                      </ul>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </article>
-          );
-        })}
+      {/* ── What stays the same ───────────────────────── */}
+      <section className={s.principles}>
+        <div className={s.sectionIntro} data-reveal="">
+          <p className={s.kicker}>{t.principles.eyebrow}</p>
+          <h2>{t.principles.title}</h2>
+        </div>
+        <ol className={s.rules}>
+          {t.principles.items.map(([name, rule, text], index) => (
+            <li key={name} data-reveal="" style={{ ['--d' as string]: `${index * 0.07}s` }}>
+              <span className={s.ruleNum}>0{index + 1}</span>
+              <p className={s.ruleName}>{name}</p>
+              <h3>{rule}</h3>
+              <p>{text}</p>
+            </li>
+          ))}
+        </ol>
       </section>
 
-      <section className="pg-cta" data-reveal-kids="">
-        <div>
-          <h2>{t.indPageCta}</h2>
-          <div className="pg-actions">
-            <a href={`/${lang}/demo`} className="pg-btn">{t.demoSubmit}<Arrow /></a>
+      {/* ── Industry chapters ─────────────────────────── */}
+      <nav className={s.jump} aria-label={t.labels.nav}>
+        {t.industries.map((industry) => (
+          <a key={industry.slug} href={`#${industry.slug}`} style={{ '--c': INDUSTRY_COLORS[industry.slug] } as CSSProperties}><i aria-hidden="true" />{industry.short}</a>
+        ))}
+      </nav>
+
+      <div id="industry-list">
+        {t.industries.map((industry, index) => (
+          <section key={industry.slug} id={industry.slug} className={s.chapter} style={{ '--c': INDUSTRY_COLORS[industry.slug] } as CSSProperties}>
+            <header className={s.chapterHead} data-reveal="">
+              <p className={s.chapterName}><span>0{index + 1}</span><i aria-hidden="true" />{industry.name}</p>
+              <h2>{industry.headline}</h2>
+              <p className={s.who}>{industry.who}</p>
+            </header>
+
+            <div className={s.chapterGrid}>
+              <figure className={s.visual} data-reveal="">
+                <Image src={`/images/industries/${industry.slug}.jpg`} alt="" fill sizes="(max-width: 900px) 100vw, 560px" />
+                <div className={s.taskCard}>
+                  <div className={s.taskTop}><span>{t.labels.task}</span><em>{industry.task.status}</em></div>
+                  <strong>{industry.task.title}</strong>
+                  <p className={s.taskPlace}>{industry.task.place}</p>
+                  <dl>
+                    <div><dt>{t.labels.owner}</dt><dd>{industry.task.owner}</dd></div>
+                    <div><dt>{t.labels.due}</dt><dd>{industry.task.due}</dd></div>
+                    <div><dt>{t.labels.evidence}</dt><dd>{industry.task.evidence}</dd></div>
+                  </dl>
+                </div>
+              </figure>
+
+              <div className={s.story} data-reveal="" style={{ ['--d' as string]: '.08s' }}>
+                <div className={s.pain}>
+                  <p className={s.label}>{t.labels.today}</p>
+                  <p>{industry.pain}</p>
+                </div>
+                <p className={s.label}>{t.labels.day}</p>
+                <ol className={s.timeline}>
+                  {industry.day.map(([time, text]) => (
+                    <li key={time}><time>{time}</time><p>{text}</p></li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+
+            <div className={s.facts} data-reveal="">
+              <div>
+                <h3>{t.labels.workflows}</h3>
+                <ul className={s.checks}>{industry.workflows.map((item) => <li key={item}><Check />{item}</li>)}</ul>
+              </div>
+              <div>
+                <h3>{t.labels.kpis}</h3>
+                <ul className={s.tags}>{industry.kpis.map((item) => <li key={item}>{item}</li>)}</ul>
+              </div>
+              <div>
+                <h3>{t.labels.capabilities}</h3>
+                <ul className={s.tags} data-tone="solid">{industry.capabilities.map((item) => <li key={item}>{item}</li>)}</ul>
+              </div>
+              <div>
+                <h3>{t.labels.applications}</h3>
+                <ul className={s.plain}>{industry.applications.map((item) => <li key={item}>{item}</li>)}</ul>
+              </div>
+            </div>
+
+            {(industry.proof || industry.link) && (
+              <div className={s.chapterFoot}>
+                {industry.proof && <p className={s.proof}><Check />{industry.proof}</p>}
+                {industry.link && <a className={s.link} href={hotelHref}>{industry.link}<Arrow /></a>}
+              </div>
+            )}
+          </section>
+        ))}
+      </div>
+
+      {/* ── Final CTA ─────────────────────────────────── */}
+      <section className={s.cta}>
+        <div className={s.ctaPanel} data-reveal="">
+          <p className={s.mapEyebrow}>{t.cta.eyebrow}</p>
+          <h2>{t.cta.title}</h2>
+          <p>{t.cta.text}</p>
+          <div className={s.actions}>
+            <a className={s.btnPrimary} href={demoHref}>{t.cta.demo}<Arrow /></a>
+            <a className={s.btnGhost} href="https://wa.me/50670717099" data-track="whatsapp_industries_click">{t.cta.whatsapp}</a>
           </div>
         </div>
       </section>
