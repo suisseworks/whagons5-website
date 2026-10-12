@@ -35,6 +35,9 @@ export default function IndustriasPageClient({ lang }: { lang: Language }) {
     <main className={`pg ${s.page}`}>
       {/* ── Hero and live map ─────────────────────────── */}
       <section className={s.hero}>
+        <div className={s.heroPhoto}>
+          <Image src="/images/photos/industries-hero.jpg" alt={t.hero.photoAlt} fill priority sizes="(max-width: 900px) 100vw, 64vw" />
+        </div>
         <div className={s.heroCopy}>
           <p className={s.eyebrow} data-rise=""><span aria-hidden="true" />{t.hero.eyebrow}</p>
           <h1 data-rise="" style={{ ['--d' as string]: '.05s' }}>{t.hero.title[0]} <em>{t.hero.title[1]}</em></h1>

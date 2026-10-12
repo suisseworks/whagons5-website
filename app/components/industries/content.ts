@@ -37,6 +37,7 @@ const en = {
     lead: 'Hotels, stores, plants, labs, schools and building sites do different work, but it breaks in the same place: between people and shifts. Whagons gives every job an owner, a time and proof it was done, wherever it happens.',
     cta: 'Request a demo',
     jump: 'See each industry',
+    photoAlt: 'Two supervisors in hard hats and safety vests reviewing a tablet at a container yard',
   },
   map: {
     eyebrow: 'Live operations',
@@ -221,6 +222,7 @@ const es: typeof en = {
     lead: 'Hoteles, tiendas, plantas, laboratorios, colegios y obras hacen trabajos distintos, pero fallan en el mismo punto: entre personas y turnos. Whagons le da a cada tarea un responsable, un plazo y evidencia de cierre, donde sea que ocurra.',
     cta: 'Solicitar una demo',
     jump: 'Ver cada industria',
+    photoAlt: 'Dos supervisores con casco y chaleco revisando una tablet en un patio de contenedores',
   },
   map: {
     eyebrow: 'Operación en vivo',
