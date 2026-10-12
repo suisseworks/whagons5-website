@@ -34,8 +34,9 @@ export default function NavBar({ lang }: NavBarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const menuPanelRef = useRef<HTMLDivElement>(null);
-  // On the home page the bar sits clear over the hero photo until the page scrolls.
-  const isHome = pathname === `/${lang}`;
+  // Pages that open on a dark hero (home, industries): the bar sits clear over
+  // it until the page scrolls.
+  const onDarkHero = pathname === `/${lang}` || routeKeyFromPath(pathname) === 'markets';
   const [atTop, setAtTop] = useState(true);
 
   const hrefs = {
@@ -118,12 +119,12 @@ export default function NavBar({ lang }: NavBarProps) {
   }, [closeMenu, menuOpen]);
 
   useEffect(() => {
-    if (!isHome) return;
+    if (!onDarkHero) return;
     const onScroll = () => setAtTop(window.scrollY < 24);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, [isHome]);
+  }, [onDarkHero]);
 
   useEffect(() => {
     const desktopQuery = window.matchMedia('(min-width: 1231px)');
@@ -141,7 +142,7 @@ export default function NavBar({ lang }: NavBarProps) {
   };
 
   return (
-    <nav className={`hospitality-nav${isHome && atTop && !menuOpen ? ' nav-on-photo' : ''}`} aria-label={t.primaryNav}>
+    <nav className={`hospitality-nav${onDarkHero && atTop && !menuOpen ? ' nav-on-photo' : ''}`} aria-label={t.primaryNav}>
       <a href={hrefs.home} onClick={closeMenu} className="logo" aria-label={`Whagons — ${t.market}`}>
         <span className="logo-icon" aria-hidden="true" />
         Whagons
