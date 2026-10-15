@@ -14,7 +14,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.rewrite(new URL(BRIEF_PDF_PATH, request.url));
   }
   if (pathname === BRIEF_PDF_PATH || /\.[^/]+$/.test(pathname) ||
-      /^\/(?:_next|api|images|media)(?:\/|$)/.test(pathname)) return NextResponse.next();
+      /^\/(?:_next|api|images|media|clients)(?:\/|$)/.test(pathname)) return NextResponse.next();
 
   // Retired locales move directly to equivalent English pages, retaining queries.
   const retired = pathname.match(/^\/(pt|de|it)(\/.*)?$/);

@@ -2,6 +2,12 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Static client sites served from public/clients/<name>/index.html.
+  async rewrites() {
+    return [
+      { source: '/clients/:client', destination: '/clients/:client/index.html' },
+    ];
+  },
   async headers() {
     return [
       { source: '/:path*', headers: [
