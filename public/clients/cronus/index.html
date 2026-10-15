@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cronus Technology, Inc. | Pipeline &amp; SURF Engineering — Houston, TX</title>
   <meta name="description" content="Cronus Technology, Inc. (CTI) is a progressive pipeline and SURF engineering firm in Houston, Texas, delivering engineering design, drafting, project management, construction management and inspection for onshore, shallow water and deepwater projects since 2004.">
-  <meta name="theme-color" content="#e8ece9">
+  <meta name="theme-color" content="#050b14">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Cronus Technology, Inc. — Pipeline &amp; SURF Engineering">
   <meta property="og:description" content="Engineering the lines that move energy. Onshore, shallow water and deepwater pipeline engineering since 2004.">
@@ -13,7 +13,7 @@
   <link rel="icon" href="/clients/cronus/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/clients/cronus/css/styles.css">
   <script>document.documentElement.classList.add('js')</script>
   <script type="application/ld+json">
@@ -41,18 +41,25 @@
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
 
   <!-- ============ Header ============ -->
   <header class="site-header" data-header>
     <div class="container header-inner">
       <a class="brand" href="#top" aria-label="Cronus Technology, home">
         <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
-          <path d="M29.2 12.3A12 12 0 1 0 29.2 27.7" class="mark-arc" fill="none" stroke-width="4.5" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="brandGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#3d9bff"/>
+              <stop offset="1" stop-color="#38e1ff"/>
+            </linearGradient>
+          </defs>
+          <path d="M29.2 12.3A12 12 0 1 0 29.2 27.7" fill="none" stroke="url(#brandGrad)" stroke-width="4.5" stroke-linecap="round"/>
           <path d="M20 20H36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
           <circle cx="20" cy="20" r="3.6" fill="currentColor"/>
         </svg>
         <span class="brand-text">
-          <span class="brand-name">Cronus</span>
+          <span class="brand-name">CRONUS</span>
           <span class="brand-sub">Technology, Inc.</span>
         </span>
       </a>
@@ -85,9 +92,9 @@
         <a href="#hse">Safety</a>
         <a href="#team">Team</a>
         <a href="#careers">Careers</a>
+        <a href="#contact" class="mobile-cta">Start a project →</a>
       </nav>
-      <div class="mobile-foot">
-        <a class="btn btn-primary" href="#contact">Start a project</a>
+      <div class="mobile-contact">
         <a href="tel:+17137879444">713.787.9444</a>
         <a href="mailto:info@cronustec.com">info@cronustec.com</a>
       </div>
@@ -96,52 +103,80 @@
 
   <main id="main">
 
-    <!-- ============ Hero: alignment profile ============ -->
+    <!-- ============ Hero ============ -->
     <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="container hero-copy">
-        <h1 class="hero-title" id="hero-title">Engineering the lines that move energy.</h1>
-        <div class="hero-side">
-          <p class="hero-lead">
-            Cronus Technology designs, manages, builds and inspects pipeline systems — from onshore transmission
-            lines to subsea developments in nearly 9,000&nbsp;ft of water.
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#contact">Start a project</a>
-            <a class="btn btn-quiet" href="#projects">See our projects</a>
-          </div>
+      <canvas class="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-glow" aria-hidden="true"></div>
+
+      <div class="container hero-content">
+        <p class="eyebrow eyebrow--dark hero-eyebrow">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          Pipeline &amp; SURF engineering · Houston, TX · Est. 2004
+        </p>
+        <h1 class="hero-title" id="hero-title" data-split>
+          Engineering the lines that <span class="text-gradient">move energy.</span>
+        </h1>
+        <p class="hero-lead">
+          Cronus Technology is a progressive pipeline and SURF engineering firm. We design, manage, build and inspect
+          pipeline systems — from onshore transmission lines to subsea developments in nearly 9,000&nbsp;ft of water.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#services">
+            Explore capabilities
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#projects">View selected projects</a>
         </div>
       </div>
 
-      <figure class="profile">
-        <div class="profile-drawing" data-profile aria-hidden="true"></div>
-        <figcaption class="title-block">
-          <p class="tb-name">Cronus Technology, Inc. <span>Pipeline and SURF engineering</span></p>
-          <dl>
-            <div><dt>Office</dt><dd>Houston, Texas</dd></div>
-            <div><dt>Founded</dt><dd>March 2004</dd></div>
-            <div><dt>Segments</dt><dd>Onshore to deepwater</dd></div>
-            <div><dt>Water depth</dt><dd>To 9,000 ft</dd></div>
-            <div><dt>Incidents</dt><dd>0 since 2004</dd></div>
-            <div><dt>Scale</dt><dd>Not to scale</dd></div>
-          </dl>
-        </figcaption>
-      </figure>
+      <div class="hero-hud" aria-hidden="true">
+        <div class="hud-row"><span class="hud-key">HQ</span><span>Houston, Texas</span></div>
+        <div class="hud-row"><span class="hud-key">Segments</span><span>Onshore · Shallow · Deep</span></div>
+        <div class="hud-row"><span class="hud-key">Max depth</span><span>≈ 9,000 ft</span></div>
+        <div class="hud-row"><span class="hud-key">Incidents</span><span class="hud-ok">0 since 2004</span></div>
+      </div>
+
+      <a class="hero-scroll" href="#about" aria-label="Scroll to content">
+        <span class="hero-scroll-line"></span>
+        <span>Scroll</span>
+      </a>
+    </section>
+
+    <!-- ============ Client marquee ============ -->
+    <section class="clients" aria-label="Clients we have delivered for">
+      <p class="clients-label">Delivering for operators and midstream leaders</p>
+      <div class="marquee" data-marquee>
+        <ul class="marquee-track">
+          <li>Chevron</li>
+          <li>Noble Energy</li>
+          <li>Enterprise Products</li>
+          <li>Williams</li>
+          <li>Genesis Energy</li>
+          <li>Freeport-McMoRan</li>
+          <li>Plains All American</li>
+          <li>Air Products</li>
+          <li>Matrix PDM</li>
+          <li>Noble Midstream</li>
+        </ul>
+      </div>
     </section>
 
     <!-- ============ About ============ -->
-    <section class="section about" id="about" aria-labelledby="about-title">
+    <section class="section section--light about" id="about" aria-labelledby="about-title">
       <div class="container">
-        <p class="clients"><span>Clients include</span> Chevron, Noble Energy, Enterprise Products, Williams, Genesis Energy,
-          Freeport-McMoRan, Plains All American, Air Products, Matrix PDM and Noble Midstream.</p>
-
-        <div class="about-grid">
-          <h2 class="display" id="about-title">
-            High-quality, on-time engineering, built on <span data-years>22</span> years of repeat business.
+        <div class="about-head">
+          <p class="eyebrow" data-reveal>Who we are</p>
+          <h2 class="display" id="about-title" data-reveal>
+            High-quality, on-time engineering for the energy industry — <span class="muted">built on <span data-years>20+</span> years of repeat business.</span>
           </h2>
-          <div class="about-copy">
+        </div>
+
+        <div class="about-body">
+          <div class="about-copy" data-reveal>
             <p class="lead">
               Since March 2004, Cronus Technology, Inc. (CTI) has specialized in the entire life cycle of onshore and offshore
-              pipelines and subsea developments, with specialists in floating and fixed-facility fabrication and installation.
+              pipelines and subsea developments — with specialists in floating and fixed-facility fabrication and installation.
             </p>
             <p>
               Our success comes from a team that is passionate about exceeding client expectations. Through knowledgeable
@@ -149,28 +184,65 @@
               standards, we deliver economical solutions without compromising on safety, environmental responsibility or
               technical rigor.
             </p>
-            <h3 class="minor">What we cover</h3>
-            <p class="expertise">Conceptual design, FEED, detailed engineering, materials management, regulatory compliance,
-              project planning, construction management, logistics support, inspection and commissioning.</p>
+            <ul class="chips" aria-label="Areas of expertise">
+              <li>Conceptual Design</li>
+              <li>FEED</li>
+              <li>Detailed Engineering</li>
+              <li>Materials Management</li>
+              <li>Regulatory Compliance</li>
+              <li>Project Planning</li>
+              <li>Construction Management</li>
+              <li>Logistics Support</li>
+              <li>Inspection</li>
+              <li>Commissioning</li>
+            </ul>
           </div>
+
+          <dl class="stats">
+            <div class="stat" data-reveal>
+              <dt>Years in operation</dt>
+              <dd><span data-count data-years-count>22</span></dd>
+              <p>Founded in 2004 and grown on client satisfaction and repeat work.</p>
+            </div>
+            <div class="stat" data-reveal>
+              <dt>Water depth experience</dt>
+              <dd><span class="stat-prefix">≈</span><span data-count="9000">9,000</span><span class="stat-unit">ft</span></dd>
+              <p>Deepwater pipelines, risers and SURF developments.</p>
+            </div>
+            <div class="stat" data-reveal>
+              <dt>Recorded incidents</dt>
+              <dd><span data-count="0">0</span></dd>
+              <p>Without incident or injury since opening our doors.</p>
+            </div>
+            <div class="stat" data-reveal>
+              <dt>Countries with field experience</dt>
+              <dd><span data-count="10">10</span><span class="stat-unit">+</span></dd>
+              <p>Across the Americas, Europe, Africa and Asia-Pacific.</p>
+            </div>
+          </dl>
         </div>
       </div>
     </section>
 
     <!-- ============ Segments / depth explorer ============ -->
     <section class="segments" id="segments" aria-labelledby="segments-title">
+      <canvas class="segments-snow" aria-hidden="true"></canvas>
+      <div class="segments-rays" aria-hidden="true"></div>
+
       <div class="container">
-        <header class="section-head">
-          <h2 class="display" id="segments-title">From the right-of-way to the seabed.</h2>
-          <p class="section-intro">
-            Whatever the environment, our philosophy is the same: size the team to the task, from a quick estimate
-            to a 500-mile pipeline system.
+        <header class="section-head section-head--dark">
+          <p class="eyebrow eyebrow--dark" data-reveal>Segments</p>
+          <h2 class="display" id="segments-title" data-reveal>From the right-of-way <br class="br-md">to the seabed.</h2>
+          <p class="section-intro" data-reveal>
+            Scroll to descend. Whatever the environment, our philosophy is the same: right-size the team to the task —
+            from a quick estimate to a 500-mile pipeline system.
           </p>
         </header>
 
         <div class="depth">
           <aside class="depth-gauge" aria-hidden="true">
-            <div class="gauge-readout"><span data-depth-readout>0</span> ft</div>
+            <div class="gauge-label">Depth</div>
+            <div class="gauge-readout"><span data-depth-readout>0</span><small>ft</small></div>
             <div class="gauge-track">
               <span class="gauge-fill" data-gauge-fill></span>
               <span class="gauge-marker" data-gauge-marker></span>
@@ -188,11 +260,12 @@
 
           <div class="depth-panels" data-depth-panels>
             <article class="depth-panel" id="segment-onshore" data-segment="onshore" aria-labelledby="seg-onshore">
+              <div class="panel-index">01</div>
               <p class="panel-tag">Onshore pipeline</p>
               <h3 id="seg-onshore">Greenfield, brownfield and everything between.</h3>
               <p>
                 Our reputation was forged in the marine environment, and our onshore practice has grown significantly.
-                We design, construct and operate natural gas, industrial gas and liquid hydrocarbon systems: gathering
+                We design, construct and operate natural gas, industrial gas and liquid hydrocarbon systems — gathering
                 systems, loading facilities and transmission lines from sub-million-dollar projects to valuations above
                 three billion dollars.
               </p>
@@ -204,15 +277,16 @@
                 <li>Code compliance audits and code evaluations</li>
                 <li>Construction management, fabrication coordination and inspection</li>
               </ul>
-              <a class="panel-link" href="#projects" data-filter-link="onshore">See onshore projects</a>
+              <a class="panel-link" href="#projects" data-filter-link="onshore">See onshore projects →</a>
             </article>
 
             <article class="depth-panel" id="segment-shallow" data-segment="shallow" aria-labelledby="seg-shallow">
+              <div class="panel-index">02</div>
               <p class="panel-tag">Shallow water pipeline</p>
-              <h3 id="seg-shallow">Where land meets sea, and gets complicated.</h3>
+              <h3 id="seg-shallow">Where land meets sea — and gets complicated.</h3>
               <p>
                 Over a decade and a half of designing and installing pipelines for oil and gas lets us meet challenging
-                geographic and technical needs in shallow water, from inspecting a geophysical survey to designing a
+                geographic and technical needs in shallow water — from inspecting a geophysical survey to designing a
                 120-mile offshore pipeline with risers and tie-ins to midline manifolds.
               </p>
               <ul class="panel-list">
@@ -223,15 +297,16 @@
                 <li>Marsh work and integration with onshore facilities</li>
                 <li>Diving, survey and hydrostatic testing support</li>
               </ul>
-              <a class="panel-link" href="#projects" data-filter-link="shallow">See shallow water projects</a>
+              <a class="panel-link" href="#projects" data-filter-link="shallow">See shallow water projects →</a>
             </article>
 
             <article class="depth-panel" id="segment-deep" data-segment="deep" aria-labelledby="seg-deep">
+              <div class="panel-index">03</div>
               <p class="panel-tag">Deepwater pipeline</p>
               <h3 id="seg-deep">Proven in nearly 9,000 ft of water.</h3>
               <p>
                 Technical depth in offshore engineering and an unwavering commitment to quality, safety and integrity have
-                put CTI in the vanguard of deepwater pipeline firms, from an incident mitigation plan to the complete
+                put CTI in the vanguard of deepwater pipeline firms — from an incident mitigation plan to the complete
                 detailed design of a major international pipeline system.
               </p>
               <ul class="panel-list">
@@ -242,7 +317,7 @@
                 <li>Topsides modification of brownfield systems</li>
                 <li>Decommissioning and asset retirement obligation assessment</li>
               </ul>
-              <a class="panel-link" href="#projects" data-filter-link="deep">See deepwater projects</a>
+              <a class="panel-link" href="#projects" data-filter-link="deep">See deepwater projects →</a>
             </article>
           </div>
         </div>
@@ -250,27 +325,61 @@
     </section>
 
     <!-- ============ Services ============ -->
-    <section class="section services" id="services" aria-labelledby="services-title">
+    <section class="section section--light services" id="services" aria-labelledby="services-title">
       <div class="container">
         <header class="section-head">
-          <h2 class="display" id="services-title">One in-house team for every phase of the project.</h2>
-          <p class="section-intro">
-            Conceptual, front-end and detailed design, plus engineering support through fabrication, manufacturing,
-            system integration testing (SIT) and installation. Open any service for its full scope.
+          <p class="eyebrow" data-reveal>Services</p>
+          <h2 class="display" id="services-title" data-reveal>One in-house team. <span class="muted">Every phase of the project.</span></h2>
+          <p class="section-intro" data-reveal>
+            Conceptual, front-end and detailed design — plus engineering support through fabrication, manufacturing,
+            system integration testing (SIT) and installation. Select a service to see what's inside.
           </p>
         </header>
 
-        <div class="svc-list">
-          <article class="svc svc--lead">
-            <h3>Engineering</h3>
-            <p>
-              Engineering for every phase: design, drafting, fabrication, testing and installation. Large-diameter export
-              pipelines, shallow-water tie-ins and risers, ultra-deepwater SURF developments and onshore transmission lines.
-            </p>
-            <button class="svc-more" type="button" data-detail="detail-engineering">See full scope<span class="sr-only"> of engineering</span></button>
-            <div class="svc-detail" id="detail-engineering" hidden>
+        <div class="bento">
+          <!-- Engineering -->
+          <article class="svc svc--feature" data-spotlight data-reveal>
+            <div class="svc-visual" aria-hidden="true">
+              <svg viewBox="0 0 400 220">
+                <defs>
+                  <linearGradient id="seaGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#0d3b66" stop-opacity=".0"/>
+                    <stop offset="1" stop-color="#0d3b66" stop-opacity=".18"/>
+                  </linearGradient>
+                </defs>
+                <rect x="0" y="40" width="400" height="180" fill="url(#seaGrad)"/>
+                <path class="svc-wave" d="M0 40 Q 25 34 50 40 T 100 40 T 150 40 T 200 40 T 250 40 T 300 40 T 350 40 T 400 40 T 450 40"/>
+                <path class="svc-seabed" d="M0 196 C 60 188 110 204 170 196 S 290 186 400 194"/>
+                <g class="svc-platform">
+                  <rect x="56" y="20" width="56" height="10" rx="2"/>
+                  <rect x="64" y="12" width="14" height="8" rx="1"/>
+                  <path d="M66 30v14M102 30v14"/>
+                </g>
+                <path class="svc-riser" d="M98 44 C 118 150 190 192 300 194 L 400 194"/>
+                <path class="svc-flow" d="M98 44 C 118 150 190 192 300 194 L 400 194"/>
+                <circle class="svc-node" cx="300" cy="194" r="5"/>
+                <path class="svc-umb" d="M70 44 C 80 140 140 188 220 196"/>
+                <path class="svc-flow svc-flow--slow" d="M70 44 C 80 140 140 188 220 196"/>
+              </svg>
+            </div>
+            <div class="svc-body">
+              <div class="svc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M6.5 9h11v6h-11zM3 6.5h3.5v11H3zM17.5 6.5H21v11h-3.5z"/></svg>
+              </div>
               <h3>Engineering</h3>
-              <p>Our engineers hold degrees in civil, mechanical, structural, geotechnical and ocean engineering. That diversity of talent, applied as one team, lets us meet the challenges of today's energy industry with an unmatched level of quality.</p>
+              <p>
+                Engineering for every phase — design, drafting, fabrication, testing and installation. Large-diameter export
+                pipelines, shallow-water tie-ins and risers, ultra-deepwater SURF developments and onshore transmission lines.
+              </p>
+              <ul class="svc-tags">
+                <li>Pipeline</li><li>SURF</li><li>Advanced FEA</li><li>Installation</li>
+              </ul>
+              <button class="svc-more" type="button" data-detail="detail-engineering">Explore capabilities <span aria-hidden="true">→</span></button>
+            </div>
+            <div class="svc-detail" id="detail-engineering" hidden>
+              <p class="modal-kicker">Service</p>
+              <h3>Engineering</h3>
+              <p>Our engineers hold degrees in civil, mechanical, structural, geotechnical and ocean engineering. That diversity of talent — applied as one team — lets us meet the challenges of today's energy industry with an unmatched level of quality.</p>
               <div class="detail-cols">
                 <div>
                   <h4>Pipeline engineering</h4>
@@ -298,19 +407,26 @@
                 </div>
               </div>
               <h4>SURF engineering</h4>
-              <p>Subsea field development services: analysis, package management and offshore installation support for subsea umbilicals, risers and flowlines.</p>
+              <p>Subsea field development services — analysis, package management and offshore installation support for subsea umbilicals, risers and flowlines.</p>
               <h4>Advanced analysis</h4>
               <p>Routine finite element analysis with Abaqus, OrcaFlex and SAGE Profile for strength and fatigue on challenging subsea projects. From Southeast Asia to South America and the North Sea to the Gulf of Mexico, we've supported installations worldwide.</p>
             </div>
           </article>
 
-          <article class="svc">
-            <h3>Project &amp; risk management</h3>
-            <p>Planning, coordinating and executing to your requirements and constraints, with interface professionals who close gaps early, before they become delays.</p>
-            <button class="svc-more" type="button" data-detail="detail-pm">See full scope<span class="sr-only"> of project and risk management</span></button>
+          <!-- Project management -->
+          <article class="svc svc--wide" data-spotlight data-reveal>
+            <div class="svc-body">
+              <div class="svc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 3h6v3H9zM9 13l2 2 4-4"/></svg>
+              </div>
+              <h3>Project &amp; Risk Management</h3>
+              <p>Planning, coordinating and executing to your requirements and constraints — with interface professionals who close gaps early, before they become delays.</p>
+              <button class="svc-more" type="button" data-detail="detail-pm">Explore capabilities <span aria-hidden="true">→</span></button>
+            </div>
             <div class="svc-detail" id="detail-pm" hidden>
-              <h3>Project &amp; risk management</h3>
-              <p>Our risk management professionals work in tandem with project teams to identify and assess risks. Impacts are graded on cost, schedule, personnel safety, environmental impact and public perception of the operating company. A risk matrix captures all high-to-medium risks, and we work collectively with the project team on robust, innovative mitigations, with periodic status reports to project management.</p>
+              <p class="modal-kicker">Service</p>
+              <h3>Project &amp; Risk Management</h3>
+              <p>Our risk management professionals work in tandem with project teams to identify and assess risks. Impacts are graded on cost, schedule, personnel safety, environmental impact and public perception of the operating company. A risk matrix captures all high-to-medium risks, and we work collectively with the project team on robust, innovative mitigations — with periodic status reports to project management.</p>
               <h4>Capabilities</h4>
               <ul class="detail-grid">
                 <li>Championing safety &amp; quality culture</li>
@@ -325,15 +441,22 @@
             </div>
           </article>
 
-          <article class="svc">
-            <h3>Drafting</h3>
-            <p>AutoCAD® drafting, with every drawing reviewed by the project lead, the project engineer and the drafting department.</p>
-            <button class="svc-more" type="button" data-detail="detail-drafting">See full scope<span class="sr-only"> of drafting</span></button>
+          <!-- Drafting -->
+          <article class="svc" data-spotlight data-reveal>
+            <div class="svc-body">
+              <div class="svc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M4 4v16h16L4 4z"/><path d="M8 12v4h4"/></svg>
+              </div>
+              <h3>Drafting</h3>
+              <p>AutoCAD® drafting with a three-part QA/QC review on every drawing.</p>
+              <button class="svc-more" type="button" data-detail="detail-drafting">Explore <span aria-hidden="true">→</span></button>
+            </div>
             <div class="svc-detail" id="detail-drafting" hidden>
+              <p class="modal-kicker">Service</p>
               <h3>Drafting</h3>
               <p>Experienced CAD operators support engineering design, permit applications, procurement packages and offshore and onshore construction and fabrication. Every drawing is independently reviewed by the project lead, project engineer and drafting department. Our drafting department brings over 25 years of construction drawing experience.</p>
               <ul class="detail-defs">
-                <li><strong>Design drawings</strong> Conceptual, FEED and DE: alignments and profiles, field layouts, riser and subsea tie-in assemblies, P&amp;IDs and crossing details.</li>
+                <li><strong>Design drawings</strong> Conceptual, FEED and DE — alignments and profiles, field layouts, riser and subsea tie-in assemblies, P&amp;IDs and crossing details.</li>
                 <li><strong>Permitting submittals</strong> Safety flow schematics, riser and tie-in drawings and crossing details for ROW and abandonment permits.</li>
                 <li><strong>Fabrication drawings</strong> PIG launchers/receivers, PLEMs and skids, riser clamps, gusset plates, padeyes, reaction collars and more.</li>
                 <li><strong>Area maps</strong> 2-D and 3-D conceptual maps from survey data, evolving into field layouts.</li>
@@ -343,12 +466,19 @@
             </div>
           </article>
 
-          <article class="svc">
-            <h3>Materials management</h3>
-            <p>Purchasing, expediting, transport and tracing of every project purchase.</p>
-            <button class="svc-more" type="button" data-detail="detail-materials">See full scope<span class="sr-only"> of materials management</span></button>
+          <!-- Materials -->
+          <article class="svc" data-spotlight data-reveal>
+            <div class="svc-body">
+              <div class="svc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M3 7.5 12 3l9 4.5-9 4.5-9-4.5z"/><path d="M3 7.5v9L12 21l9-4.5v-9M12 12v9"/></svg>
+              </div>
+              <h3>Materials Management</h3>
+              <p>Purchasing, expediting, transport and tracing of every project purchase.</p>
+              <button class="svc-more" type="button" data-detail="detail-materials">Explore <span aria-hidden="true">→</span></button>
+            </div>
             <div class="svc-detail" id="detail-materials" hidden>
-              <h3>Materials management</h3>
+              <p class="modal-kicker">Service</p>
+              <h3>Materials Management</h3>
               <p>We keep technical and engineering standards intact through procurement: gathering specifications to issue RFQs and coordinating bidder communications and clarifications to maximize the quality and accuracy of incoming proposals. We also support your supply chain team with packaging, transport and expediting reports on times, costs and locations.</p>
               <div class="detail-cols">
                 <div>
@@ -373,12 +503,19 @@
             </div>
           </article>
 
-          <article class="svc">
-            <h3>Construction management &amp; inspection</h3>
-            <p>Construction specialists with field experience in the US, Mexico, Brazil, Equatorial Guinea, Angola, Egypt, Israel, Spain, South Korea, Papua New Guinea and more.</p>
-            <button class="svc-more" type="button" data-detail="detail-cm">See full scope<span class="sr-only"> of construction management and inspection</span></button>
+          <!-- Construction management -->
+          <article class="svc svc--wide" data-spotlight data-reveal>
+            <div class="svc-body">
+              <div class="svc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M3 18h18M5 18v-3a7 7 0 0 1 14 0v3M10 8.4V5h4v3.4"/></svg>
+              </div>
+              <h3>Construction Management &amp; Inspection</h3>
+              <p>Construction specialists with field experience in the US, Mexico, Brazil, Equatorial Guinea, Angola, Egypt, Israel, Spain, South Korea, Papua New Guinea and more.</p>
+              <button class="svc-more" type="button" data-detail="detail-cm">Explore capabilities <span aria-hidden="true">→</span></button>
+            </div>
             <div class="svc-detail" id="detail-cm" hidden>
-              <h3>Construction management &amp; inspection</h3>
+              <p class="modal-kicker">Service</p>
+              <h3>Construction Management &amp; Inspection</h3>
               <div class="detail-cols">
                 <div>
                   <h4>Construction management</h4>
@@ -390,7 +527,7 @@
                     <li>Interface with installation contractors &amp; third parties</li>
                     <li>Jumper, flying lead, spool &amp; connector installation</li>
                     <li>Riser &amp; riser clamp installation</li>
-                    <li>Pre-commissioning: fill, hydrotest, dewater</li>
+                    <li>Pre-commissioning — fill, hydrotest, dewater</li>
                     <li>Contract &amp; contractor management</li>
                     <li>Final job book &amp; records</li>
                   </ul>
@@ -411,12 +548,31 @@
             </div>
           </article>
 
-          <article class="svc">
-            <h3>Project controls</h3>
-            <p>Cost, schedule and document control that keeps execution efficient.</p>
-            <button class="svc-more" type="button" data-detail="detail-controls">See full scope<span class="sr-only"> of project controls</span></button>
+          <!-- HSE -->
+          <article class="svc" data-spotlight data-reveal>
+            <div class="svc-body">
+              <div class="svc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3z"/><path d="m8.5 12 2.5 2.5 4.5-4.5"/></svg>
+              </div>
+              <h3>Health, Safety &amp; Environment</h3>
+              <p>A top-down culture where “zero” has become possible.</p>
+              <a class="svc-more" href="#hse">Our safety record <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <!-- Project controls -->
+          <article class="svc" data-spotlight data-reveal>
+            <div class="svc-body">
+              <div class="svc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M4 20V11M10 20V5M16 20v-6M2 20h20"/></svg>
+              </div>
+              <h3>Project Controls</h3>
+              <p>Cost, schedule and document control that keeps execution efficient.</p>
+              <button class="svc-more" type="button" data-detail="detail-controls">Explore <span aria-hidden="true">→</span></button>
+            </div>
             <div class="svc-detail" id="detail-controls" hidden>
-              <h3>Project controls</h3>
+              <p class="modal-kicker">Service</p>
+              <h3>Project Controls</h3>
               <p>A highly experienced Project Controls team that helps certify the effectiveness and efficiency of project execution.</p>
               <div class="detail-cols detail-cols--3">
                 <div>
@@ -449,18 +605,6 @@
               </div>
             </div>
           </article>
-
-          <article class="svc">
-            <h3>Health, safety &amp; environment</h3>
-            <p>A top-down culture where “zero” has become possible.</p>
-            <a class="svc-more" href="#hse">See our safety record</a>
-          </article>
-        </div>
-
-        <div class="toolkit">
-          <h3 class="minor">Software we design in</h3>
-          <p>SIMULIA Abaqus FEA, Orcina OrcaFlex, SIMULIA fe-safe, SHEAR7, PIPEPHASE™, AGA / PRCI OBS, SAGE Profile 3D,
-            MATLAB®, Global Mapper, Autodesk AutoCAD® and CORPSCON, plus our own worksheets for standard code calculations.</p>
         </div>
       </div>
     </section>
@@ -468,23 +612,58 @@
     <!-- ============ Lifecycle ============ -->
     <section class="section lifecycle" aria-labelledby="lifecycle-title">
       <div class="container">
-        <header class="section-head">
-          <h2 class="display" id="lifecycle-title">Concept to commissioning, and beyond.</h2>
-          <p class="section-intro">
+        <header class="section-head section-head--dark section-head--split">
+          <div>
+            <p class="eyebrow eyebrow--dark" data-reveal>Full life cycle</p>
+            <h2 class="display" id="lifecycle-title" data-reveal>Concept to commissioning — <span class="muted">and beyond.</span></h2>
+          </div>
+          <p class="section-intro" data-reveal>
             Once a solution is selected, CTI can perform all the planning, permitting, procurement, contracting,
-            inspection and management needed to complete it, anywhere in the world.
+            inspection and management needed to complete it — anywhere in the world.
           </p>
         </header>
 
-        <ol class="timeline">
-          <li><h3>Concept</h3><p>Due diligence, feasibility, route selection and AACE-class estimates.</p></li>
-          <li><h3>FEED</h3><p>Basis of design, technical specifications, survey and metocean coordination.</p></li>
-          <li><h3>Detailed engineering</h3><p>Wall thickness, OBS, cathodic protection, span, expansion and buckling.</p></li>
-          <li><h3>Permitting &amp; procurement</h3><p>Local, state and federal permits; RFQs, bid evaluation, expediting, logistics.</p></li>
-          <li><h3>Fabrication &amp; SIT</h3><p>Fabrication inspection, FAT and system integration testing.</p></li>
-          <li><h3>Installation</h3><p>Pipelay, SCR and riser installation, tie-ins and offshore construction management.</p></li>
-          <li><h3>Commissioning</h3><p>Fill, hydrotest, dewater and pre-commissioning; final job book.</p></li>
-          <li><h3>Decommissioning</h3><p>Asset retirement obligation assessment and decommissioning.</p></li>
+        <ol class="timeline" data-timeline>
+          <li class="timeline-step">
+            <span class="step-num" aria-hidden="true"></span>
+            <h3>Concept</h3>
+            <p>Due diligence, feasibility, route selection and AACE-class estimates.</p>
+          </li>
+          <li class="timeline-step">
+            <span class="step-num" aria-hidden="true"></span>
+            <h3>FEED</h3>
+            <p>Basis of design, technical specifications, survey and metocean coordination.</p>
+          </li>
+          <li class="timeline-step">
+            <span class="step-num" aria-hidden="true"></span>
+            <h3>Detailed engineering</h3>
+            <p>Wall thickness, OBS, cathodic protection, span, expansion and buckling.</p>
+          </li>
+          <li class="timeline-step">
+            <span class="step-num" aria-hidden="true"></span>
+            <h3>Permitting &amp; procurement</h3>
+            <p>Local, state and federal permits; RFQs, bid evaluation, expediting, logistics.</p>
+          </li>
+          <li class="timeline-step">
+            <span class="step-num" aria-hidden="true"></span>
+            <h3>Fabrication &amp; SIT</h3>
+            <p>Fabrication inspection, FAT and system integration testing.</p>
+          </li>
+          <li class="timeline-step">
+            <span class="step-num" aria-hidden="true"></span>
+            <h3>Installation</h3>
+            <p>Pipelay, SCR and riser installation, tie-ins and offshore construction management.</p>
+          </li>
+          <li class="timeline-step">
+            <span class="step-num" aria-hidden="true"></span>
+            <h3>Commissioning</h3>
+            <p>Fill, hydrotest, dewater and pre-commissioning; final job book.</p>
+          </li>
+          <li class="timeline-step">
+            <span class="step-num" aria-hidden="true"></span>
+            <h3>Decommissioning</h3>
+            <p>Asset retirement obligation assessment and decommissioning.</p>
+          </li>
         </ol>
       </div>
     </section>
@@ -492,9 +671,12 @@
     <!-- ============ Projects ============ -->
     <section class="section projects" id="projects" aria-labelledby="projects-title">
       <div class="container">
-        <header class="section-head section-head--row">
-          <h2 class="display" id="projects-title">On the seabed, under the ground and in service.</h2>
-          <div class="filters" role="group" aria-label="Filter projects by segment">
+        <header class="section-head section-head--dark section-head--split">
+          <div>
+            <p class="eyebrow eyebrow--dark" data-reveal>Selected projects</p>
+            <h2 class="display" id="projects-title" data-reveal>On the seabed, under the ground — <span class="muted">and in service.</span></h2>
+          </div>
+          <div class="filters" role="group" aria-label="Filter projects by segment" data-reveal>
             <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">All <span>12</span></button>
             <button type="button" class="filter" data-filter="onshore" aria-pressed="false">Onshore <span>4</span></button>
             <button type="button" class="filter" data-filter="shallow" aria-pressed="false">Shallow water <span>4</span></button>
@@ -502,126 +684,164 @@
           </div>
         </header>
 
-        <div class="register-head" aria-hidden="true">
-          <span>Profile</span><span>Project</span><span>Location and client</span><span>Our scope</span>
-        </div>
-        <ul class="register" data-project-grid>
+        <ul class="project-grid" data-project-grid>
+          <!-- Deepwater -->
           <li class="project" data-segment="deep">
             <div class="project-route" data-route aria-hidden="true"></div>
-            <div class="project-name"><h3>Leviathan Production Platform</h3><p class="project-seg">Deepwater</p></div>
-            <dl class="project-meta"><div><dt>Location</dt><dd>Offshore Israel</dd></div><div><dt>Client</dt><dd>Noble Energy</dd></div></dl>
-            <ul class="project-scope">
-              <li>FEED and detailed engineering design support</li>
-              <li>Material acquisition support</li>
-              <li>Drafting and construction management support</li>
-            </ul>
-          </li>
-          <li class="project" data-segment="deep">
-            <div class="project-route" data-route aria-hidden="true"></div>
-            <div class="project-name"><h3>Whale Export Pipelines</h3><p class="project-seg">Deepwater</p></div>
-            <dl class="project-meta"><div><dt>Location</dt><dd>Gulf of Mexico</dd></div><div><dt>Client</dt><dd>Williams</dd></div></dl>
-            <ul class="project-scope">
-              <li>FEED and detailed engineering design support</li>
-              <li>Geophysical and geotechnical survey inspection</li>
-              <li>Project management and material acquisition</li>
-            </ul>
+            <div class="project-body">
+              <p class="project-seg">Deepwater</p>
+              <h3>Leviathan Production Platform</h3>
+              <dl class="project-meta"><div><dt>Location</dt><dd>Offshore Israel</dd></div><div><dt>Client</dt><dd>Noble Energy</dd></div></dl>
+              <ul class="project-scope">
+                <li>FEED and detailed engineering design support</li>
+                <li>Material acquisition support</li>
+                <li>Drafting and construction management support</li>
+              </ul>
+            </div>
           </li>
           <li class="project" data-segment="deep">
             <div class="project-route" data-route aria-hidden="true"></div>
-            <div class="project-name"><h3>Lucius Oil Export Pipeline</h3><p class="project-seg">Deepwater</p></div>
-            <dl class="project-meta"><div><dt>Location</dt><dd>Gulf of Mexico</dd></div><div><dt>Client</dt><dd>Genesis Energy</dd></div></dl>
-            <ul class="project-scope">
-              <li>FEED and detailed engineering design support</li>
-              <li>Survey inspection and real-time span analysis</li>
-              <li>Offshore construction management during installation</li>
-            </ul>
+            <div class="project-body">
+              <p class="project-seg">Deepwater</p>
+              <h3>Whale Export Pipelines</h3>
+              <dl class="project-meta"><div><dt>Location</dt><dd>Gulf of Mexico</dd></div><div><dt>Client</dt><dd>Williams</dd></div></dl>
+              <ul class="project-scope">
+                <li>FEED and detailed engineering design support</li>
+                <li>Geophysical and geotechnical survey inspection</li>
+                <li>Project management and material acquisition</li>
+              </ul>
+            </div>
           </li>
           <li class="project" data-segment="deep">
             <div class="project-route" data-route aria-hidden="true"></div>
-            <div class="project-name"><h3>Holstein Deep Tie-Back</h3><p class="project-seg">Deepwater</p></div>
-            <dl class="project-meta"><div><dt>Location</dt><dd>Gulf of Mexico</dd></div><div><dt>Client</dt><dd>Freeport-McMoRan Oil &amp; Gas</dd></div></dl>
-            <ul class="project-scope">
-              <li>FEED design support</li>
-              <li>RFQ packages for major equipment and services</li>
-              <li>Drafting and construction management support</li>
-            </ul>
+            <div class="project-body">
+              <p class="project-seg">Deepwater</p>
+              <h3>Lucius Oil Export Pipeline</h3>
+              <dl class="project-meta"><div><dt>Location</dt><dd>Gulf of Mexico</dd></div><div><dt>Client</dt><dd>Genesis Energy</dd></div></dl>
+              <ul class="project-scope">
+                <li>FEED and detailed engineering design support</li>
+                <li>Survey inspection and real-time span analysis</li>
+                <li>Offshore construction management during installation</li>
+              </ul>
+            </div>
+          </li>
+          <li class="project" data-segment="deep">
+            <div class="project-route" data-route aria-hidden="true"></div>
+            <div class="project-body">
+              <p class="project-seg">Deepwater</p>
+              <h3>Holstein Deep Tie-Back</h3>
+              <dl class="project-meta"><div><dt>Location</dt><dd>Gulf of Mexico</dd></div><div><dt>Client</dt><dd>Freeport-McMoRan Oil &amp; Gas</dd></div></dl>
+              <ul class="project-scope">
+                <li>FEED design support</li>
+                <li>RFQ packages for major equipment and services</li>
+                <li>Drafting and construction management support</li>
+              </ul>
+            </div>
+          </li>
+
+          <!-- Shallow water -->
+          <li class="project" data-segment="shallow">
+            <div class="project-route" data-route aria-hidden="true"></div>
+            <div class="project-body">
+              <p class="project-seg">Shallow water</p>
+              <h3>Sea Port Oil Terminal (SPOT)</h3>
+              <dl class="project-meta"><div><dt>Location</dt><dd>Gulf of Mexico</dd></div><div><dt>Client</dt><dd>Enterprise Products</dd></div></dl>
+              <ul class="project-scope">
+                <li>Engineering and drafting for the license application</li>
+                <li>Preliminary design and drafting of pipelines</li>
+                <li>Construction management of SPM buoy, PLEMs and pipelines</li>
+              </ul>
+            </div>
           </li>
           <li class="project" data-segment="shallow">
             <div class="project-route" data-route aria-hidden="true"></div>
-            <div class="project-name"><h3>Sea Port Oil Terminal (SPOT)</h3><p class="project-seg">Shallow water</p></div>
-            <dl class="project-meta"><div><dt>Location</dt><dd>Gulf of Mexico</dd></div><div><dt>Client</dt><dd>Enterprise Products</dd></div></dl>
-            <ul class="project-scope">
-              <li>Engineering and drafting for the license application</li>
-              <li>Preliminary design and drafting of pipelines</li>
-              <li>Construction management of SPM buoy, PLEMs and pipelines</li>
-            </ul>
+            <div class="project-body">
+              <p class="project-seg">Shallow water</p>
+              <h3>Sanha Lean Gas Connection</h3>
+              <dl class="project-meta"><div><dt>Location</dt><dd>Angola</dd></div><div><dt>Client</dt><dd>Chevron</dd></div></dl>
+              <ul class="project-scope">
+                <li>FEED for the pipelines and risers</li>
+                <li>Flow assurance analysis</li>
+              </ul>
+            </div>
           </li>
           <li class="project" data-segment="shallow">
             <div class="project-route" data-route aria-hidden="true"></div>
-            <div class="project-name"><h3>Sanha Lean Gas Connection</h3><p class="project-seg">Shallow water</p></div>
-            <dl class="project-meta"><div><dt>Location</dt><dd>Angola</dd></div><div><dt>Client</dt><dd>Chevron</dd></div></dl>
-            <ul class="project-scope">
-              <li>FEED for the pipelines and risers</li>
-              <li>Flow assurance analysis</li>
-            </ul>
+            <div class="project-body">
+              <p class="project-seg">Shallow water</p>
+              <h3>Alen Gas Monetization</h3>
+              <dl class="project-meta"><div><dt>Location</dt><dd>Equatorial Guinea</dd></div><div><dt>Client</dt><dd>Noble Energy</dd></div></dl>
+              <ul class="project-scope">
+                <li>Detailed engineering design support</li>
+                <li>Diver-installable riser tie-in spool configuration</li>
+                <li>Material procurement and installation support</li>
+              </ul>
+            </div>
           </li>
           <li class="project" data-segment="shallow">
             <div class="project-route" data-route aria-hidden="true"></div>
-            <div class="project-name"><h3>Alen Gas Monetization</h3><p class="project-seg">Shallow water</p></div>
-            <dl class="project-meta"><div><dt>Location</dt><dd>Equatorial Guinea</dd></div><div><dt>Client</dt><dd>Noble Energy</dd></div></dl>
-            <ul class="project-scope">
-              <li>Detailed engineering design support</li>
-              <li>Diver-installable riser tie-in spool configuration</li>
-              <li>Material procurement and installation support</li>
-            </ul>
+            <div class="project-body">
+              <p class="project-seg">Shallow water</p>
+              <h3>Mafumeira Sul</h3>
+              <dl class="project-meta"><div><dt>Location</dt><dd>Offshore Angola</dd></div><div><dt>Client</dt><dd>Chevron</dd></div></dl>
+              <ul class="project-scope">
+                <li>FEED for the pipelines and risers</li>
+                <li>Flow assurance analysis</li>
+              </ul>
+            </div>
           </li>
-          <li class="project" data-segment="shallow">
+
+          <!-- Onshore -->
+          <li class="project" data-segment="onshore">
             <div class="project-route" data-route aria-hidden="true"></div>
-            <div class="project-name"><h3>Mafumeira Sul</h3><p class="project-seg">Shallow water</p></div>
-            <dl class="project-meta"><div><dt>Location</dt><dd>Offshore Angola</dd></div><div><dt>Client</dt><dd>Chevron</dd></div></dl>
-            <ul class="project-scope">
-              <li>FEED for the pipelines and risers</li>
-              <li>Flow assurance analysis</li>
-            </ul>
+            <div class="project-body">
+              <p class="project-seg">Onshore</p>
+              <h3>Hydrogen Pipeline</h3>
+              <dl class="project-meta"><div><dt>Location</dt><dd>Baytown &amp; Texas City, TX</dd></div><div><dt>Client</dt><dd>Air Products</dd></div></dl>
+              <ul class="project-scope">
+                <li>FEED services and surveying support</li>
+                <li>Detailed engineering, drafting and permitting</li>
+                <li>Coordination with environmental consultants</li>
+              </ul>
+            </div>
           </li>
           <li class="project" data-segment="onshore">
             <div class="project-route" data-route aria-hidden="true"></div>
-            <div class="project-name"><h3>Hydrogen Pipeline</h3><p class="project-seg">Onshore</p></div>
-            <dl class="project-meta"><div><dt>Location</dt><dd>Baytown &amp; Texas City, TX</dd></div><div><dt>Client</dt><dd>Air Products</dd></div></dl>
-            <ul class="project-scope">
-              <li>FEED services and surveying support</li>
-              <li>Detailed engineering, drafting and permitting</li>
-              <li>Coordination with environmental consultants</li>
-            </ul>
+            <div class="project-body">
+              <p class="project-seg">Onshore</p>
+              <h3>NuStar Connect II</h3>
+              <dl class="project-meta"><div><dt>Location</dt><dd>Wichita Falls, TX</dd></div><div><dt>Client</dt><dd>Plains All American</dd></div></dl>
+              <ul class="project-scope">
+                <li>Expedited detailed engineering and design</li>
+                <li>Materials and equipment purchasing</li>
+                <li>Construction and fabrication support</li>
+              </ul>
+            </div>
           </li>
           <li class="project" data-segment="onshore">
             <div class="project-route" data-route aria-hidden="true"></div>
-            <div class="project-name"><h3>NuStar Connect II</h3><p class="project-seg">Onshore</p></div>
-            <dl class="project-meta"><div><dt>Location</dt><dd>Wichita Falls, TX</dd></div><div><dt>Client</dt><dd>Plains All American</dd></div></dl>
-            <ul class="project-scope">
-              <li>Expedited detailed engineering and design</li>
-              <li>Materials and equipment purchasing</li>
-              <li>Construction and fabrication support</li>
-            </ul>
+            <div class="project-body">
+              <p class="project-seg">Onshore</p>
+              <h3>Wildhorse Terminal</h3>
+              <dl class="project-meta"><div><dt>Location</dt><dd>Cushing, OK</dd></div><div><dt>Client</dt><dd>Matrix PDM</dd></div></dl>
+              <ul class="project-scope">
+                <li>Expedited detailed engineering and design</li>
+                <li>Materials and equipment purchasing</li>
+                <li>Construction and fabrication support</li>
+              </ul>
+            </div>
           </li>
           <li class="project" data-segment="onshore">
             <div class="project-route" data-route aria-hidden="true"></div>
-            <div class="project-name"><h3>Wildhorse Terminal</h3><p class="project-seg">Onshore</p></div>
-            <dl class="project-meta"><div><dt>Location</dt><dd>Cushing, OK</dd></div><div><dt>Client</dt><dd>Matrix PDM</dd></div></dl>
-            <ul class="project-scope">
-              <li>Expedited detailed engineering and design</li>
-              <li>Materials and equipment purchasing</li>
-              <li>Construction and fabrication support</li>
-            </ul>
-          </li>
-          <li class="project" data-segment="onshore">
-            <div class="project-route" data-route aria-hidden="true"></div>
-            <div class="project-name"><h3>Spec Oil Takeaway</h3><p class="project-seg">Onshore</p></div>
-            <dl class="project-meta"><div><dt>Location</dt><dd>West Texas</dd></div><div><dt>Client</dt><dd>Noble Midstream</dd></div></dl>
-            <ul class="project-scope">
-              <li>Fabrication management services</li>
-              <li>Inspection of sealift module fabrication and delivery from Louisiana</li>
-            </ul>
+            <div class="project-body">
+              <p class="project-seg">Onshore</p>
+              <h3>Spec Oil Takeaway</h3>
+              <dl class="project-meta"><div><dt>Location</dt><dd>West Texas</dd></div><div><dt>Client</dt><dd>Noble Midstream</dd></div></dl>
+              <ul class="project-scope">
+                <li>Fabrication management services</li>
+                <li>Inspection of sealift module fabrication and delivery from Louisiana</li>
+              </ul>
+            </div>
           </li>
         </ul>
       </div>
@@ -630,15 +850,18 @@
     <!-- ============ Global reach ============ -->
     <section class="section reach" id="reach" aria-labelledby="reach-title">
       <div class="container">
-        <header class="section-head">
-          <h2 class="display" id="reach-title">Based in Houston, with field experience in ten countries.</h2>
-          <p class="section-intro">
-            Our people bring onshore and offshore experience from North and South America, Europe, Africa and Asia,
+        <header class="section-head section-head--dark section-head--split">
+          <div>
+            <p class="eyebrow eyebrow--dark" data-reveal>Global footprint</p>
+            <h2 class="display" id="reach-title" data-reveal>Houston-based. <span class="muted">Field-proven worldwide.</span></h2>
+          </div>
+          <p class="section-intro" data-reveal>
+            Our people bring onshore and offshore experience from North and South America, Europe, Africa and Asia —
             and we scale the team to wherever the project is.
           </p>
         </header>
 
-        <div class="map-wrap" data-map-scroll>
+        <div class="map-wrap" data-reveal data-map-scroll>
           <div class="map-inner">
             <svg class="world" data-world viewBox="0 0 1800 690" role="img" aria-labelledby="map-title">
               <title id="map-title">World map highlighting countries where Cronus Technology has project and construction experience</title>
@@ -648,7 +871,7 @@
         </div>
 
         <ul class="regions">
-          <li data-place="us"><span class="region-dot region-dot--hq"></span>United States <small>Headquarters, Gulf of Mexico, Texas and Oklahoma</small></li>
+          <li data-place="us"><span class="region-dot region-dot--hq"></span>United States <small>HQ · Gulf of Mexico · Texas · Oklahoma</small></li>
           <li data-place="mx"><span class="region-dot"></span>Mexico</li>
           <li data-place="br"><span class="region-dot"></span>Brazil</li>
           <li data-place="es"><span class="region-dot"></span>Spain</li>
@@ -663,17 +886,20 @@
     </section>
 
     <!-- ============ HSE ============ -->
-    <section class="section hse" id="hse" aria-labelledby="hse-title">
+    <section class="hse" id="hse" aria-labelledby="hse-title">
       <div class="container hse-inner">
-        <div class="hse-zero">
+        <div class="hse-zero" data-reveal>
           <span class="zero" aria-hidden="true">0</span>
-          <h2 class="display" id="hse-title">Zero incidents since day one.</h2>
-          <p class="hse-count"><strong data-days>8,000+</strong> days without incident or injury since opening our doors in 2004.</p>
+          <div>
+            <p class="eyebrow eyebrow--dark">Health, safety &amp; environment</p>
+            <h2 class="display" id="hse-title">Zero incidents. <br>Since day one.</h2>
+            <p class="hse-count"><strong data-days>8,000+</strong> days without incident or injury since opening our doors in 2004.</p>
+          </div>
         </div>
 
-        <div class="hse-copy">
+        <div class="hse-copy" data-reveal>
           <p class="lead">
-            Our corporate vision is exceeding expectations, and that vision is the foundation of our HSE culture. It starts
+            Our corporate vision is exceeding expectations — and that vision is the foundation of our HSE culture. It starts
             with sound engineering for robust designs, continues through inspection of materials and workmanship, and
             carries into the field, where every individual is accountable for the safety of their work.
           </p>
@@ -688,74 +914,98 @@
             </li>
             <li>
               <h3>Anyone can stop the work</h3>
-              <p>Every team member is authorized to stop work over a safety or environmental concern, and stopping work never results in disciplinary action.</p>
+              <p>Every team member is authorized to stop work over a safety or environmental concern — and stopping work never results in disciplinary action.</p>
             </li>
           </ul>
         </div>
       </div>
     </section>
 
+    <!-- ============ Toolkit ============ -->
+    <section class="toolkit" aria-labelledby="toolkit-title">
+      <div class="container toolkit-head">
+        <p class="eyebrow eyebrow--dark" id="toolkit-title">Engineering implements</p>
+        <p class="toolkit-copy">Industry-leading software for pipeline and riser design — plus our own worksheets for standard code calculations.</p>
+      </div>
+      <div class="marquee marquee--tools" data-marquee>
+        <ul class="marquee-track">
+          <li>SIMULIA Abaqus FEA</li>
+          <li>Orcina OrcaFlex</li>
+          <li>SIMULIA fe-safe</li>
+          <li>SHEAR7</li>
+          <li>PIPEPHASE™</li>
+          <li>AGA / PRCI OBS</li>
+          <li>SAGE Profile 3D</li>
+          <li>MATLAB®</li>
+          <li>Global Mapper</li>
+          <li>Autodesk AutoCAD®</li>
+          <li>CORPSCON</li>
+        </ul>
+      </div>
+    </section>
+
     <!-- ============ Team ============ -->
-    <section class="section team" id="team" aria-labelledby="team-title">
+    <section class="section section--light team" id="team" aria-labelledby="team-title">
       <div class="container">
-        <header class="section-head">
-          <h2 class="display" id="team-title">The people behind the pipelines.</h2>
-          <p class="section-intro">
-            Civil, mechanical, structural, geotechnical and ocean engineers, working as one team and applying individual
+        <header class="section-head section-head--split">
+          <div>
+            <p class="eyebrow" data-reveal>Meet the team</p>
+            <h2 class="display" id="team-title" data-reveal>The people behind <span class="muted">the pipelines.</span></h2>
+          </div>
+          <p class="section-intro" data-reveal>
+            Civil, mechanical, structural, geotechnical and ocean engineers — working as one team and applying individual
             strengths to every design.
           </p>
         </header>
 
-        <div class="roster">
-          <div class="roster-group">
-            <h3 class="minor">Leadership</h3>
-            <ul class="people">
-              <li><strong>Bill Rees</strong>Chief Executive Officer</li>
-              <li><strong>Greg Dodge</strong>Director of Engineering</li>
-              <li><strong>Jim Gordon</strong>Director of Operations</li>
-              <li><strong>Diego Zúniga</strong>Director of Project Development</li>
-              <li><strong>Eulalio Fernandez</strong>Engineering Manager</li>
-              <li><strong>Chandler Dabbs</strong>Engineering Manager</li>
-              <li><strong>Eric Romero</strong>Senior Advisor &amp; Board Member</li>
-            </ul>
-          </div>
-          <div class="roster-group">
-            <h3 class="minor">Tenured staff</h3>
-            <ul class="people">
-              <li><strong>Cassie Kasprowicz</strong>Human Resources / Accounting Manager</li>
-              <li><strong>Jorge Bustamante</strong>Drafting Supervisor</li>
-              <li><strong>Raghvan Madawela</strong>Engineering Supervisor</li>
-              <li><strong>Michelle Doucette</strong>Project Controls Supervisor</li>
-              <li><strong>Tony Jean</strong>Information Technology</li>
-            </ul>
-          </div>
-        </div>
+        <h3 class="team-group" data-reveal>Leadership</h3>
+        <ul class="people" data-people>
+          <li class="person" data-reveal><span class="avatar">BR</span><div><h4>Bill Rees</h4><p>Chief Executive Officer</p></div></li>
+          <li class="person" data-reveal><span class="avatar">GD</span><div><h4>Greg Dodge</h4><p>Director of Engineering</p></div></li>
+          <li class="person" data-reveal><span class="avatar">JG</span><div><h4>Jim Gordon</h4><p>Director of Operations</p></div></li>
+          <li class="person" data-reveal><span class="avatar">DZ</span><div><h4>Diego Zúniga</h4><p>Director of Project Development</p></div></li>
+          <li class="person" data-reveal><span class="avatar">EF</span><div><h4>Eulalio Fernandez</h4><p>Engineering Manager</p></div></li>
+          <li class="person" data-reveal><span class="avatar">CD</span><div><h4>Chandler Dabbs</h4><p>Engineering Manager</p></div></li>
+          <li class="person" data-reveal><span class="avatar">ER</span><div><h4>Eric Romero</h4><p>Senior Advisor &amp; Board Member</p></div></li>
+        </ul>
+
+        <h3 class="team-group" data-reveal>Tenured</h3>
+        <ul class="people" data-people>
+          <li class="person" data-reveal><span class="avatar">CK</span><div><h4>Cassie Kasprowicz</h4><p>Human Resources / Accounting Manager</p></div></li>
+          <li class="person" data-reveal><span class="avatar">JB</span><div><h4>Jorge Bustamante</h4><p>Drafting Supervisor</p></div></li>
+          <li class="person" data-reveal><span class="avatar">RM</span><div><h4>Raghvan Madawela</h4><p>Engineering Supervisor</p></div></li>
+          <li class="person" data-reveal><span class="avatar">MD</span><div><h4>Michelle Doucette</h4><p>Project Controls Supervisor</p></div></li>
+          <li class="person" data-reveal><span class="avatar">TJ</span><div><h4>Tony Jean</h4><p>Information Technology</p></div></li>
+        </ul>
       </div>
     </section>
 
     <!-- ============ Careers ============ -->
     <section class="section careers" id="careers" aria-labelledby="careers-title">
-      <div class="container careers-inner">
-        <div class="careers-copy">
-          <h2 class="display" id="careers-title">Build a career in an ever-changing industry.</h2>
-          <p>
-            We're always looking for quality candidates across every area of our expertise, as well as interns and
-            recent graduates, who receive extensive training and a challenging start to their careers.
-          </p>
-          <div class="careers-actions">
-            <a class="btn btn-primary" href="mailto:info@cronustec.com?subject=Career%20inquiry">Send us your résumé</a>
-            <a class="btn btn-quiet" href="https://www.linkedin.com/company/35630473" target="_blank" rel="noopener">Follow on LinkedIn</a>
+      <div class="container">
+        <div class="careers-card" data-spotlight data-reveal>
+          <div class="careers-copy">
+            <p class="eyebrow eyebrow--dark">Careers</p>
+            <h2 class="display" id="careers-title">Build a career in an ever-changing industry.</h2>
+            <p>
+              We're always looking for quality candidates across every area of our expertise — as well as interns and
+              recent graduates, who receive extensive training and a challenging start to their careers.
+            </p>
+            <div class="careers-actions">
+              <a class="btn btn-primary" href="mailto:info@cronustec.com?subject=Career%20inquiry">
+                Send us your résumé
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5"/></svg>
+              </a>
+              <a class="btn btn-ghost" href="https://www.linkedin.com/company/35630473" target="_blank" rel="noopener">Follow on LinkedIn</a>
+            </div>
           </div>
-        </div>
-        <div class="benefits">
-          <h3 class="minor">What we offer</h3>
-          <ul>
-            <li>401(k) retirement plan</li>
-            <li>Medical insurance</li>
-            <li>Dental and vision insurance</li>
-            <li>Competitive bonuses</li>
-            <li>Training for interns and graduates</li>
-            <li>Professional, engaging work</li>
+          <ul class="benefits" aria-label="Benefits">
+            <li><span>401(k)</span>Retirement plan</li>
+            <li><span>Medical</span>Health insurance</li>
+            <li><span>Dental &amp; vision</span>Insurance coverage</li>
+            <li><span>Bonuses</span>Competitive compensation</li>
+            <li><span>Training</span>For interns &amp; graduates</li>
+            <li><span>Challenge</span>Professional, engaging work</li>
           </ul>
         </div>
       </div>
@@ -765,21 +1015,24 @@
     <section class="section contact" id="contact" aria-labelledby="contact-title">
       <div class="container contact-inner">
         <div class="contact-info">
-          <h2 class="display" id="contact-title">Let's scope your next line.</h2>
-          <p class="section-intro">Whether it's a small encroachment, a quick estimate or a major international system, tell us about it.</p>
+          <p class="eyebrow eyebrow--dark" data-reveal>Contact</p>
+          <h2 class="display" id="contact-title" data-reveal>Let's scope <span class="text-gradient">your next line.</span></h2>
+          <p class="section-intro" data-reveal>Whether it's a small encroachment, a quick estimate or a major international system, tell us about it.</p>
 
-          <dl class="contact-list">
-            <div>
-              <dt>Office</dt>
-              <dd><a href="https://maps.google.com/?q=333+Cypress+Run+Suite+300+Houston+TX+77094" target="_blank" rel="noopener">333 Cypress Run, Suite 300<br>Houston, TX 77094</a></dd>
-            </div>
-            <div><dt>Phone</dt><dd><a href="tel:+17137879444">713.787.9444</a></dd></div>
-            <div><dt>Fax</dt><dd>713.787.9015</dd></div>
-            <div><dt>Email</dt><dd><a href="mailto:info@cronustec.com">info@cronustec.com</a></dd></div>
-          </dl>
+          <ul class="contact-list" data-reveal>
+            <li>
+              <span class="contact-key">Office</span>
+              <a href="https://maps.google.com/?q=333+Cypress+Run+Suite+300+Houston+TX+77094" target="_blank" rel="noopener">
+                333 Cypress Run, Suite 300<br>Houston, TX 77094
+              </a>
+            </li>
+            <li><span class="contact-key">Phone</span><a href="tel:+17137879444">713.787.9444</a></li>
+            <li><span class="contact-key">Fax</span><span>713.787.9015</span></li>
+            <li><span class="contact-key">Email</span><a href="mailto:info@cronustec.com">info@cronustec.com</a></li>
+          </ul>
         </div>
 
-        <form class="contact-form" data-contact-form novalidate>
+        <form class="contact-form" data-contact-form novalidate data-reveal>
           <div class="field-row">
             <label class="field">
               <span>Name</span>
@@ -812,8 +1065,11 @@
             <textarea name="message" rows="5" required></textarea>
           </label>
           <div class="form-foot">
-            <button class="btn btn-primary" type="submit">Send by email</button>
-            <p class="form-status" data-form-status role="status" aria-live="polite">Opens your email app with this message addressed to info@cronustec.com.</p>
+            <button class="btn btn-primary" type="submit">
+              Send message
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5"/></svg>
+            </button>
+            <p class="form-status" data-form-status role="status" aria-live="polite"></p>
           </div>
         </form>
       </div>
@@ -826,12 +1082,12 @@
       <div class="footer-brand">
         <a class="brand" href="#top" aria-label="Cronus Technology, back to top">
           <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
-            <path d="M29.2 12.3A12 12 0 1 0 29.2 27.7" class="mark-arc" fill="none" stroke-width="4.5" stroke-linecap="round"/>
+            <path d="M29.2 12.3A12 12 0 1 0 29.2 27.7" fill="none" stroke="url(#brandGrad)" stroke-width="4.5" stroke-linecap="round"/>
             <path d="M20 20H36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
             <circle cx="20" cy="20" r="3.6" fill="currentColor"/>
           </svg>
           <span class="brand-text">
-            <span class="brand-name">Cronus</span>
+            <span class="brand-name">CRONUS</span>
             <span class="brand-sub">Technology, Inc.</span>
           </span>
         </a>
@@ -860,7 +1116,7 @@
     </div>
     <div class="container footer-bottom">
       <p>© <span data-year>2026</span> Cronus Technology, Inc. (CTI). All rights reserved.</p>
-      <a href="#top" class="to-top">Back to top</a>
+      <a href="#top" class="to-top">Back to top ↑</a>
     </div>
   </footer>
 
@@ -872,7 +1128,7 @@
       </button>
       <div class="modal-body" data-modal-body></div>
       <div class="modal-foot">
-        <a class="btn btn-primary btn-sm" href="#contact" data-modal-close>Start a project</a>
+        <a class="btn btn-primary btn-sm" href="#contact" data-modal-close>Discuss your project</a>
       </div>
     </div>
   </dialog>
