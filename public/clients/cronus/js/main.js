@@ -702,7 +702,22 @@
       drawRoutes();
     };
 
-    buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.filter)));
+    // Mobile: the grid scrolls sideways; show where the visitor is in it.
+    const progress = $('[data-project-progress]');
+    const updateProgress = () => {
+      if (!progress) return;
+      const max = grid.scrollWidth;
+      progress.style.setProperty('--thumb', max ? (grid.clientWidth / max).toFixed(4) : 1);
+      progress.style.setProperty('--pos', max ? (grid.scrollLeft / max).toFixed(4) : 0);
+    };
+    grid.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress);
+
+    buttons.forEach((b) => b.addEventListener('click', () => {
+      apply(b.dataset.filter);
+      grid.scrollLeft = 0;
+      updateProgress();
+    }));
     $$('[data-filter-link]').forEach((a) => a.addEventListener('click', () => apply(a.dataset.filterLink)));
 
     new ResizeObserver(drawRoutes).observe(grid);
@@ -712,6 +727,7 @@
       if (!entry.isIntersecting) return;
       grid.classList.add('is-ready');
       apply($('.filter.is-active')?.dataset.filter || 'all');
+      updateProgress();
       io.disconnect();
     }, { threshold: 0.05 });
     io.observe(grid);
