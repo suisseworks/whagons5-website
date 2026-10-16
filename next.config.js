@@ -3,9 +3,12 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   // Static client sites served from public/clients/<name>/index.html.
+  // Multi-page sites keep each page in <page>/index.html. These rewrites run
+  // after public files are matched, so real assets are served as they are.
   async rewrites() {
     return [
       { source: '/clients/:client', destination: '/clients/:client/index.html' },
+      { source: '/clients/:client/:page+', destination: '/clients/:client/:page+/index.html' },
     ];
   },
   async headers() {
@@ -21,6 +24,14 @@ const nextConfig = {
       // file, and Safari on iOS will not play video without 206 responses.
       { source: '/media/:path*', headers: [
         { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
+      ] },
+      // Client-site video, for the same reason as /media.
+      { source: '/clients/:client/video/:path*', headers: [
+        { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
+      ] },
+      // Astro build output in client sites; file names are content-hashed.
+      { source: '/clients/:client/_astro/:path*', headers: [
+        { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
       ] },
     ];
   },
