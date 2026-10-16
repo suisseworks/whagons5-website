@@ -8,7 +8,7 @@ export default ogScene({
     en: { chip: 'Guides', title: 'Your first day with tasks in Whagons', meta: 'Guide · Whagons', task: 'Replace leaking tap', spot: 'Room 214', steps: ['Pending', 'In Progress', 'Completed'] },
     es: { chip: 'Guías', title: 'Tu primer día con tareas en Whagons', meta: 'Guía · Whagons', task: 'Cambiar llave que gotea', spot: 'Hab 214', steps: ['Pendiente', 'En progreso', 'Completada'] },
     pt: { chip: 'Guias', title: 'Seu primeiro dia com tarefas no Whagons', meta: 'Guia · Whagons', task: 'Trocar torneira pingando', spot: 'Quarto 214', steps: ['Pendente', 'Em andamento', 'Concluída'] },
-    de: { chip: 'Leitfäden', title: 'Ihr erster Tag mit Aufgaben in Whagons', meta: 'Leitfaden · Whagons', task: 'Tropfenden Hahn tauschen', spot: 'Zimmer 214', steps: ['Offen', 'In Arbeit', 'Erledigt'] },
+    de: { chip: 'Leitfäden', title: 'Ihr erster Tag mit Aufgaben in Whagons', meta: 'Leitfaden · Whagons', task: 'Tropfenden Wasserhahn tauschen', spot: 'Zimmer 214', steps: ['Offen', 'In Arbeit', 'Erledigt'] },
   },
   art(panel, s) {
     injectTasksCss();

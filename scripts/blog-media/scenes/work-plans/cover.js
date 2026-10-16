@@ -30,6 +30,16 @@ export default {
       done: 'completed',
       every: 'Every Mon, Wed and Fri · 7:00 AM',
     },
+    de: {
+      kicker: 'Powerup',
+      name: 'Arbeitspläne',
+      week: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'],
+      task: 'Zimmerprüfung',
+      rooms: ['Zi. 101', 'Zi. 102', 'Zi. 103', 'Zi. 104'],
+      todo: 'Offen',
+      done: 'Erledigt',
+      every: 'Jeden Mo., Mi. und Fr. · 7:00',
+    },
   },
 
   build(stage, s) {

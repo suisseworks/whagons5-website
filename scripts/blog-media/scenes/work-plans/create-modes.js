@@ -37,6 +37,19 @@ export default {
         'At start of day, at 00:00 on the scheduled day',
       ],
     },
+    de: {
+      setting: 'Aufgaben erstellen',
+      options: ['Zur geplanten Zeit', 'Vor geplanter Zeit', 'Zu Beginn des geplanten Tages'],
+      minutes: 'Minuten vorher',
+      scheduled: 'Geplante Zeit',
+      task: 'Zimmerprüfung',
+      spot: 'Zi. 101',
+      steps: [
+        'Zur geplanten Zeit: Die Aufgabe erscheint um 7:00',
+        'Vorher: so viele Minuten früher, wie Sie wählen',
+        'Zu Beginn des Tages: um 00:00 am geplanten Tag',
+      ],
+    },
   },
 
   build(stage, s, { duration }) {
