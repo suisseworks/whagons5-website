@@ -13,12 +13,13 @@ export default {
     en: { rejectedBy: 'Rejected by', rejectedNote: 'Approval rejected', second: 'Purchase request · New ice machine', secondSpot: 'Kitchen', promptTitle: 'Reject approval', promptLabel: 'Rejection Reason (Optional)', reason: 'Please get a second quote', submit: 'Submit rejection', cancel: 'Cancel', steps: ['Approve: one click from the orange badge', 'Reject: write the reason', 'The reason travels with the decision, and the action tags the task'] },
     es: { rejectedBy: 'Rechazado por', rejectedNote: 'Aprobación rechazada', second: 'Solicitud de compra · Máquina de hielo', secondSpot: 'Cocina', promptTitle: 'Rechazar aprobación', promptLabel: 'Motivo del rechazo (opcional)', reason: 'Por favor consigue una segunda cotización', submit: 'Enviar rechazo', cancel: 'Cancelar', steps: ['Aprobar: un clic desde la insignia naranja', 'Rechazar: escribe el motivo', 'El motivo viaja con la decisión y la acción etiqueta la tarea'] },
     pt: { rejectedBy: 'Rejeitado por', rejectedNote: 'Aprovação rejeitada', second: 'Pedido de compra · Máquina de gelo', secondSpot: 'Cozinha', promptTitle: 'Rejeitar aprovação', promptLabel: 'Motivo da rejeição (opcional)', reason: 'Por favor, consiga um segundo orçamento', submit: 'Enviar rejeição', cancel: 'Cancelar', steps: ['Aprovar: um clique no selo laranja', 'Rejeitar: escreva o motivo', 'O motivo vai junto com a decisão e a ação marca a tarefa'] },
-    de: { rejectedBy: 'Abgelehnt von', rejectedNote: 'Genehmigung abgelehnt', second: 'Bestellanforderung · Eismaschine', secondSpot: 'Küche', promptTitle: 'Genehmigung ablehnen', promptLabel: 'Ablehnungsgrund (optional)', reason: 'Bitte ein zweites Angebot einholen', submit: 'Ablehnung einreichen', cancel: 'Abbrechen', steps: ['Genehmigen: ein Klick auf das orange Abzeichen', 'Ablehnen: den Grund dazuschreiben', 'Der Grund reist mit, und die Aktion setzt einen Tag'] },
+    de: { rejectedBy: 'Abgelehnt von', rejectedNote: 'Freigabe abgelehnt', second: 'Bestellanforderung · Eismaschine', secondSpot: 'Küche', promptTitle: 'Freigabe ablehnen', promptLabel: 'Begründung (optional)', reason: 'Bitte ein zweites Angebot einholen', submit: 'Ablehnung senden', cancel: 'Abbrechen', steps: ['Freigeben: ein Klick auf das orange Abzeichen', 'Ablehnen: den Grund dazuschreiben', 'Der Grund reist mit, und die Aktion setzt einen Tag'] },
   }),
 
   build(stage, s, { duration, lang }) {
     stage.classList.add('dot-grid');
-    const cols = '52px 2.1fr 0.62fr 1.45fr 0.55fr';
+    // German headers are longer ("Zugewiesene Person"), so its columns are fixed.
+    const cols = lang === 'de' ? '52px 1fr 64px 158px 120px' : '52px 2.1fr 0.62fr 1.45fr 0.55fr';
     const grid = taskGrid(stage, { x: 24, y: 22, w: 752, h: 180, title: s.space, headers: s.cols, cols });
     const first = grid.makeRow({ num: '#1043', name: s.request, spot: s.room, status: s.statuses.pending, people: [['TR', 'e']] });
     const second = grid.makeRow({ num: '#1044', name: s.second, spot: s.secondSpot, status: s.statuses.pending, people: [['JP', 'b']] });

@@ -53,6 +53,30 @@ export default {
         'They sit on top of the space, with live numbers',
       ],
     },
+    de: {
+      space: 'Vorbeugende Wartung',
+      add: '+ KPI-Karte hinzufügen',
+      dialog: 'KPI-Karte erstellen',
+      choose: 'Wählen Sie, wie Sie Ihre Karte erstellen möchten',
+      scratch: ['Von Grund auf', 'Jeden Aspekt manuell konfigurieren'],
+      template: ['Vorlage verwenden', 'Mit vorkonfigurierten Karten beginnen'],
+      templates: [['Übersichtsdashboard', '6 Karten: allgemeine Übersicht des Bereichs'], ['Arbeitslastübersicht', '3 Karten: Arbeitslast auf einen Blick']],
+      cards: ['Gesamtaufgaben', 'In Bearbeitung', 'Heute erledigt', 'Überfällig', 'Wochentrend', 'Nach Status'],
+      cardWidths: [132, 124, 136, 110, 146, 118],
+      scope: 'Bereich',
+      scopeValue: 'Alle Bereiche',
+      apply: 'Vorlage anwenden',
+      cols: ['Aufgabe', 'Standort', 'Status', 'Fällig'],
+      tasks: ['Fensterdichtungen prüfen', 'Wartung Küchengeräte', 'Elektroprüfung', 'Wasseraufbereitung kalibrieren'],
+      spots: ['Zi. 204', 'Küche', 'Lobby', 'Pool'],
+      statuses: ['In Arbeit', 'Offen', 'Offen', 'In Prüfung'],
+      dues: ['heute', 'gestern', 'morgen', 'Fr'],
+      steps: [
+        'Karte hinzufügen und Vorlage verwenden wählen',
+        'Übersichtsdashboard bringt sechs fertige Karten mit',
+        'Sie stehen oben im Bereich, mit aktuellen Zahlen',
+      ],
+    },
   },
 
   build(stage, s, { duration }) {
@@ -67,7 +91,7 @@ export default {
     slot.style.cssText += ';left:0;right:0';
 
     strip.style.overflow = 'hidden';
-    const cards = overviewCards(strip, s.cards, { values: ['0', '0', '0', '0', '+18%', ''] });
+    const cards = overviewCards(strip, s.cards, { values: ['0', '0', '0', '0', '+18%', ''], widths: s.cardWidths });
     stripEdge(strip);
     const grid = el('div', '', win);
     grid.style.cssText = 'border-top:1px solid var(--line)';

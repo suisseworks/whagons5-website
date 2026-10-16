@@ -117,9 +117,8 @@ export function stripEdge(strip) {
 export const ARC = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 3a9 9 0 1 0 9 9"/></svg>';
 export const PIE = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M21 12A9 9 0 1 1 12 3v9z"/><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"/></svg>';
 
-/** Standard six cards of the Overview Dashboard template. */
-export function overviewCards(strip, labels, { values = ['48', '12', '9', '3', '+18%', ''], gap = 8 } = {}) {
-  const widths = [116, 120, 136, 110, 146, 118];
+/** Standard six cards of the Overview Dashboard template. Pass `widths` when a language's labels need more room. */
+export function overviewCards(strip, labels, { values = ['48', '12', '9', '3', '+18%', ''], gap = 8, widths = [116, 120, 136, 110, 146, 118] } = {}) {
   const icons = ['#', ARC, '✓', '!', '↗', PIE];
   const tones = ['blue', 'amber', 'green', 'rose', 'indigo', 'purple'];
   let x = 0;

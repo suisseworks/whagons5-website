@@ -8,7 +8,7 @@ export default ogScene({
     en: { chip: 'Guides', title: 'Approvals: the right yes before the work starts', meta: 'Guide · Whagons', items: ['2 mattresses', 'Ice machine', 'Pool chairs ×12'], pending: 'Pending', approved: 'Approved to buy' },
     es: { chip: 'Guías', title: 'Aprobaciones: el sí correcto antes de empezar', meta: 'Guía · Whagons', items: ['2 colchones', 'Máquina de hielo', 'Camastros ×12'], pending: 'Pendiente', approved: 'Aprobada para comprar' },
     pt: { chip: 'Guias', title: 'Aprovações: o sim certo antes de começar', meta: 'Guia · Whagons', items: ['2 colchões', 'Máquina de gelo', 'Espreguiçadeiras ×12'], pending: 'Pendente', approved: 'Aprovado para compra' },
-    de: { chip: 'Leitfäden', title: 'Genehmigungen: das richtige Ja vor der Arbeit', meta: 'Leitfaden · Whagons', items: ['2 Matratzen', 'Eismaschine', 'Poolliegen ×12'], pending: 'Offen', approved: 'Kauf freigegeben' },
+    de: { chip: 'Leitfäden', title: 'Freigaben: das richtige Ja vor der Arbeit', meta: 'Leitfaden · Whagons', items: ['2 Matratzen', 'Eismaschine', 'Poolliegen ×12'], pending: 'Offen', approved: 'Kauf freigegeben' },
   },
   art(panel, s) {
     injectTasksCss();
