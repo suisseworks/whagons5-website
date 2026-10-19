@@ -75,11 +75,15 @@
     const menu = $('#mobile-menu');
     if (!toggle || !menu) return;
 
+    // While the menu is open, the page behind it can't be tabbed into.
+    const behind = $$('main, .site-footer');
     const setOpen = (open) => {
       toggle.setAttribute('aria-expanded', String(open));
       toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       menu.hidden = !open;
       root.classList.toggle('menu-open', open);
+      behind.forEach((el) => { el.inert = open; });
+      if (open) $('a', menu)?.focus();
     };
     toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
     menu.addEventListener('click', (e) => { if (e.target.closest('a')) setOpen(false); });
@@ -199,10 +203,10 @@
       <text class="p-label p-label--halo" x="${(sX + 20).toFixed(1)}" y="${(stationY - 22).toFixed(1)}">Onshore station</text>
       <rect class="p-manifold" x="${(manifold[0] - 12).toFixed(1)}" y="${(manifold[1] - 11).toFixed(1)}" width="24" height="9"/>`;
     callouts += narrow
-      ? `<text class="p-label p-label--wet" x="${(w - 8).toFixed(1)}" y="${(manifold[1] - 24).toFixed(1)}" text-anchor="end">9,000 ft</text>`
+      ? `<text class="p-label p-label--wet" x="${(w - 8).toFixed(1)}" y="${(manifold[1] - 24).toFixed(1)}" text-anchor="end">≈ 9,000 ft</text>`
       : `<path class="p-leader p-leader--wet" d="M${pt(manifold[0], manifold[1] - 14)} V${(manifold[1] - 40).toFixed(1)}"/>
       <text class="p-label p-label--wet" x="${(manifold[0] + 12).toFixed(1)}" y="${(manifold[1] - 62).toFixed(1)}" text-anchor="end">Subsea manifold</text>
-      <text class="p-note p-note--wet" x="${(manifold[0] + 12).toFixed(1)}" y="${(manifold[1] - 46).toFixed(1)}" text-anchor="end">9,000 ft water depth</text>`;
+      <text class="p-note p-note--wet" x="${(manifold[0] + 12).toFixed(1)}" y="${(manifold[1] - 46).toFixed(1)}" text-anchor="end">Nearly 9,000 ft water depth</text>`;
     if (!narrow) {
       callouts += `
         <circle class="p-dot" cx="${hddLow[0].toFixed(1)}" cy="${hddLow[1].toFixed(1)}" r="3"/>
@@ -334,10 +338,40 @@
       if (!raf) raf = requestAnimationFrame(tick);
     };
 
-    window.addEventListener('scroll', measure, { passive: true });
+    // Follow scrolling only while the section is on screen, at most once a frame.
+    let queued = false;
+    const onScroll = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => { queued = false; measure(); });
+    };
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) window.addEventListener('scroll', onScroll, { passive: true });
+      else window.removeEventListener('scroll', onScroll);
+      measure(); // settle the gauge at whichever end the visitor left from
+    }).observe(section);
     window.addEventListener('resize', measure);
     measure();
   }
+
+  // A list that scrolls sideways (on phones) must be reachable by keyboard.
+  // Returns an update function for when the content width changes.
+  const keyboardScrollable = (el, label, role) => {
+    const update = () => {
+      if (el.scrollWidth > el.clientWidth + 1) {
+        el.tabIndex = 0;
+        el.setAttribute('aria-label', label);
+        if (role) el.setAttribute('role', role);
+      } else {
+        el.removeAttribute('tabindex');
+        el.removeAttribute('aria-label');
+        if (role) el.removeAttribute('role');
+      }
+    };
+    new ResizeObserver(update).observe(el);
+    update();
+    return update;
+  };
 
   /* ---------- Service detail dialog ---------- */
   function initModal() {
@@ -347,26 +381,33 @@
     if (!dialog || typeof dialog.showModal !== 'function') {
       // No <dialog> support: reveal details inline instead.
       triggers.forEach((btn) => btn.addEventListener('click', () => {
-        const detail = document.getElementById(btn.dataset.detail);
-        detail.hidden = !detail.hidden;
+        document.getElementById(btn.dataset.detail).classList.toggle('is-open');
       }));
       return;
     }
 
     let opener = null;
+    let returnTo = null;
     triggers.forEach((btn) => btn.addEventListener('click', () => {
       body.innerHTML = document.getElementById(btn.dataset.detail).innerHTML;
+      $('h3', body)?.setAttribute('id', 'modal-title'); // names the dialog
       opener = btn;
+      returnTo = null;
       dialog.showModal();
       root.classList.add('modal-open');
       $('.modal-panel', dialog).scrollTop = 0;
     }));
     dialog.addEventListener('close', () => {
       root.classList.remove('modal-open');
-      opener?.focus({ preventScroll: true });
+      (returnTo || opener)?.focus({ preventScroll: true });
     });
     dialog.addEventListener('click', (e) => {
-      if (e.target === dialog || e.target.closest('[data-modal-close]')) dialog.close();
+      if (e.target === dialog || e.target.closest('[data-modal-close]')) {
+        // A link out of the dialog (e.g. "Start a project") moves focus to where it leads.
+        const link = e.target.closest('a[href^="#"]');
+        returnTo = link ? document.getElementById(link.hash.slice(1))?.querySelector('[tabindex="-1"]') : null;
+        dialog.close();
+      }
     });
   }
 
@@ -528,10 +569,16 @@
       progress.style.setProperty('--thumb', max ? (grid.clientWidth / max).toFixed(4) : 1);
       progress.style.setProperty('--pos', max ? (grid.scrollLeft / max).toFixed(4) : 0);
     };
+    const status = $('[data-filter-status]');
+    const LABELS = { onshore: 'onshore', shallow: 'shallow water', deep: 'deepwater' };
+    const updateScrollable = keyboardScrollable(grid, 'Selected projects, scrolls sideways');
     const choose = (filter) => {
       apply(filter);
       grid.scrollLeft = 0;
       updateProgress();
+      updateScrollable();
+      const n = cards.filter((card) => !card.hidden).length;
+      if (status) status.textContent = filter === 'all' ? `Showing all ${n} projects.` : `Showing ${n} ${LABELS[filter]} projects.`;
     };
     grid.addEventListener('scroll', updateProgress, { passive: true });
 
@@ -615,8 +662,10 @@
       $$('.pin', svg).forEach((p) => p.classList.toggle('is-hot', p.dataset.pin === id));
       if (!place) { tip.classList.remove('is-on'); return; }
       tip.innerHTML = `<strong>${place.name}</strong><span>${place.note}</span>`;
-      tip.style.left = `${(place.xy[0] / VW) * 100}%`;
-      tip.style.top = `${(place.xy[1] / VH) * 100}%`;
+      const box = svg.getBoundingClientRect();
+      const origin = tip.offsetParent.getBoundingClientRect();
+      tip.style.left = `${box.left - origin.left + (place.xy[0] / VW) * box.width}px`;
+      tip.style.top = `${box.top - origin.top + (place.xy[1] / VH) * box.height}px`;
       tip.classList.add('is-on');
     };
     const hide = () => show(null);
@@ -648,6 +697,7 @@
     if (scroller.scrollWidth > scroller.clientWidth) {
       scroller.scrollLeft = (scroller.scrollWidth - scroller.clientWidth) * 0.35;
     }
+    keyboardScrollable(scroller, 'World map, scrolls sideways', 'region');
   }
 
   /* ---------- Contact form (opens the visitor's email client) ---------- */
@@ -655,9 +705,17 @@
     const form = $('[data-contact-form]');
     const status = $('[data-form-status]');
     if (!form) return;
+    const controls = $$('input, textarea', form).filter((c) => c.type !== 'radio');
+    const markInvalid = () => controls.forEach((c) => {
+      if (c.checkValidity()) c.removeAttribute('aria-invalid');
+      else c.setAttribute('aria-invalid', 'true');
+    });
+    // After a failed submit, clear each field's error state as soon as it's fixed.
+    form.addEventListener('input', () => { if (form.classList.contains('was-validated')) markInvalid(); });
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+      markInvalid();
       if (!form.checkValidity()) {
         form.classList.add('was-validated');
         status.textContent = 'Add your name, a valid email address and a short message.';

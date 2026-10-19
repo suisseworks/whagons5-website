@@ -4,6 +4,66 @@
    accent and pipeline-marker yellow reserved for safety.
    ========================================================================== */
 
+/* Archivo, self-hosted. Trimmed to the widths (62–100%) and weights (400–800)
+   the site uses. SIL Open Font License, see fonts/OFL.txt. */
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 400 800;
+  font-stretch: 62% 100%;
+  font-display: swap;
+  src: url("../fonts/archivo-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 400 800;
+  font-stretch: 62% 100%;
+  font-display: swap;
+  src: url("../fonts/archivo-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Local fallbacks sized to Archivo's measured widths, so text keeps the same
+   line breaks while the web font loads. One per width the design uses. */
+@font-face {
+  font-family: "Archivo Fallback";
+  src: local("Arial"), local("ArialMT");
+  font-weight: 100 599;
+  size-adjust: 98.7%;
+  ascent-override: 88.96%;
+  descent-override: 21.28%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Archivo Fallback";
+  src: local("Arial Bold"), local("Arial-BoldMT");
+  font-weight: 600 900;
+  size-adjust: 96.5%;
+  ascent-override: 90.98%;
+  descent-override: 21.76%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Archivo Condensed Fallback";
+  src: local("Arial Bold"), local("Arial-BoldMT");
+  font-weight: 600 900; /* condensed text is always 700–800; no faux bold */
+  size-adjust: 77.9%;
+  ascent-override: 112.71%;
+  descent-override: 26.96%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Archivo Hero Fallback";
+  src: local("Arial Bold"), local("Arial-BoldMT");
+  font-weight: 600 900; /* condensed text is always 700–800; no faux bold */
+  size-adjust: 74.8%;
+  ascent-override: 117.38%;
+  descent-override: 28.07%;
+  line-gap-override: 0%;
+}
+
 :root {
   --mylar: #e8ece9;
   --sheet: #f4f6f4;
@@ -11,6 +71,7 @@
   --steel: #56625f;
   --rule: rgba(27, 34, 36, 0.16);
   --rule-strong: rgba(27, 34, 36, 0.4);
+  --rule-field: rgba(27, 34, 36, 0.58); /* form controls need 3:1 against white */
 
   --gulf: #123a44;
   --gulf-deep: #0b262e;
@@ -23,7 +84,9 @@
   --fbe-light: #6fc2a9;
   --marker: #f2b705;
 
-  --font: "Archivo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font: "Archivo", "Archivo Fallback", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-cond: "Archivo", "Archivo Condensed Fallback", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-hero: "Archivo", "Archivo Hero Fallback", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
   /* Type scale: 14 · 17 · 21 · 24 · 36 · 48 · 72 */
   --t-sm: 0.875rem;
@@ -74,7 +137,6 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   outline: 2px solid var(--graphite);
   outline-offset: 3px;
 }
-.dark :focus-visible,
 .segments :focus-visible,
 .projects :focus-visible,
 .reach :focus-visible,
@@ -121,6 +183,19 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   letter-spacing: -0.01em;
   text-wrap: balance;
 }
+/* Condensed text uses the condensed fallback (see @font-face above). */
+.display,
+.brand-name,
+.mobile-menu nav a,
+.tb-name,
+.gauge-readout,
+.depth-panel h3,
+.svc h3,
+.project h3,
+.zero,
+.modal-body h3 { font-family: var(--font-cond); }
+.hero-title { font-family: var(--font-hero); }
+.tb-name span { font-family: var(--font); }
 .lead {
   font-size: var(--t-md);
   line-height: 1.5;
@@ -326,7 +401,6 @@ html.menu-open .site-header { background: var(--mylar); }
 .p-leader { stroke: var(--graphite); stroke-width: 1; fill: none; }
 .p-leader--wet { stroke: var(--foam-muted); }
 .p-dot { fill: var(--graphite); }
-.p-dot--wet { fill: var(--foam); }
 
 .title-block {
   position: absolute;
@@ -467,7 +541,16 @@ html.menu-open .site-header { background: var(--mylar); }
   max-width: 680px;
   transition: opacity 0.5s var(--ease);
 }
-.depth--js .depth-panel { opacity: 0.45; }
+.depth--js .depth-panel { opacity: 0.72; }
+.depth--js .depth-panel:focus-within { opacity: 1; }
+/* Faded panels stay readable (WCAG AA): the muted text brightens to offset the
+   opacity. Panels only fade above 960px; see the max-width: 960px block. */
+@media (min-width: 961px) {
+  .depth--js .depth-panel > p,
+  .depth--js .depth-panel .panel-tag { transition: color 0.5s var(--ease); }
+  .depth--js .depth-panel:not(.is-active):not(:focus-within) > p,
+  .depth--js .depth-panel:not(.is-active):not(:focus-within) .panel-tag { color: var(--foam); }
+}
 .depth--js .depth-panel.is-active { opacity: 1; }
 
 .panel-tag { font-size: var(--t-sm); font-weight: 600; color: var(--fbe-light); }
@@ -542,6 +625,11 @@ html.menu-open .site-header { background: var(--mylar); }
   text-underline-offset: 5px;
 }
 .svc-more:hover { color: var(--graphite); }
+.js .svc-detail { display: none; }
+.js .svc-detail.is-open { display: block; }
+html:not(.js) .svc-more { display: none; }
+html:not(.js) .svc-detail { margin-top: 16px; }
+html:not(.js) .svc-detail > h3 { display: none; } /* repeats the card title; the dialog uses it */
 
 .toolkit {
   display: grid;
@@ -832,7 +920,7 @@ html.menu-open .site-header { background: var(--mylar); }
 }
 .contact-list div:last-child { border-bottom: 1px solid var(--rule); }
 .contact-list dt { font-size: var(--t-sm); color: var(--steel); padding-top: 2px; }
-.contact-list a { text-decoration-color: var(--rule-strong); text-underline-offset: 4px; }
+.contact-list a { display: inline-block; padding-block: 4px; margin-block: -4px; text-decoration-color: var(--rule-strong); text-underline-offset: 4px; }
 .contact-list a:hover { text-decoration-color: var(--fbe); }
 
 .contact-form { display: grid; gap: 20px; }
@@ -844,7 +932,7 @@ html.menu-open .site-header { background: var(--mylar); }
 .field textarea {
   width: 100%;
   padding: 12px 14px;
-  border: 1.5px solid var(--rule-strong);
+  border: 1.5px solid var(--rule-field);
   border-radius: 3px;
   background: #fff;
   color: var(--graphite);
@@ -875,7 +963,7 @@ html.menu-open .site-header { background: var(--mylar); }
   align-items: center;
   min-height: 40px;
   padding: 0 14px;
-  border: 1.5px solid var(--rule-strong);
+  border: 1.5px solid var(--rule-field);
   border-radius: 3px;
   background: #fff;
   font-size: var(--t-sm);
@@ -888,6 +976,7 @@ html.menu-open .site-header { background: var(--mylar); }
 .field--chips input:focus-visible + span { outline: 2px solid var(--graphite); outline-offset: 2px; }
 
 .form-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.field .req { font-weight: 400; color: var(--steel); }
 .form-status { max-width: 40ch; font-size: var(--t-sm); color: var(--steel); }
 .was-validated .form-status { color: #b3261e; }
 
@@ -919,7 +1008,7 @@ html.menu-open .site-header { background: var(--mylar); }
   font-size: 0.8125rem;
   color: var(--foam-muted);
 }
-.to-top { text-decoration: none; }
+.to-top { display: inline-block; padding-block: 4px; margin-block: -4px; text-decoration: none; }
 .to-top:hover { color: var(--foam); }
 
 /* ---------- Modal ---------- */
@@ -1152,7 +1241,6 @@ html.menu-open .site-header { background: var(--mylar); }
   .title-block dl div:nth-child(2n) { border-right: 0; }
   .title-block dl div:nth-last-child(-n + 2) { border-bottom: 0; }
   .tb-name { padding: 8px 10px; }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
   .hero-actions .btn { flex: 1 1 auto; }
 }
 
