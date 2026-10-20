@@ -430,14 +430,31 @@ html.menu-open .site-header { background: var(--mylar); }
 
 /* ---------- About ---------- */
 .about { padding-top: clamp(64px, 8vw, 112px); }
-.clients {
-  max-width: 82ch;
-  padding-bottom: 40px;
-  margin-bottom: clamp(56px, 7vw, 96px);
-  border-bottom: 1px solid var(--rule);
-  color: var(--steel);
+/* Clients, set as a register table rather than a sentence. */
+.clients { margin-bottom: clamp(56px, 7vw, 96px); }
+.clients .minor { margin-bottom: 14px; }
+.client-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-top: 1.5px solid var(--graphite);
+  border-left: 1px solid var(--rule);
 }
-.clients span { font-weight: 600; color: var(--graphite); }
+.client-list li {
+  display: flex;
+  align-items: center;
+  min-height: 76px;
+  padding: 14px 18px;
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-cond);
+  font-size: 1.3125rem;
+  font-stretch: 75%;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--steel);
+  transition: color 0.2s, background-color 0.2s;
+}
+.client-list li:hover { color: var(--graphite); background: var(--sheet); }
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -447,7 +464,22 @@ html.menu-open .site-header { background: var(--mylar); }
 .about-copy .lead { max-width: 40ch; }
 .about-copy p:not(.lead) { max-width: 62ch; }
 .about-copy .minor { margin-top: 36px; }
-.about-copy .expertise { margin-top: 8px; color: var(--graphite); }
+.about-copy .expertise {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 28px;
+  margin-top: 14px;
+}
+.expertise li { position: relative; padding-left: 18px; font-size: 0.9375rem; line-height: 1.45; }
+.expertise li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 8px;
+  height: 2px;
+  background: var(--fbe);
+}
 
 /* ---------- Segments / depth ---------- */
 .segments {
@@ -880,12 +912,34 @@ html:not(.js) .svc-detail > h3 { display: none; } /* repeats the card title; the
 .people { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); column-gap: 32px; }
 .roster-group:last-child .people { grid-template-columns: 1fr; }
 .people li {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  align-items: center;
+  column-gap: 14px;
   padding: 12px 0;
   border-bottom: 1px solid var(--rule);
   font-size: 0.9375rem;
   line-height: 1.35;
   color: var(--steel);
 }
+/* Initials in a balloon, the circled callout used on engineering drawings. */
+.balloon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid var(--graphite);
+  border-radius: 50%;
+  background: var(--sheet);
+  font-family: var(--font-cond);
+  font-size: 0.875rem;
+  font-stretch: 75%;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--graphite);
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+.people li:hover .balloon { background: var(--fbe); border-color: var(--fbe); color: #fff; }
 .people strong { display: block; font-size: var(--t-base); font-weight: 600; color: var(--graphite); }
 
 /* ---------- Careers ---------- */
@@ -900,7 +954,18 @@ html:not(.js) .svc-detail > h3 { display: none; } /* repeats the card title; the
 .careers-copy p { max-width: 56ch; margin-top: 20px; color: var(--steel); }
 .careers-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 .benefits .minor { padding-bottom: 10px; border-bottom: 1.5px solid var(--graphite); color: var(--graphite); }
-.benefits li { padding: 10px 0; border-bottom: 1px solid var(--rule); }
+.benefits li { position: relative; padding: 10px 0 10px 28px; border-bottom: 1px solid var(--rule); }
+.benefits li::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: calc(10px + 0.45em);
+  width: 10px;
+  height: 5px;
+  border-left: 2px solid var(--fbe);
+  border-bottom: 2px solid var(--fbe);
+  transform: rotate(-45deg);
+}
 
 /* ---------- Contact ---------- */
 .contact { background: var(--sheet); border-top: 1px solid var(--rule); }
@@ -1242,6 +1307,171 @@ html:not(.js) .svc-detail > h3 { display: none; } /* repeats the card title; the
   .title-block dl div:nth-last-child(-n + 2) { border-bottom: 0; }
   .tb-name { padding: 8px 10px; }
   .hero-actions .btn { flex: 1 1 auto; }
+}
+
+/* ---------- Drawing-sheet details ---------- */
+/* Each section is numbered like a sheet in a drawing set. */
+.sheet-ref {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--steel);
+}
+.sheet-ref span {
+  display: inline-grid;
+  place-items: center;
+  min-width: 32px;
+  height: 22px;
+  padding: 0 6px;
+  border: 1.5px solid currentColor;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+.sheet-ref::after { content: ""; width: 40px; height: 1px; background: currentColor; opacity: 0.6; }
+.segments .sheet-ref,
+.projects .sheet-ref,
+.reach .sheet-ref,
+.hse .sheet-ref { color: var(--foam-muted); }
+.hse .sheet-ref { margin-bottom: 28px; }
+
+/* Service icons and hover */
+.svc-icon {
+  width: 34px;
+  height: 34px;
+  margin-bottom: 16px;
+  fill: none;
+  stroke: var(--fbe-dark);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.3s var(--ease);
+}
+.svc:not(.svc--lead):hover { border-top-color: var(--fbe); }
+.svc:hover .svc-icon { transform: translateY(-3px); }
+
+/* The lead service carries a riser sketch beside its text. */
+.svc--lead {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(200px, 300px);
+  grid-template-rows: auto auto auto 1fr;
+  grid-template-areas: "icon sketch" "title sketch" "text sketch" "more sketch";
+  column-gap: clamp(24px, 3vw, 40px);
+}
+.svc--lead > .svc-icon { grid-area: icon; }
+.svc--lead > h3 { grid-area: title; }
+.svc--lead > p { grid-area: text; }
+.svc--lead > .svc-more { grid-area: more; align-self: start; justify-self: start; margin-top: 0; }
+.svc--lead > .svc-detail { grid-column: 1 / -1; }
+.svc-sketch { grid-area: sketch; align-self: center; width: 100%; height: auto; overflow: visible; }
+.sk-seabed { fill: none; stroke: var(--graphite); stroke-width: 1.5; }
+.sk-water-line { fill: none; stroke: var(--graphite); stroke-width: 1; stroke-dasharray: 10 4 2 4; opacity: 0.55; }
+.sk-host { fill: var(--sheet); stroke: var(--graphite); stroke-width: 1.5; stroke-linejoin: round; }
+.sk-dim { fill: none; stroke: var(--graphite); stroke-width: 1.5; }
+.sk-dot { fill: var(--foam); }
+.sk-pipe-case { fill: none; stroke: var(--sheet); stroke-width: 7; stroke-linecap: round; }
+.sk-pipe { fill: none; stroke: var(--fbe); stroke-width: 3.5; stroke-linecap: round; }
+.sk-flow {
+  fill: none;
+  stroke: var(--sheet);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-dasharray: 2 18;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.svc--lead:hover .sk-flow,
+.svc--lead:focus-within .sk-flow { opacity: 0.95; animation: flow-sk 1.4s linear infinite; }
+@keyframes flow-sk { to { stroke-dashoffset: -20; } }
+.sk-label { font-family: var(--font); font-size: 11px; font-weight: 600; fill: var(--graphite); }
+.sk-label--wet { fill: var(--foam); }
+.sk-note { font-family: var(--font); font-size: 10.5px; fill: var(--foam-muted); }
+
+/* Life cycle: the line draws itself in, step by step. */
+.timeline li::before { z-index: 1; }
+.js .timeline li { border-top-color: var(--rule); }
+.js .timeline li::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--graphite);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s var(--ease);
+  transition-delay: calc(var(--i, 0) * 110ms);
+}
+.js .timeline li::before {
+  border-color: var(--rule-strong);
+  color: var(--steel);
+  transition: border-color 0.3s, color 0.3s;
+  transition-delay: calc(var(--i, 0) * 110ms);
+}
+.js .timeline.is-in li::after { transform: scaleX(1); }
+.js .timeline.is-in li::before { border-color: var(--graphite); color: var(--graphite); }
+
+/* Sections fade up as they scroll into view (never the hero). */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  transition-delay: calc(var(--d, 0) * 90ms);
+}
+.js [data-reveal].is-in { opacity: 1; transform: none; }
+
+/* Reading progress along the bottom of the header */
+.scroll-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--fbe);
+  transform: scaleX(var(--progress, 0));
+  transform-origin: left;
+  pointer-events: none;
+}
+
+@media (max-width: 960px) {
+  .client-list { grid-template-columns: 1fr 1fr; } /* 10 names: 5 even rows */
+}
+@media (max-width: 720px) {
+  .client-list li { min-height: 60px; padding: 12px 14px; font-size: 1.125rem; }
+  .about-copy .expertise { grid-template-columns: 1fr; }
+  .svc--lead {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    grid-template-areas: "icon" "title" "text" "sketch" "more";
+  }
+  .svc-sketch { max-width: 360px; margin-top: 20px; }
+  /* With balloons, two columns of names get too narrow on phones. */
+  .people,
+  .roster-group:last-child .people { grid-template-columns: 1fr; }
+  .people li { grid-template-columns: 36px minmax(0, 1fr); }
+  .balloon { width: 36px; height: 36px; font-size: 0.8125rem; }
+  .js .timeline li { border-left-color: var(--rule); }
+  .js .timeline li:last-child { border-left-color: transparent; }
+  .js .timeline li::after {
+    top: 0;
+    bottom: 0;
+    left: -2px;
+    right: auto;
+    width: 2px;
+    height: auto;
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  .js .timeline li:last-child::after { display: none; }
+  .js .timeline.is-in li::after { transform: scaleY(1); }
+}
+@media print {
+  .js [data-reveal] { opacity: 1 !important; transform: none !important; }
 }
 
 /* ---------- Motion preferences ---------- */

@@ -18,11 +18,11 @@
   <meta property="og:image:alt" content="Cronus Technology: Engineering the lines that move energy, with a pipeline cross-section from onshore to deepwater.">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://whagons.com/clients/cronus2/">
-  <link rel="icon" href="/clients/cronus2/favicon.svg?v=2" type="image/svg+xml">
-  <link rel="icon" href="/clients/cronus2/favicon-32.png?v=2" sizes="32x32" type="image/png">
-  <link rel="apple-touch-icon" href="/clients/cronus2/apple-touch-icon.png?v=2">
+  <link rel="icon" href="/clients/cronus2/favicon.svg?v=3" type="image/svg+xml">
+  <link rel="icon" href="/clients/cronus2/favicon-32.png?v=3" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/clients/cronus2/apple-touch-icon.png?v=3">
   <link rel="preload" href="/clients/cronus2/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/clients/cronus2/css/styles.css?v=2">
+  <link rel="stylesheet" href="/clients/cronus2/css/styles.css?v=3">
   <script>document.documentElement.classList.add('js')</script>
   <script type="application/ld+json">
   {
@@ -101,6 +101,7 @@
         <a href="mailto:info@cronustec.com">info@cronustec.com</a>
       </div>
     </div>
+    <span class="scroll-progress" aria-hidden="true"></span>
   </header>
 
   <main id="main">
@@ -140,14 +141,28 @@
     <!-- ============ About ============ -->
     <section class="section about" id="about" aria-labelledby="about-title">
       <div class="container">
-        <p class="clients"><span>Clients include</span> Chevron, Noble Energy, Enterprise Products, Williams, Genesis Energy,
-          Freeport-McMoRan, Plains All American, Air Products, Matrix PDM and Noble Midstream.</p>
+        <p class="sheet-ref" aria-hidden="true"><span>01</span>About</p>
+        <div class="clients" data-reveal>
+          <p class="minor">Clients include</p>
+          <ul class="client-list">
+            <li>Chevron</li>
+            <li>Noble Energy</li>
+            <li>Enterprise Products</li>
+            <li>Williams</li>
+            <li>Genesis Energy</li>
+            <li>Freeport-McMoRan</li>
+            <li>Plains All American</li>
+            <li>Air Products</li>
+            <li>Matrix PDM</li>
+            <li>Noble Midstream</li>
+          </ul>
+        </div>
 
         <div class="about-grid">
-          <h2 class="display" id="about-title">
+          <h2 class="display" id="about-title" data-reveal>
             High-quality, on-time engineering, built on <span data-years>22</span> years of repeat business.
           </h2>
-          <div class="about-copy">
+          <div class="about-copy" data-reveal>
             <p class="lead">
               Since March 2004, Cronus Technology, Inc. (CTI) has specialized in the entire life cycle of onshore and offshore
               pipelines and subsea developments, with specialists in floating and fixed-facility fabrication and installation.
@@ -159,8 +174,18 @@
               technical rigor.
             </p>
             <h3 class="minor">What we cover</h3>
-            <p class="expertise">Conceptual design, FEED, detailed engineering, materials management, regulatory compliance,
-              project planning, construction management, logistics support, inspection and commissioning.</p>
+            <ul class="expertise">
+              <li>Conceptual design</li>
+              <li>FEED</li>
+              <li>Detailed engineering</li>
+              <li>Materials management</li>
+              <li>Regulatory compliance</li>
+              <li>Project planning</li>
+              <li>Construction management</li>
+              <li>Logistics support</li>
+              <li>Inspection</li>
+              <li>Commissioning</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -169,7 +194,8 @@
     <!-- ============ Segments / depth explorer ============ -->
     <section class="segments" id="segments" aria-labelledby="segments-title">
       <div class="container">
-        <header class="section-head">
+        <header class="section-head" data-reveal>
+          <p class="sheet-ref" aria-hidden="true"><span>02</span>Segments</p>
           <h2 class="display" id="segments-title">From the right-of-way to the seabed.</h2>
           <p class="section-intro">
             Whatever the environment, our philosophy is the same: size the team to the task, from a quick estimate
@@ -261,7 +287,8 @@
     <!-- ============ Services ============ -->
     <section class="section services" id="services" aria-labelledby="services-title">
       <div class="container">
-        <header class="section-head">
+        <header class="section-head" data-reveal>
+          <p class="sheet-ref" aria-hidden="true"><span>03</span>Services</p>
           <h2 class="display" id="services-title">One in-house team for every phase of the project.</h2>
           <p class="section-intro">
             Conceptual, front-end and detailed design, plus engineering support through fabrication, manufacturing,
@@ -270,12 +297,36 @@
         </header>
 
         <div class="svc-list">
-          <article class="svc svc--lead">
+          <article class="svc svc--lead" data-reveal>
+            <svg class="svc-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M4 12.5h24v7H4z"/><path d="M8 8.5h3v15H8zM21 8.5h3v15h-3z"/></svg>
             <h3>Engineering</h3>
             <p>
               Engineering for every phase: design, drafting, fabrication, testing and installation. Large-diameter export
               pipelines, shallow-water tie-ins and risers, ultra-deepwater SURF developments and onshore transmission lines.
             </p>
+            <svg class="svc-sketch" viewBox="0 0 300 200" aria-hidden="true" focusable="false">
+              <defs>
+                <pattern id="sk-hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line class="p-hatch-line" x1="0" y1="0" x2="0" y2="7"/></pattern>
+                <linearGradient id="sk-water" x1="0" y1="40" x2="0" y2="168" gradientUnits="userSpaceOnUse">
+                  <stop offset="0" stop-color="#cfe0dc"/><stop offset="0.3" stop-color="#7fa6a6"/><stop offset="0.7" stop-color="#2c5a63"/><stop offset="1" stop-color="#123a44"/>
+                </linearGradient>
+              </defs>
+              <path d="M0 40H300V168Q150 162 0 170Z" fill="url(#sk-water)"/>
+              <path d="M0 170Q150 162 300 168V200H0Z" fill="url(#sk-hatch)"/>
+              <path class="sk-seabed" d="M0 170Q150 162 300 168"/>
+              <path class="sk-water-line" d="M0 40H300"/>
+              <path class="sk-pipe-case" d="M80 46C84 122 132 163 190 163.5L282 165.3"/>
+              <path class="sk-pipe" d="M80 46C84 122 132 163 190 163.5L282 165.3"/>
+              <path class="sk-flow" d="M80 46C84 122 132 163 190 163.5L282 165.3"/>
+              <rect class="sk-host" x="48" y="22" width="36" height="12"/>
+              <path class="sk-host" d="M36 34h60l-6 12H42z"/>
+              <path class="sk-dim" d="M58 22V12"/>
+              <rect class="sk-host" x="276" y="159" width="14" height="7"/>
+              <circle class="sk-dot" cx="190" cy="163.5" r="2.5"/>
+              <text class="sk-label" x="102" y="30">Floating host</text>
+              <text class="sk-label sk-label--wet" x="118" y="100">Steel catenary riser</text>
+              <text class="sk-note" x="198" y="154">Touchdown point</text>
+            </svg>
             <button class="svc-more" type="button" data-detail="detail-engineering">See full scope<span class="sr-only"> of engineering</span></button>
             <div class="svc-detail" id="detail-engineering">
               <h3>Engineering</h3>
@@ -313,7 +364,8 @@
             </div>
           </article>
 
-          <article class="svc">
+          <article class="svc" data-reveal>
+            <svg class="svc-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 5v22h22"/><path d="M9 9h9v3.5H9zM13 15h9v3.5h-9zM18 21h8v3.5h-8z"/></svg>
             <h3>Project &amp; risk management</h3>
             <p>Planning, coordinating and executing to your requirements and constraints, with interface professionals who close gaps early, before they become delays.</p>
             <button class="svc-more" type="button" data-detail="detail-pm">See full scope<span class="sr-only"> of project and risk management</span></button>
@@ -334,7 +386,8 @@
             </div>
           </article>
 
-          <article class="svc">
+          <article class="svc" data-reveal>
+            <svg class="svc-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M6 26V6l20 20z"/><path d="M11 21v-5l5 5z"/></svg>
             <h3>Drafting</h3>
             <p>AutoCAD® drafting, with every drawing reviewed by the project lead, the project engineer and the drafting department.</p>
             <button class="svc-more" type="button" data-detail="detail-drafting">See full scope<span class="sr-only"> of drafting</span></button>
@@ -352,7 +405,8 @@
             </div>
           </article>
 
-          <article class="svc">
+          <article class="svc" data-reveal>
+            <svg class="svc-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 10.5 16 5.5l11 5v12l-11 5-11-5z"/><path d="m5 10.5 11 5 11-5M16 15.5v12"/></svg>
             <h3>Materials management</h3>
             <p>Purchasing, expediting, transport and tracing of every project purchase.</p>
             <button class="svc-more" type="button" data-detail="detail-materials">See full scope<span class="sr-only"> of materials management</span></button>
@@ -382,7 +436,8 @@
             </div>
           </article>
 
-          <article class="svc">
+          <article class="svc" data-reveal>
+            <svg class="svc-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M4.5 23.5h23"/><path d="M8 23.5V20a8 8 0 0 1 16 0v3.5"/><path d="M14 12.3V9h4v3.3"/></svg>
             <h3>Construction management &amp; inspection</h3>
             <p>Construction specialists with field experience in the US, Mexico, Brazil, Equatorial Guinea, Angola, Egypt, Israel, Spain, South Korea, Papua New Guinea and more.</p>
             <button class="svc-more" type="button" data-detail="detail-cm">See full scope<span class="sr-only"> of construction management and inspection</span></button>
@@ -420,7 +475,8 @@
             </div>
           </article>
 
-          <article class="svc">
+          <article class="svc" data-reveal>
+            <svg class="svc-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 5v22h22"/><path d="M8.5 23c6 0 6.5-10 11.5-11.5S24.5 8 26 8"/><path d="M8.5 16.5H26" stroke-dasharray="2 3"/></svg>
             <h3>Project controls</h3>
             <p>Cost, schedule and document control that keeps execution efficient.</p>
             <button class="svc-more" type="button" data-detail="detail-controls">See full scope<span class="sr-only"> of project controls</span></button>
@@ -459,14 +515,15 @@
             </div>
           </article>
 
-          <article class="svc">
+          <article class="svc" data-reveal>
+            <svg class="svc-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4.5 26 8.5v7c0 6-4.3 10.6-10 12-5.7-1.4-10-6-10-12v-7z"/><path d="m11.5 16 3 3 6-6"/></svg>
             <h3>Health, safety &amp; environment</h3>
             <p>A top-down culture where “zero” has become possible.</p>
             <a class="svc-more" href="#hse">See our safety record</a>
           </article>
         </div>
 
-        <div class="toolkit">
+        <div class="toolkit" data-reveal>
           <h3 class="minor">Software we design in</h3>
           <p>SIMULIA Abaqus FEA, Orcina OrcaFlex, SIMULIA fe-safe, SHEAR7, PIPEPHASE™, AGA / PRCI OBS, SAGE Profile 3D,
             MATLAB®, Global Mapper, Autodesk AutoCAD® and CORPSCON, plus our own worksheets for standard code calculations.</p>
@@ -477,7 +534,8 @@
     <!-- ============ Lifecycle ============ -->
     <section class="section lifecycle" aria-labelledby="lifecycle-title">
       <div class="container">
-        <header class="section-head">
+        <header class="section-head" data-reveal>
+          <p class="sheet-ref" aria-hidden="true"><span>04</span>Life cycle</p>
           <h2 class="display" id="lifecycle-title">Concept to commissioning, and beyond.</h2>
           <p class="section-intro">
             Once a solution is selected, CTI can perform all the planning, permitting, procurement, contracting,
@@ -501,8 +559,11 @@
     <!-- ============ Projects ============ -->
     <section class="section projects" id="projects" aria-labelledby="projects-title">
       <div class="container">
-        <header class="section-head section-head--row">
-          <h2 class="display" id="projects-title">On the seabed, under the ground and in service.</h2>
+        <header class="section-head section-head--row" data-reveal>
+          <div class="head-main">
+            <p class="sheet-ref" aria-hidden="true"><span>05</span>Projects</p>
+            <h2 class="display" id="projects-title">On the seabed, under the ground and in service.</h2>
+          </div>
           <div class="filters" role="group" aria-label="Filter projects by segment">
             <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">All <span>12</span></button>
             <button type="button" class="filter" data-filter="onshore" aria-pressed="false">Onshore <span>4</span></button>
@@ -641,7 +702,8 @@
     <!-- ============ Global reach ============ -->
     <section class="section reach" id="reach" aria-labelledby="reach-title">
       <div class="container">
-        <header class="section-head">
+        <header class="section-head" data-reveal>
+          <p class="sheet-ref" aria-hidden="true"><span>06</span>Global footprint</p>
           <h2 class="display" id="reach-title">Based in Houston, with field experience in more than ten countries.</h2>
           <p class="section-intro">
             Our people bring onshore and offshore experience from North and South America, Europe, Africa and Asia,
@@ -658,7 +720,7 @@
           </div>
         </div>
 
-        <ul class="regions">
+        <ul class="regions" data-reveal>
           <li data-place="us"><span class="region-dot region-dot--hq"></span>United States <small>Headquarters in Houston; Gulf of Mexico (SPOT, Lucius, Whale, Holstein); Texas and Oklahoma</small></li>
           <li data-place="mx"><span class="region-dot"></span>Mexico</li>
           <li data-place="br"><span class="region-dot"></span>Brazil</li>
@@ -676,13 +738,14 @@
     <!-- ============ HSE ============ -->
     <section class="section hse" id="hse" aria-labelledby="hse-title">
       <div class="container hse-inner">
-        <div class="hse-zero">
+        <div class="hse-zero" data-reveal>
+          <p class="sheet-ref" aria-hidden="true"><span>07</span>Safety</p>
           <span class="zero" aria-hidden="true">0</span>
           <h2 class="display" id="hse-title">Zero incidents since day one.</h2>
           <p class="hse-count"><strong data-days>8,000+</strong> days without incident or injury since opening our doors in 2004.</p>
         </div>
 
-        <div class="hse-copy">
+        <div class="hse-copy" data-reveal>
           <p class="lead">
             Our corporate vision is exceeding expectations, and that vision is the foundation of our HSE culture. It starts
             with sound engineering for robust designs, continues through inspection of materials and workmanship, and
@@ -709,7 +772,8 @@
     <!-- ============ Team ============ -->
     <section class="section team" id="team" aria-labelledby="team-title">
       <div class="container">
-        <header class="section-head">
+        <header class="section-head" data-reveal>
+          <p class="sheet-ref" aria-hidden="true"><span>08</span>Team</p>
           <h2 class="display" id="team-title">The people behind the pipelines.</h2>
           <p class="section-intro">
             Civil, mechanical, structural, geotechnical and ocean engineers, working as one team and applying individual
@@ -718,26 +782,26 @@
         </header>
 
         <div class="roster">
-          <div class="roster-group">
+          <div class="roster-group" data-reveal>
             <h3 class="minor">Leadership</h3>
             <ul class="people">
-              <li><strong>Bill Rees</strong>Chief Executive Officer</li>
-              <li><strong>Greg Dodge</strong>Director of Engineering</li>
-              <li><strong>Jim Gordon</strong>Director of Operations</li>
-              <li><strong>Diego Zúniga</strong>Director of Project Development</li>
-              <li><strong>Eulalio Fernandez</strong>Engineering Manager</li>
-              <li><strong>Chandler Dabbs</strong>Engineering Manager</li>
-              <li><strong>Eric Romero</strong>Senior Advisor &amp; Board Member</li>
+              <li><span class="balloon" aria-hidden="true">BR</span><span class="who"><strong>Bill Rees</strong>Chief Executive Officer</span></li>
+              <li><span class="balloon" aria-hidden="true">GD</span><span class="who"><strong>Greg Dodge</strong>Director of Engineering</span></li>
+              <li><span class="balloon" aria-hidden="true">JG</span><span class="who"><strong>Jim Gordon</strong>Director of Operations</span></li>
+              <li><span class="balloon" aria-hidden="true">DZ</span><span class="who"><strong>Diego Zúniga</strong>Director of Project Development</span></li>
+              <li><span class="balloon" aria-hidden="true">EF</span><span class="who"><strong>Eulalio Fernandez</strong>Engineering Manager</span></li>
+              <li><span class="balloon" aria-hidden="true">CD</span><span class="who"><strong>Chandler Dabbs</strong>Engineering Manager</span></li>
+              <li><span class="balloon" aria-hidden="true">ER</span><span class="who"><strong>Eric Romero</strong>Senior Advisor &amp; Board Member</span></li>
             </ul>
           </div>
-          <div class="roster-group">
+          <div class="roster-group" data-reveal>
             <h3 class="minor">Tenured staff</h3>
             <ul class="people">
-              <li><strong>Cassie Kasprowicz</strong>Human Resources / Accounting Manager</li>
-              <li><strong>Jorge Bustamante</strong>Drafting Supervisor</li>
-              <li><strong>Raghvan Madawela</strong>Engineering Supervisor</li>
-              <li><strong>Michelle Doucette</strong>Project Controls Supervisor</li>
-              <li><strong>Tony Jean</strong>Information Technology</li>
+              <li><span class="balloon" aria-hidden="true">CK</span><span class="who"><strong>Cassie Kasprowicz</strong>Human Resources / Accounting Manager</span></li>
+              <li><span class="balloon" aria-hidden="true">JB</span><span class="who"><strong>Jorge Bustamante</strong>Drafting Supervisor</span></li>
+              <li><span class="balloon" aria-hidden="true">RM</span><span class="who"><strong>Raghvan Madawela</strong>Engineering Supervisor</span></li>
+              <li><span class="balloon" aria-hidden="true">MD</span><span class="who"><strong>Michelle Doucette</strong>Project Controls Supervisor</span></li>
+              <li><span class="balloon" aria-hidden="true">TJ</span><span class="who"><strong>Tony Jean</strong>Information Technology</span></li>
             </ul>
           </div>
         </div>
@@ -747,7 +811,8 @@
     <!-- ============ Careers ============ -->
     <section class="section careers" id="careers" aria-labelledby="careers-title">
       <div class="container careers-inner">
-        <div class="careers-copy">
+        <div class="careers-copy" data-reveal>
+          <p class="sheet-ref" aria-hidden="true"><span>09</span>Careers</p>
           <h2 class="display" id="careers-title">Build a career in an ever-changing industry.</h2>
           <p>
             We're always looking for quality candidates across every area of our expertise, as well as interns and
@@ -758,7 +823,7 @@
             <a class="btn btn-quiet" href="https://www.linkedin.com/company/35630473" target="_blank" rel="noopener">Follow on LinkedIn</a>
           </div>
         </div>
-        <div class="benefits">
+        <div class="benefits" data-reveal>
           <h3 class="minor">What we offer</h3>
           <ul>
             <li>401(k) retirement plan</li>
@@ -775,7 +840,8 @@
     <!-- ============ Contact ============ -->
     <section class="section contact" id="contact" aria-labelledby="contact-title">
       <div class="container contact-inner">
-        <div class="contact-info">
+        <div class="contact-info" data-reveal>
+          <p class="sheet-ref" aria-hidden="true"><span>10</span>Contact</p>
           <h2 class="display" id="contact-title" tabindex="-1">Let's scope your next line.</h2>
           <p class="section-intro">Whether it's a small encroachment, a quick estimate or a major international system, tell us about it.</p>
 
@@ -790,7 +856,7 @@
           </dl>
         </div>
 
-        <form class="contact-form" data-contact-form novalidate>
+        <form class="contact-form" data-contact-form novalidate data-reveal>
           <div class="field-row">
             <label class="field">
               <span>Name <span class="req">(required)</span></span>
@@ -888,7 +954,7 @@
     </div>
   </dialog>
 
-  <script src="/clients/cronus2/js/world-dots.js?v=2"></script>
-  <script src="/clients/cronus2/js/main.js?v=2"></script>
+  <script src="/clients/cronus2/js/world-dots.js?v=3"></script>
+  <script src="/clients/cronus2/js/main.js?v=3"></script>
 </body>
 </html>
