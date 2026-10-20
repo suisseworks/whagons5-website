@@ -51,6 +51,8 @@
     const update = () => {
       queued = false;
       header.classList.toggle('is-scrolled', window.scrollY > 24);
+      const max = root.scrollHeight - window.innerHeight;
+      header.style.setProperty('--progress', max > 0 ? clamp(window.scrollY / max, 0, 1).toFixed(4) : 0);
     };
     window.addEventListener('scroll', () => {
       if (!queued) { queued = true; requestAnimationFrame(update); }
@@ -67,6 +69,34 @@
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
     $$('main > section[id]').forEach((section) => io.observe(section));
+  }
+
+  /* ---------- Scroll reveal ---------- */
+  // Sections fade up once as they enter the view; the life-cycle line draws in.
+  function initReveal() {
+    const els = $$('[data-reveal]');
+    const perParent = new Map();
+    els.forEach((el) => {
+      const i = perParent.get(el.parentElement) || 0;
+      perParent.set(el.parentElement, i + 1);
+      el.style.setProperty('--d', Math.min(i, 3));
+    });
+    const timeline = $('.timeline');
+    if (timeline) $$('li', timeline).forEach((li, i) => li.style.setProperty('--i', i));
+    const targets = timeline ? [...els, timeline] : els;
+
+    if (reducedMotion() || !('IntersectionObserver' in window)) {
+      targets.forEach((el) => el.classList.add('is-in'));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-in');
+        io.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+    targets.forEach((el) => io.observe(el));
   }
 
   /* ---------- Mobile menu ---------- */
@@ -744,6 +774,7 @@
   /* ---------- Boot ---------- */
   initDates();
   initHeader();
+  initReveal();
   initMenu();
   initProfile();
   initDepth();
