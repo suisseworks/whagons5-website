@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Cronus Technology — interactions
+   Cronus — interactions
    ========================================================================== */
 (() => {
   'use strict';
@@ -12,36 +12,11 @@
   const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
   const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
   const lerp = (a, b, t) => a + (b - a) * t;
-  const fmt = new Intl.NumberFormat('en-US');
 
-  const FOUNDED = new Date(2004, 2, 1); // March 2004
-
-  /* ---------- Dates & derived numbers ---------- */
+  /* ---------- Dates ---------- */
   function initDates() {
-    const now = new Date();
-    let years = now.getFullYear() - FOUNDED.getFullYear();
-    if (now.getMonth() < FOUNDED.getMonth()) years -= 1;
-    const days = Math.floor((now - FOUNDED) / 864e5);
-
-    $$('[data-years]').forEach((el) => { el.textContent = years; });
-    $$('[data-year]').forEach((el) => { el.textContent = now.getFullYear(); });
-    $$('[data-days]').forEach((el) => {
-      el.textContent = fmt.format(days);
-      if (reducedMotion()) return;
-      // Count up once when the safety record comes into view.
-      const io = new IntersectionObserver(([entry]) => {
-        if (!entry.isIntersecting) return;
-        io.disconnect();
-        const start = performance.now();
-        const step = (now) => {
-          const t = clamp((now - start) / 1800, 0, 1);
-          el.textContent = fmt.format(Math.round(days * (1 - Math.pow(1 - t, 4))));
-          if (t < 1) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
-      }, { threshold: 0.8 });
-      io.observe(el);
-    });
+    const year = new Date().getFullYear();
+    $$('[data-year]').forEach((el) => { el.textContent = year; });
   }
 
   /* ---------- Header state, active nav ---------- */
@@ -81,8 +56,8 @@
       perParent.set(el.parentElement, i + 1);
       el.style.setProperty('--d', Math.min(i, 3));
     });
-    const timeline = $('.timeline');
-    if (timeline) $$('li', timeline).forEach((li, i) => li.style.setProperty('--i', i));
+    const timeline = $('[data-timeline]');
+    if (timeline) $$('.timeline li', timeline).forEach((li, i) => li.style.setProperty('--i', i));
     const targets = timeline ? [...els, timeline] : els;
 
     if (reducedMotion() || !('IntersectionObserver' in window)) {
@@ -135,7 +110,8 @@
   const SHORE = 0.32;
   const SHELF = 0.6;
   const STATION = 0.04;
-  const MANIFOLD = 0.86;
+  const PLET = 0.835; // pipeline end, where the jumper picks up
+  const MANIFOLD = 0.875;
 
   // Catmull-Rom samples through GROUND.
   const groundSamples = (() => {
@@ -188,7 +164,7 @@
     const stationY = Y(groundAt(STATION));
     pipe.push([X(STATION), stationY - 3]);
     let hddLow = [X(SHORE), 0];
-    for (let fx = STATION + 0.012; fx <= MANIFOLD; fx += 0.004) {
+    for (let fx = STATION + 0.012; fx <= PLET; fx += 0.004) {
       let off;
       if (fx < 0.27) off = 10 * k;
       else if (fx < 0.37) {
@@ -201,12 +177,14 @@
     }
     const pipeD = `M${pipe.map(([x, y]) => pt(x, y)).join(' L')}`;
     const manifold = [X(MANIFOLD), Y(groundAt(MANIFOLD))];
+    const plet = pipe[pipe.length - 1];
+    const archY = Math.min(plet[1], manifold[1]) - 22 * k;
 
     // Segment extents, drawn as a dimension line.
     const dimY = 26;
     const zones = [
       [0, SHORE, 'Onshore'],
-      [SHORE, SHELF, narrow ? 'Shallow' : 'Shallow water'],
+      [SHORE, SHELF, 'Shelf'],
       [SHELF, 1, 'Deepwater'],
     ];
     let dims = `<path class="p-dim" d="M0 ${dimY} H${w}"/>`;
@@ -231,17 +209,20 @@
     let callouts = `
       <rect class="p-station" x="${(sX - 12).toFixed(1)}" y="${(stationY - 16).toFixed(1)}" width="26" height="15"/>
       <text class="p-label p-label--halo" x="${(sX + 20).toFixed(1)}" y="${(stationY - 22).toFixed(1)}">Onshore station</text>
+      <path class="p-jumper" d="M${pt(plet[0] + 3, plet[1] - 4)} V${archY.toFixed(1)} H${(manifold[0] - 6).toFixed(1)} V${(manifold[1] - 10).toFixed(1)}"/>
+      <rect class="p-manifold" x="${(plet[0] - 5).toFixed(1)}" y="${(plet[1] - 6).toFixed(1)}" width="10" height="6"/>
       <rect class="p-manifold" x="${(manifold[0] - 12).toFixed(1)}" y="${(manifold[1] - 11).toFixed(1)}" width="24" height="9"/>`;
     callouts += narrow
-      ? `<text class="p-label p-label--wet" x="${(w - 8).toFixed(1)}" y="${(manifold[1] - 24).toFixed(1)}" text-anchor="end">≈ 9,000 ft</text>`
-      : `<path class="p-leader p-leader--wet" d="M${pt(manifold[0], manifold[1] - 14)} V${(manifold[1] - 40).toFixed(1)}"/>
-      <text class="p-label p-label--wet" x="${(manifold[0] + 12).toFixed(1)}" y="${(manifold[1] - 62).toFixed(1)}" text-anchor="end">Subsea manifold</text>
-      <text class="p-note p-note--wet" x="${(manifold[0] + 12).toFixed(1)}" y="${(manifold[1] - 46).toFixed(1)}" text-anchor="end">Nearly 9,000 ft water depth</text>`;
+      ? `<text class="p-label p-label--wet" x="${(w - 8).toFixed(1)}" y="${(archY - 12).toFixed(1)}" text-anchor="end">≈ 9,000 ft</text>`
+      : `<text class="p-note p-note--wet" x="${(plet[0] - 6).toFixed(1)}" y="${(archY + 4).toFixed(1)}" text-anchor="end">Jumper</text>
+      <path class="p-leader p-leader--wet" d="M${pt(manifold[0] + 4, manifold[1] - 14)} V${(archY - 18).toFixed(1)}"/>
+      <text class="p-label p-label--wet" x="${(manifold[0] + 12).toFixed(1)}" y="${(archY - 40).toFixed(1)}" text-anchor="end">Subsea manifold</text>
+      <text class="p-note p-note--wet" x="${(manifold[0] + 12).toFixed(1)}" y="${(archY - 24).toFixed(1)}" text-anchor="end">Nearly 9,000 ft water depth</text>`;
     if (!narrow) {
       callouts += `
         <circle class="p-dot" cx="${hddLow[0].toFixed(1)}" cy="${hddLow[1].toFixed(1)}" r="3"/>
         <path class="p-leader" d="M${pt(hddLow[0], hddLow[1] + 4)} V${(hddLow[1] + 30).toFixed(1)}"/>
-        <text class="p-label p-label--halo" x="${(hddLow[0] + 8).toFixed(1)}" y="${(hddLow[1] + 30).toFixed(1)}">Shore approach by HDD</text>
+        <text class="p-label p-label--halo" x="${(hddLow[0] + 8).toFixed(1)}" y="${(hddLow[1] + 30).toFixed(1)}">Landfall, by HDD shore approach</text>
         <circle class="p-dot" cx="${shelfX.toFixed(1)}" cy="${(shelfY - 3).toFixed(1)}" r="3"/>
         <text class="p-note" x="${(shelfX + 10).toFixed(1)}" y="${(shelfY - 10).toFixed(1)}">Shelf edge, 600 ft</text>`;
     }
@@ -252,10 +233,15 @@
           <line class="p-hatch-line" x1="0" y1="0" x2="0" y2="8"/>
         </pattern>
         <linearGradient id="p-water" gradientUnits="userSpaceOnUse" x1="0" y1="${seaY.toFixed(1)}" x2="0" y2="${deepY.toFixed(1)}">
-          <stop offset="0" stop-color="#cfe0dc"/>
-          <stop offset="0.22" stop-color="#7fa6a6"/>
-          <stop offset="0.55" stop-color="#2c5a63"/>
-          <stop offset="1" stop-color="#123a44"/>
+          <stop offset="0" stop-color="#e0f0fa"/>
+          <stop offset="0.22" stop-color="#8cc4e8"/>
+          <stop offset="0.55" stop-color="#1d6aa8"/>
+          <stop offset="1" stop-color="#0b2a45"/>
+        </linearGradient>
+        <linearGradient id="p-pipe-grad" gradientUnits="userSpaceOnUse" x1="${X(STATION).toFixed(1)}" y1="0" x2="${X(PLET).toFixed(1)}" y2="0">
+          <stop offset="0" stop-color="#1d77be"/>
+          <stop offset="0.45" stop-color="#1d77be"/>
+          <stop offset="1" stop-color="#02b1df"/>
         </linearGradient>
       </defs>
       <path d="${groundD} L${w} ${h} L0 ${h} Z" fill="url(#p-hatch)"/>
@@ -317,73 +303,6 @@
     });
   }
 
-  /* ---------- Segments: depth gauge ---------- */
-  function initDepth() {
-    const section = $('#segments');
-    const wrap = $('[data-depth-panels]');
-    if (!section || !wrap) return;
-    const panels = $$('.depth-panel', wrap);
-    const readout = $('[data-depth-readout]');
-    const items = $$('[data-gauge-item]');
-    section.classList.add('depth--js');
-
-    // scroll progress -> water depth (ft)
-    const KEYS = [[0, 0], [0.3, 0], [0.36, 10], [0.66, 600], [0.72, 1000], [1, 9000]];
-    const depthAt = (p) => {
-      for (let i = 1; i < KEYS.length; i++) {
-        const [p1, d1] = KEYS[i];
-        const [p0, d0] = KEYS[i - 1];
-        if (p <= p1) return lerp(d0, d1, (p - p0) / (p1 - p0));
-      }
-      return KEYS[KEYS.length - 1][1];
-    };
-
-    let current = 0;
-    let target = 0;
-    let raf = 0;
-    let active = null;
-
-    const setActive = (segment) => {
-      if (segment === active) return;
-      active = segment;
-      panels.forEach((p) => p.classList.toggle('is-active', p.dataset.segment === segment));
-      items.forEach((i) => i.classList.toggle('is-active', i.dataset.gaugeItem === segment));
-    };
-
-    const tick = () => {
-      current += (target - current) * (reducedMotion() ? 1 : 0.14);
-      if (Math.abs(target - current) < 0.0005) current = target;
-      section.style.setProperty('--depth-progress', current.toFixed(4));
-      readout.textContent = fmt.format(Math.round(depthAt(current) / 10) * 10);
-      raf = current === target ? 0 : requestAnimationFrame(tick);
-    };
-
-    const measure = () => {
-      const rect = wrap.getBoundingClientRect();
-      const mid = window.innerHeight * 0.5;
-      target = clamp((mid - rect.top) / rect.height, 0, 1);
-      let segment = panels[0].dataset.segment;
-      panels.forEach((p) => { if (p.getBoundingClientRect().top <= mid) segment = p.dataset.segment; });
-      setActive(segment);
-      if (!raf) raf = requestAnimationFrame(tick);
-    };
-
-    // Follow scrolling only while the section is on screen, at most once a frame.
-    let queued = false;
-    const onScroll = () => {
-      if (queued) return;
-      queued = true;
-      requestAnimationFrame(() => { queued = false; measure(); });
-    };
-    new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) window.addEventListener('scroll', onScroll, { passive: true });
-      else window.removeEventListener('scroll', onScroll);
-      measure(); // settle the gauge at whichever end the visitor left from
-    }).observe(section);
-    window.addEventListener('resize', measure);
-    measure();
-  }
-
   // A list that scrolls sideways (on phones) must be reachable by keyboard.
   // Returns an update function for when the content width changes.
   const keyboardScrollable = (el, label, role) => {
@@ -433,7 +352,7 @@
     });
     dialog.addEventListener('click', (e) => {
       if (e.target === dialog || e.target.closest('[data-modal-close]')) {
-        // A link out of the dialog (e.g. "Start a project") moves focus to where it leads.
+        // A link out of the dialog (e.g. "Talk to an engineer") moves focus to where it leads.
         const link = e.target.closest('a[href^="#"]');
         returnTo = link ? document.getElementById(link.hash.slice(1))?.querySelector('[tabindex="-1"]') : null;
         dialog.close();
@@ -553,6 +472,25 @@
     </svg>`;
   }
 
+  // Draws (or redraws, after a resize) the route artwork in a [data-route] host.
+  const drawRoute = (host, kind, seed) => {
+    const width = Math.round(host.clientWidth);
+    const height = Math.round(host.clientHeight);
+    const key = `${width}x${height}`;
+    if (!width || !height || host.dataset.size === key) return;
+    host.dataset.size = key;
+    const k = 140 / height;
+    host.innerHTML = routeSVG(kind, seed, width * k, k);
+  };
+
+  function initSectors() {
+    const hosts = $$('.sector [data-route]');
+    if (!hosts.length) return;
+    const draw = () => hosts.forEach((host) => drawRoute(host, host.dataset.kind, host.dataset.seed));
+    new ResizeObserver(draw).observe(hosts[0].closest('.sector-list'));
+    draw();
+  }
+
   function initProjects() {
     const grid = $('[data-project-grid]');
     if (!grid) return;
@@ -561,15 +499,7 @@
 
     const drawRoutes = () => {
       cards.forEach((card) => {
-        if (card.hidden) return;
-        const host = $('[data-route]', card);
-        const width = Math.round(host.clientWidth);
-        const height = Math.round(host.clientHeight);
-        const key = `${width}x${height}`;
-        if (!width || !height || host.dataset.size === key) return;
-        host.dataset.size = key;
-        const k = 140 / height;
-        host.innerHTML = routeSVG(card.dataset.segment, $('h3', card).textContent, width * k, k);
+        if (!card.hidden) drawRoute($('[data-route]', card), card.dataset.segment, $('h3', card).textContent);
       });
     };
 
@@ -600,7 +530,7 @@
       progress.style.setProperty('--pos', max ? (grid.scrollLeft / max).toFixed(4) : 0);
     };
     const status = $('[data-filter-status]');
-    const LABELS = { onshore: 'onshore', shallow: 'shallow water', deep: 'deepwater' };
+    const LABELS = { onshore: 'onshore', shallow: 'shelf', deep: 'deepwater' };
     const updateScrollable = keyboardScrollable(grid, 'Selected projects, scrolls sideways');
     const choose = (filter) => {
       apply(filter);
@@ -613,7 +543,6 @@
     grid.addEventListener('scroll', updateProgress, { passive: true });
 
     buttons.forEach((b) => b.addEventListener('click', () => choose(b.dataset.filter)));
-    $$('[data-filter-link]').forEach((a) => a.addEventListener('click', () => choose(a.dataset.filterLink)));
 
     new ResizeObserver(() => { drawRoutes(); updateProgress(); }).observe(grid);
     drawRoutes();
@@ -622,14 +551,14 @@
   /* ---------- World map ---------- */
   const PLACES = [
     { id: 'us', name: 'Houston, Texas', note: 'Headquarters', at: [-95.37, 29.76], hq: true },
-    { id: 'gom', name: 'Gulf of Mexico', note: 'SPOT, Lucius, Whale, Holstein', at: [-90.2, 26.6] },
+    { id: 'gom', name: 'Gulf of Mexico', note: 'Deepwater pipelines, tiebacks and an offshore terminal', at: [-90.2, 26.6] },
     { id: 'mx', name: 'Mexico', note: 'Construction experience', at: [-99.1, 19.4] },
     { id: 'br', name: 'Brazil', note: 'Construction experience', at: [-43.2, -22.9] },
     { id: 'es', name: 'Spain', note: 'Construction experience', at: [-3.7, 40.4] },
     { id: 'eg', name: 'Egypt', note: 'Construction experience', at: [31.2, 30.0] },
-    { id: 'il', name: 'Israel', note: 'Leviathan for Noble Energy', at: [34.8, 32.6] },
-    { id: 'gq', name: 'Equatorial Guinea', note: 'Alen Gas Monetization for Noble Energy', at: [8.8, 3.7] },
-    { id: 'ao', name: 'Angola', note: 'Sanha and Mafumeira Sul for Chevron', at: [12.3, -5.8] },
+    { id: 'il', name: 'Israel', note: 'Deepwater production platform', at: [34.8, 32.6] },
+    { id: 'gq', name: 'Equatorial Guinea', note: 'Gas monetization project', at: [8.8, 3.7] },
+    { id: 'ao', name: 'Angola', note: 'Pipelines and risers for two developments', at: [12.3, -5.8] },
     { id: 'kr', name: 'South Korea', note: 'Construction experience', at: [128.9, 35.2] },
     { id: 'pg', name: 'Papua New Guinea', note: 'Construction experience', at: [147.2, -9.4] },
   ];
@@ -761,7 +690,7 @@
         val('company') ? `Company: ${val('company')}` : null,
         `Email: ${val('email')}`,
         val('phone') ? `Phone: ${val('phone')}` : null,
-        `Segment: ${val('segment')}`,
+        `Working with us: ${val('line')}`,
         '',
         val('message'),
       ].filter((line) => line !== null).join('\n');
@@ -777,8 +706,8 @@
   initReveal();
   initMenu();
   initProfile();
-  initDepth();
   initModal();
+  initSectors();
   initProjects();
   initMap();
   initForm();
