@@ -47,3 +47,10 @@ After deployment:
 6. check server logs using the returned request ID if either delivery is missing.
 
 Automated tests can be run with `pnpm test`. They mock both providers and never create a real subscriber or send a real email.
+
+## 4. Cronus client site contact form
+
+The contact form on `/clients/cronus2` posts to `/api/cronus-contact`, which sends each message to `info@cronustec.com` with the visitor's email as `Reply-To`. It uses the same `RESEND_API_KEY` and sends from the `DEMO_NOTIFICATION_FROM` address under the name "Cronus Website". Set `CRONUS_CONTACT_FROM` to use a different sender. The recipient is fixed in `app/lib/cronus-contact.mjs`.
+
+`GET /api/cronus-contact` returns `{"configured": true}` when delivery is set up, without sending anything. Requests are limited to five per visitor every ten minutes, and only from whagons.com pages.
+

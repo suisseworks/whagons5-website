@@ -34,6 +34,8 @@
     }, { passive: true });
     update();
 
+    // Section tracking only applies on the home page; other pages mark their section in the markup.
+    if (!$('.hero')) return;
     const links = $$('.nav a');
     const byId = new Map(links.map((a) => [a.hash.slice(1), a]));
     const io = new IntersectionObserver((entries) => {
@@ -239,9 +241,9 @@
           <stop offset="1" stop-color="#0b2a45"/>
         </linearGradient>
         <linearGradient id="p-pipe-grad" gradientUnits="userSpaceOnUse" x1="${X(STATION).toFixed(1)}" y1="0" x2="${X(PLET).toFixed(1)}" y2="0">
-          <stop offset="0" stop-color="#1d77be"/>
-          <stop offset="0.45" stop-color="#1d77be"/>
-          <stop offset="1" stop-color="#02b1df"/>
+          <stop offset="0" stop-color="#0077c8"/>
+          <stop offset="0.45" stop-color="#0077c8"/>
+          <stop offset="1" stop-color="#00b5e2"/>
         </linearGradient>
       </defs>
       <path d="${groundD} L${w} ${h} L0 ${h} Z" fill="url(#p-hatch)"/>
@@ -483,11 +485,13 @@
     host.innerHTML = routeSVG(kind, seed, width * k, k);
   };
 
-  function initSectors() {
-    const hosts = $$('.sector [data-route]');
+  // Sector cards and page heroes carry route artwork of a given kind.
+  function initRouteArt() {
+    const hosts = $$('[data-route][data-kind]');
     if (!hosts.length) return;
     const draw = () => hosts.forEach((host) => drawRoute(host, host.dataset.kind, host.dataset.seed));
-    new ResizeObserver(draw).observe(hosts[0].closest('.sector-list'));
+    const ro = new ResizeObserver(draw);
+    hosts.forEach((host) => ro.observe(host));
     draw();
   }
 
@@ -550,15 +554,13 @@
 
   /* ---------- World map ---------- */
   const PLACES = [
-    { id: 'us', name: 'Houston, Texas', note: 'Headquarters', at: [-95.37, 29.76], hq: true },
+    { id: 'us', name: 'Houston, Texas', note: 'Our office, where every project is run', at: [-95.37, 29.76], hq: true },
     { id: 'gom', name: 'Gulf of Mexico', note: 'Deepwater pipelines, tiebacks and an offshore terminal', at: [-90.2, 26.6] },
     { id: 'mx', name: 'Mexico', note: 'Construction experience', at: [-99.1, 19.4] },
     { id: 'br', name: 'Brazil', note: 'Construction experience', at: [-43.2, -22.9] },
-    { id: 'es', name: 'Spain', note: 'Construction experience', at: [-3.7, 40.4] },
-    { id: 'eg', name: 'Egypt', note: 'Construction experience', at: [31.2, 30.0] },
-    { id: 'il', name: 'Israel', note: 'Deepwater production platform', at: [34.8, 32.6] },
-    { id: 'gq', name: 'Equatorial Guinea', note: 'Gas monetization project', at: [8.8, 3.7] },
-    { id: 'ao', name: 'Angola', note: 'Pipelines and risers for two developments', at: [12.3, -5.8] },
+    { id: 'il', name: 'Israel', note: 'Deepwater gas field development in the Eastern Mediterranean', at: [34.8, 32.6] },
+    { id: 'gq', name: 'Equatorial Guinea', note: 'Gas export pipeline to shore', at: [8.8, 3.7] },
+    { id: 'ao', name: 'Angola', note: 'Gas and crude export pipelines, risers and pipeline repair', at: [12.3, -5.8] },
     { id: 'kr', name: 'South Korea', note: 'Construction experience', at: [128.9, 35.2] },
     { id: 'pg', name: 'Papua New Guinea', note: 'Construction experience', at: [147.2, -9.4] },
   ];
@@ -659,12 +661,30 @@
     keyboardScrollable(scroller, 'World map, scrolls sideways', 'region');
   }
 
-  /* ---------- Contact form (opens the visitor's email client) ---------- */
+  /* ---------- Technical papers: mark the section being read ---------- */
+  function initToc() {
+    const links = $$('.article-toc a');
+    if (!links.length) return;
+    const byId = new Map(links.map((a) => [a.hash.slice(1), a]));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        links.forEach((a) => a.classList.remove('is-current'));
+        byId.get(entry.target.id)?.classList.add('is-current');
+      });
+    }, { rootMargin: '-15% 0px -75% 0px' });
+    $$('.article h2[id]').forEach((h) => io.observe(h));
+  }
+
+  /* ---------- Contact form (sent straight to info@cronustec.com) ---------- */
+  // The form posts JSON to its action URL. If that can't be reached, the
+  // visitor gets a ready-made email to send instead, so no message is lost.
   function initForm() {
     const form = $('[data-contact-form]');
     const status = $('[data-form-status]');
     if (!form) return;
-    const controls = $$('input, textarea', form).filter((c) => c.type !== 'radio');
+    const button = $('button[type="submit"]', form);
+    const controls = $$('input, textarea', form).filter((c) => c.type !== 'radio' && c.name !== 'website');
     const markInvalid = () => controls.forEach((c) => {
       if (c.checkValidity()) c.removeAttribute('aria-invalid');
       else c.setAttribute('aria-invalid', 'true');
@@ -672,8 +692,23 @@
     // After a failed submit, clear each field's error state as soon as it's fixed.
     form.addEventListener('input', () => { if (form.classList.contains('was-validated')) markInvalid(); });
 
-    form.addEventListener('submit', (e) => {
+    const mailtoFor = (fields) => {
+      const subject = `Project inquiry${fields.company ? ` — ${fields.company}` : ''}`;
+      const body = [
+        `Name: ${fields.name}`,
+        fields.company ? `Company: ${fields.company}` : null,
+        `Email: ${fields.email}`,
+        fields.phone ? `Phone: ${fields.phone}` : null,
+        `Working with us: ${fields.line}`,
+        '',
+        fields.message,
+      ].filter((line) => line !== null).join('\n');
+      return `mailto:info@cronustec.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    };
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (form.classList.contains('is-sending')) return;
       markInvalid();
       if (!form.checkValidity()) {
         form.classList.add('was-validated');
@@ -683,20 +718,38 @@
       }
       form.classList.remove('was-validated');
       const data = new FormData(form);
-      const val = (key) => String(data.get(key) || '').trim();
-      const subject = `Project inquiry${val('company') ? ` — ${val('company')}` : ''}`;
-      const body = [
-        `Name: ${val('name')}`,
-        val('company') ? `Company: ${val('company')}` : null,
-        `Email: ${val('email')}`,
-        val('phone') ? `Phone: ${val('phone')}` : null,
-        `Working with us: ${val('line')}`,
-        '',
-        val('message'),
-      ].filter((line) => line !== null).join('\n');
+      const fields = Object.fromEntries(
+        ['name', 'company', 'email', 'phone', 'line', 'message', 'website'].map((k) => [k, String(data.get(k) || '').trim()]),
+      );
 
-      window.location.href = `mailto:info@cronustec.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      status.textContent = 'Your email app should open with the message ready to send. If it doesn’t, write to info@cronustec.com.';
+      form.classList.add('is-sending');
+      button.disabled = true;
+      status.textContent = 'Sending your message…';
+      let outcome = 'unreachable';
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(fields),
+        });
+        if (res.ok) outcome = 'sent';
+        else if (res.status === 400) outcome = 'invalid';
+        else if (res.status === 429) outcome = 'busy';
+      } catch {
+        // Offline, or no endpoint on this host: offer email instead.
+      }
+      form.classList.remove('is-sending');
+      button.disabled = false;
+
+      if (outcome === 'sent') {
+        form.reset();
+        status.textContent = 'Thank you. Your message is with our team, and we\u2019ll be in touch soon.';
+      } else if (outcome === 'invalid') {
+        status.textContent = 'Please check your name, email address and message, then try again.';
+      } else {
+        const why = outcome === 'busy' ? 'We\u2019ve had several messages from you in a short time.' : 'We couldn\u2019t send your message just now.';
+        status.innerHTML = `${why} <a href="${mailtoFor(fields)}">Email it to info@cronustec.com instead</a>; it\u2019s written and ready to send.`;
+      }
     });
   }
 
@@ -707,8 +760,9 @@
   initMenu();
   initProfile();
   initModal();
-  initSectors();
+  initRouteArt();
   initProjects();
   initMap();
+  initToc();
   initForm();
 })();
