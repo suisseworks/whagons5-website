@@ -186,7 +186,8 @@
       if (fx >= 0.27 && fx < 0.37 && y > hddLow[1]) hddLow = [X(fx), y];
       pipe.push([X(fx), y]);
     }
-    const pipeD = `M${pipe.map(([x, y]) => pt(x, y)).join(' L')}`;
+    // The path runs from the manifold end to the station, the way product flows.
+    const pipeD = `M${[...pipe].reverse().map(([x, y]) => pt(x, y)).join(' L')}`;
     const manifold = [X(MANIFOLD), Y(groundAt(MANIFOLD))];
     const plet = pipe[pipe.length - 1];
     const archY = Math.min(plet[1], manifold[1]) - 22 * k;
@@ -286,7 +287,7 @@
       host.innerHTML = profileSVG(w, h, seabed);
       const svg = $('svg', host);
 
-      // On load the line is laid from the station to the manifold, then product flows through it.
+      // On load the line is laid from the manifold to the station, then product flows through it to shore.
       if (drawn || reducedMotion()) { drawn = true; svg.classList.add('is-flowing'); return; }
       drawn = true;
       const paths = $$('.p-pipe, .p-pipe-case', host);
@@ -552,7 +553,7 @@
       updateProgress();
       updateScrollable();
       const n = cards.filter((card) => !card.hidden).length;
-      if (status) status.textContent = filter === 'all' ? `Showing all ${n} projects.` : `Showing ${n} ${LABELS[filter]} projects.`;
+      if (status) status.textContent = filter === 'all' ? 'Showing projects from every sector.' : `Showing ${LABELS[filter]} projects.`;
     };
     grid.addEventListener('scroll', updateProgress, { passive: true });
 
