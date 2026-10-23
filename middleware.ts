@@ -8,8 +8,20 @@ function redirect(request: NextRequest, pathname: string, status = 308) {
   return NextResponse.redirect(destination, status);
 }
 
+// The Cronus client site's pages (from next.config.js). Unknown page paths under
+// it get its branded 404 page instead of the Whagons one.
+const CRONUS2 = '/clients/cronus2';
+const CRONUS2_PAGES = process.env.CRONUS2_PAGES ? new Set(process.env.CRONUS2_PAGES.split('|')) : null;
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  if (CRONUS2_PAGES && (pathname === CRONUS2 || pathname.startsWith(`${CRONUS2}/`))) {
+    const page = pathname.slice(CRONUS2.length).replace(/\/$/, '');
+    if (!/\.[^/]+$/.test(page) && !CRONUS2_PAGES.has(page)) {
+      return NextResponse.rewrite(new URL('/api/client-not-found/cronus2', request.url));
+    }
+    return NextResponse.next();
+  }
   if (/^\/(?:es|en|pt|de|it)\//.test(pathname) && pathname.endsWith(BRIEF_PDF_PATH)) {
     return NextResponse.rewrite(new URL(BRIEF_PDF_PATH, request.url));
   }

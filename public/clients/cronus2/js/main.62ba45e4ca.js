@@ -62,7 +62,7 @@
     if (timeline) $$('.timeline li', timeline).forEach((li, i) => li.style.setProperty('--i', i));
     const targets = timeline ? [...els, timeline] : els;
 
-    if (reducedMotion() || !('IntersectionObserver' in window)) {
+    if (!root.classList.contains('js') || reducedMotion() || !('IntersectionObserver' in window)) {
       targets.forEach((el) => el.classList.add('is-in'));
       return;
     }
@@ -146,13 +146,22 @@
     return groundSamples[groundSamples.length - 1][1];
   };
 
+  // On a phone the onshore and shelf segments are squeezed, so the deepwater
+  // end, where the pipeline story finishes, keeps its width.
+  const squeeze = (fx) => {
+    if (fx <= SHORE) return fx * (0.2 / SHORE);
+    if (fx <= SHELF) return 0.2 + (fx - SHORE) * (0.26 / (SHELF - SHORE));
+    return 0.46 + (fx - SHELF) * (0.54 / (1 - SHELF));
+  };
+
   function profileSVG(w, h, seabed) {
     const top = 44; // room for the segment dimension line
-    const X = (fx) => fx * w;
+    const narrow = w < 640;
+    const X = (fx) => (narrow ? squeeze(fx) : fx) * w;
     const Y = (fy) => top + fy * (seabed - top);
     const k = clamp(h / 560, 0.6, 1);
     const pt = (x, y) => `${x.toFixed(1)} ${y.toFixed(1)}`;
-    const narrow = w < 640;
+    const station = narrow ? 0.09 : STATION; // keep the station clear of the edge
 
     const ground = groundSamples.map(([x, y]) => [X(x), Y(y)]);
     const groundD = `M${ground.map(([x, y]) => pt(x, y)).join(' L')}`;
@@ -163,10 +172,10 @@
 
     // Pipeline: buried onshore, drilled under the shore approach, then laid on the seabed.
     const pipe = [];
-    const stationY = Y(groundAt(STATION));
-    pipe.push([X(STATION), stationY - 3]);
+    const stationY = Y(groundAt(station));
+    pipe.push([X(station), stationY - 3]);
     let hddLow = [X(SHORE), 0];
-    for (let fx = STATION + 0.012; fx <= PLET; fx += 0.004) {
+    for (let fx = station + 0.012; fx <= PLET; fx += 0.004) {
       let off;
       if (fx < 0.27) off = 10 * k;
       else if (fx < 0.37) {
@@ -205,7 +214,7 @@
       <text class="p-note p-label--halo" x="${(mslX + 12).toFixed(1)}" y="${(seaY - 3).toFixed(1)}">Sea level</text>`;
 
     // Callouts with leader lines.
-    const sX = X(STATION);
+    const sX = X(station);
     const shelfX = X(SHELF);
     const shelfY = Y(groundAt(SHELF));
     let callouts = `
@@ -214,12 +223,13 @@
       <path class="p-jumper" d="M${pt(plet[0] + 3, plet[1] - 4)} V${archY.toFixed(1)} H${(manifold[0] - 6).toFixed(1)} V${(manifold[1] - 10).toFixed(1)}"/>
       <rect class="p-manifold" x="${(plet[0] - 5).toFixed(1)}" y="${(plet[1] - 6).toFixed(1)}" width="10" height="6"/>
       <rect class="p-manifold" x="${(manifold[0] - 12).toFixed(1)}" y="${(manifold[1] - 11).toFixed(1)}" width="24" height="9"/>`;
-    callouts += narrow
-      ? `<text class="p-label p-label--wet" x="${(w - 8).toFixed(1)}" y="${(archY - 12).toFixed(1)}" text-anchor="end">≈ 9,000 ft</text>`
-      : `<text class="p-note p-note--wet" x="${(plet[0] - 6).toFixed(1)}" y="${(archY + 4).toFixed(1)}" text-anchor="end">Jumper</text>
-      <path class="p-leader p-leader--wet" d="M${pt(manifold[0] + 4, manifold[1] - 14)} V${(archY - 18).toFixed(1)}"/>
-      <text class="p-label p-label--wet" x="${(manifold[0] + 12).toFixed(1)}" y="${(archY - 40).toFixed(1)}" text-anchor="end">Subsea manifold</text>
-      <text class="p-note p-note--wet" x="${(manifold[0] + 12).toFixed(1)}" y="${(archY - 24).toFixed(1)}" text-anchor="end">Nearly 9,000 ft water depth</text>`;
+    // On a phone the labels sit higher, in open water clear of the slope.
+    const labelX = narrow ? w - 10 : manifold[0] + 12;
+    const labelY = narrow ? archY - 66 : archY - 40;
+    callouts += `${narrow ? '' : `<text class="p-note p-note--wet" x="${(plet[0] - 6).toFixed(1)}" y="${(archY + 4).toFixed(1)}" text-anchor="end">Jumper</text>`}
+      <path class="p-leader p-leader--wet" d="M${pt(manifold[0] + 4, manifold[1] - 14)} V${(labelY + 22).toFixed(1)}"/>
+      <text class="p-label p-label--wet" x="${labelX.toFixed(1)}" y="${labelY.toFixed(1)}" text-anchor="end">Subsea manifold</text>
+      <text class="p-note p-note--wet" x="${labelX.toFixed(1)}" y="${(labelY + 16).toFixed(1)}" text-anchor="end">${narrow ? 'Nearly 9,000 ft deep' : 'Nearly 9,000 ft water depth'}</text>`;
     if (!narrow) {
       callouts += `
         <circle class="p-dot" cx="${hddLow[0].toFixed(1)}" cy="${hddLow[1].toFixed(1)}" r="3"/>
@@ -240,7 +250,7 @@
           <stop offset="0.55" stop-color="#1d6aa8"/>
           <stop offset="1" stop-color="#0b2a45"/>
         </linearGradient>
-        <linearGradient id="p-pipe-grad" gradientUnits="userSpaceOnUse" x1="${X(STATION).toFixed(1)}" y1="0" x2="${X(PLET).toFixed(1)}" y2="0">
+        <linearGradient id="p-pipe-grad" gradientUnits="userSpaceOnUse" x1="${X(station).toFixed(1)}" y1="0" x2="${X(PLET).toFixed(1)}" y2="0">
           <stop offset="0" stop-color="#0077c8"/>
           <stop offset="0.45" stop-color="#0077c8"/>
           <stop offset="1" stop-color="#00b5e2"/>
@@ -604,10 +614,10 @@
         const dist = Math.hypot(x - hq[0], y - hq[1]);
         const cx = (x + hq[0]) / 2;
         const cy = (y + hq[1]) / 2 - Math.min(dist * 0.32, 230);
-        arcs += `<path class="arc" pathLength="1" style="--i:${i}" d="M${hq[0].toFixed(1)} ${hq[1].toFixed(1)} Q${cx.toFixed(1)} ${cy.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)}"/>`;
+        arcs += `<path class="arc" pathLength="1" d="M${hq[0].toFixed(1)} ${hq[1].toFixed(1)} Q${cx.toFixed(1)} ${cy.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)}"/>`;
       }
       pins += `<g class="pin${place.hq ? ' pin--hq' : ''}" data-pin="${place.id}">
-        <circle class="pin-hit" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="22"/>
+        <circle class="pin-hit" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="56"/>
         <circle class="pin-ring" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${place.hq ? 13 : 10}"/>
         <circle class="pin-core" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${place.hq ? 7 : 5.5}"/>
       </g>`;
@@ -617,6 +627,10 @@
       <path class="world-dots" d="${dots}"/>
       <g>${arcs}</g>
       <g>${pins}</g>`);
+    const hqPin = $('.pin--hq', svg);
+    hqPin.parentNode.append(hqPin);
+    // Arcs draw out one after another (set here, not in markup, for the CSP).
+    $$('.arc', svg).forEach((arc, i) => arc.style.setProperty('--i', i + 1));
 
     const show = (id) => {
       const place = PLACES.find((p) => p.id === id);
@@ -661,10 +675,65 @@
     keyboardScrollable(scroller, 'World map, scrolls sideways', 'region');
   }
 
-  /* ---------- Technical papers: mark the section being read ---------- */
+  /* ---------- Analytics ---------- */
+  // Google Analytics loads only when the page names a property (data-ga on
+  // <html>, from site.json). Events go to the data layer either way, so they
+  // start counting the moment analytics is switched on.
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); } // eslint-disable-line prefer-rest-params
+  const track = (name, params = {}) => gtag('event', name, params);
+
+  // Visitors from the EEA, the UK and Switzerland are measured without cookies.
+  const NO_COOKIE_REGIONS = ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IS', 'IE', 'IT',
+    'LV', 'LI', 'LT', 'LU', 'MT', 'NL', 'NO', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'GB', 'CH'];
+
+  function initAnalytics() {
+    const id = root.dataset.ga;
+    if (id) {
+      const denied = { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' };
+      gtag('consent', 'default', { ...denied, analytics_storage: 'denied', region: NO_COOKIE_REGIONS });
+      gtag('consent', 'default', { ...denied, analytics_storage: 'granted' });
+      gtag('js', new Date());
+      gtag('config', id);
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(id)}`;
+      document.head.append(script);
+    }
+
+    const where = (el) => el.closest('[id]')?.id || 'page';
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a, button');
+      if (!link) return;
+      const href = link.getAttribute('href') || '';
+      const label = link.textContent.trim().replace(/\s+/g, ' ').slice(0, 80);
+      if (href.startsWith('tel:')) track('phone_click', { link_text: label, section: where(link) });
+      else if (href.startsWith('mailto:')) track('email_click', { link_text: href.slice(7).split('?')[0], section: where(link) });
+      else if (/\.pdf($|\?)/i.test(href)) track('pdf_download', { file_name: href.split('/').pop().split('?')[0], link_text: label });
+      else if (link.classList.contains('btn') && link.type !== 'submit') track('cta_click', { link_text: label, section: where(link) });
+    });
+  }
+
+  /* ---------- Technical papers ---------- */
+  // Marks the section being read, and folds the contents list away on phones.
   function initToc() {
-    const links = $$('.article-toc a');
-    if (!links.length) return;
+    const toc = $('[data-toc]');
+    if (!toc) return;
+    const summary = $('summary', toc);
+    const narrow = window.matchMedia('(max-width: 1080px)');
+    const fit = () => {
+      toc.open = !narrow.matches;
+      // On wider screens the list is always open, so its title isn't a control.
+      if (narrow.matches) summary.removeAttribute('tabindex');
+      else summary.tabIndex = -1;
+    };
+    summary.addEventListener('click', (e) => { if (!narrow.matches) e.preventDefault(); });
+    narrow.addEventListener('change', fit);
+    fit();
+    // Following a contents link on a phone closes the list behind it.
+    toc.addEventListener('click', (e) => { if (narrow.matches && e.target.closest('a')) toc.open = false; });
+
+    const links = $$('a', toc);
     const byId = new Map(links.map((a) => [a.hash.slice(1), a]));
     const io = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -676,93 +745,209 @@
     $$('.article h2[id]').forEach((h) => io.observe(h));
   }
 
-  /* ---------- Contact form (sent straight to info@cronustec.com) ---------- */
-  // The form posts JSON to its action URL. If that can't be reached, the
-  // visitor gets a ready-made email to send instead, so no message is lost.
-  function initForm() {
-    const form = $('[data-contact-form]');
-    const status = $('[data-form-status]');
-    if (!form) return;
+  // Tables wider than the screen scroll sideways: say so, and fade the cut-off edge.
+  function initTables() {
+    $$('.article .table-wrap').forEach((wrap, i) => {
+      const frame = document.createElement('div');
+      frame.className = 'table-frame';
+      const hint = document.createElement('p');
+      hint.className = 'table-hint';
+      hint.textContent = 'Scroll sideways to see the whole table';
+      wrap.before(frame);
+      frame.append(hint, wrap);
+      const heading = wrap.parentElement.closest('.article') && [...$$('h2, h3', wrap.closest('.article'))]
+        .filter((h) => h.compareDocumentPosition(wrap) & Node.DOCUMENT_POSITION_FOLLOWING).pop();
+      const update = () => {
+        const scrollable = wrap.scrollWidth > wrap.clientWidth + 1;
+        frame.classList.toggle('is-scrollable', scrollable);
+        frame.classList.toggle('at-end', wrap.scrollLeft + wrap.clientWidth >= wrap.scrollWidth - 2);
+        frame.style.setProperty('--table-h', `${wrap.offsetHeight - 2}px`);
+      };
+      wrap.addEventListener('scroll', update, { passive: true });
+      new ResizeObserver(update).observe(wrap);
+      update();
+      keyboardScrollable(wrap, `Table ${i + 1}${heading ? `, ${heading.textContent.trim()}` : ''}, scrolls sideways`, 'region');
+    });
+  }
+
+  /* ---------- Forms ---------- */
+  // Each form posts to its action URL. If that can't be reached, the visitor
+  // gets a ready-made email to send instead, so no message is lost.
+  const mailtoLink = (address, subject, body) =>
+    `mailto:${address}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+  // Cloudflare Turnstile, when the site has a key: one widget per form.
+  function initTurnstile() {
+    const boxes = $$('[data-turnstile]');
+    if (!boxes.length) return;
+    window.cronusTurnstile = () => boxes.forEach((box) => {
+      window.turnstile.render(box, { sitekey: box.dataset.turnstile, action: box.closest('form').dataset.applyForm !== undefined ? 'apply' : 'contact' });
+    });
+    const script = document.createElement('script');
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=cronusTurnstile&render=explicit';
+    script.async = true;
+    document.head.append(script);
+  }
+  const turnstileToken = (form) => $('[name="cf-turnstile-response"]', form)?.value || '';
+  const resetTurnstile = (form) => {
+    const box = $('[data-turnstile]', form);
+    if (box && window.turnstile) window.turnstile.reset(box);
+  };
+
+  function formBasics(form) {
+    const status = $('[data-form-status]', form);
     const button = $('button[type="submit"]', form);
-    const controls = $$('input, textarea', form).filter((c) => c.type !== 'radio' && c.name !== 'website');
+    const controls = $$('input, select, textarea', form).filter((c) => c.type !== 'radio' && c.name !== 'website' && c.type !== 'hidden');
     const markInvalid = () => controls.forEach((c) => {
       if (c.checkValidity()) c.removeAttribute('aria-invalid');
       else c.setAttribute('aria-invalid', 'true');
     });
     // After a failed submit, clear each field's error state as soon as it's fixed.
     form.addEventListener('input', () => { if (form.classList.contains('was-validated')) markInvalid(); });
-
-    const mailtoFor = (fields) => {
-      const subject = `Project inquiry${fields.company ? ` — ${fields.company}` : ''}`;
-      const body = [
-        `Name: ${fields.name}`,
-        fields.company ? `Company: ${fields.company}` : null,
-        `Email: ${fields.email}`,
-        fields.phone ? `Phone: ${fields.phone}` : null,
-        `Working with us: ${fields.line}`,
-        '',
-        fields.message,
-      ].filter((line) => line !== null).join('\n');
-      return `mailto:info@cronustec.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const busy = (on) => {
+      form.classList.toggle('is-sending', on);
+      button.disabled = on;
     };
+    return { status, markInvalid, busy };
+  }
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (form.classList.contains('is-sending')) return;
-      markInvalid();
-      if (!form.checkValidity()) {
-        form.classList.add('was-validated');
-        status.textContent = 'Add your name, a valid email address and a short message.';
-        form.querySelector(':invalid')?.focus();
-        return;
-      }
-      form.classList.remove('was-validated');
-      const data = new FormData(form);
-      const fields = Object.fromEntries(
-        ['name', 'company', 'email', 'phone', 'line', 'message', 'website'].map((k) => [k, String(data.get(k) || '').trim()]),
-      );
+  function initForms() {
+    $$('[data-contact-form]').forEach((form) => {
+      const { status, markInvalid, busy } = formBasics(form);
+      const address = form.dataset.mailto;
+      const mailtoFor = (f) => mailtoLink(address, `Project inquiry${f.company ? ` — ${f.company}` : ''}`, [
+        `Name: ${f.name}`,
+        f.company ? `Company: ${f.company}` : null,
+        `Email: ${f.email}`,
+        f.phone ? `Phone: ${f.phone}` : null,
+        f.line ? `Working with us: ${f.line}` : null,
+        '',
+        f.message,
+      ].filter((line) => line !== null).join('\n'));
 
-      form.classList.add('is-sending');
-      button.disabled = true;
-      status.textContent = 'Sending your message…';
-      let outcome = 'unreachable';
-      try {
-        const res = await fetch(form.action, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify(fields),
-        });
-        if (res.ok) outcome = 'sent';
-        else if (res.status === 400) outcome = 'invalid';
-        else if (res.status === 429) outcome = 'busy';
-      } catch {
-        // Offline, or no endpoint on this host: offer email instead.
-      }
-      form.classList.remove('is-sending');
-      button.disabled = false;
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (form.classList.contains('is-sending')) return;
+        markInvalid();
+        if (!form.checkValidity()) {
+          form.classList.add('was-validated');
+          status.textContent = 'Add your name, a valid email address and a short message.';
+          form.querySelector(':invalid')?.focus();
+          return;
+        }
+        form.classList.remove('was-validated');
+        const data = new FormData(form);
+        const fields = Object.fromEntries(
+          ['name', 'company', 'email', 'phone', 'line', 'message', 'website'].map((k) => [k, String(data.get(k) || '').trim()]),
+        );
+        fields.turnstile = turnstileToken(form);
 
-      if (outcome === 'sent') {
-        form.reset();
-        status.textContent = 'Thank you. Your message is with our team, and we\u2019ll be in touch soon.';
-      } else if (outcome === 'invalid') {
-        status.textContent = 'Please check your name, email address and message, then try again.';
-      } else {
-        const why = outcome === 'busy' ? 'We\u2019ve had several messages from you in a short time.' : 'We couldn\u2019t send your message just now.';
-        status.innerHTML = `${why} <a href="${mailtoFor(fields)}">Email it to info@cronustec.com instead</a>; it\u2019s written and ready to send.`;
-      }
+        busy(true);
+        status.textContent = 'Sending your message…';
+        let outcome = 'unreachable';
+        try {
+          const res = await fetch(form.action, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify(fields),
+          });
+          if (res.ok) outcome = 'sent';
+          else if (res.status === 400) outcome = 'invalid';
+          else if (res.status === 429) outcome = 'busy';
+          else if (res.status === 403 && (await res.json().catch(() => ({}))).error === 'CHALLENGE_FAILED') outcome = 'check';
+        } catch {
+          // Offline, or no endpoint on this host: offer email instead.
+        }
+        busy(false);
+        resetTurnstile(form);
+
+        if (outcome === 'sent') {
+          form.reset();
+          status.textContent = 'Thank you. Your message is with our team, and we’ll be in touch soon. We’ve emailed you a confirmation.';
+          track('generate_lead', { form: form.dataset.where || 'contact' });
+        } else if (outcome === 'invalid') {
+          status.textContent = 'Please check your name, email address and message, then try again.';
+        } else if (outcome === 'check') {
+          status.textContent = 'We couldn’t confirm you’re not a robot. Please try again.';
+        } else {
+          const why = outcome === 'busy' ? 'We’ve had several messages from you in a short time.' : 'We couldn’t send your message just now.';
+          status.innerHTML = `${why} <a href="${mailtoFor(fields)}">Email it to ${address} instead</a>; it’s written and ready to send.`;
+        }
+      });
+    });
+
+    // Careers: an application with a résumé attached.
+    const MAX_RESUME = 5 * 1024 * 1024;
+    const RESUME_TYPES = /\.(pdf|docx?)$/i;
+    $$('[data-apply-form]').forEach((form) => {
+      const { status, markInvalid, busy } = formBasics(form);
+      const address = form.dataset.mailto;
+      const file = $('input[type="file"]', form);
+      const checkFile = () => {
+        const f = file.files[0];
+        let problem = '';
+        if (f && !RESUME_TYPES.test(f.name)) problem = 'Please attach your résumé as a PDF or Word file.';
+        else if (f && f.size > MAX_RESUME) problem = 'Please attach a résumé smaller than 5 MB.';
+        file.setCustomValidity(problem);
+        return problem;
+      };
+      file.addEventListener('change', () => { checkFile(); if (form.classList.contains('was-validated')) markInvalid(); });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (form.classList.contains('is-sending')) return;
+        const fileProblem = checkFile();
+        markInvalid();
+        if (!form.checkValidity()) {
+          form.classList.add('was-validated');
+          status.textContent = fileProblem || 'Add your name, a valid email address, your discipline and your résumé.';
+          form.querySelector(':invalid')?.focus();
+          return;
+        }
+        form.classList.remove('was-validated');
+        const data = new FormData(form);
+        data.set('turnstile', turnstileToken(form));
+        data.delete('cf-turnstile-response');
+
+        busy(true);
+        status.textContent = 'Sending your application…';
+        let outcome = 'unreachable';
+        try {
+          const res = await fetch(form.action, { method: 'POST', headers: { Accept: 'application/json' }, body: data });
+          if (res.ok) outcome = 'sent';
+          else if (res.status === 400) outcome = 'invalid';
+          else if (res.status === 413) outcome = 'large';
+          else if (res.status === 429) outcome = 'busy';
+          else if (res.status === 403 && (await res.json().catch(() => ({}))).error === 'CHALLENGE_FAILED') outcome = 'check';
+        } catch {
+          // Offline, or no endpoint on this host.
+        }
+        busy(false);
+        resetTurnstile(form);
+
+        if (outcome === 'sent') {
+          form.reset();
+          status.textContent = 'Thank you. Your application is with our hiring team, and we’ve emailed you a confirmation.';
+          track('application_submit', { discipline: String(data.get('discipline') || '') });
+        } else if (outcome === 'invalid') {
+          status.textContent = 'Please check your details and résumé, then try again.';
+        } else if (outcome === 'large') {
+          status.textContent = 'That résumé is too large to send. Please attach one smaller than 5 MB.';
+        } else if (outcome === 'check') {
+          status.textContent = 'We couldn’t confirm you’re not a robot. Please try again.';
+        } else {
+          const why = outcome === 'busy' ? 'We’ve had several applications from you in a short time.' : 'We couldn’t send your application just now.';
+          const body = `Name: ${data.get('name')}\nPhone: ${data.get('phone') || ''}\nDiscipline: ${data.get('discipline')}\nLinkedIn: ${data.get('linkedin') || ''}\n\n${data.get('message') || ''}\n\n(Please attach your résumé.)`;
+          status.innerHTML = `${why} <a href="${mailtoLink(address, `Application: ${data.get('discipline')}`, body)}">Email it to ${address} instead</a>, and attach your résumé.`;
+        }
+      });
     });
   }
 
   /* ---------- Boot ---------- */
-  initDates();
-  initHeader();
-  initReveal();
-  initMenu();
-  initProfile();
-  initModal();
-  initRouteArt();
-  initProjects();
-  initMap();
-  initToc();
-  initForm();
+  // Each part starts on its own, so one failure can't stop the rest.
+  const boot = (fn) => { try { fn(); } catch (err) { console.error(err); } };
+  window.CRONUS_READY = true;
+  [initDates, initAnalytics, initHeader, initReveal, initMenu, initProfile, initModal, initRouteArt,
+    initProjects, initMap, initToc, initTables, initTurnstile, initForms].forEach(boot);
 })();
