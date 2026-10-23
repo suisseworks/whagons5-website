@@ -34,6 +34,20 @@ export default {
         'Your order is saved for you, in this space',
       ],
     },
+    de: {
+      space: 'Vorbeugende Wartung',
+      cards: ['Gesamtaufgaben', 'In Bearbeitung', 'Heute erledigt', 'Überfällig', 'Wochentrend', 'Nach Status'],
+      cardWidths: [132, 124, 136, 110, 146, 118],
+      cols: ['Aufgabe', 'Standort', 'Status', 'Fällig'],
+      names: ['Fensterdichtungen prüfen', 'Wartung Küchengeräte', 'Elektroprüfung', 'Wasseraufbereitung kalibrieren'],
+      spots: ['Zi. 204', 'Küche', 'Lobby', 'Pool'],
+      statuses: [['In Arbeit', 'progress'], ['Offen', 'todo'], ['Offen', 'todo'], ['In Prüfung', 'review']],
+      dues: ['heute', 'gestern', 'morgen', 'Fr'],
+      steps: [
+        'Eine Karte ziehen, um die Reihenfolge zu ändern',
+        'Ihre Reihenfolge wird für Sie gespeichert, in diesem Bereich',
+      ],
+    },
   },
 
   build(stage, s, { duration }) {
@@ -44,7 +58,7 @@ export default {
     el('span', '', hd, s.space).style.fontSize = '14px';
     const strip = el('div', '', win);
     strip.style.cssText = 'position:relative;height:62px;margin:10px 14px;clip-path:inset(-24px 0 -24px 0)';
-    const cards = overviewCards(strip, s.cards, { values: ['48', '12', '9', '3', '+18%', ''] });
+    const cards = overviewCards(strip, s.cards, { values: ['48', '12', '9', '3', '+18%', ''], widths: s.cardWidths });
     stripEdge(strip);
     const grid = el('div', '', win);
     grid.style.borderTop = '1px solid var(--line)';

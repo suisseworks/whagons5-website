@@ -34,13 +34,13 @@ export default checklistScene({
       ],
     },
     de: {
-      kicker: 'Genehmigungen',
+      kicker: 'Freigaben',
       title: 'Ihre Checkliste, bevor das Team loslegt',
       caption: 'Vor der ersten echten Anfrage durchgehen',
       groups: [
-        { title: 'Die Genehmigung', items: ['Der Name sagt, was genehmigt wird', 'Namentliche Freigebende, alle müssen zustimmen', 'Ändert den Status oder setzt einen Tag'] },
-        { title: 'Die Arbeit', items: ['Hängt an der Vorlage des Teams', 'Eine Testaufgabe zeigte das orange Abzeichen'] },
-        { title: 'Die Menschen', items: ['Freigebende achten auf orange Abzeichen', 'Jede Ablehnung hat einen Grund'] },
+        { title: 'Die Freigabe', items: ['Ihr Name sagt, was freigegeben wird', 'Personen namentlich, alle müssen freigeben', 'Ändert nach der Entscheidung Status oder Tag'] },
+        { title: 'Die Arbeit', items: ['Hängt an der Vorlage, die das Team nutzt', 'Eine Testaufgabe zeigte das orange Abzeichen'] },
+        { title: 'Die Menschen', items: ['Freigabeberechtigte achten auf orange Abzeichen', 'Jede Ablehnung hat einen Grund'] },
       ],
     },
   },
