@@ -889,11 +889,11 @@ html:not(.js) .svc-detail > h3 { display: none; } /* repeats the card title; the
 .projects h2,
 .projects h3,
 .reach h2 { color: var(--white); }
+.projects .section-intro { color: var(--white); }
 .filters { display: flex; flex-wrap: wrap; gap: 8px; }
 .filter {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
   min-height: var(--tap);
   padding: 0 14px;
   border: 1.5px solid var(--rule-dark);
@@ -904,7 +904,6 @@ html:not(.js) .svc-detail > h3 { display: none; } /* repeats the card title; the
   color: var(--mist);
   transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 }
-.filter span { font-weight: 400; font-variant-numeric: tabular-nums; }
 .filter:hover { color: var(--white); border-color: var(--mist); }
 .filter.is-active { background: var(--white); border-color: var(--white); color: var(--navy); }
 
