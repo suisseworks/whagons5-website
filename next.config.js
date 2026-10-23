@@ -1,7 +1,30 @@
+const fs = require('fs');
+const path = require('path');
+
+// The pages of a static client site, read from public/ at build time. The
+// middleware sends any other path under the site to the site's own 404 page.
+function clientPages(client) {
+  const root = path.join(__dirname, 'public', 'clients', client);
+  const pages = [];
+  const walk = (dir, rel) => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (entry.isDirectory()) walk(path.join(dir, entry.name), `${rel}/${entry.name}`);
+      else if (entry.name === 'index.html') pages.push(rel);
+    }
+  };
+  if (fs.existsSync(path.join(root, '404.html'))) walk(root, '');
+  return pages.join('|');
+}
+
+const CRONUS_CSP = "default-src 'self'; script-src 'self' 'sha256-SvAsvEhfxgF1Xxjt3OVr6KB8ut/IasvaUH4icQhMMMY=' https://www.googletagmanager.com https://challenges.cloudflare.com https://static.cloudflareinsights.com; style-src 'self'; img-src 'self' data: https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://cloudflareinsights.com https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  env: {
+    CRONUS2_PAGES: clientPages('cronus2'),
+  },
   // Static client sites served from public/clients/<name>/index.html.
   // Multi-page sites keep each page in <page>/index.html. These rewrites run
   // after public files are matched, so real assets are served as they are.
@@ -28,6 +51,18 @@ const nextConfig = {
       // Client-site video, for the same reason as /media.
       { source: '/clients/:client/video/:path*', headers: [
         { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
+      ] },
+      // Cronus client site. The policy comes from the site's own build
+      // (python3 tools/build.py --print-csp in matas432/cronus-website); it
+      // already allows Google Analytics, Turnstile and Cloudflare's beacon.
+      // This is a review copy, so search engines are told not to index it.
+      { source: '/clients/cronus2/:path*', headers: [
+        { key: 'Content-Security-Policy', value: CRONUS_CSP },
+        { key: 'X-Robots-Tag', value: 'noindex' },
+      ] },
+      // Its CSS and JS names carry a content hash; fonts never change.
+      { source: '/clients/cronus2/:dir(css|js|fonts)/:file*', headers: [
+        { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
       ] },
       // Astro build output in client sites; file names are content-hashed.
       { source: '/clients/:client/_astro/:path*', headers: [

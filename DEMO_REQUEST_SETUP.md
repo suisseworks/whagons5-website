@@ -48,9 +48,42 @@ After deployment:
 
 Automated tests can be run with `pnpm test`. They mock both providers and never create a real subscriber or send a real email.
 
-## 4. Cronus client site contact form
+## 4. Cronus client site forms
 
-The contact form on `/clients/cronus2` posts to `/api/cronus-contact`, which sends each message to `info@cronustec.com` with the visitor's email as `Reply-To`. It uses the same `RESEND_API_KEY` and sends from the `DEMO_NOTIFICATION_FROM` address under the name "Cronus Website". Set `CRONUS_CONTACT_FROM` to use a different sender. The recipient is fixed in `app/lib/cronus-contact.mjs`.
+The Cronus review site at `/clients/cronus2` has two forms. Both use the same `RESEND_API_KEY` and send from the `DEMO_NOTIFICATION_FROM` address under the name "Cronus Website". Set `CRONUS_CONTACT_FROM` to use a different sender. Recipients are fixed in code, so form input can't change where messages go.
 
-`GET /api/cronus-contact` returns `{"configured": true}` when delivery is set up, without sending anything. Requests are limited to five per visitor every ten minutes, and only from whagons.com pages.
+**Contact form.** It posts JSON to `/api/cronus-contact`.
+- Each message goes to `info@cronustec.com` (`app/lib/cronus-contact.mjs`), with the visitor's email as `Reply-To`.
+- After that, the visitor gets a short confirmation. It's fixed text that repeats nothing they typed, so the form can't be used to send someone else a message.
+- Limits: five requests per visitor every ten minutes, 16 KB per request.
 
+**Careers form.** It posts `multipart/form-data` to `/api/cronus-careers`.
+- Each application goes to `careers@cronustec.com` (`app/lib/cronus-careers.mjs`) with the résumé attached and the applicant as `Reply-To`, followed by a confirmation to the applicant.
+- Résumés must be PDF, DOC or DOCX, checked by their contents and not only their name, and no larger than 5 MB.
+- Limit: three applications per visitor every 30 minutes.
+
+**Rules for both forms.**
+- Requests are accepted only from whagons.com pages.
+- Only `POST` is answered; anything else gets 405.
+- Bot submissions that fill the hidden `website` field are quietly accepted and dropped.
+
+**Optional settings:**
+
+| Variable | What it does |
+| --- | --- |
+| `CRONUS_CONTACT_BACKUP_TO` | Comma-separated addresses that get a blind copy of every contact message. |
+| `CRONUS_CAREERS_BACKUP_TO` | The same for applications. |
+| `CRONUS_TURNSTILE_SECRET` | Turns on Cloudflare Turnstile checks. Set it together with the site key (`turnstileSiteKey` in the Cronus site's `site.json`, preview profile), then rebuild the site. Without it the check is skipped. |
+
+The site itself is built from matas432/cronus-website:
+
+```sh
+python3 tools/build.py --profile preview --out <this repo>/public/clients/cronus2
+```
+
+`next.config.js` gives it:
+- the site's Content-Security-Policy
+- `X-Robots-Tag: noindex`
+- year-long caching for its hashed CSS and JS
+
+The middleware sends unknown page paths under it to the site's own `404.html`, through `/api/client-not-found/cronus2`, with a real 404 status. The middleware gets the list of known pages from `next.config.js`, which reads it from `public/` at build time.

@@ -2,8 +2,10 @@ import { RESEND_EMAILS_URL, fetchWithRetry } from './demo-delivery.mjs';
 
 // The contact form on the Cronus client site (/clients/cronus2) delivers
 // straight to Cronus's inbox. Recipients are fixed here and can't be changed
-// by form input.
+// by form input. An optional backup copy goes to CRONUS_CONTACT_BACKUP_TO.
 export const CRONUS_CONTACT_RECIPIENTS = Object.freeze(['info@cronustec.com']);
+export const CRONUS_PHONE = '713.787.9444';
+export const TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 export const CRONUS_WORK_LINES = Object.freeze([
   'Embedded Project Specialists',
   'In-house Projects',
@@ -13,14 +15,14 @@ export const CRONUS_WORK_LINES = Object.freeze([
 ]);
 
 const APP_USER_AGENT = 'Whagons Website (whagons.com)';
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const LIMITS = Object.freeze({ name: 120, company: 160, email: 200, phone: 40, message: 5000 });
 
-function oneLine(value) {
+export function oneLine(value) {
   return typeof value === 'string' ? value.replace(/\s+/g, ' ').trim() : '';
 }
 
-function escapeHtml(value) {
+export function escapeHtml(value) {
   return String(value)
     .replaceAll('&', '&amp;')
     .replaceAll('<', '&lt;')
@@ -90,11 +92,21 @@ export function buildCronusContactEmail(inquiry, requestId) {
   return { subject, text, html };
 }
 
-export async function sendCronusContact({
+// Comma-separated addresses from an environment variable; anything that
+// isn't an email address is ignored.
+export function addressList(value) {
+  return String(value || '')
+    .split(',')
+    .map((v) => v.trim().toLowerCase())
+    .filter((v) => EMAIL_REGEX.test(v) && v.length <= 200)
+    .slice(0, 5);
+}
+
+export async function sendResendEmail({
   resendApiKey,
   from,
-  inquiry,
-  requestId,
+  message,
+  idempotencyKey,
   fetchImpl = fetch,
   timeoutMs = 6000,
   maxAttempts = 2,
@@ -105,8 +117,6 @@ export async function sendCronusContact({
   if (!cleanApiKey || !cleanFrom) {
     return { ok: false, configured: false, code: 'EMAIL_NOT_CONFIGURED', attempts: 0 };
   }
-
-  const content = buildCronusContactEmail(inquiry, requestId);
   const outcome = await fetchWithRetry({
     fetchImpl,
     url: RESEND_EMAILS_URL,
@@ -115,17 +125,10 @@ export async function sendCronusContact({
       headers: {
         Authorization: `Bearer ${cleanApiKey}`,
         'Content-Type': 'application/json',
-        'Idempotency-Key': `cronus-contact/${requestId}`,
+        'Idempotency-Key': idempotencyKey,
         'User-Agent': APP_USER_AGENT,
       },
-      body: JSON.stringify({
-        from: cleanFrom,
-        to: [...CRONUS_CONTACT_RECIPIENTS],
-        subject: content.subject,
-        text: content.text,
-        html: content.html,
-        reply_to: inquiry.email,
-      }),
+      body: JSON.stringify({ from: cleanFrom, ...message }),
     },
     timeoutMs,
     maxAttempts,
@@ -137,4 +140,72 @@ export async function sendCronusContact({
     return { ok: false, configured: true, code: 'EMAIL_REJECTED', status: outcome.response.status, attempts: outcome.attempts };
   }
   return { ok: true, configured: true, status: outcome.response.status, attempts: outcome.attempts };
+}
+
+export async function sendCronusContact({ resendApiKey, from, inquiry, requestId, bcc = /** @type {string[]} */ ([]), ...options }) {
+  const content = buildCronusContactEmail(inquiry, requestId);
+  return sendResendEmail({
+    resendApiKey,
+    from,
+    idempotencyKey: `cronus-contact/${requestId}`,
+    message: {
+      to: [...CRONUS_CONTACT_RECIPIENTS],
+      ...(bcc.length ? { bcc } : {}),
+      subject: content.subject,
+      text: content.text,
+      html: content.html,
+      reply_to: inquiry.email,
+    },
+    ...options,
+  });
+}
+
+// The confirmation to the visitor is fixed text. It repeats nothing they
+// typed, so the form can't be used to send someone else a message.
+export function buildCronusConfirmationEmail(kind) {
+  const application = kind === 'application';
+  const subject = application ? 'We’ve received your application – Cronus' : 'We’ve received your message – Cronus';
+  const body = application
+    ? ['Thank you for applying to Cronus.', 'Your application and résumé have reached our hiring team. We review every application, and we’ll contact you if there’s a role that fits.']
+    : ['Thank you for contacting Cronus.', `Your message has reached our team, and an engineer will get back to you soon. If it’s urgent, call us on ${CRONUS_PHONE}.`];
+  const footer = 'Cronus Technology, LLC · 333 Cypress Run, Suite 300, Houston, TX 77094 · cronustec.com';
+  const notice = 'You’re receiving this because this address was entered in a form on the Cronus website. If that wasn’t you, you can ignore this email.';
+  const text = [...body, notice, footer].join('\n\n');
+  const html = `<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.5;color:#2d2926">
+${body.map((p) => `<p>${escapeHtml(p)}</p>`).join('\n')}
+<p style="color:#56606b;font-size:13px">${escapeHtml(notice)}</p>
+<p style="color:#56606b;font-size:13px">${escapeHtml(footer)}</p>
+</div>`;
+  return { subject, text, html };
+}
+
+export async function sendCronusConfirmation({ resendApiKey, from, to, kind = 'contact', replyTo, requestId, ...options }) {
+  const content = buildCronusConfirmationEmail(kind);
+  return sendResendEmail({
+    resendApiKey,
+    from,
+    idempotencyKey: `cronus-${kind}-confirmation/${requestId}`,
+    message: { to: [to], subject: content.subject, text: content.text, html: content.html, reply_to: replyTo },
+    maxAttempts: 1,
+    ...options,
+  });
+}
+
+// Cloudflare Turnstile. When no secret is configured the check is skipped, so
+// the form keeps working before the widget exists.
+export async function verifyTurnstile({ secret, token, ip, action, fetchImpl = fetch, timeoutMs = 5000 }) {
+  const cleanSecret = typeof secret === 'string' ? secret.trim() : '';
+  if (!cleanSecret) return { ok: true, configured: false };
+  if (typeof token !== 'string' || !token || token.length > 2048) return { ok: false, configured: true };
+  try {
+    const body = new URLSearchParams({ secret: cleanSecret, response: token });
+    if (ip) body.set('remoteip', ip);
+    const res = await fetchImpl(TURNSTILE_VERIFY_URL, { method: 'POST', body, signal: AbortSignal.timeout(timeoutMs) });
+    const data = await res.json();
+    return { ok: data.success === true && (!action || !data.action || data.action === action), configured: true };
+  } catch {
+    // If Cloudflare can't be reached, don't lose the message; the honeypot and
+    // rate limit still apply.
+    return { ok: true, configured: true, unverified: true };
+  }
 }

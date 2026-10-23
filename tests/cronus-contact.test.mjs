@@ -3,10 +3,15 @@ import assert from 'node:assert/strict';
 
 import {
   CRONUS_CONTACT_RECIPIENTS,
+  TURNSTILE_VERIFY_URL,
+  addressList,
+  buildCronusConfirmationEmail,
   buildCronusContactEmail,
   cronusSenderAddress,
+  sendCronusConfirmation,
   sendCronusContact,
   validateCronusContact,
+  verifyTurnstile,
 } from '../app/lib/cronus-contact.mjs';
 import { RESEND_EMAILS_URL } from '../app/lib/demo-delivery.mjs';
 
@@ -115,4 +120,64 @@ test('retries a provider outage, then reports it', async () => {
   assert.equal(result.ok, false);
   assert.equal(result.code, 'EMAIL_REJECTED');
   assert.equal(result.status, 503);
+});
+
+test('sends a backup copy only to valid configured addresses', async () => {
+  assert.deepEqual(addressList(' Backup@Cronustec.com, not-an-address ,,ops@example.com'), ['backup@cronustec.com', 'ops@example.com']);
+  assert.deepEqual(addressList(undefined), []);
+  const calls = [];
+  await sendCronusContact({
+    resendApiKey: 're_test',
+    from: 'Cronus Website <website@notify.whagons.com>',
+    inquiry: validateCronusContact(valid).inquiry,
+    requestId: 'req-5',
+    bcc: ['backup@cronustec.com'],
+    fetchImpl: async (url, init) => { calls.push(JSON.parse(init.body)); return new Response('{}', { status: 200 }); },
+  });
+  assert.deepEqual(calls[0].bcc, ['backup@cronustec.com']);
+  await sendCronusContact({
+    resendApiKey: 're_test',
+    from: 'Cronus Website <website@notify.whagons.com>',
+    inquiry: validateCronusContact(valid).inquiry,
+    requestId: 'req-6',
+    fetchImpl: async (url, init) => { calls.push(JSON.parse(init.body)); return new Response('{}', { status: 200 }); },
+  });
+  assert.equal('bcc' in calls[1], false);
+});
+
+test('confirms to the visitor with fixed text that repeats nothing they typed', async () => {
+  const calls = [];
+  const result = await sendCronusConfirmation({
+    resendApiKey: 're_test',
+    from: 'Cronus Website <website@notify.whagons.com>',
+    to: 'ana@example.com',
+    replyTo: 'info@cronustec.com',
+    requestId: 'req-7',
+    fetchImpl: async (url, init) => { calls.push(init); return new Response('{}', { status: 200 }); },
+  });
+  assert.equal(result.ok, true);
+  const payload = JSON.parse(calls[0].body);
+  assert.deepEqual(payload.to, ['ana@example.com']);
+  assert.equal(payload.reply_to, 'info@cronustec.com');
+  assert.equal(calls[0].headers['Idempotency-Key'], 'cronus-contact-confirmation/req-7');
+  for (const kind of ['contact', 'application']) {
+    const email = buildCronusConfirmationEmail(kind);
+    assert.ok(!/Ana|Gulf|free span/.test(email.text + email.html));
+  }
+  assert.match(buildCronusConfirmationEmail('application').subject, /application/);
+});
+
+test('checks Turnstile only when a secret is configured', async () => {
+  const reply = (data) => async (url, init) => {
+    assert.equal(url, TURNSTILE_VERIFY_URL);
+    assert.equal(init.body.get('secret'), 'sk');
+    return new Response(JSON.stringify(data), { status: 200 });
+  };
+  assert.deepEqual(await verifyTurnstile({ secret: '', token: '' }), { ok: true, configured: false });
+  assert.equal((await verifyTurnstile({ secret: 'sk', token: '' })).ok, false);
+  assert.equal((await verifyTurnstile({ secret: 'sk', token: 't', action: 'contact', fetchImpl: reply({ success: true, action: 'contact' }) })).ok, true);
+  assert.equal((await verifyTurnstile({ secret: 'sk', token: 't', action: 'contact', fetchImpl: reply({ success: false }) })).ok, false);
+  assert.equal((await verifyTurnstile({ secret: 'sk', token: 't', action: 'contact', fetchImpl: reply({ success: true, action: 'apply' }) })).ok, false);
+  const down = await verifyTurnstile({ secret: 'sk', token: 't', fetchImpl: async () => { throw new Error('offline'); } });
+  assert.deepEqual(down, { ok: true, configured: true, unverified: true });
 });
