@@ -22,6 +22,13 @@ const CRONUS_CSP = "default-src 'self'; script-src 'self' 'sha256-SvAsvEhfxgF1Xx
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  async redirects() {
+    return [{
+      source: '/las-vegas',
+      destination: 'https://pageup.whagons.com/01a15986-6781-7777-a282-5fa5a463dd75',
+      permanent: false,
+    }];
+  },
   env: {
     CRONUS2_PAGES: clientPages('cronus2'),
   },
