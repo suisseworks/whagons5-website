@@ -15,7 +15,7 @@ export default {
     en: { kicker: 'Everyday work', name: 'Approvals', line: 'The right yes, on the task', items: ['2 mattresses · Rm 412', 'Ice machine · Kitchen', 'Pool chairs ×12 · Pool'] },
     es: { kicker: 'Trabajo diario', name: 'Aprobaciones', line: 'El sí correcto, en la tarea', items: ['2 colchones · Hab 412', 'Máquina de hielo · Cocina', 'Camastros ×12 · Alberca'] },
     pt: { kicker: 'Trabalho diário', name: 'Aprovações', line: 'O sim certo, na tarefa', items: ['2 colchões · Qto 412', 'Máquina de gelo · Cozinha', 'Espreguiçadeiras ×12 · Piscina'] },
-    de: { kicker: 'Arbeitsalltag', name: 'Genehmigungen', line: 'Das richtige Ja, an der Aufgabe', items: ['2 Matratzen · Zi. 412', 'Eismaschine · Küche', 'Poolliegen ×12 · Pool'] },
+    de: { kicker: 'Alltagsarbeit', name: 'Freigaben', line: 'Das richtige Ja, an der Aufgabe', items: ['2 Matratzen · Zi. 412', 'Eismaschine · Küche', 'Poolliegen ×12 · Pool'] },
   }),
 
   build(stage, s) {

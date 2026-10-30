@@ -8,7 +8,7 @@ const UI = {
   en: { title: 'Edit Template', template: 'Purchase request', name: 'Name *', priority: 'Priority', high: 'High', approvalField: 'Approval', none: 'None', other: 'Contractor in a guest room', override: 'Allow approval changes when creating tasks', update: 'Update', items: ['2 mattresses', 'New ice machine', 'Pool chairs ×12'], steps: ['Edit the template the team already uses', 'Choose the approval under Approval', 'Every new task arrives waiting for a yes'] },
   es: { title: 'Editar Plantilla', template: 'Solicitud de compra', name: 'Nombre *', priority: 'Prioridad', high: 'Alta', approvalField: 'Aprobación', none: 'Ninguna', other: 'Contratista en habitación de huésped', override: 'Permitir cambios de aprobación al crear tareas', update: 'Actualizar', items: ['2 colchones', 'Máquina de hielo', 'Camastros ×12'], steps: ['Edita la plantilla que el equipo ya usa', 'Elige la aprobación en Aprobación', 'Cada tarea nueva llega esperando un sí'] },
   pt: { title: 'Editar modelo', template: 'Pedido de compra', name: 'Nome *', priority: 'Prioridade', high: 'Alta', approvalField: 'Aprovação', none: 'Nenhuma', other: 'Prestador em quarto de hóspede', override: 'Permitir alterações de aprovação ao criar tarefas', update: 'Atualizar', items: ['2 colchões', 'Máquina de gelo', 'Espreguiçadeiras ×12'], steps: ['Edite o modelo que a equipe já usa', 'Escolha a aprovação em Aprovação', 'Toda tarefa nova chega esperando um sim'] },
-  de: { title: 'Edit Template', template: 'Bestellanforderung', name: 'Name *', priority: 'Priority', high: 'Hoch', approvalField: 'Approval', none: 'None', other: 'Handwerker im Gästezimmer', override: 'Allow approval changes when creating tasks', update: 'Aktualisieren', items: ['2 Matratzen', 'Eismaschine', 'Poolliegen ×12'], steps: ['Die Vorlage öffnen, die das Team nutzt', 'Unter Approval die Genehmigung wählen', 'Jede neue Aufgabe wartet auf ein Ja'] },
+  de: { title: 'Vorlage bearbeiten', template: 'Bestellanforderung', name: 'Name *', priority: 'Priorität', high: 'Hoch', approvalField: 'Freigabe', none: 'Keine', other: 'Handwerker im Gästezimmer', override: 'Freigabeänderungen bei der Erstellung von Aufgaben zulassen', update: 'Aktualisieren', items: ['2 Matratzen', 'Eismaschine', 'Liegen ×12'], steps: ['Die Vorlage bearbeiten, die das Team nutzt', 'Unter Freigabe die Freigabe wählen', 'Jede neue Aufgabe wartet auf ein Ja'] },
 };
 
 export default {
@@ -17,7 +17,7 @@ export default {
   poster: 11800,
   strings: withCommon(UI),
 
-  build(stage, s, { duration }) {
+  build(stage, s, { duration, lang }) {
     injectTasksCss();
     stage.classList.add('dot-grid');
 
@@ -49,7 +49,8 @@ export default {
     const update = el('span', 'btn primary', foot, s.update);
 
     // Task grid (right).
-    const cols = '46px 1.6fr 1.15fr';
+    // German task names are longer, so the name column takes the free space.
+    const cols = lang === 'de' ? '40px 1fr 96px' : '46px 1.6fr 1.15fr';
     const grid = taskGrid(stage, { x: 386, y: 24, w: 390, h: 336, title: s.space, headers: [s.cols[0], s.cols[1], s.cols[3]], cols });
     const tasks = s.items.map((item, i) => {
       const row = grid.makeRow({ num: `#${1043 + i}`, name: `${s.template} · ${item}`, spot: '', status: s.statuses.pending });
