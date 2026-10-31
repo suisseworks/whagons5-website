@@ -47,6 +47,9 @@ export function middleware(request: NextRequest) {
     '/en/industrias': '/en/industries',
     '/demow5': '/es/demo',
     '/what-is-whagons': '/es',
+    // The Hotel Operations Score assessment was retired.
+    '/es/hotel-operations-score': '/es',
+    '/en/hotel-operations-score': '/en',
   };
   if (legacy[pathname]) return redirect(request, legacy[pathname]);
   if (/^\/(es|en)(\/|$)/.test(pathname)) return NextResponse.next();
