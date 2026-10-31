@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { demoOffer } from '../../lib/demo-offer';
 import { Language, legalRouteFor, routeFor } from '../../lib/locales';
 import styles from './HomePage.module.css';
-import ScorePromotion from '../hotel-score/ScorePromotion';
 import HospitalityAnalytics from '../hospitality/HospitalityAnalytics';
 import OperationsHeroDemo from './OperationsHeroDemo';
 import HeroVisual from './HeroVisual';
@@ -18,7 +17,6 @@ const content = {
     heroTitle: <>Hotel operations <em>without blind spots.</em></>,
     heroLead:
       'Connect guest requests, room readiness, maintenance, inspections, and shifts in one operating view. Every job gets an owner, a due time, and proof it was done.',
-    scoreCta: 'Assess my hotel for free',
     heroPoints: ['Works alongside your PMS', 'Mobile + web', 'Works offline', 'Configured to your operation', 'Across Latin America'],
     heroPhotoAlt: 'A smiling member of the hotel team in a guest room',
     captureAlt: 'A maintenance technician repairing the plumbing in a guest bathroom',
@@ -111,7 +109,6 @@ const content = {
     heroTitle: <>Operación hotelera <em>sin puntos ciegos.</em></>,
     heroLead:
       'Conecta solicitudes de huéspedes, habitaciones, mantenimiento, inspecciones y turnos en una sola vista operativa. Cada tarea tiene responsable, plazo y evidencia de cierre.',
-    scoreCta: 'Evaluar mi hotel gratis',
     heroPoints: ['Funciona junto a tu PMS', 'Móvil + web', 'Funciona offline', 'Configurado para tu operación', 'En toda Latinoamérica'],
     heroPhotoAlt: 'Una colaboradora del hotel sonriendo en una habitación',
     captureAlt: 'Un técnico de mantenimiento reparando la plomería en el baño de una habitación',
@@ -315,7 +312,6 @@ export default function HomePage({ lang }: { lang: Language }) {
               <p className={styles.lead} data-rise="" style={{ ['--d' as string]: '.1s' }}>{t.heroLead}</p>
               <div className={styles.actions} data-rise="" style={{ ['--d' as string]: '.15s' }}>
                 <a className={styles.btnPrimary} href={demoHref}>{demoOffer[lang].cta}<Arrow /></a>
-                <a className={styles.btnSecondary} data-track="hotel_score_hero_click" href={routeFor(lang, 'hotelScore')}>{t.scoreCta}</a>
               </div>
               <ul className={styles.points} data-rise="" style={{ ['--d' as string]: '.2s' }}>
                 {t.heroPoints.map((point) => <li key={point}><Check />{point}</li>)}
@@ -426,8 +422,6 @@ export default function HomePage({ lang }: { lang: Language }) {
           <a className={styles.btnSecondary} href={featuresHref}>{t.featuresCta}<Arrow /></a>
         </div>
       </section>
-
-      <ScorePromotion lang={lang} />
 
       {/* ── Proof ───────────────────────────────────────── */}
       <section className={`${styles.section} ${styles.proof}`}>

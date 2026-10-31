@@ -110,9 +110,6 @@
 .heroCopy h1 em { font-style: normal; color: #ff7a4d; }
 .heroCopy .lead { max-width: 530px; margin: 26px 0 0; color: rgba(255, 255, 255, 0.84); font-size: 1.16rem; line-height: 1.6; }
 .heroCopy .actions { justify-content: flex-start; margin-top: 36px; }
-.heroCopy .btnSecondary { border-color: rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.1); color: #fff; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
-.heroCopy .btnSecondary:hover,
-.heroCopy .btnSecondary:focus-visible { border-color: rgba(255, 255, 255, 0.55); background: rgba(255, 255, 255, 0.18); }
 .heroCopy .points { justify-content: flex-start; gap: 10px 20px; margin-top: 32px; max-width: 560px; }
 .heroCopy .points li { color: rgba(255, 255, 255, 0.82); font-size: .86rem; }
 .heroCopy .points svg { color: #8fdcaa; }
