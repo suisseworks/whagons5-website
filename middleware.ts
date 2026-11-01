@@ -15,6 +15,14 @@ const CRONUS2_PAGES = process.env.CRONUS2_PAGES ? new Set(process.env.CRONUS2_PA
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  // The NOVA walkthrough has one shareable URL, independent of site language.
+  if (pathname === '/nova-proposal') {
+    const destination = request.nextUrl.clone();
+    destination.pathname = '/nova-proposal.html';
+    const response = NextResponse.rewrite(destination);
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+    return response;
+  }
   if (CRONUS2_PAGES && (pathname === CRONUS2 || pathname.startsWith(`${CRONUS2}/`))) {
     const page = pathname.slice(CRONUS2.length).replace(/\/$/, '');
     if (!/\.[^/]+$/.test(page) && !CRONUS2_PAGES.has(page)) {
