@@ -27,12 +27,8 @@ export const privacyContent: Record<Language, LegalPageContent> = {
     intro:
       'Esta Política de Privacidad explica cómo Whagons recopila, usa, protege y comparte información cuando visitas nuestro sitio web, solicitas un brief o demo, o utilizas la plataforma Whagons para gestionar operaciones, automatizaciones, documentación y flujos de trabajo empresariales.',
     updatedLabel: 'Última actualización',
-    updatedDate: '28 de septiembre de 2026',
+    updatedDate: '1 de noviembre de 2026',
     sections: [
-      {
-        title: 'Hotel Operations Score',
-        body: ['Las respuestas del diagnóstico se guardan temporalmente en esta pestaña del navegador durante 24 horas para permitirte continuar. Al solicitar el resultado, guardamos tu correo, respuestas, score y recomendaciones en Flodesk para registrar la solicitud y preparar el diagnóstico personalizado. Conservamos el registro para preparar el resultado y dar seguimiento a tu solicitud. Si marcas la casilla opcional de novedades, guardamos ese consentimiento por separado en los datos del contacto; dejarla sin marcar no cancela suscripciones anteriores.'],
-      },
       {
         title: '1. Alcance',
         body: [
@@ -149,12 +145,8 @@ export const privacyContent: Record<Language, LegalPageContent> = {
     intro:
       'This Privacy Policy explains how Whagons Systems LLC (Whagons, we, or us) collects, uses, protects, and shares information when you visit the U.S. website, request a Hotel Handoff Leak Scan, or use the Whagons platform.',
     updatedLabel: 'Last updated',
-    updatedDate: 'September 28, 2026',
+    updatedDate: 'November 1, 2026',
     sections: [
-      {
-        title: 'Hotel Operations Score',
-        body: ['Assessment answers are saved temporarily in this browser tab for 24 hours so you can continue. When you request results, we save your email, answers, score and recommendations in Flodesk to register your request and prepare the personalized assessment. We retain the record to prepare your result and follow up on your request. If you select the optional news checkbox, we record that consent separately in your contact data; leaving it unchecked does not cancel existing subscriptions.'],
-      },
       {
         title: '1. Scope',
         body: [
@@ -739,7 +731,7 @@ export const dataRetentionContent: Record<Language, LegalPageContent> = {
         "bullets": [
           "Datos de la plataforma cargados o generados por clientes en Whagons, como tareas, formularios, archivos, comentarios y registros operativos.",
           "Datos de cuenta, usuarios y facturación de los clientes.",
-          "Datos del sitio web y de prospectos, como solicitudes de demo, briefs, resultados del Hotel Operations Score y contactos de marketing.",
+          "Datos del sitio web y de prospectos, como solicitudes de demo, briefs y contactos de marketing.",
           "Registros técnicos y de seguridad de nuestros servidores.",
           "Datos de cuentas financieras recibidos a través de Plaid."
         ]
@@ -770,7 +762,6 @@ export const dataRetentionContent: Record<Language, LegalPageContent> = {
           "Datos de plataforma, cuentas y usuarios: objetivo de eliminación de producción dentro de 90 días al terminar la suscripción, sujeto a exportaciones acordadas y retenciones legales.",
           "Facturas, contabilidad e impuestos: retención propuesta de 7 años, sujeta a los requisitos aplicables. Es un calendario empresarial propuesto, no una afirmación de que todo registro fiscal estadounidense exija siete años.",
           "Datos del sitio y de prospectos: objetivo de eliminación dentro de 24 meses desde la última interacción, o antes a solicitud, conservando un registro mínimo de exclusión para respetar las bajas.",
-          "Respuestas del Hotel Operations Score: el código del navegador considera vencidas las respuestas guardadas después de 24 horas al leerlas. Esto no demuestra la eliminación de copias enviadas a proveedores de gestión de prospectos.",
           "Registros técnicos y de seguridad: máximo propuesto de 12 meses.",
           "Tokens de Plaid: objetivo de revocación verificada y eliminación al desconectar, con manejo de errores y reintentos.",
           "Transacciones y saldos de Plaid: objetivo de eliminación de producción dentro de 30 días tras desconectar o verificar una solicitud de eliminación.",
@@ -857,7 +848,7 @@ export const dataRetentionContent: Record<Language, LegalPageContent> = {
         "bullets": [
           "Platform data that customers upload to or create in Whagons, such as tasks, forms, files, comments, and operational records.",
           "Customer account, user, and billing data.",
-          "Website and lead data, such as demo requests, briefs, Hotel Operations Score results, and marketing contacts.",
+          "Website and lead data, such as demo requests, briefs, and marketing contacts.",
           "Technical and security logs from our servers.",
           "Financial account data received through Plaid."
         ]
@@ -888,7 +879,6 @@ export const dataRetentionContent: Record<Language, LegalPageContent> = {
           "Customer platform, account and user data: target deletion from production within 90 days after the subscription ends, subject to export arrangements and legal holds.",
           "Invoices, accounting and tax records: proposed 7-year retention, subject to applicable requirements. This is a proposed business schedule, not a statement that every U.S. tax record requires seven years.",
           "Website and lead data: target deletion within 24 months after the last interaction, or earlier on request, with a minimal suppression record to honor unsubscribes.",
-          "Hotel Operations Score answers: the browser storage code expires saved answers after 24 hours when reading them. This does not establish deletion of copies sent to lead-management providers.",
           "Technical and security logs: proposed maximum of 12 months.",
           "Plaid access tokens: target verified revocation and removal on disconnect, including failure handling and retries.",
           "Plaid transactions and balances: target production deletion within 30 days after disconnect or a verified deletion request.",
