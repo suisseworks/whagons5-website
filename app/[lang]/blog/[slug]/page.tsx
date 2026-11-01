@@ -150,7 +150,7 @@ export default async function ArticlePage({ params }: PageProps) {
         </header>
 
         <div className="body-grid g12">
-          <ArticleRail lang={lang} title={post.title} toc={toc} url={url} />
+          <ArticleRail lang={lang} slug={post.slug} title={post.title} toc={toc} url={url} />
           <article className="prose" id="body">
             {content}
             <aside className="art-end" data-reveal="">

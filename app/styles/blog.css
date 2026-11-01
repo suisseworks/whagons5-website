@@ -1,8 +1,11 @@
 /* Blog: index and article templates.
    Article structure follows an editorial long-read: hero with category chip,
    title, standfirst and a mono meta row; a sticky rail with the section tree,
-   reading progress and share links; a single prose column with numbered
-   figures; related posts as feed rows. */
+   reading progress, reactions and share links, which become a fixed bottom bar
+   on phones; a single prose column with numbered figures; related posts as
+   feed rows. */
+
+:root { --art-bar-h: 60px; }
 
 .blog {
   /* The blog keeps its own editorial system. Tokens live on main.blog so the
@@ -307,7 +310,7 @@
   top: calc(var(--nav-h) + 1.5rem);
   display: flex;
   flex-direction: column;
-  min-height: calc(100dvh - var(--nav-h) - 4rem);
+  height: calc(100dvh - var(--nav-h) - 4rem);
   margin-top: -2px;
   margin-right: 32px;
   font-family: var(--mono);
@@ -328,6 +331,9 @@
 }
 .rail-title.on { max-height: 240px; margin-bottom: 24px; opacity: 1; transform: none; }
 .rail .th { margin-bottom: 12px; }
+/* Only the tree gives way on short screens, so reactions and share stay in view. */
+.rail > :not(.rail-tree) { flex-shrink: 0; }
+.rail-tree { min-height: 0; overflow-y: auto; scrollbar-width: thin; }
 .rail-tree a {
   display: flex;
   align-items: baseline;
@@ -368,9 +374,28 @@
 .prog-bar b { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--ink); }
 .prog .pct { min-width: 3ch; color: var(--ink-2); font-size: 0.875rem; font-variant-numeric: tabular-nums; }
 .rail .hint { margin-top: 12px; color: var(--ink-3); font-size: 0.75rem; letter-spacing: 0.02em; text-transform: uppercase; }
-.rail .share { margin-top: auto; padding-top: 26px; }
+.rail .react { margin-top: auto; padding-top: 26px; }
+.rail .share { padding-top: 22px; }
+.react-btns { display: flex; gap: 6px; }
+.react-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 1.125rem;
+  line-height: 1;
+  transition: background-color 0.15s, border-color 0.15s, transform 0.2s var(--ease-out);
+}
+.react-btn:hover { border-color: var(--ink-3); }
+.react-btn:active { transform: scale(0.92); }
+.react-btn[aria-pressed='true'] { border-color: var(--accent); background: rgba(212, 49, 10, 0.1); }
 .rail .share a,
-.rail .share button {
+.rail .share button,
+.art-share-sheet a,
+.art-share-sheet button {
   display: flex;
   align-items: baseline;
   padding: 3px 0;
@@ -382,7 +407,11 @@
   text-decoration: none;
 }
 .rail .share a:hover,
-.rail .share button:hover { color: var(--ink); }
+.rail .share button:hover,
+.art-share-sheet a:hover,
+.art-share-sheet button:hover { color: var(--ink); }
+
+.art-bar { display: none; }
 
 #topProg {
   position: fixed;
@@ -630,6 +659,11 @@
   .art-meta .m4 { display: none; }
 }
 
+@media (min-width: 901px) and (max-height: 760px) {
+  .rail-title,
+  .rail .hint { display: none; }
+}
+
 @media (max-width: 900px) {
   #topProg { display: block; }
   .art-hero { display: flex; flex-direction: column; padding: 2.75rem 0; }
@@ -639,14 +673,50 @@
   .art-meta > div { grid-column: auto !important; padding-right: 0; }
   .body-grid { display: flex; flex-direction: column; padding-top: 2.75rem; }
   .prose { order: 1; max-width: 700px; margin-left: 0; padding-left: 0; }
-  .rail { position: static; order: 2; min-height: 0; margin: 48px 0 0; }
-  .rail-title,
-  .rail .th,
-  .rail-tree,
-  .rail .prog,
-  .rail .hint { display: none; }
-  .rail .share { margin-top: 0; padding-top: 22px; border-top: 1px solid var(--line-soft); }
-  .rail .share .th { display: block; }
+  .rail { display: none; }
+  /* Sits under the nav (200) and its open menu. */
+  .art-bar {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 150;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    height: calc(var(--art-bar-h) + env(safe-area-inset-bottom));
+    padding: 0 var(--gutter) env(safe-area-inset-bottom);
+    border-top: 1px solid var(--line);
+    background: var(--bg);
+    font-family: var(--mono);
+  }
+  .art-bar-share {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--bg);
+    font-size: 0.8125rem;
+  }
+  .art-share-sheet {
+    position: absolute;
+    right: var(--gutter);
+    bottom: calc(100% + 8px);
+    min-width: 220px;
+    padding: 8px 16px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    box-shadow: 0 12px 32px rgba(var(--ink-rgb), 0.14);
+  }
+  .art-share-sheet[hidden] { display: none; }
+  .art-share-sheet a,
+  .art-share-sheet button { align-items: center; width: 100%; min-height: 44px; padding: 0; }
+  /* Room for the bar under the footer, so it never covers the last links. */
+  body:has(.art-bar) { padding-bottom: calc(var(--art-bar-h) + env(safe-area-inset-bottom)); }
   .more-sec { margin-top: 72px; }
 }
 
