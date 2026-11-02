@@ -25,5 +25,16 @@ export default checklistScene({
         { title: 'Permissions', items: ["The team's roles have access to Work plans", "Everyone is on one of the space's teams"] },
       ],
     },
+    de: {
+      kicker: 'Arbeitspläne',
+      title: 'Ihre Checkliste, bevor ein Plan startet',
+      caption: 'Gehen Sie sie durch, bevor ein Plan allein läuft',
+      groups: [
+        { title: 'Der Plan', items: ['Im Bereich des Teams, das die Arbeit macht', 'Ein Zeitplan pro Aufgabe und Häufigkeit'] },
+        { title: 'Die Zeitpläne', items: ['Standorte gewählt statt Aufgaben kopiert', 'Zugewiesene Personen und eine Vorlage', 'Ein SLA, wenn das Team eine Zielzeit hat'] },
+        { title: 'Nachverfolgung', items: ['Am Ende der Woche öffnet jemand den Kalender', 'Jeder verspätete Tag hat eine Erklärung'] },
+        { title: 'Berechtigungen', items: ['Team-Rollen haben Zugriff auf Arbeitspläne', 'Alle haben Zugriff auf den Bereich'] },
+      ],
+    },
   },
 });

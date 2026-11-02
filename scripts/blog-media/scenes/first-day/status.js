@@ -13,12 +13,13 @@ export default {
     en: { comments: 'Comments', now: 'now', comment: 'Changed the cartridge. No more drip.', steps: ['Click the status when the work starts', 'Starting adds you to the task', 'Leave the trail: a comment and a photo', 'Completed. The finished task is read-only'] },
     es: { comments: 'Comentarios', now: 'ahora', comment: 'Cambié el cartucho. Ya no gotea.', steps: ['Haz clic en el estado cuando empieza el trabajo', 'Empezar te suma a la tarea', 'Deja el rastro: un comentario y una foto', 'Completada. La tarea terminada es de solo lectura'] },
     pt: { comments: 'Comentários', now: 'agora', comment: 'Troquei o cartucho. Parou de pingar.', steps: ['Clique no status quando o trabalho começar', 'Começar inclui você na tarefa', 'Deixe o registro: um comentário e uma foto', 'Concluída. A tarefa concluída é somente leitura'] },
-    de: { comments: 'Kommentare', now: 'jetzt', comment: 'Kartusche getauscht. Tropft nicht mehr.', steps: ['Status anklicken, wenn die Arbeit beginnt', 'Wer beginnt, wird zugewiesen', 'Spur hinterlassen: Kommentar und Foto', 'Erledigt. Die Aufgabe ist jetzt schreibgeschützt'] },
+    de: { comments: 'Kommentare', now: 'jetzt', comment: 'Kartusche getauscht. Tropft nicht mehr.', steps: ['Status anklicken, wenn die Arbeit beginnt', 'Wer beginnt, wird zugewiesen', 'Spur hinterlassen: Kommentar und Foto', 'Erledigt. Abgeschlossene Aufgaben sind schreibgeschützt'] },
   }),
 
-  build(stage, s, { duration }) {
+  build(stage, s, { duration, lang }) {
     stage.classList.add('dot-grid');
-    const cols = '52px 1.8fr 0.65fr 1fr 0.6fr';
+    // German headers are longer ("Zugewiesene Person"), so its columns are fixed.
+    const cols = lang === 'de' ? '52px 1fr 80px 110px 120px' : '52px 1.8fr 0.65fr 1fr 0.6fr';
     const grid = taskGrid(stage, { x: 22, y: 20, w: 756, h: 214, title: s.tasksTitle, headers: s.cols, cols });
     const tones = ['todo', 'progress', 'todo', 'done'];
     const owners = [[], [['JP', 'b']], [['SV', 'c']], [['LR', 'd']]];
