@@ -12,6 +12,8 @@ const footerContent = {
     features: 'Features',
     hotels: 'Hospitality',
     markets: 'Industries',
+    whagonsIt: 'Whagons IT',
+    whagonsItHref: 'https://it.whagons.com/',
     blog: 'Blog',
     demo: 'Request demo',
     login: 'Log in',
@@ -34,6 +36,8 @@ const footerContent = {
     features: 'Funcionalidades',
     hotels: 'Hospitalidad',
     markets: 'Industrias',
+    whagonsIt: 'Whagons IT',
+    whagonsItHref: 'https://it.whagons.com/es/',
     blog: 'Blog',
     demo: 'Solicitar demo',
     login: 'Iniciar sesión',
@@ -70,6 +74,7 @@ export default function FooterBar({ lang }: { lang: Language }) {
           <a href={routeFor(lang, 'features')}>{t.features}</a>
           <a href={routeFor(lang, 'hotels')}>{t.hotels}</a>
           <a href={routeFor(lang, 'markets')}>{t.markets}</a>
+          <a href={t.whagonsItHref}>{t.whagonsIt} <span aria-hidden="true">↗</span></a>
         </div>
         <div className="sf-col" role="navigation" aria-label={`${t.siteLinks}: ${t.resources}`}>
           <p className="sf-h">{t.resources}</p>
