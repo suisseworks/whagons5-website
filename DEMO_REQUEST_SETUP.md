@@ -90,7 +90,7 @@ The middleware sends unknown page paths under it to the site's own `404.html`, t
 
 ## 5. Cronus project checklist
 
-The review site has a project checklist at `/clients/cronus2/checklist`. It shows where the build stands and what Cronus still owes, and the team can comment on any item. The page is built only for the preview profile, never for Cronus's live site. Its statuses come from `content/checklist.json` in matas432/cronus-website, so a status change is an edit there plus a rebuild.
+The review site has a Next steps page at `/clients/cronus2/next-steps`. It shows where the build stands and what Cronus still owes, and the team can comment on any item. The page is built only for the preview profile, never for Cronus's live site. Its statuses come from `content/checklist.json` in matas432/cronus-website, so a status change is an edit there plus a rebuild.
 
 **Comments.** They're stored as GitHub issue comments in the private matas432/cronus-website repository (`app/lib/cronus-checklist.mjs`, `/api/cronus-checklist`).
 - Each item gets one issue, titled `Checklist: <item id>` and labelled `checklist`, created on its first comment.

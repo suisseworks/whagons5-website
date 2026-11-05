@@ -10,7 +10,7 @@ import {
 import { clientAddress, createRateLimiter, noStoreJson, originAllowed, readBody, requestId } from '../../lib/cronus-request';
 
 // Comments on the project checklist of the Cronus review site
-// (/clients/cronus2/checklist). Stored as GitHub issue comments; see
+// (/clients/cronus2/next-steps). Stored as GitHub issue comments; see
 // DEMO_REQUEST_SETUP.md. Both reading and posting need the access code.
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';

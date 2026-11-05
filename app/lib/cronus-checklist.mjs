@@ -1,6 +1,6 @@
 import { createHash, randomBytes, timingSafeEqual } from 'node:crypto';
 
-// Comments on the Cronus project checklist (/clients/cronus2/checklist). Each
+// Comments on the Cronus project checklist (/clients/cronus2/next-steps). Each
 // checklist item gets one GitHub issue, labelled "checklist", in the private
 // site repository; a comment on the page is a comment on that issue. Replies
 // written on GitHub show on the page too. Reading and posting both need the
@@ -149,7 +149,7 @@ export function createChecklistStore({ token, repo, fetchImpl = fetch, ttlMs = 3
         body: JSON.stringify({
           title: issueTitle(item),
           labels: [CHECKLIST_LABEL],
-          body: `Comments on the checklist item \`${item}\` from the Cronus review site (whagons.com/clients/cronus2/checklist#item-${item}). Replies written here show on the page too.`,
+          body: `Comments on the checklist item \`${item}\` from the Cronus review site (whagons.com/clients/cronus2/next-steps#item-${item}). Replies written here show on the page too.`,
         }),
       }).then((issue) => {
         state.issues.set(item, issue.number);
