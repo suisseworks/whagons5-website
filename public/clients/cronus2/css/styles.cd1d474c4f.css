@@ -2244,6 +2244,11 @@ html:not(.js) .svc-detail > h3 { display: none; } /* repeats the card title; the
 .cl-access .field { flex: 0 1 320px; }
 .cl-access .form-status { flex: 1 1 260px; }
 .cl-signed-in { align-items: center; }
+/* These set display, which would otherwise beat the hidden attribute the script toggles. */
+.cl-access[hidden],
+.cl-signed-in[hidden],
+.cl-recent[hidden],
+.cl-thread[hidden] { display: none; }
 .cl-recent { margin-top: 20px; }
 .cl-recent-list { display: grid; gap: 12px; margin-top: 10px; }
 .cl-recent-list li { padding-left: 14px; border-left: 2px solid var(--rule-strong); }
