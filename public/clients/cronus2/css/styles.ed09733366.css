@@ -89,6 +89,11 @@
   --rule: rgba(11, 42, 69, 0.14);
   --rule-strong: rgba(11, 42, 69, 0.4);
   --rule-field: rgba(11, 42, 69, 0.6); /* form controls need 3:1 against white */
+  /* Status colors, used only on the review copy's project checklist. Each is
+     at least 4.5:1 on white and on its own 10% tint. */
+  --ok: #1d6b45;
+  --wait: #8a4f00;
+  --late: #a3241a;
 
   /* Text color has two roles. Primary is anything a visitor reads as content:
      paragraphs, lists, tables, leads. Secondary describes content: labels,
@@ -2208,6 +2213,72 @@ html:not(.js) .svc-detail > h3 { display: none; } /* repeats the card title; the
   .article tbody tr:nth-child(even),
   .article-note { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .article a { color: inherit; text-decoration: none; }
+}
+
+/* ---------- Project checklist (review copy only) ---------- */
+.cl-summary { display: flex; flex-wrap: wrap; gap: 10px 24px; margin-top: 20px; font-size: var(--fs-sm); color: var(--text-2); }
+.cl-summary li { display: flex; align-items: center; gap: 8px; font-variant-numeric: tabular-nums; }
+.cl-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 10px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-family: var(--font-head);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  line-height: var(--lh-small);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.cl-status--done { color: var(--ok); background: rgba(29, 107, 69, 0.1); }
+.cl-status--in-progress { color: var(--blue-ink); background: rgba(0, 94, 158, 0.08); }
+.cl-status--waiting { color: var(--wait); background: rgba(138, 79, 0, 0.1); }
+.cl-status--not-started { color: var(--text-2); }
+.cl-status--overdue { color: var(--late); background: rgba(163, 36, 26, 0.08); }
+
+.cl-access-band { padding-block: 28px; background: var(--grey); border-block: 1px solid var(--rule); }
+.cl-access,
+.cl-signed-in { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px 20px; }
+.cl-access .field { flex: 0 1 320px; }
+.cl-access .form-status { flex: 1 1 260px; }
+.cl-signed-in { align-items: center; }
+.cl-recent { margin-top: 20px; }
+.cl-recent-list { display: grid; gap: 12px; margin-top: 10px; }
+.cl-recent-list li { padding-left: 14px; border-left: 2px solid var(--rule-strong); }
+.cl-recent-list a { color: var(--blue-ink); font-weight: 700; }
+.cl-recent-body { font-size: var(--fs-sm); line-height: var(--lh-small); white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.cl-group { padding-block: clamp(48px, 6vw, 80px); }
+.cl-group + .cl-group { border-top: 1px solid var(--rule); }
+.cl-group-title { font-size: var(--fs-2xl); }
+.cl-list { display: grid; gap: 16px; margin-top: 32px; }
+.cl-item { padding: 20px 24px; border: 1px solid var(--rule); border-left: 4px solid var(--rule-strong); border-radius: var(--radius); background: var(--white); scroll-margin-top: calc(var(--header-h) + 16px); }
+.cl-item[data-status="done"] { border-left-color: var(--ok); }
+.cl-item[data-status="in-progress"] { border-left-color: var(--blue); }
+.cl-item[data-status="waiting"] { border-left-color: var(--wait); }
+.cl-item--overdue { border-left-color: var(--late); }
+.cl-item:target { outline: 2px solid var(--blue); outline-offset: 2px; }
+.cl-item-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.cl-item-head .cl-title { order: -1; flex: 1 1 260px; }
+.cl-title { font-size: var(--fs-lg); }
+.cl-meta { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-top: 8px; font-size: var(--fs-xs); line-height: var(--lh-small); color: var(--text-2); }
+.cl-detail { max-width: 72ch; margin-top: 10px; font-size: var(--fs-sm); line-height: var(--lh-small); }
+
+.cl-thread { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--rule); }
+.cl-comments summary { width: fit-content; font-size: var(--fs-sm); font-weight: 700; color: var(--blue-ink); cursor: pointer; }
+.cl-comment-list { display: grid; gap: 12px; margin-top: 14px; }
+.cl-comment-list li { padding: 12px 16px; background: var(--grey); border-radius: var(--radius); }
+.cl-comment-meta { font-size: var(--fs-xs); line-height: var(--lh-small); color: var(--text-2); }
+.cl-comment-meta strong { color: var(--navy); }
+.cl-comment-body { margin-top: 4px; font-size: var(--fs-sm); line-height: var(--lh-small); white-space: pre-wrap; overflow-wrap: anywhere; }
+.cl-comment-form { display: grid; gap: 12px; max-width: 640px; margin-top: 16px; }
+.cl-comment-form .field textarea { min-height: 96px; }
+
+@media (max-width: 720px) {
+  .cl-item { padding: 16px; }
+  .cl-access .field { flex-basis: 100%; }
 }
 
 /* ---------- Motion preferences ---------- */

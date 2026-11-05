@@ -87,3 +87,24 @@ python3 tools/build.py --profile preview --out <this repo>/public/clients/cronus
 - year-long caching for its hashed CSS and JS
 
 The middleware sends unknown page paths under it to the site's own `404.html`, through `/api/client-not-found/cronus2`, with a real 404 status. The middleware gets the list of known pages from `next.config.js`, which reads it from `public/` at build time.
+
+## 5. Cronus project checklist
+
+The review site has a project checklist at `/clients/cronus2/checklist`. It shows where the build stands and what Cronus still owes, and the team can comment on any item. The page is built only for the preview profile, never for Cronus's live site. Its statuses come from `content/checklist.json` in matas432/cronus-website, so a status change is an edit there plus a rebuild.
+
+**Comments.** They're stored as GitHub issue comments in the private matas432/cronus-website repository (`app/lib/cronus-checklist.mjs`, `/api/cronus-checklist`).
+- Each item gets one issue, titled `Checklist: <item id>` and labelled `checklist`, created on its first comment.
+- A comment posted from the page carries its author's name, and replies written on GitHub show on the page too.
+- Reading and posting both need the shared access code, sent in the `X-Checklist-Code` header. An address that sends 10 wrong codes is blocked for 15 minutes.
+- Listings are cached for 30 seconds.
+- Limits: 20 comments per visitor every 10 minutes, 80 characters for a name and 4,000 for a comment.
+
+**Settings:**
+
+| Variable | What it does |
+| --- | --- |
+| `CRONUS_CHECKLIST_GITHUB_TOKEN` | Required. A fine-grained GitHub token with **Issues: read and write** on matas432/cronus-website only. |
+| `CRONUS_CHECKLIST_CODE` | Required. The access code the Cronus team types on the page. Change it to revoke access. |
+| `CRONUS_CHECKLIST_REPO` | Optional. `owner/name` of another repository to store comments in. |
+
+Without both required settings, the page still shows the checklist and says comments aren't switched on yet.
