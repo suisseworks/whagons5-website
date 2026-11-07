@@ -49,15 +49,9 @@
   }
 
   /* ---------- Scroll reveal ---------- */
-  // Sections fade up once as they enter the view; the life-cycle line draws in.
+  // Sections fade in once as they enter the view; the life-cycle line draws in.
   function initReveal() {
     const els = $$('[data-reveal]');
-    const perParent = new Map();
-    els.forEach((el) => {
-      const i = perParent.get(el.parentElement) || 0;
-      perParent.set(el.parentElement, i + 1);
-      el.style.setProperty('--d', Math.min(i, 3));
-    });
     const timeline = $('[data-timeline]');
     if (timeline) $$('.timeline li', timeline).forEach((li, i) => li.style.setProperty('--i', i));
     const targets = timeline ? [...els, timeline] : els;
