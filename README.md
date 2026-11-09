@@ -45,6 +45,26 @@ In the body you can use:
 - Fenced blocks with `message`, `label`, `naming`, `checklist` or `text` as the language. They render as a template with a copy button.
 - `- [ ] item` task lists, which render as a checklist readers can tick.
 
+## What's new / Novedades
+
+Release notes live in `content/news/<lang>/<slug>.mdx` and render at `/en/whats-new/<slug>` and `/es/novedades/<slug>`. Each index (`/en/whats-new`, `/es/novedades`) has an RSS feed at `rss.xml` under it, announced with `<link rel="alternate" type="application/rss+xml">`. Release pages carry `NewsArticle` structured data and a breadcrumb; published releases go in the sitemap.
+
+```yaml
+title: "Work Plans: recurring routines that create their own tasks"
+summary: One or two sentences, also the meta description and RSS description.
+date: 2026-11-09            # YYYY-MM-DD
+translationKey: work-plans-release   # same value in the es and en files
+tag: Powerup                # optional label above the title
+screenshot: /images/...     # optional, 16:10; drafts show a placeholder slot
+screenshotAlt: ...
+ogImage: /media/...         # optional 1200x630, falls back to the screenshot
+draft: true                 # hidden unless NEWS_DRAFTS=1
+reviewNotes:                # optional, shown on draft previews only
+  - Confirm the release date
+```
+
+While a language has no published release the section does not exist there: the index, feed and release pages 404, nothing is added to the sitemap, and the footer and blog index links are not rendered (`newsLangs.js`, read by `next.config.js` at build time). Preview drafts with `NEWS_DRAFTS=1 pnpm build && NEWS_DRAFTS=1 pnpm start`; draft pages are `noindex` and never enter the sitemap.
+
 ## Blog animations
 
 The animations in the articles are rendered from code in `scripts/blog-media/`. Each scene is a small HTML/JS module drawn frame by frame in headless Chrome and encoded with ffmpeg, once per language.

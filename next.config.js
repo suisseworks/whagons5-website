@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { newsLangs } = require('./newsLangs');
 
 // The pages of a static client site, read from public/ at build time. The
 // middleware sends any other path under the site to the site's own 404 page.
@@ -31,6 +32,8 @@ const nextConfig = {
   },
   env: {
     CRONUS2_PAGES: clientPages('cronus2'),
+    // Languages with a visible "What's new" release; empty while all are drafts.
+    NEXT_PUBLIC_NEWS_LANGS: newsLangs().join(','),
   },
   // Static client sites served from public/clients/<name>/index.html.
   // Multi-page sites keep each page in <page>/index.html. These rewrites run
