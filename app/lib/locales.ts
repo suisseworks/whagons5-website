@@ -45,6 +45,7 @@ export type CoreRoute =
   | 'hotels'
   | 'markets'
   | 'blog'
+  | 'news'
   | 'pricing'
   | 'paradorOffer'
   | 'demo'
@@ -60,6 +61,7 @@ const FULL_PAGE_ROUTES: Record<'es' | 'en', Record<CoreRoute, string>> = {
     hotels: '/es/operaciones-hoteleras',
     markets: '/es/industrias',
     blog: '/es/blog',
+    news: '/es/novedades',
     demo: '/es/demo',
     pilot: '/es/piloto',
   },
@@ -72,6 +74,7 @@ const FULL_PAGE_ROUTES: Record<'es' | 'en', Record<CoreRoute, string>> = {
     hotels: '/en/hotel-operations',
     markets: '/en/industries',
     blog: '/en/blog',
+    news: '/en/whats-new',
     demo: '/en/demo',
     pilot: '/en/pilot',
   },
@@ -99,5 +102,14 @@ export function routeKeyFromPath(pathname: string): CoreRoute | null {
   if (pathWithoutLanguage === '/hotel-operations' || pathWithoutLanguage === '/operaciones-hoteleras') return 'hotels';
   if (pathWithoutLanguage === '/industries' || pathWithoutLanguage === '/industrias') return 'markets';
   if (pathWithoutLanguage === '/blog' || pathWithoutLanguage.startsWith('/blog/')) return 'blog';
+  if (/^\/(?:whats-new|novedades)(?:\/|$)/.test(pathWithoutLanguage)) return 'news';
   return null;
+}
+
+/**
+ * Whether the "What's new" section has a visible release in this language.
+ * Worked out at build time (newsLangs.js); safe in client components.
+ */
+export function hasNews(lang: Language): boolean {
+  return (process.env.NEXT_PUBLIC_NEWS_LANGS || '').split(',').includes(lang);
 }

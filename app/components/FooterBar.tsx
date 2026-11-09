@@ -1,4 +1,4 @@
-import { Language, legalRouteFor, routeFor } from '../lib/locales';
+import { Language, hasNews, legalRouteFor, routeFor } from '../lib/locales';
 
 const footerContent = {
   en: {
@@ -15,6 +15,7 @@ const footerContent = {
     whagonsIt: 'Whagons IT',
     whagonsItHref: 'https://it.whagons.com/',
     blog: 'Blog',
+    news: "What's new",
     demo: 'Request demo',
     login: 'Log in',
     privacy: 'Privacy',
@@ -39,6 +40,7 @@ const footerContent = {
     whagonsIt: 'Whagons IT',
     whagonsItHref: 'https://it.whagons.com/es/',
     blog: 'Blog',
+    news: 'Novedades',
     demo: 'Solicitar demo',
     login: 'Iniciar sesión',
     privacy: 'Privacidad',
@@ -79,6 +81,7 @@ export default function FooterBar({ lang }: { lang: Language }) {
         <div className="sf-col" role="navigation" aria-label={`${t.siteLinks}: ${t.resources}`}>
           <p className="sf-h">{t.resources}</p>
           <a href={routeFor(lang, 'blog')}>{t.blog}</a>
+          {hasNews(lang) && <a href={routeFor(lang, 'news')}>{t.news}</a>}
           <a href={routeFor(lang, 'demo')}>{t.demo}</a>
           <a href="https://app.whagons.com/">{t.login} <span aria-hidden="true">↗</span></a>
         </div>

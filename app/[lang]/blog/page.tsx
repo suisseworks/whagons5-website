@@ -5,6 +5,7 @@ import { Language, OPEN_GRAPH_LOCALE, SUPPORTED_LANGS, isLanguage } from '../../
 import BlogIndex from '../../components/blog/BlogIndex';
 import { toFeedPost } from '../../components/blog/feed';
 import '../../styles/blog.css';
+import '../../styles/news.css';
 
 const meta: Record<Language, { title: string; description: string }> = {
   es: {

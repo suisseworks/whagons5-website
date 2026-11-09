@@ -55,9 +55,9 @@ export default function NavBar({ lang }: NavBarProps) {
       return legalRouteFor(nextLang, legalMatch[1] as 'privacy' | 'terms' | 'security');
     }
 
-    // Blog posts declare their translation with <link rel="alternate">.
+    // Blog posts and releases declare their translation with <link rel="alternate">.
     const routeKey = routeKeyFromPath(pathname);
-    if (routeKey === 'blog') {
+    if (routeKey === 'blog' || routeKey === 'news') {
       const alternate = document.querySelector<HTMLLinkElement>(`link[rel="alternate"][hreflang="${nextLang}"]`);
       if (alternate?.href) {
         try { return new URL(alternate.href).pathname; } catch { /* fall back below */ }

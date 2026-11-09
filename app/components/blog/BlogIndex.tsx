@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { Language } from '../../lib/locales';
+import { hasNews, routeFor, type Language } from '../../lib/locales';
 import type { FeedPost } from './feed';
 import PostFeed from './PostFeed';
 
@@ -9,10 +9,12 @@ const copy = {
   es: {
     lead: 'Guías prácticas para sacarle provecho a cada powerup de Whagons, paso a paso y con animaciones.',
     min: 'min de lectura',
+    news: 'Novedades: lo nuevo en Whagons',
   },
   en: {
     lead: 'Practical guides to getting the most out of each Whagons powerup, step by step, with animations.',
     min: 'min read',
+    news: "What's new in Whagons",
   },
 } as const;
 
@@ -29,6 +31,9 @@ export default function BlogIndex({ lang, posts: allPosts }: { lang: Language; p
       <header className="bi-hd" data-rise="">
         <h1 className="bi-title">whagons<span>/</span>blog</h1>
         <p className="bi-lead">{t.lead}</p>
+        {hasNews(lang) && (
+          <a className="bi-news" href={routeFor(lang, 'news')}>{t.news} <span className="arr" aria-hidden="true">→</span></a>
+        )}
         {withCover.length > 0 && (
           <div aria-hidden="true">
             <div className="bi-preview">
