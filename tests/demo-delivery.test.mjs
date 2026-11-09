@@ -6,15 +6,18 @@ import {
   DEMO_SEGMENT_NAMES,
   FLODESK_SEGMENTS_URL,
   FLODESK_SUBSCRIBERS_URL,
+  PILOT_WAITLIST_SOURCE,
   RESEND_EMAILS_URL,
   buildFlodeskCustomFields,
   demoSegmentName,
   findFlodeskSegmentId,
+  leadSource,
   resolveApproximateLocation,
   resolveLeadDeliveryOutcome,
   sendDemoNotification,
   upsertFlodeskSubscriber,
 } from '../app/lib/demo-delivery.mjs';
+import { PILOT_WAITLIST_SOURCE as WAITLIST_PAGE_SOURCE } from '../app/lib/pilot-waitlist.ts';
 
 const lead = {
   name: 'Matthias',
@@ -239,6 +242,43 @@ test('sends one notification to both fixed internal recipients', async () => {
   assert.match(body.text, /San José/);
   assert.match(body.text, /1 to 10 people/);
   assert.equal(request.init.headers['Idempotency-Key'], 'demo-request/request-123');
+  assert.equal(body.subject, '[Whagons] New demo request - Malek');
+  assert.doesNotMatch(body.text, /waitlist/i);
+});
+
+test('accepts only the pilot waitlist tag the waitlist page sends', () => {
+  assert.equal(WAITLIST_PAGE_SOURCE, PILOT_WAITLIST_SOURCE);
+  assert.equal(leadSource('pilot-waitlist'), 'pilot-waitlist');
+  for (const value of [undefined, null, '', 'demo', 'Pilot-Waitlist', ' pilot-waitlist', ['pilot-waitlist'], { source: 'pilot-waitlist' }]) {
+    assert.equal(leadSource(value), '');
+  }
+});
+
+test('tags pilot waitlist signups in the same notification to the same recipients', async () => {
+  let request;
+  const result = await sendDemoNotification({
+    resendApiKey: 'resend-test-key',
+    from: 'Whagons Website <website@notify.whagons.com>',
+    lead: { ...lead, source: PILOT_WAITLIST_SOURCE },
+    flodeskOk: true,
+    requestId: 'request-waitlist',
+    fetchImpl: async (url, init) => {
+      request = { url, init };
+      return Response.json({ id: 'email-id' });
+    },
+    retryDelayMs: 0,
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(request.url, RESEND_EMAILS_URL);
+  const body = JSON.parse(request.init.body);
+  assert.equal(body.subject, '[Whagons] Pilot waitlist - Malek');
+  assert.deepEqual(body.to, DEMO_NOTIFICATION_RECIPIENTS);
+  assert.equal(body.reply_to, lead.email);
+  assert.match(body.text, /^A visitor joined the pilot waitlist on whagons\.com\./);
+  assert.match(body.text, /^Source: Pilot waitlist$/m);
+  assert.match(body.text, /1 to 10 people/);
+  assert.match(body.html, /New pilot waitlist signup/);
 });
 
 test('user fields cannot change recipients, sender, or inject email headers', async () => {

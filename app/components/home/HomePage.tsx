@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { demoOffer } from '../../lib/demo-offer';
 import { Language, legalRouteFor, routeFor } from '../../lib/locales';
+import { pilotWaitlist } from '../../lib/pilot-waitlist';
 import styles from './HomePage.module.css';
 import HospitalityAnalytics from '../hospitality/HospitalityAnalytics';
 import OperationsHeroDemo from './OperationsHeroDemo';
@@ -13,7 +14,6 @@ import CountUp from './CountUp';
 
 const content = {
   en: {
-    heroEyebrow: 'Operations software for hotels',
     heroTitle: <>Hotel operations <em>without blind spots.</em></>,
     heroLead:
       'Connect guest requests, room readiness, maintenance, inspections, and shifts in one operating view. Every job gets an owner, a due time, and proof it was done.',
@@ -89,7 +89,6 @@ const content = {
       { name: 'Health & education', who: 'Schools, universities and clinics', examples: ['Classroom and facility inspections', 'Issues reported by staff, fixed by maintenance', 'Protocols the whole team can follow'], proof: 'Customer: Colegio Humboldt' },
       { name: 'Construction', who: 'Developers, contractors and renovation crews', examples: ['Daily site tasks per crew, with deadlines', 'Stage checklists before each handover', 'Progress photos tied to each area'] },
     ],
-    finalEyebrow: 'Your operation, made visible',
     faqEyebrow: 'Frequently asked questions',
     faqTitle: 'What hotels usually ask us.',
     faqLead: 'If your question is not here, write to us and we will answer within one business day.',
@@ -105,7 +104,6 @@ const content = {
     faqSecurity: 'Read the security policy',
   },
   es: {
-    heroEyebrow: 'Software de operaciones para hoteles',
     heroTitle: <>Operación hotelera <em>sin puntos ciegos.</em></>,
     heroLead:
       'Conecta solicitudes de huéspedes, habitaciones, mantenimiento, inspecciones y turnos en una sola vista operativa. Cada tarea tiene responsable, plazo y evidencia de cierre.',
@@ -181,7 +179,6 @@ const content = {
       { name: 'Salud y educación', who: 'Colegios, universidades y clínicas', examples: ['Inspecciones de aulas e instalaciones', 'Incidencias reportadas por el personal y resueltas por mantenimiento', 'Protocolos que todo el equipo puede seguir'], proof: 'Cliente: Colegio Humboldt' },
       { name: 'Construcción', who: 'Desarrolladoras, contratistas y equipos de remodelación', examples: ['Tareas diarias de obra por cuadrilla, con plazos', 'Checklists por etapa antes de cada entrega', 'Fotos de avance vinculadas a cada área'] },
     ],
-    finalEyebrow: 'Tu operación, visible',
     faqEyebrow: 'Preguntas frecuentes',
     faqTitle: 'Lo que suelen preguntarnos los hoteles.',
     faqLead: 'Si tu pregunta no está aquí, escríbenos y te respondemos en un día hábil.',
@@ -292,8 +289,10 @@ function Check() {
 export default function HomePage({ lang }: { lang: Language }) {
   const t = content[lang];
   const proof = customerProof[lang];
+  const pilot = pilotWaitlist[lang];
   const hasLocalizedDetailPages = lang === 'en' || lang === 'es';
   const demoHref = routeFor(lang, 'demo');
+  const pilotHref = routeFor(lang, 'pilot');
   const platformHref = hasLocalizedDetailPages ? routeFor(lang, 'platform') : routeFor(lang, 'features');
   const featuresHref = hasLocalizedDetailPages ? routeFor(lang, 'features') : demoHref;
   const hotelHref = routeFor(lang, 'hotels');
@@ -307,12 +306,14 @@ export default function HomePage({ lang }: { lang: Language }) {
           <Image className={styles.heroPhoto} src="/images/photos/hero-woman.jpg" alt={t.heroPhotoAlt} fill priority sizes="100vw" />
           <div className={styles.heroTop}>
             <div className={styles.heroCopy}>
-              <p className={styles.heroEyebrow} data-rise=""><span aria-hidden="true" />{t.heroEyebrow}</p>
+              <p className={styles.heroEyebrow} data-rise=""><span aria-hidden="true" />{pilot.badge}</p>
               <h1 data-rise="" style={{ ['--d' as string]: '.05s' }}>{t.heroTitle}</h1>
               <p className={styles.lead} data-rise="" style={{ ['--d' as string]: '.1s' }}>{t.heroLead}</p>
               <div className={styles.actions} data-rise="" style={{ ['--d' as string]: '.15s' }}>
-                <a className={styles.btnPrimary} href={demoHref}>{demoOffer[lang].cta}<Arrow /></a>
+                <a className={styles.btnPrimary} href={pilotHref} data-track="pilot_waitlist_hero_click">{pilot.cta}<Arrow /></a>
+                <a className={styles.btnSecondary} href={demoHref}>{demoOffer[lang].cta}</a>
               </div>
+              <p className={styles.heroNote} data-rise="" style={{ ['--d' as string]: '.18s' }}>{pilot.reason}</p>
               <ul className={styles.points} data-rise="" style={{ ['--d' as string]: '.2s' }}>
                 {t.heroPoints.map((point) => <li key={point}><Check />{point}</li>)}
               </ul>
@@ -556,14 +557,14 @@ export default function HomePage({ lang }: { lang: Language }) {
         <div className={styles.finalPanel} data-reveal="">
           <Image className={styles.finalPhoto} src="/images/photos/lobby.jpg" alt="" fill sizes="(max-width: 1240px) 100vw, 1180px" />
           <div className={styles.finalBody}>
-            <p className={styles.eyebrow}>{t.finalEyebrow}</p>
-            <h2>{demoOffer[lang].title}</h2>
-            <p>{demoOffer[lang].description}</p>
+            <p className={styles.eyebrow}>{pilot.eyebrow}</p>
+            <h2>{pilot.title}</h2>
+            <p>{pilot.description}</p>
             <div className={styles.finalActions}>
-              <a className={styles.btnPrimary} href={demoHref}>{demoOffer[lang].cta}<Arrow /></a>
+              <a className={styles.btnPrimary} href={pilotHref} data-track="pilot_waitlist_final_click">{pilot.cta}<Arrow /></a>
               <a className={styles.btnSecondary} href="https://wa.me/50670717099" data-track="whatsapp_final_click">{t.whatsAppCta}</a>
             </div>
-            <small>{demoOffer[lang].deliverable}</small>
+            <small>{pilot.demoPrompt} <a href={demoHref}>{demoOffer[lang].cta}</a></small>
           </div>
         </div>
       </section>

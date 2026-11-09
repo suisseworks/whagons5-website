@@ -5,6 +5,7 @@ import {
   buildFlodeskCustomFields,
   demoSegmentName,
   findFlodeskSegmentId,
+  leadSource,
   resolveApproximateLocation,
   resolveLeadDeliveryOutcome,
   sendDemoNotification,
@@ -201,6 +202,8 @@ export async function POST(request: NextRequest) {
     }
     const cleanLanguage: Language = submittedLanguage;
     const cleanFormType: FormType = body.formType === 'brief' ? 'brief' : 'demo';
+    // The pilot waitlist page sends the demo form with a source tag.
+    const cleanSource = cleanFormType === 'demo' ? leadSource(body.source) : '';
     const cleanPhone = sanitize(body.phone, 60);
     const cleanTeamSize = sanitize(body.teamSize);
 
@@ -248,6 +251,7 @@ export async function POST(request: NextRequest) {
       language: cleanLanguage,
       phone: cleanPhone,
       teamSize: cleanTeamSize,
+      source: cleanSource,
     };
 
     const baseFlodeskPayload = {
