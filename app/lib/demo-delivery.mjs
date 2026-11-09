@@ -23,6 +23,15 @@ export const DEMO_NOTIFICATION_RECIPIENTS = Object.freeze([
   'business@whagons.com',
 ]);
 
+// Pilot waitlist signups are demo requests from /en/pilot and /es/piloto. They
+// use the same validation, Flodesk segments and recipients; the tag only
+// changes the internal email so the team can tell them apart.
+export const PILOT_WAITLIST_SOURCE = 'pilot-waitlist';
+
+export function leadSource(value) {
+  return value === PILOT_WAITLIST_SOURCE ? PILOT_WAITLIST_SOURCE : '';
+}
+
 export function buildFlodeskCustomFields({ company, industry, country, city, phone }) {
   const fields = {};
   const cleanCompany = typeof company === 'string' ? company.trim() : '';
@@ -363,11 +372,15 @@ function escapeHtml(value) {
 }
 
 function buildNotificationContent(lead, flodeskOk, requestId) {
+  const waitlist = lead.source === PILOT_WAITLIST_SOURCE;
   const company = cleanHeaderText(lead.company, 'Company not provided');
   const name = cleanHeaderText(lead.name, 'Name not provided');
-  const subject = `[Whagons] New demo request - ${company}`;
+  const subject = waitlist
+    ? `[Whagons] Pilot waitlist - ${company}`
+    : `[Whagons] New demo request - ${company}`;
   const flodeskStatus = flodeskOk ? 'Captured successfully' : 'Needs manual follow-up';
   const fields = [
+    ...(waitlist ? [['Source', 'Pilot waitlist']] : []),
     ['Name', name],
     ['Hotel / company', displayValue(lead.company)],
     ['Email', displayValue(lead.email)],
@@ -382,7 +395,9 @@ function buildNotificationContent(lead, flodeskOk, requestId) {
   ];
 
   const text = [
-    'A new demo request was submitted on whagons.com.',
+    waitlist
+      ? 'A visitor joined the pilot waitlist on whagons.com.'
+      : 'A new demo request was submitted on whagons.com.',
     '',
     ...fields.map(([label, value]) => `${label}: ${value}`),
     '',
@@ -395,7 +410,11 @@ function buildNotificationContent(lead, flodeskOk, requestId) {
         `<tr><th align="left" style="padding:6px 14px 6px 0;color:#5f625f;font-weight:600">${escapeHtml(label)}</th><td style="padding:6px 0;color:#111">${escapeHtml(value)}</td></tr>`
     )
     .join('');
-  const html = `<!doctype html><html><body style="font-family:Arial,sans-serif;line-height:1.5;color:#111"><h1 style="font-size:22px">New Whagons demo request</h1><p>A visitor submitted the demo form on whagons.com.</p><table role="presentation" cellspacing="0" cellpadding="0">${rows}</table><p style="margin-top:24px">Reply to this email to contact the prospect.</p></body></html>`;
+  const heading = waitlist ? 'New pilot waitlist signup' : 'New Whagons demo request';
+  const intro = waitlist
+    ? 'A visitor joined the pilot waitlist on whagons.com.'
+    : 'A visitor submitted the demo form on whagons.com.';
+  const html = `<!doctype html><html><body style="font-family:Arial,sans-serif;line-height:1.5;color:#111"><h1 style="font-size:22px">${heading}</h1><p>${intro}</p><table role="presentation" cellspacing="0" cellpadding="0">${rows}</table><p style="margin-top:24px">Reply to this email to contact the prospect.</p></body></html>`;
 
   return { subject, text, html };
 }

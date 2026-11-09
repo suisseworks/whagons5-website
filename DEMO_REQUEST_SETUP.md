@@ -2,6 +2,8 @@
 
 The public form is available at `/en/demo` and `/es/demo`. It captures name, hotel/company, email, optional phone, industry, team size, language, and country when the edge provides a country header.
 
+The pilot waitlist at `/en/pilot` and `/es/piloto` is the same form with different copy. It needs no extra settings: signups use the same segments and recipients below, and the internal email's subject reads `[Whagons] Pilot waitlist - <company>` instead of `[Whagons] New demo request - <company>`.
+
 ## 1. Flodesk
 
 Configure the production runtime with:
@@ -44,7 +46,8 @@ After deployment:
 3. confirm the contact is in `Whagons-Demo-EN` or `Whagons-Demo-ES`, matching the page language;
 4. confirm the same notification arrived at both internal addresses;
 5. reply to the notification and confirm it targets the prospect address;
-6. check server logs using the returned request ID if either delivery is missing.
+6. check server logs using the returned request ID if either delivery is missing;
+7. repeat steps 1 to 4 through `/en/pilot` and confirm the notification subject starts with `[Whagons] Pilot waitlist`.
 
 Automated tests can be run with `pnpm test`. They mock both providers and never create a real subscriber or send a real email.
 

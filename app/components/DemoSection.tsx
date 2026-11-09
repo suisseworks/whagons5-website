@@ -3,11 +3,16 @@
 import { useEffect, useRef, useState, FormEvent } from 'react';
 import { demoOffer } from '../lib/demo-offer';
 import { isLanguage, legalRouteFor } from '../lib/locales';
+import { PILOT_WAITLIST_SOURCE } from '../lib/pilot-waitlist';
 import BoardScreenMock from './product/BoardScreenMock';
 
 interface DemoSectionProps {
   t: any;
   language: string;
+  /** Replaces the demo heading, e.g. on the pilot waitlist page. */
+  intro?: { eyebrow: string; title: string; description: string };
+  /** Tags the request so the team's notification email says where it came from. */
+  source?: typeof PILOT_WAITLIST_SOURCE;
 }
 
 function Arrow() {
@@ -18,9 +23,10 @@ function Arrow() {
   );
 }
 
-export default function DemoSection({ t, language }: DemoSectionProps) {
+export default function DemoSection({ t, language, intro, source }: DemoSectionProps) {
   const lang = isLanguage(language) ? language : 'es';
   const offer = demoOffer[lang];
+  const heading = intro ?? { eyebrow: 'Demo', title: offer.title, description: offer.description };
   const [demoName, setDemoName] = useState('');
   const [demoCompany, setDemoCompany] = useState('');
   const [demoEmail, setDemoEmail] = useState('');
@@ -66,6 +72,7 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
           phone: demoPhone.trim(),
           teamSize: demoTeamSize,
           website: demoWebsite,
+          source,
         }),
       });
       const data = await res.json().catch(() => ({}));
@@ -83,12 +90,12 @@ export default function DemoSection({ t, language }: DemoSectionProps) {
 
   return (
     <>
-      <section id="demo" className="pg-hero pg-demo-hero">
+      <section id={source ? 'waitlist' : 'demo'} className="pg-hero pg-demo-hero">
         <div className="pg-hero-inner pg-hero-split">
           <div className="pg-hero-copy">
-            <p className="pg-eyebrow">Demo</p>
-            <h1>{offer.title}</h1>
-            <p className="pg-lead">{offer.description}</p>
+            <p className="pg-eyebrow">{heading.eyebrow}</p>
+            <h1>{heading.title}</h1>
+            <p className="pg-lead">{heading.description}</p>
             <ul className="pg-checks">
               {t.demoPerks.map((perk: string, i: number) => (
                 <li key={i}>{perk}</li>

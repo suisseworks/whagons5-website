@@ -12,7 +12,7 @@ pnpm dev
 
 Open `http://localhost:3000`. English and Spanish pages live under `/en` and `/es`. Retired language URLs permanently redirect to equivalent English paths; their translations and lead-routing configuration have been removed.
 
-The home and demo pages share the 20-minute operational diagnostic offer in `app/lib/demo-offer.ts`. Requests continue through the existing demo delivery flow. Testimonials link to their historical 2022 source with a notice that its commercial terms are not the current offer.
+Demo copy lives in `app/lib/demo-offer.ts`. Pilot program copy (the home hero badge and buttons, the nav button, the home closing section and the waitlist page at `/en/pilot` and `/es/piloto`) lives in `app/lib/pilot-waitlist.ts`. Both forms use the existing demo delivery flow. Testimonials link to their historical 2022 source with a notice that its commercial terms are not the current offer.
 
 ## Blog
 
@@ -67,6 +67,8 @@ The homepage brief and demo forms post to `/api/flodesk`. The server:
 2. sends it to Flodesk through the fixed official API endpoint;
 3. assigns demo leads to `Whagons-Demo-EN` or `Whagons-Demo-ES` according to the page language, and brief leads to `Whagons5-Brief`;
 4. for demo requests, sends one internal email to both `hello@whagons.com` and `business@whagons.com` when Resend is configured.
+
+The pilot waitlist page sends the demo form with `source: 'pilot-waitlist'`. A signup is handled exactly like a demo request (same required fields, same language segment, same two recipients). Only the internal email changes: its subject is `[Whagons] Pilot waitlist - <company>` and its first row is `Source: Pilot waitlist`.
 
 Flodesk and email are independent delivery channels. A temporary email failure does not discard a lead already captured in Flodesk, and an internal email can preserve a demo request if Flodesk is temporarily unavailable. The visitor only sees an error when every applicable delivery channel fails.
 
