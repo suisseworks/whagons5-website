@@ -43,6 +43,15 @@ Each clip is a 6 s loop (the last 0.6 s crossfades into the first frame), muted 
 | `packing-tape` (vertical) | Hands of two people sealing a package with tape | https://mixkit.co/free-stock-video/hands-of-two-people-sealing-a-package-with-tape-42137/ | Free | 0 s |
 | `delivery-walk` | Delivery man looking for an address on the street | https://mixkit.co/free-stock-video/delivery-man-looking-for-an-address-on-the-street-31136/ | Free | 0.5 s |
 | `parcels-carry` | Parcel worker looking for an address | https://mixkit.co/free-stock-video/parcel-worker-looking-for-an-address-42128/ | Free | 2.8 s |
+| `clinic-reception` | Clinic staff at a hospital reception | https://mixkit.co/free-stock-video/clinic-staff-at-a-hospital-reception-4766/ | Free | 3 s |
+| `airport-ramp` | Flight getting ready for departure | https://mixkit.co/free-stock-video/flight-getting-ready-for-departure-4065/ | Free | 12 s, cropped to the right of the frame so the airline's livery is out of shot |
+| `welder-height` | Welder working at a construction | https://mixkit.co/free-stock-video/welder-working-at-a-construction-4125/ | Free | 2 s |
+| `kitchen-grill` | Chef cooking on a large grill | https://mixkit.co/free-stock-video/chef-cooking-on-a-large-grill-4678/ | Free | 4 s |
+| `kitchen-bakery` | Chef working in a large kitchen | https://mixkit.co/free-stock-video/chef-working-in-a-large-kitchen-43048/ | Free | 0.5 s |
+| `restaurant-service` | Waiter serving meat stew in a restaurant | https://mixkit.co/free-stock-video/waiter-serving-meat-stew-in-a-restaurant-4672/ | Free | 3 s |
+| `barista-shift` | Skilled employee working in a coffee shop | https://mixkit.co/free-stock-video/skilled-employee-working-in-a-coffee-shop-41856/ | Free | 0.5 s |
+| `gardener-plants` | Gardener arranging the soil for a plant | https://mixkit.co/free-stock-video/gardener-arranging-the-soil-for-a-plant-43697/ | Free | 2 s |
+| `hotel-room-service` | Hotel room with breakfast served | https://mixkit.co/free-stock-video/hotel-room-with-breakfast-served-4019/ | Free | 2 s |
 
 To re-encode a clip from its Mixkit source (`<id>-720.mp4`), starting at `S` seconds:
 
@@ -72,6 +81,16 @@ These sectors are named in the hero brief but have no licensed footage yet. Each
 | Your own customers' teams | Real footage from Whagons customers, with their written consent, would beat any stock. | Any of the above |
 
 Real screen recordings of the app (rather than the HTML recreation and the rendered guide animations) would also be welcome for the "Cómo funciona" section; until then those animations are labelled as product animations with sample data.
+
+## Elsewhere on the home page
+
+- **Mosaic pools**: each tile now has a fourth item from the clips above (clinic, airport, coffee shop, grounds, work at height, kitchen, bakery, restaurant), so the mosaic covers more sectors over a cycle.
+- **En el piso / On the floor** (`sections/Field.tsx`): the earlier hero photo (`public/images/photos/hero-woman.jpg`) with its three floating product cards (`sections/FieldCards.tsx`, restored from the earlier `HeroVisual`). The cards rise in when the section scrolls into view, then drift.
+- **Donde se hace el trabajo / Where the work happens** (`sections/Reel.tsx`): a wall of 10 tiles (clips above plus `quality.jpg` and `engineering.jpg`). Each clip loads and plays only while its tile is on screen; photos drift slowly. Reduced motion or Save-Data keep the posters.
+- **FAQ**: `public/images/photos/faq-team.jpg` under the contact line.
+- **Next step**: `delivery-walk` plays, darkened, behind the closing band (`sections/Backdrop.tsx`), only while it is on screen.
+
+Mixkit items checked and left out because they are *Restricted*: forklift, freight truck at a warehouse, solar installers, grocery and store staff, factory and food-plant workers, hotel staff with towels, pharmacy checkout. An excavator-and-truck clip (Free) was left out because the machine's maker's logo is in every frame.
 
 ## The socket
 
