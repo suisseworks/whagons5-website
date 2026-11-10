@@ -6,6 +6,8 @@ import HospitalityAnalytics from './HospitalityAnalytics';
 import OperationsHeroDemo from '../home/OperationsHeroDemo';
 import TaskGridMock from '../product/TaskGridMock';
 import PhoneCrop from '../product/PhoneCrop';
+import { freeEvaluation } from '../../lib/free-evaluation';
+import { routeFor } from '../../lib/locales';
 import s from './HotelOperationsPage.module.css';
 
 type Language = 'en' | 'es';
@@ -60,7 +62,7 @@ export default function HotelOperationsPage({lang='en'}:{lang?:Language}) {
     <HospitalityAnalytics page={`${market}_hotel_operations`} market={market}/>
     <main className={s.page}>
       <section className={s.hero}>
-        <div className={s.heroCopy}><p className={s.eyebrow}>{t.eyebrow}</p><h1>{t.title} <em>{t.accent}</em></h1><p className={s.lead}>{t.lead}</p><div className={s.actions}><a className={s.button} href={`/${lang}/demo`} data-track="operations_demo_click">{t.demo} <span aria-hidden="true">↗</span></a><a className={s.textLink} href="#hotel-workflow">{t.explore} ↓</a></div></div>
+        <div className={s.heroCopy}><p className={s.eyebrow}>{t.eyebrow}</p><h1>{t.title} <em>{t.accent}</em></h1><p className={s.lead}>{t.lead}</p><div className={s.actions}><a className={s.button} href={`/${lang}/demo`} data-track="operations_demo_click">{t.demo} <span aria-hidden="true">↗</span></a><a className={s.textLink} href={routeFor(lang, 'evaluation')} data-track="hotel_evaluation_hero_click">{freeEvaluation[lang].cta} →</a><a className={s.textLink} href="#hotel-workflow">{t.explore} ↓</a></div></div>
         <figure className={s.heroPhoto}><Image src="/images/industries/hoteleria.jpg" alt={t.photo} fill priority sizes="(max-width: 800px) 100vw, 50vw"/><figcaption><span>{t.brand}</span><strong>{t.roomNote}</strong></figcaption></figure>
       </section>
       <div className={s.ribbon}>{t.ribbon.map((item,i)=><span key={item}><b>0{i+1}</b>{item}</span>)}</div>
@@ -72,7 +74,7 @@ export default function HotelOperationsPage({lang='en'}:{lang?:Language}) {
       <section className={s.capture} data-reveal-kids=""><div><p className={s.eyebrow}>{t.captureLabel}</p><h2>{t.captureTitle}</h2><p>{t.captureText}</p><div className={s.captureWords} aria-hidden="true"><span>{lang==='es'?'Voz':'Voice'}</span><span>QR</span><span>NFC</span></div></div><OperationsHeroDemo lang={lang}/></section>
       <section className={s.product} id="shift-handoff" data-reveal-kids=""><div className={s.productIntro}><div><p className={s.eyebrow}>{t.productLabel}</p><h2>{t.productTitle}</h2></div><div><p>{t.productText}</p><a className={s.textLink} href={platform}>{t.platform} →</a></div></div><figure className={s.screenshot}><div className={s.screenshotBar}><span aria-hidden="true">● ● ●</span> Whagons · Hotel Premium</div><PhoneCrop><TaskGridMock lang={lang} label={t.shotAlt}/></PhoneCrop></figure></section>
       <section className={s.rollout} id="regional-teams" data-reveal-kids=""><p className={s.eyebrow}>{t.rollout}</p><h2>{t.rolloutTitle}</h2><p>{t.rolloutText}</p></section>
-      <section className={s.final} data-reveal-kids=""><p className={s.eyebrow}>{t.brand}</p><h2>{t.endTitle}</h2><div className={s.actions}><a className={s.button} href={`/${lang}/demo`} data-track="operations_final_demo_click">{t.demo} ↗</a></div><p>{t.endNote}</p></section>
+      <section className={s.final} data-reveal-kids=""><p className={s.eyebrow}>{t.brand}</p><h2>{t.endTitle}</h2><div className={s.actions}><a className={s.button} href={`/${lang}/demo`} data-track="operations_final_demo_click">{t.demo} ↗</a><a className={s.textLink} href={routeFor(lang, 'evaluation')} data-track="hotel_evaluation_final_click">{freeEvaluation[lang].cta} →</a></div><p>{t.endNote}</p></section>
     </main>
   </>;
 }

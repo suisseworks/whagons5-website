@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { demoOffer } from '../../lib/demo-offer';
 import { Language, legalRouteFor, routeFor } from '../../lib/locales';
-import { freeEvaluation } from '../../lib/free-evaluation';
+import { businessEvaluation } from '../../lib/free-evaluation';
 import HospitalityAnalytics from '../hospitality/HospitalityAnalytics';
 import Hero from './hero/Hero';
 import Adapt from './sections/Adapt';
@@ -23,12 +23,16 @@ import styles from './HomePage.module.css';
  * where the work happens (clips and photos), customers, proof, questions and
  * the next step.
  */
+/** The proof section shows a few customers: Grupo El Lagar in large type, then IQS, Grupo Colono and Refritec. */
+const FEATURED_QUOTE = 1;
+const QUOTES = [3, 4, 5];
+
 export default function HomePage({ lang }: { lang: Language }) {
   const t = HOME_CONTENT[lang];
   const demo = demoOffer[lang];
-  const evaluation = freeEvaluation[lang];
+  const evaluation = businessEvaluation[lang];
   const demoHref = routeFor(lang, 'demo');
-  const evaluationHref = routeFor(lang, 'evaluation');
+  const evaluationHref = routeFor(lang, 'businessEvaluation');
   const testimonials = TESTIMONIALS[lang];
 
   return (
@@ -71,11 +75,11 @@ export default function HomePage({ lang }: { lang: Language }) {
           <h2 id="proof-title">{t.proof.title}</h2>
         </div>
         <figure className={styles.feature} data-reveal="">
-          <blockquote>{testimonials[1].quote}</blockquote>
-          <figcaption><strong>{testimonials[1].name}</strong><span>{testimonials[1].role}</span></figcaption>
+          <blockquote>{testimonials[FEATURED_QUOTE].quote}</blockquote>
+          <figcaption><strong>{testimonials[FEATURED_QUOTE].name}</strong><span>{testimonials[FEATURED_QUOTE].role}</span></figcaption>
         </figure>
         <div className={styles.quotes}>
-          {testimonials.filter((_, i) => i !== 1).map((item, i) => (
+          {QUOTES.map(index => testimonials[index]).map((item, i) => (
             <figure key={item.name} className={styles.quote} data-reveal="" style={{ ['--d' as string]: `${(i % 3) * 0.06}s` }}>
               <blockquote>{item.quote}</blockquote>
               <figcaption><strong>{item.name}</strong><span>{item.role}</span></figcaption>

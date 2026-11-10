@@ -23,16 +23,21 @@ export const DEMO_NOTIFICATION_RECIPIENTS = Object.freeze([
   'business@whagons.com',
 ]);
 
-// Free hotel evaluation requests are demo requests from /en/evaluation and
-// /es/evaluacion. They use the same validation, Flodesk segments and
-// recipients; the tag only changes the internal email so the team can tell
-// them apart. Any other value, including the retired 'pilot-waitlist' tag, is
-// an ordinary demo request.
+// Free evaluation requests are demo requests from the evaluation pages: the
+// hotel one (/en/evaluation, /es/evaluacion) and the business one
+// (/en/business-evaluation, /es/evaluacion-empresa). They use the same
+// validation, Flodesk segments and recipients; the tag only changes the
+// internal email so the team can tell them apart. Any other value, including
+// the retired 'pilot-waitlist' tag, is an ordinary demo request.
 export const FREE_EVALUATION_SOURCE = 'free-evaluation';
-const FREE_EVALUATION_SOURCE_LINE = 'Source: Free hotel evaluation';
+export const BUSINESS_EVALUATION_SOURCE = 'free-business-evaluation';
+const EVALUATION_LABELS = new Map([
+  [FREE_EVALUATION_SOURCE, 'Free hotel evaluation'],
+  [BUSINESS_EVALUATION_SOURCE, 'Free business evaluation'],
+]);
 
 export function leadSource(value) {
-  return value === FREE_EVALUATION_SOURCE ? FREE_EVALUATION_SOURCE : '';
+  return typeof value === 'string' && EVALUATION_LABELS.has(value) ? value : '';
 }
 
 export function buildFlodeskCustomFields({ company, industry, country, city, phone }) {
@@ -376,11 +381,12 @@ function escapeHtml(value) {
 
 function buildNotificationContent(lead, flodeskOk, requestId) {
   // Evaluation requests open with their source line; demo requests are unchanged.
-  const evaluation = lead.source === FREE_EVALUATION_SOURCE;
+  const evaluation = typeof lead.source === 'string' ? EVALUATION_LABELS.get(lead.source) : undefined;
+  const sourceText = evaluation ? `Source: ${evaluation}` : '';
   const company = cleanHeaderText(lead.company, 'Company not provided');
   const name = cleanHeaderText(lead.name, 'Name not provided');
   const subject = evaluation
-    ? `[Whagons] Free hotel evaluation - ${company}`
+    ? `[Whagons] ${evaluation} - ${company}`
     : `[Whagons] New demo request - ${company}`;
   const flodeskStatus = flodeskOk ? 'Captured successfully' : 'Needs manual follow-up';
   const fields = [
@@ -398,9 +404,9 @@ function buildNotificationContent(lead, flodeskOk, requestId) {
   ];
 
   const text = [
-    ...(evaluation ? [FREE_EVALUATION_SOURCE_LINE, ''] : []),
+    ...(evaluation ? [sourceText, ''] : []),
     evaluation
-      ? 'A visitor asked for a free hotel evaluation on whagons.com.'
+      ? `A visitor asked for a ${evaluation.toLowerCase()} on whagons.com.`
       : 'A new demo request was submitted on whagons.com.',
     '',
     ...fields.map(([label, value]) => `${label}: ${value}`),
@@ -414,12 +420,12 @@ function buildNotificationContent(lead, flodeskOk, requestId) {
         `<tr><th align="left" style="padding:6px 14px 6px 0;color:#5f625f;font-weight:600">${escapeHtml(label)}</th><td style="padding:6px 0;color:#111">${escapeHtml(value)}</td></tr>`
     )
     .join('');
-  const heading = evaluation ? 'New free hotel evaluation request' : 'New Whagons demo request';
+  const heading = evaluation ? `New ${evaluation.toLowerCase()} request` : 'New Whagons demo request';
   const intro = evaluation
-    ? 'A visitor asked for a free hotel evaluation on whagons.com.'
+    ? `A visitor asked for a ${evaluation.toLowerCase()} on whagons.com.`
     : 'A visitor submitted the demo form on whagons.com.';
   const sourceLine = evaluation
-    ? `<p style="margin:0;color:#5f625f;font-weight:600">${FREE_EVALUATION_SOURCE_LINE}</p>`
+    ? `<p style="margin:0;color:#5f625f;font-weight:600">${escapeHtml(sourceText)}</p>`
     : '';
   const html = `<!doctype html><html><body style="font-family:Arial,sans-serif;line-height:1.5;color:#111">${sourceLine}<h1 style="font-size:22px">${heading}</h1><p>${intro}</p><table role="presentation" cellspacing="0" cellpadding="0">${rows}</table><p style="margin-top:24px">Reply to this email to contact the prospect.</p></body></html>`;
 

@@ -16,6 +16,14 @@ test('the free evaluation page has a slug in each language', () => {
   }
 });
 
+test('the free business evaluation page has a slug in each language', () => {
+  assert.equal(routeFor('en', 'businessEvaluation'), '/en/business-evaluation');
+  assert.equal(routeFor('es', 'businessEvaluation'), '/es/evaluacion-empresa');
+  for (const path of ['/en/business-evaluation', '/es/evaluacion-empresa', '/es/evaluacion-empresa/']) {
+    assert.equal(routeKeyFromPath(path), 'businessEvaluation');
+  }
+});
+
 test('the retired pilot waitlist URLs permanently redirect to the demo in the same language', async () => {
   const redirects = await nextConfig.redirects();
   const expected = {

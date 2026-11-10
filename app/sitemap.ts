@@ -11,6 +11,7 @@ const pairs = [
   ['/es/industrias', '/en/industries'],
   ['/es/demo', '/en/demo'],
   ['/es/evaluacion', '/en/evaluation'],
+  ['/es/evaluacion-empresa', '/en/business-evaluation'],
   ['/es/blog', '/en/blog'],
   ['/es/privacy', '/en/privacy'],
   ['/es/terms', '/en/terms'],

@@ -13,6 +13,20 @@ export type AdaptSector = 'industry' | 'field' | 'construction' | 'logistics';
 /** How a task came in: the channels the app records (voice, NFC, QR, public forms, work plans, the Whagons agent). */
 export type AdaptChannel = 'voice' | 'nfc' | 'qr' | 'form' | 'plan' | 'agent';
 export type AdaptCapture = 'voice' | 'nfc' | 'qr' | 'form';
+export type AdaptView = 'grid' | 'kanban' | 'map';
+/**
+ * Labels for the logistics map. The component draws the streets, routes and
+ * moving trucks; routes and stops here are in the same order as its geometry.
+ * Each stop shows the status of its task.
+ */
+export interface AdaptMap {
+  label: string;
+  title: string;
+  routes: { name: string; who: string; done: number; total: number }[];
+  depot: { name: string; note: string };
+  stops: { name: string; task: number }[];
+  alert: string;
+}
 export interface AdaptTask { id: number; title: string; spot: string; who: string; status: number; channel?: AdaptChannel; tags?: string[]; notes?: number; files?: number }
 /**
  * One sector's example space, drawn as a small Whagons window. While it's
@@ -30,6 +44,9 @@ export interface AdaptSetup {
   mover: number;
   incoming: { capture: AdaptCapture; said: string; task: AdaptTask };
   agent: { category: string; who: string; whoFull: string; tag: string; duplicate?: string };
+  /** The view the window opens on for this sector (grid when not set). */
+  defaultView?: AdaptView;
+  map?: AdaptMap;
 }
 
 export interface Context {
@@ -70,7 +87,7 @@ const es = {
     sectors: { industry: 'Industria', field: 'Servicio en campo', construction: 'Construcción', logistics: 'Logística' } as Record<AdaptSector, string>,
     ui: {
       window: 'Ejemplo de configuración para', sample: 'Datos de ejemplo',
-      spaces: 'Espacios', powerups: 'Powerups', views: ['Tabla', 'Kanban'] as [string, string],
+      spaces: 'Espacios', powerups: 'Powerups', views: ['Tabla', 'Kanban', 'Mapa'] as [string, string, string],
       head: { task: 'Tarea', notes: 'Notas', status: 'Estado', spot: 'Spot', who: 'Resp.' },
       kpis: { created: 'Creadas hoy', rate: 'Cumplimiento', avg: 'Tiempo promedio', late: 'Vencidas' },
       channels: { voice: 'Voz', nfc: 'NFC', qr: 'QR', form: 'Formulario', plan: 'Plan', agent: 'Agente' } as Record<AdaptChannel, string>,
@@ -129,6 +146,19 @@ const es = {
       },
       logistics: {
         spaces: ['Despacho', 'Rutas', 'Almacén'], powerups: ['Mapas y ubicación', 'Inventario', 'NFC', 'Analítica'],
+        defaultView: 'map',
+        map: {
+          label: 'Mapa con las rutas de hoy: tres camiones en camino y el estado de cada parada.',
+          title: 'Rutas de hoy',
+          routes: [
+            { name: 'Ruta 12', who: 'MG', done: 9, total: 14 },
+            { name: 'Ruta 7', who: 'AV', done: 5, total: 8 },
+            { name: 'Unidad 08', who: 'LF', done: 2, total: 6 },
+          ],
+          depot: { name: 'Muelle 3', note: 'Centro de distribución' },
+          stops: [{ name: 'Farmacia Centro', task: 5514 }, { name: 'Cliente Norte', task: 5511 }],
+          alert: 'Caja dañada',
+        },
         statuses: ['Programada', 'En ruta', 'Entregada', 'Firmada'],
         tags: { 'Cadena de frío': '#0891b2', 'Urgente': '#dc2626', 'Ruta 12': '#4f46e5', 'Devolución': '#ca8a04', 'Reclamo': '#db2777' },
         kpis: { created: [48, 55, 61, 52, 58, 60, 64], rate: 95, avg: '47 min', avgBars: [58, 55, 53, 51, 50, 49, 47], late: 3, open: 38 },
@@ -251,7 +281,7 @@ const en: HomeContent = {
     sectors: { industry: 'Industry', field: 'Field service', construction: 'Construction', logistics: 'Logistics' },
     ui: {
       window: 'Example setup for', sample: 'Sample data',
-      spaces: 'Spaces', powerups: 'Powerups', views: ['Grid', 'Kanban'],
+      spaces: 'Spaces', powerups: 'Powerups', views: ['Grid', 'Kanban', 'Map'],
       head: { task: 'Task', notes: 'Notes', status: 'Status', spot: 'Spot', who: 'Owner' },
       kpis: { created: 'Created today', rate: 'Completion', avg: 'Avg. time', late: 'Overdue' },
       channels: { voice: 'Voice', nfc: 'NFC', qr: 'QR', form: 'Form', plan: 'Plan', agent: 'Agent' },
@@ -310,6 +340,19 @@ const en: HomeContent = {
       },
       logistics: {
         spaces: ['Dispatch', 'Routes', 'Warehouse'], powerups: ['Maps & location', 'Inventory', 'NFC', 'Analytics'],
+        defaultView: 'map',
+        map: {
+          label: 'Map of today’s routes: three trucks on the way and the status of each stop.',
+          title: 'Today’s routes',
+          routes: [
+            { name: 'Route 12', who: 'MG', done: 9, total: 14 },
+            { name: 'Route 7', who: 'AV', done: 5, total: 8 },
+            { name: 'Truck 08', who: 'LF', done: 2, total: 6 },
+          ],
+          depot: { name: 'Dock 3', note: 'Distribution center' },
+          stops: [{ name: 'Downtown pharmacy', task: 5514 }, { name: 'North customer', task: 5511 }],
+          alert: 'Damaged box',
+        },
         statuses: ['Scheduled', 'On route', 'Delivered', 'Signed'],
         tags: { 'Cold chain': '#0891b2', 'Urgent': '#dc2626', 'Route 12': '#4f46e5', 'Return': '#ca8a04', 'Claim': '#db2777' },
         kpis: { created: [48, 55, 61, 52, 58, 60, 64], rate: 95, avg: '47 min', avgBars: [58, 55, 53, 51, 50, 49, 47], late: 3, open: 38 },
