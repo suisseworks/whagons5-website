@@ -16,10 +16,10 @@ import styles from './HomePage.module.css';
 
 /*
  * Home page: Whagons adapts to the business, not the other way around.
- * Hero (operations mosaic → the product), customers, the floor team (the
- * earlier hero photo and its cards), how it adapts, the same system in
- * different operations, what each person does in it, where the work happens
- * (clips and photos), proof, questions and the next step.
+ * Hero (operations mosaic → the product), the floor team (the earlier hero
+ * photo and its cards), how it adapts, the same system in different
+ * operations, what each person does in it, where the work happens (clips and
+ * photos), customers, proof, questions and the next step.
  */
 export default function HomePage({ lang }: { lang: Language }) {
   const t = HOME_CONTENT[lang];
@@ -46,21 +46,20 @@ export default function HomePage({ lang }: { lang: Language }) {
         }}
       />
 
-      {/* ── Customers ─────────────────────────────── */}
-      <section className={styles.clients} aria-label={t.clients.label}>
-        <span>{t.clients.label}</span>
-        <div className={styles.marquee}>
-          <ul>{CUSTOMERS.map((name) => <li key={name}>{name}</li>)}</ul>
-          <ul aria-hidden="true">{CUSTOMERS.map((name) => <li key={name}>{name}</li>)}</ul>
-        </div>
-        <p className={styles.award}><span aria-hidden="true">★</span>{t.clients.award}</p>
-      </section>
-
       <Field lang={lang} />
       <Adapt lang={lang} />
       <Contexts lang={lang} />
       <HowItWorks lang={lang} />
       <Reel lang={lang} />
+
+      {/* ── Customers ─────────────────────────────── */}
+      <section className={styles.clients} aria-labelledby="clients-title">
+        <p id="clients-title" className={styles.clientsLabel}>{t.clients.label}</p>
+        <ul className={styles.clientList} data-reveal-kids="">
+          {CUSTOMERS.map((name) => <li key={name}>{name}</li>)}
+        </ul>
+        <p className={styles.award}><span aria-hidden="true">★</span>{t.clients.award}</p>
+      </section>
 
       {/* ── Proof ─────────────────────────────────── */}
       <section className={styles.proof} aria-labelledby="proof-title">
