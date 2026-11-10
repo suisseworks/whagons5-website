@@ -8,6 +8,7 @@ import Adapt from './sections/Adapt';
 import Backdrop from './sections/Backdrop';
 import Field from './sections/Field';
 import Reel from './sections/Reel';
+import Powerups from './sections/Powerups';
 import Contexts from './sections/Contexts';
 import HowItWorks from './sections/HowItWorks';
 import CountUp from './CountUp';
@@ -18,8 +19,9 @@ import styles from './HomePage.module.css';
  * Home page: Whagons adapts to the business, not the other way around.
  * Hero (operations mosaic → the product), the floor team (the earlier hero
  * photo and its cards), how it adapts, the same system in different
- * operations, what each person does in it, where the work happens (clips and
- * photos), customers, proof, questions and the next step.
+ * operations, what each person does in it, the powerups you can turn on,
+ * where the work happens (clips and photos), customers, proof, questions and
+ * the next step.
  */
 export default function HomePage({ lang }: { lang: Language }) {
   const t = HOME_CONTENT[lang];
@@ -50,6 +52,7 @@ export default function HomePage({ lang }: { lang: Language }) {
       <Adapt lang={lang} />
       <Contexts lang={lang} />
       <HowItWorks lang={lang} />
+      <Powerups lang={lang} />
       <Reel lang={lang} />
 
       {/* ── Customers ─────────────────────────────── */}

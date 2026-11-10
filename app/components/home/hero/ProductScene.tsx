@@ -49,16 +49,24 @@ export default function ProductScene({ lang, frame, live = false, pulse = 0 }: P
   const cursor = !at('cursor') ? 'off' : at('created') ? 'gone' : at('cursorSubmit') ? 'submit' : 'create';
   const typed = scenario.task.title.slice(0, at('spot') ? scenario.task.title.length : frame.typed);
 
-  const kpis = [
-    scenario.kpis.total + (created ? 1 : 0),
-    scenario.kpis.doing + (created && taskStatus === 'doing' ? 1 : 0),
-    scenario.kpis.doneToday + (created && taskStatus === 'done' ? 1 : 0),
-    scenario.kpis.overdue,
-  ];
+  // KPI cards: the space's numbers plus the new task, once it exists.
+  const k = scenario.kpis;
+  const added = created ? 1 : 0;
+  const closed = created && taskStatus === 'done';
+  const createdToday = k.created[6] + added;
+  const createdDays = [...k.created.slice(0, 6), createdToday];
+  const createdBefore = k.created.slice(0, 6).reduce((sum, v) => sum + v, 0) / 6;
+  const doneWeek = k.done + (closed ? 1 : 0);
+  const totalWeek = k.total + added;
+  const rate = Math.round((doneWeek / totalWeek) * 100);
+  const avg = closed ? k.avgAfter : k.avgTrend[6];
+  const avgDays = [...k.avgTrend.slice(0, 6), avg];
+  const byStatus = STATUS_ORDER.map(status => k.byStatus[status] + (created && taskStatus === status ? 1 : 0));
+  const tasksToday = byStatus.reduce((sum, v) => sum + v, 0);
 
   const newCard: Card | null = created ? {
     id: scenario.task.id, title: scenario.task.title, spot: scenario.task.spot, status: taskStatus,
-    priority: scenario.task.high ? 'high' : 'normal', who: scenario.task.who, tone: scenario.task.tone,
+    priority: scenario.task.high ? 'high' : 'normal', who: scenario.task.who, tone: scenario.task.tone, tag: scenario.task.tag,
   } : null;
   const cards = newCard ? [newCard, ...scenario.cards] : scenario.cards;
   const rowOf = new Map<number, number>();
@@ -101,12 +109,31 @@ export default function ProductScene({ lang, frame, live = false, pulse = 0 }: P
       <span className={styles.me}>AS</span>
     </header>
 
-    {/* ── KPI cards ───────────────────────── */}
+    {/* ── KPI cards (the app's visuals: columns, ring, sparkline, segments) ── */}
     <div className={styles.kpis} data-anchor="kpi">
-      {kpis.map((value, i) => <div key={i} className={styles.kpi} data-kpi={i}>
-        <span className={styles.kpiIcon}><Icon d={(['grid', 'activity', 'check', 'clock'] as const)[i]} /></span>
-        <span className={styles.kpiText}><span>{t.kpis[i]}</span><b key={value} className={styles.tick}>{value}</b></span>
-      </div>)}
+      <div className={styles.kpi} data-kpi="0">
+        <KpiHead icon="plus" label={t.kpis[0]} />
+        <span className={styles.kpiRow}><b key={createdToday} className={`${styles.kpiValue} ${styles.tick}`}>{createdToday}</b><Delta value={createdToday / createdBefore - 1} /></span>
+        <span className={styles.columns}>{createdDays.map((v, i) => <i key={i} data-today={i === 6 || undefined} style={{ '--h': v / Math.max(...createdDays) } as CSSProperties} />)}</span>
+      </div>
+      <div className={styles.kpi} data-kpi="1">
+        <KpiHead icon="check" label={t.kpis[1]} />
+        <span className={styles.ringRow}>
+          <svg className={styles.ring} viewBox="0 0 36 36"><circle className={styles.ringTrack} cx="18" cy="18" r="15" /><circle className={styles.ringValue} cx="18" cy="18" r="15" pathLength={100} style={{ strokeDashoffset: 100 - rate }} /></svg>
+          <span className={styles.ringText}><b key={rate} className={`${styles.kpiValue} ${styles.tick}`}>{rate}%</b><small>{doneWeek}/{totalWeek} · {t.week}</small></span>
+        </span>
+      </div>
+      <div className={styles.kpi} data-kpi="2">
+        <KpiHead icon="clock" label={t.kpis[2]} />
+        <span className={styles.kpiRow}><b key={avg} className={`${styles.kpiValue} ${styles.tick}`}>{avg}<small>{t.minutes}</small></b><Delta value={avg / k.avgTrend[0] - 1} lowerIsBetter /></span>
+        <Sparkline values={avgDays} />
+      </div>
+      <div className={styles.kpi} data-kpi="3">
+        <KpiHead icon="activity" label={t.kpis[3]} />
+        <span className={styles.kpiRow}><b key={tasksToday} className={`${styles.kpiValue} ${styles.tick}`}>{tasksToday}<small>{t.taskUnit}</small></b></span>
+        <span className={styles.segments}>{byStatus.map((v, i) => <i key={STATUS_ORDER[i]} data-status={STATUS_ORDER[i]} style={{ flexGrow: v }} />)}</span>
+        <span className={styles.legend}>{byStatus.map((v, i) => <span key={STATUS_ORDER[i]} data-status={STATUS_ORDER[i]}><i />{v}</span>)}</span>
+      </div>
     </div>
 
     {/* ── Board ───────────────────────────── */}
@@ -131,7 +158,13 @@ export default function ProductScene({ lang, frame, live = false, pulse = 0 }: P
           <span className={styles.cardTitle}>{c.title}</span>
           <span className={styles.cardSpot}><Icon d="pin" />{c.spot}</span>
           <span className={styles.cardFoot}>
-            {c === newCard && evidence && <span className={styles.proof}><Icon d="check" />3/3{scenario.evidence === 'photo' ? <Icon d="camera" /> : <Icon d="pen" />}</span>}
+            {c.tag && <span className={styles.tag} data-tone={c.tag.tone}>{c.tag.name}</span>}
+            {c === newCard
+              ? evidence && <span className={styles.proof}><Icon d="check" />3/3{scenario.evidence === 'photo' ? <Icon d="camera" /> : <Icon d="pen" />}</span>
+              : c.notes || c.files ? <span className={styles.counts}>
+                {c.notes ? <span><Icon d="message" />{c.notes}</span> : null}
+                {c.files ? <span><Icon d="clip" />{c.files}</span> : null}
+              </span> : null}
             <span className={styles.pill} data-status={c.status}>{t.statuses[c.status]}</span>
             <span className={styles.avatar} data-tone={c.tone}>{c.who}</span>
           </span>
@@ -219,22 +252,46 @@ function usePulse(rootRef: RefObject<HTMLDivElement>, pulse: number, live: boole
   return links;
 }
 
+function KpiHead({ icon, label }: { icon: IconName; label: string }) {
+  return <span className={styles.kpiHead}><span className={styles.kpiIcon}><Icon d={icon} /></span><span className={styles.kpiLabel}>{label}</span></span>;
+}
+
+/** Change as a chip, like the app's KPI cards: ▲/▼ and a percentage, green when it moves the right way. */
+function Delta({ value, lowerIsBetter }: { value: number; lowerIsBetter?: boolean }) {
+  const pct = Math.round(value * 100);
+  const tone = lowerIsBetter === undefined || pct === 0 ? 'flat' : (pct < 0) === lowerIsBetter ? 'good' : 'bad';
+  return <span className={styles.delta} data-tone={tone}>{pct > 0 ? <b>▲</b> : pct < 0 ? <b>▼</b> : null}{Math.abs(pct)}%</span>;
+}
+
+/** The last seven days as a line over a soft area, with today's point. */
+function Sparkline({ values }: { values: number[] }) {
+  const w = 60, h = 20, pad = 3;
+  const max = Math.max(...values), min = Math.min(...values);
+  const points = values.map((v, i) => [(i / (values.length - 1)) * w, pad + (1 - (v - min) / (max - min || 1)) * (h - pad * 2)]);
+  const line = points.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(2)} ${y.toFixed(2)}`).join(' ');
+  const [, endY] = points[points.length - 1];
+  return <span className={styles.spark}>
+    <svg viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none"><path className={styles.sparkArea} d={`${line} L${w} ${h} L0 ${h} Z`} /><path className={styles.sparkLine} d={line} /></svg>
+    <i className={styles.sparkDot} style={{ top: `${(endY / h) * 100}%` }} />
+  </span>;
+}
+
 const TONES: Record<Tone, string> = { blue: '#2563eb', violet: '#8b5cf6', amber: '#f59e0b', teal: '#0d9488', pink: '#ec4899', green: '#16a34a', orange: '#ea580c' };
 export const toneColor = (tone: Tone) => TONES[tone];
 
 function SpaceGlyph({ icon }: { icon: SpaceIcon }) {
   const paths: Record<SpaceIcon, ReactNode> = {
     wrench: <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />,
-    sparkles: <><path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.13-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0l1.58 6.14a2 2 0 0 0 1.44 1.44l6.13 1.58a.5.5 0 0 1 0 .96l-6.13 1.58a2 2 0 0 0-1.44 1.44l-1.58 6.13a.5.5 0 0 1-.96 0z" /><path d="M20 3v4M22 5h-4" /></>,
+    zap: <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />,
     truck: <><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2M15 18H9M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14" /><circle cx="17" cy="18" r="2" /><circle cx="7" cy="18" r="2" /></>,
     package: <><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /><path d="M12 22V12M3.3 7l8.7 5 8.7-5M7.5 4.27l9 5.15" /></>,
     clipboard: <><rect width="8" height="4" x="8" y="2" rx="1" /><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><path d="m9 14 2 2 4-4" /></>,
-    store: <><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4M2 7h20M22 7v3a2 2 0 0 1-2 2 2.7 2.7 0 0 1-2-1 2.7 2.7 0 0 1-4 0 2.7 2.7 0 0 1-4 0 2.7 2.7 0 0 1-4 0 2.7 2.7 0 0 1-2 1 2 2 0 0 1-2-2V7" /></>,
+    hardhat: <><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5M14 6a6 6 0 0 1 6 6v3M4 15v-3a6 6 0 0 1 6-6" /><rect x="2" y="15" width="20" height="4" rx="1" /></>,
   };
   return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{paths[icon]}</svg>;
 }
 
-type IconName = 'search' | 'plus' | 'grid' | 'activity' | 'check' | 'clock' | 'calendar' | 'pin' | 'camera' | 'pen' | 'bell';
+type IconName = 'search' | 'plus' | 'grid' | 'activity' | 'check' | 'clock' | 'calendar' | 'pin' | 'camera' | 'pen' | 'bell' | 'message' | 'clip';
 function Icon({ d }: { d: IconName }) {
   const paths: Record<IconName, ReactNode> = {
     search: <><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></>,
@@ -248,6 +305,8 @@ function Icon({ d }: { d: IconName }) {
     camera: <><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" /><circle cx="12" cy="13" r="3" /></>,
     pen: <><path d="M12 20h9" /><path d="M16.38 3.62a1 1 0 0 1 3 3L7.37 18.64a2 2 0 0 1-.86.5l-2.87.84a.5.5 0 0 1-.62-.62l.84-2.87a2 2 0 0 1 .5-.86z" /></>,
     bell: <><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></>,
+    message: <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />,
+    clip: <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />,
   };
   return <svg className={styles.icon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[d]}</svg>;
 }

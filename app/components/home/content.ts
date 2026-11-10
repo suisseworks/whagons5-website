@@ -9,10 +9,28 @@ import type { MediaKey } from './hero/media';
  * Examples are labelled as examples.
  */
 
-export interface AdaptTask { title: string; spot: string; who: string; col: number; due?: string; proof?: 'photo' | 'check' | 'sign' }
-/** One sector's example setup, drawn as a small Whagons window. `mover` is the task that advances one status while it's shown. */
-export interface AdaptSetup { spaces: string[]; statuses: string[]; view: string; closeout: string; routine: string; kpis: [number, number, number, number]; tasks: AdaptTask[]; mover: number; photo: string }
-export type AdaptSector = 'cleaning' | 'maintenance' | 'logistics' | 'retail';
+export type AdaptSector = 'industry' | 'field' | 'construction' | 'logistics';
+/** How a task came in: the channels the app records (voice, NFC, QR, public forms, work plans, the Whagons agent). */
+export type AdaptChannel = 'voice' | 'nfc' | 'qr' | 'form' | 'plan' | 'agent';
+export type AdaptCapture = 'voice' | 'nfc' | 'qr' | 'form';
+export interface AdaptTask { id: number; title: string; spot: string; who: string; status: number; channel?: AdaptChannel; tags?: string[]; notes?: number; files?: number }
+/**
+ * One sector's example space, drawn as a small Whagons window. While it's
+ * shown, `incoming` arrives through its channel, the triage agent suggests a
+ * category and owner (applied once approved) and `mover` advances one status
+ * with a new comment and attachment.
+ */
+export interface AdaptSetup {
+  spaces: string[];
+  powerups: string[];
+  statuses: [string, string, string, string];
+  tags: Record<string, string>;
+  kpis: { created: number[]; rate: number; avg: string; avgBars: number[]; late: number; open: number };
+  tasks: AdaptTask[];
+  mover: number;
+  incoming: { capture: AdaptCapture; said: string; task: AdaptTask };
+  agent: { category: string; who: string; whoFull: string; tag: string; duplicate?: string };
+}
 
 export interface Context {
   slug: string;
@@ -46,41 +64,84 @@ const es = {
       ['Tus nombres', 'Espacios, estados y campos con el vocabulario de tu equipo.'],
       ['Tus reglas', 'Responsables, plazos, aprobaciones y escalamientos según tu operación.'],
       ['Tus sistemas', 'Funciona junto a lo que ya usas, con API e integraciones definidas contigo.'],
+      ['Tus canales', 'El trabajo entra por voz, NFC, QR o formularios, y un agente sugiere quién lo toma.'],
     ] as [string, string][],
     tabsLabel: 'Ver un ejemplo de configuración',
-    sectors: { cleaning: 'Limpieza', maintenance: 'Mantenimiento', logistics: 'Logística', retail: 'Comercio' } as Record<AdaptSector, string>,
-    ui: { spaces: 'Espacios', kpis: ['Total', 'En curso', 'Hechas hoy', 'Vencidas'], closeout: 'Cierre', routine: 'Rutina', window: 'Ejemplo de configuración para' },
+    sectors: { industry: 'Industria', field: 'Servicio en campo', construction: 'Construcción', logistics: 'Logística' } as Record<AdaptSector, string>,
+    ui: {
+      window: 'Ejemplo de configuración para', sample: 'Datos de ejemplo',
+      spaces: 'Espacios', powerups: 'Powerups', views: ['Tabla', 'Kanban'] as [string, string],
+      head: { task: 'Tarea', notes: 'Notas', status: 'Estado', spot: 'Spot', who: 'Resp.' },
+      kpis: { created: 'Creadas hoy', rate: 'Cumplimiento', avg: 'Tiempo promedio', late: 'Vencidas' },
+      channels: { voice: 'Voz', nfc: 'NFC', qr: 'QR', form: 'Formulario', plan: 'Plan', agent: 'Agente' } as Record<AdaptChannel, string>,
+      capture: { voice: 'Reporte por voz', nfc: 'Toque NFC', qr: 'Código QR', form: 'Formulario público' } as Record<AdaptCapture, string>,
+      waiting: { voice: 'Escuchando…', nfc: 'Acerca el teléfono a la etiqueta…', qr: 'Escaneando…', form: 'Esperando un envío…' } as Record<AdaptCapture, string>,
+      hint: { voice: 'Se convierte en tarea, con su spot', nfc: 'El activo y el spot ya vienen llenos', qr: 'El equipo y el spot ya vienen llenos', form: 'Sin cuenta ni contraseña' } as Record<AdaptCapture, string>,
+      created: 'Tarea creada',
+      agent: 'Agente de triaje', agentIdle: 'Se ejecuta con cada tarea nueva en este espacio.', agentWorking: 'Trabajando en ello…',
+      category: 'Categoría', owner: 'Responsable', duplicate: 'Posible duplicado', approve: 'Aprobar', approved: 'Aprobado',
+    },
     setups: {
-      cleaning: { spaces: ['Ama de llaves', 'Lavandería', 'Áreas comunes'], statuses: ['Sucia', 'En limpieza', 'Limpia', 'Inspeccionada'], view: 'Tablero de habitaciones', closeout: 'Checklist de habitación y foto del baño', routine: 'Todos los días a las 7:00, una tarea por habitación', kpis: [48, 12, 31, 2], photo: '/media/home/cleaning-bathroom.jpg', mover: 2, tasks: [
-        { title: 'Hab. 204 · Salida', spot: 'Piso 2', who: 'AM', col: 0, due: '10:00' },
-        { title: 'Hab. 311 · Repaso', spot: 'Piso 3', who: 'LR', col: 0 },
-        { title: 'Hab. 118', spot: 'Piso 1', who: 'JP', col: 1, proof: 'check' },
-        { title: 'Baños del lobby', spot: 'Lobby', who: 'CS', col: 2, proof: 'photo' },
-        { title: 'Hab. 207', spot: 'Piso 2', who: 'AM', col: 3, proof: 'photo' },
-        { title: 'Hab. 305', spot: 'Piso 3', who: 'LR', col: 1 },
-      ] },
-      maintenance: { spaces: ['Correctivos', 'Preventivos', 'Proveedores'], statuses: ['Reportada', 'Asignada', 'En reparación', 'Verificada'], view: 'Kanban y calendario', closeout: 'Repuestos usados y fotos de antes y después', routine: 'Cada mes, una tarea por equipo', kpis: [23, 7, 9, 1], photo: '/media/home/mechanic-engine.jpg', mover: 2, tasks: [
-        { title: 'Fuga en bomba 3', spot: 'Planta norte', who: 'OP', col: 0, due: '08:20' },
-        { title: 'Banda transportadora', spot: 'Línea 2', who: 'JT', col: 1 },
-        { title: 'Compresor C-14', spot: 'Sala de máquinas', who: 'RM', col: 2, proof: 'photo' },
-        { title: 'Camión 07 · Frenos', spot: 'Taller', who: 'DV', col: 2 },
-        { title: 'Montacargas 2', spot: 'Almacén', who: 'RM', col: 3, proof: 'photo' },
-      ] },
-      logistics: { spaces: ['Despacho', 'Rutas', 'Almacén'], statuses: ['Programada', 'En ruta', 'Entregada', 'Firmada'], view: 'Mapa y lista del día', closeout: 'Foto de la carga y firma de quien recibe', routine: 'Antes de cada salida, la revisión de la unidad', kpis: [64, 18, 39, 3], photo: '/media/home/delivery-signature.jpg', mover: 3, tasks: [
-        { title: 'Ruta 12 · 14 paradas', spot: 'Muelle 3', who: 'MG', col: 0, due: '05:30' },
-        { title: 'Revisión unidad 08', spot: 'Patio', who: 'LF', col: 0, proof: 'check' },
-        { title: 'Pedido 4471', spot: 'Cliente Norte', who: 'MG', col: 1 },
-        { title: 'Pedido 4468', spot: 'Farmacia Centro', who: 'AV', col: 2, proof: 'photo' },
-        { title: 'Pedido 4460', spot: 'Hotel Plaza', who: 'AV', col: 3, proof: 'sign' },
-        { title: 'Pedido 4473', spot: 'Bodega Sur', who: 'JC', col: 2, proof: 'photo' },
-      ] },
-      retail: { spaces: ['Tiendas', 'Auditorías', 'Mantenimiento'], statuses: ['Pendiente', 'En revisión', 'Corregida', 'Aprobada'], view: 'Lista por tienda y tarjetas KPI', closeout: 'Fotos de góndola y puntaje de la auditoría', routine: 'Apertura y cierre, en cada tienda', kpis: [37, 9, 24, 4], photo: '/images/industries/retail.jpg', mover: 1, tasks: [
-        { title: 'Apertura · Tienda 08', spot: 'Tienda 08', who: 'KR', col: 0, due: '06:30', proof: 'check' },
-        { title: 'Auditoría de góndola', spot: 'Tienda 14', who: 'SP', col: 1, proof: 'photo' },
-        { title: 'Congelador sin frío', spot: 'Cámara de frío 14', who: 'TM', col: 1 },
-        { title: 'Precios pasillo 4', spot: 'Tienda 03', who: 'SP', col: 2, proof: 'photo' },
-        { title: 'Cierre · Tienda 11', spot: 'Tienda 11', who: 'KR', col: 3, proof: 'check' },
-      ] },
+      industry: {
+        spaces: ['Mantenimiento', 'Calidad', 'Seguridad'], powerups: ['Activos', 'Planes de trabajo', 'NFC', 'Inventario'],
+        statuses: ['Reportada', 'Asignada', 'En reparación', 'Verificada'],
+        tags: { 'Crítico': '#dc2626', 'Preventivo': '#4f46e5', 'Línea 2': '#0891b2', 'Repuestos': '#ca8a04', 'Mecánica': '#0d9488' },
+        kpis: { created: [9, 12, 8, 11, 13, 10, 14], rate: 87, avg: '38 min', avgBars: [52, 47, 44, 46, 41, 39, 38], late: 2, open: 19 },
+        mover: 0,
+        tasks: [
+          { id: 4812, title: 'Cambio de rodamientos', spot: 'Motor M-12', who: 'DR', status: 2, channel: 'plan', tags: ['Preventivo', 'Línea 2'], notes: 3, files: 2 },
+          { id: 4809, title: 'Fuga de aceite', spot: 'Prensa P-4', who: 'JT', status: 1, channel: 'qr', tags: ['Crítico'], notes: 1, files: 1 },
+          { id: 4807, title: 'Pedir rodamientos 6205', spot: 'Almacén', who: 'AM', status: 1, channel: 'agent', tags: ['Repuestos'], notes: 2 },
+          { id: 4805, title: 'Calibrar sensor de temperatura', spot: 'Horno 2', who: 'SV', status: 3, channel: 'plan', tags: ['Preventivo'], notes: 2, files: 3 },
+        ],
+        incoming: { capture: 'voice', said: '“La bomba P-3 de la línea 2 vibra más de lo normal.”', task: { id: 4815, title: 'Vibración anormal', spot: 'Bomba P-3 · Línea 2', who: '', status: 0, channel: 'voice', files: 1 } },
+        agent: { category: 'Mecánica', who: 'DR', whoFull: 'Diego R.', tag: 'Mecánica' },
+      },
+      field: {
+        spaces: ['Órdenes de servicio', 'Instalaciones', 'Contratos'], powerups: ['Mapas y ubicación', 'NFC', 'Inventario', 'Horarios'],
+        statuses: ['Programada', 'En camino', 'En sitio', 'Cerrada'],
+        tags: { 'SLA 4 h': '#ea580c', 'Garantía': '#16a34a', 'Cliente VIP': '#7c3aed', 'Eléctrico': '#0891b2', 'Clima': '#0d9488' },
+        kpis: { created: [15, 18, 21, 17, 24, 20, 23], rate: 92, avg: '2,2 h', avgBars: [31, 28, 29, 25, 24, 23, 22], late: 1, open: 27 },
+        mover: 1,
+        tasks: [
+          { id: 7731, title: 'Mantenimiento de chiller', spot: 'Hotel Plaza · Azotea', who: 'LF', status: 2, channel: 'plan', tags: ['Clima', 'Garantía'], notes: 2, files: 4 },
+          { id: 7728, title: 'Instalar tablero eléctrico', spot: 'Bodega Norte', who: 'MG', status: 1, tags: ['Eléctrico'], notes: 3, files: 1 },
+          { id: 7725, title: 'Revisión de UPS', spot: 'Banco Central · Piso 3', who: 'AV', status: 3, channel: 'nfc', tags: ['Cliente VIP'], notes: 4, files: 3 },
+          { id: 7722, title: 'Cambio de compresor', spot: 'Clínica San José', who: 'LF', status: 0, channel: 'form', tags: ['SLA 4 h', 'Clima'], notes: 1, files: 2 },
+        ],
+        incoming: { capture: 'qr', said: 'Generador G-2 · Torre B, sótano 2', task: { id: 7734, title: 'Generador no arranca', spot: 'Torre B · Sótano 2', who: '', status: 0, channel: 'qr', files: 1 } },
+        agent: { category: 'Eléctrico', who: 'MG', whoFull: 'Marco G.', tag: 'SLA 4 h' },
+      },
+      construction: {
+        spaces: ['Torre Norte', 'Seguridad', 'Calidad'], powerups: ['Planes de trabajo', 'Normas y documentos', 'Capacitación', 'Mapas y ubicación'],
+        statuses: ['Abierta', 'En corrección', 'Por revisar', 'Cerrada'],
+        tags: { 'Seguridad': '#dc2626', 'Punch list': '#4f46e5', 'Subcontratista': '#ca8a04', 'Nivel 7': '#0891b2', 'Estructura': '#0d9488' },
+        kpis: { created: [22, 27, 25, 30, 26, 29, 31], rate: 78, avg: '26 h', avgBars: [34, 31, 33, 29, 28, 27, 26], late: 5, open: 42 },
+        mover: 1,
+        tasks: [
+          { id: 3108, title: 'Inspección de andamios', spot: 'Fachada este', who: 'RC', status: 2, channel: 'plan', tags: ['Seguridad'], notes: 1, files: 4 },
+          { id: 3104, title: 'Fisura en losa', spot: 'Nivel 5 · Eje C4', who: 'JP', status: 1, channel: 'voice', tags: ['Estructura', 'Punch list'], notes: 3, files: 2 },
+          { id: 3101, title: 'Sellar ductos', spot: 'Nivel 3 · Baños', who: 'EV', status: 3, tags: ['Subcontratista'], notes: 2, files: 3 },
+          { id: 3097, title: 'Barandal de escalera', spot: 'Nivel 7 · Escalera B', who: 'RC', status: 0, channel: 'qr', tags: ['Seguridad', 'Nivel 7'], files: 1 },
+        ],
+        incoming: { capture: 'nfc', said: 'Punto de control · Nivel 7, eje C', task: { id: 3112, title: 'Barandal flojo', spot: 'Nivel 7 · Eje C', who: '', status: 0, channel: 'nfc', files: 1 } },
+        agent: { category: 'Seguridad', who: 'MG', whoFull: 'Marta G.', tag: 'Seguridad', duplicate: '#3097' },
+      },
+      logistics: {
+        spaces: ['Despacho', 'Rutas', 'Almacén'], powerups: ['Mapas y ubicación', 'Inventario', 'NFC', 'Analítica'],
+        statuses: ['Programada', 'En ruta', 'Entregada', 'Firmada'],
+        tags: { 'Cadena de frío': '#0891b2', 'Urgente': '#dc2626', 'Ruta 12': '#4f46e5', 'Devolución': '#ca8a04', 'Reclamo': '#db2777' },
+        kpis: { created: [48, 55, 61, 52, 58, 60, 64], rate: 95, avg: '47 min', avgBars: [58, 55, 53, 51, 50, 49, 47], late: 3, open: 38 },
+        mover: 2,
+        tasks: [
+          { id: 5520, title: 'Ruta 12 · 14 paradas', spot: 'Muelle 3', who: 'MG', status: 1, channel: 'plan', tags: ['Ruta 12'], notes: 2, files: 1 },
+          { id: 5517, title: 'Revisión de unidad 08', spot: 'Patio', who: 'LF', status: 3, channel: 'nfc', files: 2 },
+          { id: 5514, title: 'Pedido 4471', spot: 'Farmacia Centro', who: 'AV', status: 2, tags: ['Cadena de frío'], notes: 1, files: 2 },
+          { id: 5511, title: 'Reprogramar entrega 4459', spot: 'Cliente Norte', who: 'JC', status: 0, channel: 'agent', tags: ['Devolución'], notes: 1 },
+        ],
+        incoming: { capture: 'form', said: 'Pedido 4468 · Hotel Plaza', task: { id: 5523, title: 'Caja dañada en la entrega', spot: 'Hotel Plaza', who: '', status: 0, channel: 'form', files: 2 } },
+        agent: { category: 'Reclamo', who: 'AV', whoFull: 'Ana V.', tag: 'Reclamo' },
+      },
     } as Record<AdaptSector, AdaptSetup>,
     note: 'Ejemplos de configuración. Los nombres, campos y pasos los defines con nuestro equipo durante la puesta en marcha.',
   },
@@ -95,9 +156,9 @@ const es = {
     missingLink: 'Cuéntanos cómo trabaja tu equipo',
     allLink: 'Ver todas las industrias',
     items: [
-      { slug: 'limpieza', name: 'Limpieza', who: 'Hoteles, oficinas, hospitales y edificios', media: 'housekeeping', alt: 'Una camarista con su carro en el pasillo de un hotel',
-        day: [['07:00', 'Whagons crea la ronda del día: una tarea por habitación o baño, con su responsable.'], ['10:30', 'Cada habitación pasa de sucia a en limpieza y a limpia; supervisión ve el avance del turno.'], ['15:00', 'Una inspección falla y se convierte en una tarea correctiva con plazo.']],
-        uses: ['Planes de trabajo', 'Limpieza', 'Checklists', 'Tarjetas KPI'] },
+      { slug: 'industria', name: 'Industria y alimentos', who: 'Plantas de alimentos, laboratorios y manufactura', media: 'breweryTank', alt: 'Un operario abre un tanque de acero en una planta de bebidas',
+        day: [['06:00', 'Controles de temperatura y sanitización en cada turno, con su formulario.'], ['11:00', 'Una desviación se convierte en acción correctiva con responsable y plazo.'], ['16:00', 'Los registros quedan listos para la auditoría.']],
+        uses: ['Formularios', 'Acciones correctivas', 'Aprobaciones', 'Historial'] },
       { slug: 'mantenimiento', name: 'Mantenimiento', who: 'Plantas, edificios, flotas y hoteles', media: 'mechanicEngine', alt: 'Un mecánico revisando el motor de un vehículo',
         day: [['06:00', 'Los preventivos del turno aparecen solos, por equipo y por ubicación.'], ['08:20', 'Un operario escanea el QR de una bomba y reporta una fuga; llega al técnico de turno.'], ['11:45', 'El técnico registra los repuestos y cierra con fotos de antes y después.']],
         uses: ['QR y NFC', 'Activos', 'Planes de trabajo', 'Fotos'] },
@@ -110,9 +171,9 @@ const es = {
       { slug: 'hoteleria', name: 'Hotelería', who: 'Hoteles, resorts y hoteles boutique', media: 'roomInspection', alt: 'Una supervisora revisa una tableta en el pasillo de un hotel',
         day: [['07:10', 'Recepción reporta por voz una fuga en la 204; mantenimiento la recibe con la ubicación.'], ['09:30', 'Ama de llaves limpia, supervisión inspecciona con checklist y la habitación se libera.'], ['14:00', 'Toallas extra para la 312, con un objetivo de 15 minutos.']],
         uses: ['Solicitudes', 'Limpieza', 'Voz y QR', 'Checklists'], link: { label: 'Ver operaciones hoteleras', href: '/es/operaciones-hoteleras' } },
-      { slug: 'industria', name: 'Industria y alimentos', who: 'Plantas de alimentos, laboratorios y manufactura', media: 'breweryTank', alt: 'Un operario abre un tanque de acero en una planta de bebidas',
-        day: [['06:00', 'Controles de temperatura y sanitización en cada turno, con su formulario.'], ['11:00', 'Una desviación se convierte en acción correctiva con responsable y plazo.'], ['16:00', 'Los registros quedan listos para la auditoría.']],
-        uses: ['Formularios', 'Acciones correctivas', 'Aprobaciones', 'Historial'] },
+      { slug: 'limpieza', name: 'Limpieza', who: 'Hoteles, oficinas, hospitales y edificios', media: 'housekeeping', alt: 'Una camarista con su carro en el pasillo de un hotel',
+        day: [['07:00', 'Whagons crea la ronda del día: una tarea por habitación o baño, con su responsable.'], ['10:30', 'Cada habitación pasa de sucia a en limpieza y a limpia; supervisión ve el avance del turno.'], ['15:00', 'Una inspección falla y se convierte en una tarea correctiva con plazo.']],
+        uses: ['Planes de trabajo', 'Limpieza', 'Checklists', 'Tarjetas KPI'] },
     ] as Context[],
   },
   how: {
@@ -184,41 +245,84 @@ const en: HomeContent = {
       ['Your names', 'Spaces, statuses and fields in your team’s own words.'],
       ['Your rules', 'Owners, due times, approvals and escalations that match your operation.'],
       ['Your systems', 'Works alongside what you already use, with an API and integrations defined with you.'],
+      ['Your channels', 'Work comes in by voice, NFC, QR or forms, and an agent suggests who should take it.'],
     ],
     tabsLabel: 'See an example setup',
-    sectors: { cleaning: 'Cleaning', maintenance: 'Maintenance', logistics: 'Logistics', retail: 'Retail' },
-    ui: { spaces: 'Spaces', kpis: ['Total', 'In progress', 'Done today', 'Overdue'], closeout: 'Close-out', routine: 'Routine', window: 'Example setup for' },
+    sectors: { industry: 'Industry', field: 'Field service', construction: 'Construction', logistics: 'Logistics' },
+    ui: {
+      window: 'Example setup for', sample: 'Sample data',
+      spaces: 'Spaces', powerups: 'Powerups', views: ['Grid', 'Kanban'],
+      head: { task: 'Task', notes: 'Notes', status: 'Status', spot: 'Spot', who: 'Owner' },
+      kpis: { created: 'Created today', rate: 'Completion', avg: 'Avg. time', late: 'Overdue' },
+      channels: { voice: 'Voice', nfc: 'NFC', qr: 'QR', form: 'Form', plan: 'Plan', agent: 'Agent' },
+      capture: { voice: 'Voice report', nfc: 'NFC tap', qr: 'QR code', form: 'Public form' },
+      waiting: { voice: 'Listening…', nfc: 'Hold the phone to the tag…', qr: 'Scanning…', form: 'Waiting for a submission…' },
+      hint: { voice: 'It becomes a task, with its spot', nfc: 'The asset and spot are filled in', qr: 'The equipment and spot are filled in', form: 'No account or password' },
+      created: 'Task created',
+      agent: 'Triage agent', agentIdle: 'Runs within a minute of every new task in this space.', agentWorking: 'Working on it…',
+      category: 'Category', owner: 'Owner', duplicate: 'Possible duplicate', approve: 'Approve', approved: 'Approved',
+    },
     setups: {
-      cleaning: { spaces: ['Housekeeping', 'Laundry', 'Public areas'], statuses: ['Dirty', 'Cleaning', 'Clean', 'Inspected'], view: 'Room board', closeout: 'Room checklist and a photo of the bathroom', routine: 'Every day at 7:00, one task per room', kpis: [48, 12, 31, 2], photo: '/media/home/cleaning-bathroom.jpg', mover: 2, tasks: [
-        { title: 'Room 204 · Checkout', spot: 'Floor 2', who: 'AM', col: 0, due: '10:00' },
-        { title: 'Room 311 · Touch-up', spot: 'Floor 3', who: 'LR', col: 0 },
-        { title: 'Room 118', spot: 'Floor 1', who: 'JP', col: 1, proof: 'check' },
-        { title: 'Lobby restrooms', spot: 'Lobby', who: 'CS', col: 2, proof: 'photo' },
-        { title: 'Room 207', spot: 'Floor 2', who: 'AM', col: 3, proof: 'photo' },
-        { title: 'Room 305', spot: 'Floor 3', who: 'LR', col: 1 },
-      ] },
-      maintenance: { spaces: ['Corrective', 'Preventive', 'Vendors'], statuses: ['Reported', 'Assigned', 'In repair', 'Verified'], view: 'Kanban and calendar', closeout: 'Parts used and before-and-after photos', routine: 'Every month, one task per machine', kpis: [23, 7, 9, 1], photo: '/media/home/mechanic-engine.jpg', mover: 2, tasks: [
-        { title: 'Pump 3 leak', spot: 'North plant', who: 'OP', col: 0, due: '08:20' },
-        { title: 'Conveyor belt', spot: 'Line 2', who: 'JT', col: 1 },
-        { title: 'Compressor C-14', spot: 'Machine room', who: 'RM', col: 2, proof: 'photo' },
-        { title: 'Truck 07 · Brakes', spot: 'Workshop', who: 'DV', col: 2 },
-        { title: 'Forklift 2', spot: 'Warehouse', who: 'RM', col: 3, proof: 'photo' },
-      ] },
-      logistics: { spaces: ['Dispatch', 'Routes', 'Warehouse'], statuses: ['Scheduled', 'On route', 'Delivered', 'Signed'], view: 'Map and today’s list', closeout: 'A photo of the load and the recipient’s signature', routine: 'Before every departure, the truck check', kpis: [64, 18, 39, 3], photo: '/media/home/delivery-signature.jpg', mover: 3, tasks: [
-        { title: 'Route 12 · 14 stops', spot: 'Dock 3', who: 'MG', col: 0, due: '05:30' },
-        { title: 'Truck 08 check', spot: 'Yard', who: 'LF', col: 0, proof: 'check' },
-        { title: 'Order 4471', spot: 'North customer', who: 'MG', col: 1 },
-        { title: 'Order 4468', spot: 'Downtown pharmacy', who: 'AV', col: 2, proof: 'photo' },
-        { title: 'Order 4460', spot: 'Plaza Hotel', who: 'AV', col: 3, proof: 'sign' },
-        { title: 'Order 4473', spot: 'South warehouse', who: 'JC', col: 2, proof: 'photo' },
-      ] },
-      retail: { spaces: ['Stores', 'Audits', 'Maintenance'], statuses: ['Pending', 'In review', 'Fixed', 'Approved'], view: 'List by store and KPI cards', closeout: 'Shelf photos and the audit score', routine: 'Opening and closing, in every store', kpis: [37, 9, 24, 4], photo: '/images/industries/retail.jpg', mover: 1, tasks: [
-        { title: 'Opening · Store 08', spot: 'Store 08', who: 'KR', col: 0, due: '06:30', proof: 'check' },
-        { title: 'Shelf audit', spot: 'Store 14', who: 'SP', col: 1, proof: 'photo' },
-        { title: 'Freezer not cooling', spot: 'Cold room 14', who: 'TM', col: 1 },
-        { title: 'Aisle 4 prices', spot: 'Store 03', who: 'SP', col: 2, proof: 'photo' },
-        { title: 'Closing · Store 11', spot: 'Store 11', who: 'KR', col: 3, proof: 'check' },
-      ] },
+      industry: {
+        spaces: ['Maintenance', 'Quality', 'Safety'], powerups: ['Assets', 'Work plans', 'NFC', 'Inventory'],
+        statuses: ['Reported', 'Assigned', 'In repair', 'Verified'],
+        tags: { 'Critical': '#dc2626', 'Preventive': '#4f46e5', 'Line 2': '#0891b2', 'Spare parts': '#ca8a04', 'Mechanical': '#0d9488' },
+        kpis: { created: [9, 12, 8, 11, 13, 10, 14], rate: 87, avg: '38 min', avgBars: [52, 47, 44, 46, 41, 39, 38], late: 2, open: 19 },
+        mover: 0,
+        tasks: [
+          { id: 4812, title: 'Replace bearings', spot: 'Motor M-12', who: 'DR', status: 2, channel: 'plan', tags: ['Preventive', 'Line 2'], notes: 3, files: 2 },
+          { id: 4809, title: 'Oil leak', spot: 'Press P-4', who: 'JT', status: 1, channel: 'qr', tags: ['Critical'], notes: 1, files: 1 },
+          { id: 4807, title: 'Order 6205 bearings', spot: 'Storeroom', who: 'AM', status: 1, channel: 'agent', tags: ['Spare parts'], notes: 2 },
+          { id: 4805, title: 'Calibrate temperature sensor', spot: 'Oven 2', who: 'SV', status: 3, channel: 'plan', tags: ['Preventive'], notes: 2, files: 3 },
+        ],
+        incoming: { capture: 'voice', said: '“Pump P-3 on line 2 is vibrating more than usual.”', task: { id: 4815, title: 'Abnormal vibration', spot: 'Pump P-3 · Line 2', who: '', status: 0, channel: 'voice', files: 1 } },
+        agent: { category: 'Mechanical', who: 'DR', whoFull: 'Diego R.', tag: 'Mechanical' },
+      },
+      field: {
+        spaces: ['Service orders', 'Installations', 'Contracts'], powerups: ['Maps & location', 'NFC', 'Inventory', 'Schedules'],
+        statuses: ['Scheduled', 'On the way', 'On site', 'Closed'],
+        tags: { '4 h SLA': '#ea580c', 'Warranty': '#16a34a', 'VIP client': '#7c3aed', 'Electrical': '#0891b2', 'HVAC': '#0d9488' },
+        kpis: { created: [15, 18, 21, 17, 24, 20, 23], rate: 92, avg: '2.2 h', avgBars: [31, 28, 29, 25, 24, 23, 22], late: 1, open: 27 },
+        mover: 1,
+        tasks: [
+          { id: 7731, title: 'Chiller maintenance', spot: 'Plaza Hotel · Roof', who: 'LF', status: 2, channel: 'plan', tags: ['HVAC', 'Warranty'], notes: 2, files: 4 },
+          { id: 7728, title: 'Install electrical panel', spot: 'North warehouse', who: 'MG', status: 1, tags: ['Electrical'], notes: 3, files: 1 },
+          { id: 7725, title: 'UPS check', spot: 'Central Bank · Floor 3', who: 'AV', status: 3, channel: 'nfc', tags: ['VIP client'], notes: 4, files: 3 },
+          { id: 7722, title: 'Replace compressor', spot: 'San José Clinic', who: 'LF', status: 0, channel: 'form', tags: ['4 h SLA', 'HVAC'], notes: 1, files: 2 },
+        ],
+        incoming: { capture: 'qr', said: 'Generator G-2 · Tower B, basement 2', task: { id: 7734, title: 'Generator won’t start', spot: 'Tower B · Basement 2', who: '', status: 0, channel: 'qr', files: 1 } },
+        agent: { category: 'Electrical', who: 'MG', whoFull: 'Marco G.', tag: '4 h SLA' },
+      },
+      construction: {
+        spaces: ['North Tower', 'Safety', 'Quality'], powerups: ['Work plans', 'Standards & documents', 'Training', 'Maps & location'],
+        statuses: ['Open', 'Being fixed', 'To review', 'Closed'],
+        tags: { 'Safety': '#dc2626', 'Punch list': '#4f46e5', 'Subcontractor': '#ca8a04', 'Level 7': '#0891b2', 'Structure': '#0d9488' },
+        kpis: { created: [22, 27, 25, 30, 26, 29, 31], rate: 78, avg: '26 h', avgBars: [34, 31, 33, 29, 28, 27, 26], late: 5, open: 42 },
+        mover: 1,
+        tasks: [
+          { id: 3108, title: 'Scaffolding inspection', spot: 'East façade', who: 'RC', status: 2, channel: 'plan', tags: ['Safety'], notes: 1, files: 4 },
+          { id: 3104, title: 'Slab crack', spot: 'Level 5 · Axis C4', who: 'JP', status: 1, channel: 'voice', tags: ['Structure', 'Punch list'], notes: 3, files: 2 },
+          { id: 3101, title: 'Seal ducts', spot: 'Level 3 · Restrooms', who: 'EV', status: 3, tags: ['Subcontractor'], notes: 2, files: 3 },
+          { id: 3097, title: 'Stair railing', spot: 'Level 7 · Stair B', who: 'RC', status: 0, channel: 'qr', tags: ['Safety', 'Level 7'], files: 1 },
+        ],
+        incoming: { capture: 'nfc', said: 'Checkpoint · Level 7, axis C', task: { id: 3112, title: 'Loose railing', spot: 'Level 7 · Axis C', who: '', status: 0, channel: 'nfc', files: 1 } },
+        agent: { category: 'Safety', who: 'MG', whoFull: 'Marta G.', tag: 'Safety', duplicate: '#3097' },
+      },
+      logistics: {
+        spaces: ['Dispatch', 'Routes', 'Warehouse'], powerups: ['Maps & location', 'Inventory', 'NFC', 'Analytics'],
+        statuses: ['Scheduled', 'On route', 'Delivered', 'Signed'],
+        tags: { 'Cold chain': '#0891b2', 'Urgent': '#dc2626', 'Route 12': '#4f46e5', 'Return': '#ca8a04', 'Claim': '#db2777' },
+        kpis: { created: [48, 55, 61, 52, 58, 60, 64], rate: 95, avg: '47 min', avgBars: [58, 55, 53, 51, 50, 49, 47], late: 3, open: 38 },
+        mover: 2,
+        tasks: [
+          { id: 5520, title: 'Route 12 · 14 stops', spot: 'Dock 3', who: 'MG', status: 1, channel: 'plan', tags: ['Route 12'], notes: 2, files: 1 },
+          { id: 5517, title: 'Truck 08 check', spot: 'Yard', who: 'LF', status: 3, channel: 'nfc', files: 2 },
+          { id: 5514, title: 'Order 4471', spot: 'Downtown pharmacy', who: 'AV', status: 2, tags: ['Cold chain'], notes: 1, files: 2 },
+          { id: 5511, title: 'Reschedule delivery 4459', spot: 'North customer', who: 'JC', status: 0, channel: 'agent', tags: ['Return'], notes: 1 },
+        ],
+        incoming: { capture: 'form', said: 'Order 4468 · Plaza Hotel', task: { id: 5523, title: 'Damaged box on delivery', spot: 'Plaza Hotel', who: '', status: 0, channel: 'form', files: 2 } },
+        agent: { category: 'Claim', who: 'AV', whoFull: 'Ana V.', tag: 'Claim' },
+      },
     },
     note: 'Example setups. You define the names, fields and steps with our team during rollout.',
   },
@@ -233,9 +337,9 @@ const en: HomeContent = {
     missingLink: 'Tell us how your team works',
     allLink: 'See all industries',
     items: [
-      { slug: 'cleaning', name: 'Cleaning', who: 'Hotels, offices, hospitals and buildings', media: 'housekeeping', alt: 'A room attendant with her cart in a hotel corridor',
-        day: [['07:00', 'Whagons creates the day’s round: one task per room or restroom, each with its owner.'], ['10:30', 'Each room moves from dirty to cleaning to clean; supervisors see the shift’s progress.'], ['15:00', 'A failed inspection becomes a corrective task with a due time.']],
-        uses: ['Work plans', 'Cleaning', 'Checklists', 'KPI cards'] },
+      { slug: 'industry', name: 'Industry and food', who: 'Food plants, labs and manufacturing', media: 'breweryTank', alt: 'An operator opens a steel tank in a beverage plant',
+        day: [['06:00', 'Temperature and sanitation checks every shift, each with its form.'], ['11:00', 'A deviation becomes a corrective action with an owner and a due time.'], ['16:00', 'The records are ready for the audit.']],
+        uses: ['Forms', 'Corrective actions', 'Approvals', 'History'] },
       { slug: 'maintenance', name: 'Maintenance', who: 'Plants, buildings, fleets and hotels', media: 'mechanicEngine', alt: 'A mechanic checking a vehicle engine',
         day: [['06:00', 'The shift’s preventive work appears on its own, by team and by location.'], ['08:20', 'An operator scans a pump’s QR code and reports a leak; it reaches the technician on shift.'], ['11:45', 'The technician records the parts used and closes with before-and-after photos.']],
         uses: ['QR and NFC', 'Assets', 'Work plans', 'Photos'] },
@@ -248,9 +352,9 @@ const en: HomeContent = {
       { slug: 'hospitality', name: 'Hospitality', who: 'Hotels, resorts and boutique properties', media: 'roomInspection', alt: 'A supervisor checks a tablet in a hotel corridor',
         day: [['07:10', 'Front desk reports a leak in 204 by voice; maintenance gets it with the location.'], ['09:30', 'Housekeeping cleans, a supervisor inspects with a checklist and the room is released.'], ['14:00', 'Extra towels for 312, with a 15-minute target.']],
         uses: ['Requests', 'Cleaning', 'Voice and QR', 'Checklists'], link: { label: 'Explore hotel operations', href: '/en/hotel-operations' } },
-      { slug: 'industry', name: 'Industry and food', who: 'Food plants, labs and manufacturing', media: 'breweryTank', alt: 'An operator opens a steel tank in a beverage plant',
-        day: [['06:00', 'Temperature and sanitation checks every shift, each with its form.'], ['11:00', 'A deviation becomes a corrective action with an owner and a due time.'], ['16:00', 'The records are ready for the audit.']],
-        uses: ['Forms', 'Corrective actions', 'Approvals', 'History'] },
+      { slug: 'cleaning', name: 'Cleaning', who: 'Hotels, offices, hospitals and buildings', media: 'housekeeping', alt: 'A room attendant with her cart in a hotel corridor',
+        day: [['07:00', 'Whagons creates the day’s round: one task per room or restroom, each with its owner.'], ['10:30', 'Each room moves from dirty to cleaning to clean; supervisors see the shift’s progress.'], ['15:00', 'A failed inspection becomes a corrective task with a due time.']],
+        uses: ['Work plans', 'Cleaning', 'Checklists', 'KPI cards'] },
     ],
   },
   how: {
