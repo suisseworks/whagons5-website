@@ -1,0 +1,10 @@
+# The chat service is its own workspace, separate from the website's, so the
+# website's Docker build never installs or builds it.
+packages:
+  - "."
+
+allowBuilds:
+  esbuild: true
+  workerd: true
+  sharp: false
+

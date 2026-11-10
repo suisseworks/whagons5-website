@@ -11,6 +11,7 @@ import {
 import NavBar from '../components/NavBar';
 import FooterBar from '../components/FooterBar';
 import RevealObserver from '../components/RevealObserver';
+import ChatWidget from '../components/chat/ChatWidget';
 import '../globals.css';
 import '../styles/pages.css';
 
@@ -181,6 +182,7 @@ export default function LangLayout({ children, params }: LangLayoutProps) {
         <NavBar lang={lang} />
         <div id="page-content" tabIndex={-1}>{children}</div>
         <FooterBar lang={lang} />
+        <ChatWidget lang={lang} />
         <RevealObserver />
       </body>
     </html>

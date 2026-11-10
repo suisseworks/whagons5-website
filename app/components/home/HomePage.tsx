@@ -28,6 +28,7 @@ const content = {
     heroShotCaption: 'Task grid · Maintenance · Whagons',
     clientsLabel: 'Teams that trust Whagons',
     awardShort: 'Innovative Product of the Year 2017',
+    chatCta: 'Chat with us',
     problemEyebrow: 'The operational layer',
     problemTitle: 'The work between teams should never disappear between shifts.',
     problemText:
@@ -96,7 +97,8 @@ const content = {
     finalNote: 'Implementation slots are limited and scheduled according to our team’s real capacity.',
     faqEyebrow: 'Frequently asked questions',
     faqTitle: 'What hotels usually ask us.',
-    faqLead: 'If your question is not here, write to us and we will answer within one business day.',
+    faqLead: 'If your question is not here, ask us in the chat or write to us and we will answer within one business day.',
+    faqChat: 'Chat with us',
     faq: [
       ['Do I have to change my PMS?', 'No. Your PMS stays the record of the stay. Whagons coordinates the work around it: guest requests, rooms, maintenance and inspections.'],
       ['Which teams use it?', 'Front desk, housekeeping, maintenance, food and beverage, security and management. Each team works in its own space, on mobile and on the web.'],
@@ -122,6 +124,7 @@ const content = {
     heroShotCaption: 'Tareas · Mantenimiento · Whagons',
     clientsLabel: 'Equipos que confían en Whagons',
     awardShort: 'Producto Innovador del Año 2017',
+    chatCta: 'Chatea con nosotros',
     problemEyebrow: 'La capa operativa',
     problemTitle: 'El trabajo entre equipos no debería perderse entre turnos.',
     problemText:
@@ -190,7 +193,8 @@ const content = {
     finalNote: 'Los cupos de implementación son limitados y se coordinan según la capacidad real de nuestro equipo.',
     faqEyebrow: 'Preguntas frecuentes',
     faqTitle: 'Lo que suelen preguntarnos los hoteles.',
-    faqLead: 'Si tu pregunta no está aquí, escríbenos y te respondemos en un día hábil.',
+    faqLead: 'Si tu pregunta no está aquí, pregúntanos en el chat o escríbenos y te respondemos en un día hábil.',
+    faqChat: 'Chatea con nosotros',
     faq: [
       ['¿Tengo que cambiar mi PMS?', 'No. Tu PMS sigue siendo el registro de la estadía. Whagons coordina el trabajo a su alrededor: solicitudes, habitaciones, mantenimiento e inspecciones.'],
       ['¿Qué equipos lo usan?', 'Recepción, ama de llaves, mantenimiento, alimentos y bebidas, seguridad y gerencia. Cada equipo trabaja en su propio espacio, en móvil y en web.'],
@@ -542,6 +546,7 @@ export default function HomePage({ lang }: { lang: Language }) {
             </div>
             <p>{t.faqLead}</p>
             <div className={styles.faqContact}>
+              <a className={styles.btnSecondary} href="#chat" data-chat-open="" data-track="chat_faq_click">{t.faqChat}</a>
               <a href="mailto:hello@whagons.com">hello@whagons.com</a>
             </div>
           </div>
@@ -570,6 +575,7 @@ export default function HomePage({ lang }: { lang: Language }) {
             <div className={styles.finalActions}>
               <a className={styles.btnPrimary} href={demoHref} data-track="demo_final_click">{demoOffer[lang].cta}<Arrow /></a>
               <a className={styles.btnSecondary} href={evaluationHref} data-track="evaluation_final_click">{evaluation.cta}</a>
+              <a className={styles.btnSecondary} href="#chat" data-chat-open="" data-track="chat_final_click">{t.chatCta}</a>
             </div>
             <small>{t.finalNote}</small>
           </div>

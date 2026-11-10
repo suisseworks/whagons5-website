@@ -168,6 +168,7 @@ export default function IndustriasPageClient({ lang }: { lang: Language }) {
           <p>{t.cta.text}</p>
           <div className={s.actions}>
             <a className={s.btnPrimary} href={demoHref}>{t.cta.demo}<Arrow /></a>
+            <a className={s.btnGhost} href="#chat" data-chat-open="" data-track="chat_industries_click">{t.cta.chat}</a>
           </div>
         </div>
       </section>

@@ -45,6 +45,15 @@ export default function ContactSection({ t, language }: ContactSectionProps) {
               <span className="pg-accent" aria-hidden="true"><Arrow /></span>
             </a>
           </li>
+          <li>
+            <a href="#chat" data-chat-open="" data-track="chat_contact_click">
+              <div>
+                <h3>{isEs ? 'Chat en vivo' : 'Live chat'}</h3>
+                <p>{isEs ? 'Te responde una persona del equipo, aquí mismo.' : 'A person from our team answers, right here.'}</p>
+              </div>
+              <span className="pg-accent" aria-hidden="true"><Arrow /></span>
+            </a>
+          </li>
         </ul>
       </div>
     </section>

@@ -257,7 +257,7 @@ export default function ArticleRail({ lang, slug, title, toc, url }: {
         </div>
       </aside>
       {/* Outside the rail: its entrance animation would anchor a fixed bar to it. */}
-      <div className="art-bar" role="group" aria-label={t.actions} ref={barRef}>
+      <div className="art-bar" data-chat-avoid="" role="group" aria-label={t.actions} ref={barRef}>
         {reactionButtons}
         <button type="button" className="art-bar-share" aria-expanded={sheetOpen} aria-controls="art-share-sheet" onClick={share}>
           <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 10V2M4.75 5 8 1.75 11.25 5M3 8.5v5h10v-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>

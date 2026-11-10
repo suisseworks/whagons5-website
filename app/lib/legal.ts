@@ -27,7 +27,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
     intro:
       'Esta Política de Privacidad explica cómo Whagons recopila, usa, protege y comparte información cuando visitas nuestro sitio web, solicitas un brief o demo, o utilizas la plataforma Whagons para gestionar operaciones, automatizaciones, documentación y flujos de trabajo empresariales.',
     updatedLabel: 'Última actualización',
-    updatedDate: '1 de noviembre de 2026',
+    updatedDate: '9 de noviembre de 2026',
     sections: [
       {
         title: '1. Alcance',
@@ -41,6 +41,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         body: ['Podemos recopilar las siguientes categorías de información:'],
         bullets: [
           'Datos de contacto y negocio que nos envías al solicitar un demo o brief, como nombre, correo electrónico, empresa, industria, teléfono y tamaño del equipo operativo.',
+          'Los mensajes que nos escribes en el chat del sitio y, si decides darlos, tu nombre y correo electrónico, junto con la página desde la que escribes, tu idioma y tu ubicación aproximada (ciudad y país) obtenida de tu dirección IP.',
           'Información de cuenta y administración cuando una organización implementa Whagons, como usuarios autorizados, roles, ubicaciones, equipos y preferencias de configuración.',
           'Datos operativos cargados o generados dentro de la plataforma, incluyendo tareas, flujos, aprobaciones, formularios, documentación, registros, métricas, comentarios y archivos relacionados con la operación del cliente.',
           'Información técnica y de uso, como dirección IP, ubicación aproximada (ciudad y país), tipo de navegador, dispositivo, páginas visitadas, tiempos de acceso, idioma y registros necesarios para seguridad, soporte y rendimiento.',
@@ -83,12 +84,14 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         body: [
           'Cuando completas un formulario de demo o brief, la información enviada puede utilizarse para contactarte, clasificar tu interés comercial y enviarte seguimiento relacionado con Whagons.',
           'Actualmente utilizamos proveedores de automatización y gestión de leads para procesar estos envíos. Si no deseas recibir futuras comunicaciones comerciales, puedes darte de baja o solicitar la exclusión escribiéndonos a hello@whagons.com.',
+          'Cuando usas el chat del sitio, una persona de nuestro equipo lee y responde tus mensajes. Si nos dejas tu correo y sales de la página antes de que respondamos, te enviamos la respuesta a ese correo. Las conversaciones del chat se eliminan automáticamente 12 meses después del último mensaje, y puedes pedirnos que eliminemos una antes escribiendo a hello@whagons.com.',
         ],
       },
       {
         title: '7. Cookies, almacenamiento local y tecnologías similares',
         body: [
           'El sitio puede utilizar almacenamiento local del navegador y tecnologías similares para recordar preferencias, mantener funciones del sitio y apoyar mediciones técnicas básicas.',
+          'Si inicias un chat, tu navegador guarda un identificador de la conversación y una clave de acceso para que puedas seguirla en otras páginas y en visitas posteriores. Si borras el almacenamiento del navegador, se eliminan.',
           'Tu navegador te permite bloquear o eliminar estas tecnologías, aunque hacerlo puede afectar algunas funciones del sitio.',
         ],
       },
@@ -145,7 +148,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
     intro:
       'This Privacy Policy explains how Whagons Systems LLC (Whagons, we, or us) collects, uses, protects, and shares information when you visit the U.S. website, request a Hotel Handoff Leak Scan, or use the Whagons platform.',
     updatedLabel: 'Last updated',
-    updatedDate: 'November 1, 2026',
+    updatedDate: 'November 9, 2026',
     sections: [
       {
         title: '1. Scope',
@@ -159,6 +162,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         body: ['We may collect the following categories of information:'],
         bullets: [
           'Contact and business information you submit when requesting a Hotel Handoff Leak Scan, such as name, work email address, hotel or management company, role, phone number, property count, workflow category, and preferred contact method.',
+          'Messages you send us through the website chat and, if you choose to give them, your name and email address, together with the page you write from, your language, and your approximate location (city and country) derived from your IP address.',
           'Account and administration information when an organization implements Whagons, such as authorized users, roles, locations, teams, and configuration preferences.',
           'Operational data uploaded to or generated within the platform, including tasks, workflows, approvals, forms, documentation, logs, metrics, comments, and files related to the customer’s operations.',
           'Technical and usage information such as IP address, approximate location (city and country), browser type, device information, visited pages, access times, language, and logs needed for security, support, and performance.',
@@ -201,12 +205,14 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         body: [
           'When you request a Hotel Handoff Leak Scan, the submitted information may be used to review the request, contact you using the selected method, prepare the working session, and send follow-up related to the scan or a potential hotel pilot.',
           'We currently use automation and lead-management providers to process these submissions. If you no longer want to receive marketing communications, you can unsubscribe or request removal by contacting hello@whagons.com.',
+          'When you use the website chat, a person from our team reads and answers your messages. If you leave an email address and leave the page before we reply, we send our reply to that address. Chat conversations are deleted automatically 12 months after the last message, and you can ask us to delete one sooner at hello@whagons.com.',
         ],
       },
       {
         title: '7. Cookies, local storage, and similar technologies',
         body: [
           'The website may use browser local storage and similar technologies to remember preferences, support site functionality, and enable basic technical measurement.',
+          'If you start a chat, your browser stores a conversation identifier and access key so you can continue it on other pages and on later visits. Clearing your browser storage removes them.',
           'Your browser allows you to block or clear these technologies, although some website functionality may be affected if you do so.',
         ],
       },
@@ -731,7 +737,7 @@ export const dataRetentionContent: Record<Language, LegalPageContent> = {
         "bullets": [
           "Datos de la plataforma cargados o generados por clientes en Whagons, como tareas, formularios, archivos, comentarios y registros operativos.",
           "Datos de cuenta, usuarios y facturación de los clientes.",
-          "Datos del sitio web y de prospectos, como solicitudes de demo, briefs y contactos de marketing.",
+          "Datos del sitio web y de prospectos, como solicitudes de demo, briefs, conversaciones del chat del sitio y contactos de marketing.",
           "Registros técnicos y de seguridad de nuestros servidores.",
           "Datos de cuentas financieras recibidos a través de Plaid."
         ]
@@ -750,6 +756,7 @@ export const dataRetentionContent: Record<Language, LegalPageContent> = {
           "Life guarda actualmente transacciones y saldos financieros en su tabla de eventos de solo anexado. Desconectar una cuenta de Plaid no elimina los registros ya recopilados. No se ha verificado una purga financiera automática ni un plazo máximo de retención.",
           "Life también conserva indefinidamente los eventos de comportamiento para recalcular sus interpretaciones. La eliminación financiera propuesta debe tener un alcance separado del historial de comportamiento. Esta política no afirma que dichos eventos se borren actualmente.",
           "El código de desconexión intenta llamar a /item/remove de Plaid y quita el token cifrado de la lista activa. Actualmente omite los errores de Plaid, por lo que la eliminación local no demuestra que la revocación en Plaid haya tenido éxito.",
+          "El chat del sitio elimina automáticamente cada conversación y sus mensajes 12 meses después del último mensaje, mediante una tarea diaria del servicio de chat. El equipo también puede eliminar una conversación a solicitud desde la bandeja del chat.",
           "No se han verificado la caducidad de respaldos, la reaplicación de eliminaciones al restaurar, la eliminación al terminar contratos, ni la limpieza en proveedores o exportaciones locales según los plazos propuestos."
         ]
       },
@@ -848,7 +855,7 @@ export const dataRetentionContent: Record<Language, LegalPageContent> = {
         "bullets": [
           "Platform data that customers upload to or create in Whagons, such as tasks, forms, files, comments, and operational records.",
           "Customer account, user, and billing data.",
-          "Website and lead data, such as demo requests, briefs, and marketing contacts.",
+          "Website and lead data, such as demo requests, briefs, website chat conversations, and marketing contacts.",
           "Technical and security logs from our servers.",
           "Financial account data received through Plaid."
         ]
@@ -867,6 +874,7 @@ export const dataRetentionContent: Record<Language, LegalPageContent> = {
           "Life currently stores financial transactions and balances in its append-only events table. Disconnecting a Plaid item does not erase those previously collected records. No automatic finance purge or maximum retention period has been verified.",
           "Life also retains raw behavioral events indefinitely so that interpretations can be recomputed. Proposed finance deletion must be scoped separately from behavioral history; this policy does not claim that behavioral events are currently erased.",
           "The disconnect code attempts Plaid /item/remove and removes the encrypted token from the active item list. It currently suppresses errors from Plaid, so local removal is not proof that upstream revocation succeeded.",
+          "The website chat automatically deletes each conversation and its messages 12 months after the last message, through a daily job in the chat service. The team can also delete a conversation on request from the chat inbox.",
           "Production backup expiry, restore-time deletion replay, customer offboarding deletion, vendor cleanup, and local export cleanup have not been verified against the proposed periods below."
         ]
       },

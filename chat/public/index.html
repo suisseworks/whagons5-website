@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <title>Whagons Chat</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#F5F2EB" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121210" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Whagons Chat">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preload" href="/fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/app.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <!-- Sign in -->
+  <main id="signin" class="signin" hidden>
+    <div class="signin-card">
+      <p class="brand">Whagons <span>Chat</span></p>
+      <form id="email-form" novalidate>
+        <h1>Sign in</h1>
+        <p class="muted">We'll email you a 6-digit code.</p>
+        <label for="email">Work email</label>
+        <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="you@whagons.com">
+        <button type="submit" class="btn">Send code</button>
+      </form>
+      <form id="code-form" novalidate hidden>
+        <h1>Check your email</h1>
+        <p class="muted" id="code-sent"></p>
+        <label for="code">Code</label>
+        <input id="code" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="6" required placeholder="123456">
+        <button type="submit" class="btn">Sign in</button>
+        <button type="button" class="link" id="code-back">Use a different email</button>
+      </form>
+      <p class="form-error" id="signin-error" role="alert"></p>
+    </div>
+  </main>
+
+  <!-- First sign-in: the name visitors see -->
+  <main id="naming" class="signin" hidden>
+    <form class="signin-card" id="name-form" novalidate>
+      <p class="brand">Whagons <span>Chat</span></p>
+      <h1>What should visitors call you?</h1>
+      <p class="muted">Visitors see this name next to your replies, like “Ana from Whagons”.</p>
+      <label for="name-first">First name</label>
+      <input id="name-first" autocomplete="given-name" maxlength="40" required>
+      <button type="submit" class="btn">Continue</button>
+      <p class="form-error" id="name-error" role="alert"></p>
+    </form>
+  </main>
+
+  <!-- Inbox -->
+  <div id="app" class="app" hidden>
+    <aside class="list-pane" aria-label="Conversations">
+      <header class="bar">
+        <p class="brand">Whagons <span>Chat</span></p>
+        <span class="conn" id="conn" title="Connecting…"></span>
+        <button class="icon-btn" id="menu-btn" aria-haspopup="dialog" aria-label="Settings">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg>
+        </button>
+      </header>
+      <div class="notice" id="push-notice" hidden></div>
+      <div class="tabs" role="tablist">
+        <button role="tab" class="tab" data-filter="open" aria-selected="true">Open <span id="count-open"></span></button>
+        <button role="tab" class="tab" data-filter="closed" aria-selected="false">Closed</button>
+      </div>
+      <ul class="convs" id="convs"></ul>
+      <p class="empty" id="convs-empty" hidden>No chats yet. When someone writes on whagons.com, it shows up here.</p>
+    </aside>
+
+    <section class="thread-pane" id="thread" aria-label="Conversation">
+      <div class="placeholder" id="placeholder">
+        <p>Choose a conversation.</p>
+      </div>
+      <div class="thread" id="thread-body" hidden>
+        <header class="bar thread-bar">
+          <button class="icon-btn back" id="back-btn" aria-label="Back to conversations">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="who">
+            <h2 id="t-name"></h2>
+            <p id="t-meta" class="muted"></p>
+          </div>
+          <div class="thread-actions">
+            <button class="chip" id="t-claim"></button>
+            <button class="chip" id="t-close"></button>
+            <button class="icon-btn" id="t-more" aria-label="More actions">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
+            </button>
+          </div>
+        </header>
+        <ol class="messages" id="messages" aria-live="polite"></ol>
+        <p class="typing" id="typing" hidden>Typing…</p>
+        <p class="hint" id="t-hint"></p>
+        <form class="composer" id="composer">
+          <label class="sr-only" for="reply">Reply</label>
+          <textarea id="reply" rows="1" maxlength="2000" placeholder="Write a reply…"></textarea>
+          <button type="submit" class="send" aria-label="Send">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l16-8-6 16-2.5-6.5L4 12z" fill="currentColor"/></svg>
+          </button>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <dialog id="menu" class="sheet" aria-label="Settings">
+    <form method="dialog">
+      <h2>Settings</h2>
+      <p class="muted" id="menu-email"></p>
+      <label for="menu-name">Name visitors see</label>
+      <div class="row">
+        <input id="menu-name" maxlength="40">
+        <button type="button" class="btn small" id="menu-name-save">Save</button>
+      </div>
+      <h3>Notifications on this device</h3>
+      <p class="muted" id="menu-push-status"></p>
+      <div class="row wrap">
+        <button type="button" class="btn small" id="menu-push-toggle"></button>
+        <button type="button" class="btn small ghost" id="menu-push-test">Send a test</button>
+      </div>
+      <label class="check"><input type="checkbox" id="menu-sound"> Sound for new messages while the inbox is open</label>
+      <div class="row space">
+        <button type="button" class="link danger" id="menu-signout">Sign out</button>
+        <button class="btn small ghost" value="close">Done</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="more" class="sheet" aria-label="Conversation actions">
+    <form method="dialog">
+      <h2>Conversation</h2>
+      <p class="muted">Deleting removes every message for good. Use it when a visitor asks for their data to be erased, or for spam.</p>
+      <div class="row space">
+        <button type="button" class="btn small danger" id="more-delete">Delete conversation</button>
+        <button class="btn small ghost" value="close">Cancel</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+</body>
+</html>

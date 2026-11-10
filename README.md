@@ -79,6 +79,12 @@ The home page's "Whagons en acción" section plays `work-plans-schedule`, `clean
 
 It needs ffmpeg and Chrome or Chromium; set `CHROME_PATH` if Chrome is not found. Output goes to `public/media/blog/<lang>/<group>-<scene>.mp4` with a `.jpg` poster. See `scripts/blog-media/README.md` for the scene format.
 
+## Live chat
+
+Every page shows a chat bubble (`app/components/chat/ChatWidget.tsx`). Messages go to the chat service in [`chat/`](./chat/README.md), a Cloudflare Worker at https://chat.whagons.com that the team answers from. It deploys on its own with `cd chat && pnpm deploy`; the website's Docker build ignores that folder.
+
+Any link or button with `data-chat-open` opens the chat, and so does `#chat` in the URL. Fixed bars at the bottom of the screen should carry `data-chat-avoid` so the bubble moves above them.
+
 ## Lead delivery
 
 The homepage brief and demo forms post to `/api/flodesk`. The server:

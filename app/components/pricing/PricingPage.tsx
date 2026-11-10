@@ -206,6 +206,6 @@ export default function PricingPage({ lang }: { lang: Language }) {
         ]).map(([question, answer]) => <details key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}
       </div></section>
     </div>
-    <div className={styles.mobileTotal}><div><span>{es ? 'Total mensual · USD' : 'Monthly total · USD'}</span><strong>{from}{total ? money(total.monthly) : '—'}<small>{perMonth}</small></strong></div><a href="#plan-summary">{es ? 'Ver desglose' : 'View breakdown'} <span aria-hidden="true">↑</span></a></div>
+    <div className={styles.mobileTotal} data-chat-avoid=""><div><span>{es ? 'Total mensual · USD' : 'Monthly total · USD'}</span><strong>{from}{total ? money(total.monthly) : '—'}<small>{perMonth}</small></strong></div><a href="#plan-summary">{es ? 'Ver desglose' : 'View breakdown'} <span aria-hidden="true">↑</span></a></div>
   </main>;
 }

@@ -1,0 +1,40 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "whagons-chat",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "observability": { "enabled": true },
+
+  // chat.whagons.com serves the team inbox and the chat API.
+  "routes": [{ "pattern": "chat.whagons.com", "custom_domain": true }],
+  "workers_dev": false,
+
+  // The team inbox (an installable web app). API paths are not files, so they
+  // fall through to the Worker.
+  "assets": { "directory": "./public", "binding": "ASSETS" },
+
+  // One Durable Object holds every conversation, the team's sessions and the
+  // push subscriptions, and fans messages out over WebSockets.
+  "durable_objects": {
+    "bindings": [{ "name": "HUB", "class_name": "Hub" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Hub"] }],
+
+  "vars": {
+    // Who can sign in to the inbox. Comma-separated.
+    "AGENT_EMAILS": "mm@whagons.com",
+    // Who gets an email when a chat is not answered within two minutes.
+    "ALERT_EMAILS": "mm@whagons.com",
+    // Pages allowed to open chats. Comma-separated origins.
+    "ALLOWED_ORIGINS": "https://whagons.com,https://www.whagons.com",
+    "PUBLIC_URL": "https://chat.whagons.com",
+    "SITE_URL": "https://whagons.com",
+    "EMAIL_FROM": "Whagons <chat@notify.whagons.com>",
+    "VAPID_SUBJECT": "mailto:hello@whagons.com",
+    "VAPID_PUBLIC_KEY": "",
+    "RETENTION_DAYS": "365"
+  }
+  // Secrets (wrangler secret put …):
+  //   RESEND_API_KEY     sends sign-in codes, alerts and replies by email
+  //   VAPID_PRIVATE_KEY  signs push notifications (pnpm vapid prints a pair)
+}

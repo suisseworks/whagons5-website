@@ -24,6 +24,7 @@ const footerContent = {
     dataRetention: 'Data retention',
     legal: 'Legal',
     siteLinks: 'Site links',
+    chat: 'Live chat',
   },
   es: {
     market: 'Operaciones hoteleras',
@@ -48,6 +49,7 @@ const footerContent = {
     dataRetention: 'Retención de datos',
     legal: 'Legal',
     siteLinks: 'Enlaces del sitio',
+    chat: 'Chat en vivo',
   },
 } as const;
 
@@ -86,6 +88,7 @@ export default function FooterBar({ lang }: { lang: Language }) {
         <div className="sf-col" role="navigation" aria-label={`${t.siteLinks}: ${t.contact}`}>
           <p className="sf-h">{t.contact}</p>
           <a href="mailto:hello@whagons.com">hello@whagons.com</a>
+          <a href="#chat" data-chat-open="" data-track="chat_footer_click">{t.chat}</a>
           <a href="https://www.linkedin.com/company/whagons/" target="_blank" rel="noreferrer" aria-label="LinkedIn — Whagons">LinkedIn <span aria-hidden="true">↗</span></a>
           <a href="https://www.facebook.com/whagons/" target="_blank" rel="noreferrer" aria-label="Facebook — Whagons">Facebook <span aria-hidden="true">↗</span></a>
           <a href="https://www.instagram.com/whagons/" target="_blank" rel="noreferrer" aria-label="Instagram — Whagons">Instagram <span aria-hidden="true">↗</span></a>
