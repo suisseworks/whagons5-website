@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { demoOffer } from '../../lib/demo-offer';
 import { Language, legalRouteFor, routeFor } from '../../lib/locales';
-import { pilotWaitlist } from '../../lib/pilot-waitlist';
+import { freeEvaluation } from '../../lib/free-evaluation';
 import styles from './HomePage.module.css';
 import HospitalityAnalytics from '../hospitality/HospitalityAnalytics';
 import OperationsHeroDemo from './OperationsHeroDemo';
@@ -14,9 +14,11 @@ import CountUp from './CountUp';
 
 const content = {
   en: {
+    heroEyebrow: 'Operations software for hotels',
     heroTitle: <>Hotel operations <em>without blind spots.</em></>,
     heroLead:
       'Connect guest requests, room readiness, maintenance, inspections, and shifts in one operating view. Every job gets an owner, a due time, and proof it was done.',
+    heroNote: 'Demos are open now. We implement in stages with hands-on support, so slots are limited to our team’s real capacity.',
     heroPoints: ['Works alongside your PMS', 'Mobile + web', 'Works offline', 'Configured to your operation', 'Across Latin America'],
     heroPhotoAlt: 'A smiling member of the hotel team in a guest room',
     captureAlt: 'A maintenance technician repairing the plumbing in a guest bathroom',
@@ -88,6 +90,10 @@ const content = {
       { name: 'Health & education', who: 'Schools, universities and clinics', examples: ['Classroom and facility inspections', 'Issues reported by staff, fixed by maintenance', 'Protocols the whole team can follow'], proof: 'Customer: Colegio Humboldt' },
       { name: 'Construction', who: 'Developers, contractors and renovation crews', examples: ['Daily site tasks per crew, with deadlines', 'Stage checklists before each handover', 'Progress photos tied to each area'] },
     ],
+    finalEyebrow: 'How we work',
+    finalTitle: 'Implementation in stages, with your team.',
+    finalText: 'Each stage is set up around your operation, with personalized, hands-on support. Demos are open now.',
+    finalNote: 'Implementation slots are limited and scheduled according to our team’s real capacity.',
     faqEyebrow: 'Frequently asked questions',
     faqTitle: 'What hotels usually ask us.',
     faqLead: 'If your question is not here, write to us and we will answer within one business day.',
@@ -102,9 +108,11 @@ const content = {
     faqSecurity: 'Read the security policy',
   },
   es: {
+    heroEyebrow: 'Software de operaciones para hoteles',
     heroTitle: <>Operación hotelera <em>sin puntos ciegos.</em></>,
     heroLead:
       'Conecta solicitudes de huéspedes, habitaciones, mantenimiento, inspecciones y turnos en una sola vista operativa. Cada tarea tiene responsable, plazo y evidencia de cierre.',
+    heroNote: 'Las demos ya están abiertas. Implementamos por etapas, con acompañamiento personalizado y cupos limitados a nuestra capacidad real.',
     heroPoints: ['Funciona junto a tu PMS', 'Móvil + web', 'Funciona offline', 'Configurado para tu operación', 'En toda Latinoamérica'],
     heroPhotoAlt: 'Una colaboradora del hotel sonriendo en una habitación',
     captureAlt: 'Un técnico de mantenimiento reparando la plomería en el baño de una habitación',
@@ -176,6 +184,10 @@ const content = {
       { name: 'Salud y educación', who: 'Colegios, universidades y clínicas', examples: ['Inspecciones de aulas e instalaciones', 'Incidencias reportadas por el personal y resueltas por mantenimiento', 'Protocolos que todo el equipo puede seguir'], proof: 'Cliente: Colegio Humboldt' },
       { name: 'Construcción', who: 'Desarrolladoras, contratistas y equipos de remodelación', examples: ['Tareas diarias de obra por cuadrilla, con plazos', 'Checklists por etapa antes de cada entrega', 'Fotos de avance vinculadas a cada área'] },
     ],
+    finalEyebrow: 'Cómo trabajamos',
+    finalTitle: 'Implementación por etapas, junto con tu equipo.',
+    finalText: 'Cada etapa se adapta a tu operación, con acompañamiento personalizado y cercano. Las demos ya están abiertas.',
+    finalNote: 'Los cupos de implementación son limitados y se coordinan según la capacidad real de nuestro equipo.',
     faqEyebrow: 'Preguntas frecuentes',
     faqTitle: 'Lo que suelen preguntarnos los hoteles.',
     faqLead: 'Si tu pregunta no está aquí, escríbenos y te respondemos en un día hábil.',
@@ -285,10 +297,10 @@ function Check() {
 export default function HomePage({ lang }: { lang: Language }) {
   const t = content[lang];
   const proof = customerProof[lang];
-  const pilot = pilotWaitlist[lang];
+  const evaluation = freeEvaluation[lang];
   const hasLocalizedDetailPages = lang === 'en' || lang === 'es';
   const demoHref = routeFor(lang, 'demo');
-  const pilotHref = routeFor(lang, 'pilot');
+  const evaluationHref = routeFor(lang, 'evaluation');
   const platformHref = hasLocalizedDetailPages ? routeFor(lang, 'platform') : routeFor(lang, 'features');
   const featuresHref = hasLocalizedDetailPages ? routeFor(lang, 'features') : demoHref;
   const hotelHref = routeFor(lang, 'hotels');
@@ -302,14 +314,14 @@ export default function HomePage({ lang }: { lang: Language }) {
           <Image className={styles.heroPhoto} src="/images/photos/hero-woman.jpg" alt={t.heroPhotoAlt} fill priority sizes="100vw" />
           <div className={styles.heroTop}>
             <div className={styles.heroCopy}>
-              <p className={styles.heroEyebrow} data-rise=""><span aria-hidden="true" />{pilot.badge}</p>
+              <p className={styles.heroEyebrow} data-rise=""><span aria-hidden="true" />{t.heroEyebrow}</p>
               <h1 data-rise="" style={{ ['--d' as string]: '.05s' }}>{t.heroTitle}</h1>
               <p className={styles.lead} data-rise="" style={{ ['--d' as string]: '.1s' }}>{t.heroLead}</p>
               <div className={styles.actions} data-rise="" style={{ ['--d' as string]: '.15s' }}>
-                <a className={styles.btnPrimary} href={pilotHref} data-track="pilot_waitlist_hero_click">{pilot.cta}<Arrow /></a>
-                <a className={styles.btnSecondary} href={demoHref}>{demoOffer[lang].cta}</a>
+                <a className={styles.btnPrimary} href={demoHref} data-track="demo_hero_click">{demoOffer[lang].cta}<Arrow /></a>
+                <a className={styles.btnSecondary} href={evaluationHref} data-track="evaluation_hero_click">{evaluation.cta}</a>
               </div>
-              <p className={styles.heroNote} data-rise="" style={{ ['--d' as string]: '.18s' }}>{pilot.reason}</p>
+              <p className={styles.heroNote} data-rise="" style={{ ['--d' as string]: '.18s' }}>{t.heroNote}</p>
               <ul className={styles.points} data-rise="" style={{ ['--d' as string]: '.2s' }}>
                 {t.heroPoints.map((point) => <li key={point}><Check />{point}</li>)}
               </ul>
@@ -552,13 +564,14 @@ export default function HomePage({ lang }: { lang: Language }) {
         <div className={styles.finalPanel} data-reveal="">
           <Image className={styles.finalPhoto} src="/images/photos/lobby.jpg" alt="" fill sizes="(max-width: 1240px) 100vw, 1180px" />
           <div className={styles.finalBody}>
-            <p className={styles.eyebrow}>{pilot.eyebrow}</p>
-            <h2>{pilot.title}</h2>
-            <p>{pilot.description}</p>
+            <p className={styles.eyebrow}>{t.finalEyebrow}</p>
+            <h2>{t.finalTitle}</h2>
+            <p>{t.finalText}</p>
             <div className={styles.finalActions}>
-              <a className={styles.btnPrimary} href={pilotHref} data-track="pilot_waitlist_final_click">{pilot.cta}<Arrow /></a>
+              <a className={styles.btnPrimary} href={demoHref} data-track="demo_final_click">{demoOffer[lang].cta}<Arrow /></a>
+              <a className={styles.btnSecondary} href={evaluationHref} data-track="evaluation_final_click">{evaluation.cta}</a>
             </div>
-            <small>{pilot.demoPrompt} <a href={demoHref}>{demoOffer[lang].cta}</a></small>
+            <small>{t.finalNote}</small>
           </div>
         </div>
       </section>

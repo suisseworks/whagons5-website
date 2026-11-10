@@ -2,7 +2,9 @@
 
 The public form is available at `/en/demo` and `/es/demo`. It captures name, hotel/company, email, optional phone, industry, team size, language, and country when the edge provides a country header.
 
-The pilot waitlist at `/en/pilot` and `/es/piloto` is the same form with different copy. It needs no extra settings: signups use the same segments and recipients below, and the internal email's subject reads `[Whagons] Pilot waitlist - <company>` instead of `[Whagons] New demo request - <company>`.
+The free hotel evaluation at `/en/evaluation` and `/es/evaluacion` is the same form with different copy. It needs no extra settings: requests use the same segments and recipients below, and the internal email's subject reads `[Whagons] Free hotel evaluation - <company>` instead of `[Whagons] New demo request - <company>`. Its first line is `Source: Free hotel evaluation`.
+
+The retired pilot waitlist URLs (`/en/pilot`, `/es/piloto`) permanently redirect to the demo page in the same language (`next.config.js`).
 
 ## 1. Flodesk
 
@@ -47,7 +49,7 @@ After deployment:
 4. confirm the same notification arrived at both internal addresses;
 5. reply to the notification and confirm it targets the prospect address;
 6. check server logs using the returned request ID if either delivery is missing;
-7. repeat steps 1 to 4 through `/en/pilot` and confirm the notification subject starts with `[Whagons] Pilot waitlist`.
+7. repeat steps 1 to 4 through `/en/evaluation` and confirm the notification subject starts with `[Whagons] Free hotel evaluation`.
 
 Automated tests can be run with `pnpm test`. They mock both providers and never create a real subscriber or send a real email.
 

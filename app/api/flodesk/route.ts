@@ -202,7 +202,7 @@ export async function POST(request: NextRequest) {
     }
     const cleanLanguage: Language = submittedLanguage;
     const cleanFormType: FormType = body.formType === 'brief' ? 'brief' : 'demo';
-    // The pilot waitlist page sends the demo form with a source tag.
+    // The free evaluation page sends the demo form with a source tag.
     const cleanSource = cleanFormType === 'demo' ? leadSource(body.source) : '';
     const cleanPhone = sanitize(body.phone, 60);
     const cleanTeamSize = sanitize(body.teamSize);

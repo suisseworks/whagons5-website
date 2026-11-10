@@ -49,7 +49,7 @@ export type CoreRoute =
   | 'pricing'
   | 'paradorOffer'
   | 'demo'
-  | 'pilot';
+  | 'evaluation';
 
 const FULL_PAGE_ROUTES: Record<'es' | 'en', Record<CoreRoute, string>> = {
   es: {
@@ -63,7 +63,7 @@ const FULL_PAGE_ROUTES: Record<'es' | 'en', Record<CoreRoute, string>> = {
     blog: '/es/blog',
     news: '/es/novedades',
     demo: '/es/demo',
-    pilot: '/es/piloto',
+    evaluation: '/es/evaluacion',
   },
   en: {
     paradorOffer: '/en/proposals/hotel-parador',
@@ -76,7 +76,7 @@ const FULL_PAGE_ROUTES: Record<'es' | 'en', Record<CoreRoute, string>> = {
     blog: '/en/blog',
     news: '/en/whats-new',
     demo: '/en/demo',
-    pilot: '/en/pilot',
+    evaluation: '/en/evaluation',
   },
 };
 
@@ -96,7 +96,7 @@ export function routeKeyFromPath(pathname: string): CoreRoute | null {
   if (pathWithoutLanguage === '/propuestas/hotel-parador' || pathWithoutLanguage === '/proposals/hotel-parador') return 'paradorOffer';
   if (pathWithoutLanguage === '/pricing' || pathWithoutLanguage === '/precios' || pathWithoutLanguage === '/planes') return 'pricing';
   if (pathWithoutLanguage === '/demo' || pathWithoutLanguage === '/handoff-scan') return 'demo';
-  if (pathWithoutLanguage === '/pilot' || pathWithoutLanguage === '/piloto') return 'pilot';
+  if (pathWithoutLanguage === '/evaluation' || pathWithoutLanguage === '/evaluacion') return 'evaluation';
   if (pathWithoutLanguage === '/platform' || pathWithoutLanguage === '/plataforma') return 'platform';
   if (pathWithoutLanguage === '/features' || pathWithoutLanguage === '/funcionalidades') return 'features';
   if (pathWithoutLanguage === '/hotel-operations' || pathWithoutLanguage === '/operaciones-hoteleras') return 'hotels';

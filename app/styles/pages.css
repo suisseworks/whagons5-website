@@ -277,10 +277,10 @@ a.pg-card:hover { border-color: #d9d2c6; box-shadow: var(--shadow); transform: t
 /* ── Demo page ───────────────────────────── */
 /* globals.css styles the legacy home-page anchors #demo / #contact by id
    (padding: 0 56px, max-width: 1200px); re-assert the pg layout here. */
-.pg :is(#demo, #waitlist).pg-hero { max-width: none; margin: 0; padding: 132px var(--gutter) 56px; }
+.pg :is(#demo, #evaluation).pg-hero { max-width: none; margin: 0; padding: 132px var(--gutter) 56px; }
 .pg #contact.pg-section { max-width: 1180px; margin: 0 auto; padding: 0 var(--gutter) 96px; }
 @media (max-width: 900px) {
-  .pg :is(#demo, #waitlist).pg-hero { padding: 110px var(--gutter) 40px; }
+  .pg :is(#demo, #evaluation).pg-hero { padding: 110px var(--gutter) 40px; }
   .pg #contact.pg-section { padding: 0 var(--gutter) 64px; }
 }
 .pg-demo-hero .pg-hero-split { align-items: start; }

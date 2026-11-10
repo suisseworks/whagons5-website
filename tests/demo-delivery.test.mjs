@@ -6,7 +6,7 @@ import {
   DEMO_SEGMENT_NAMES,
   FLODESK_SEGMENTS_URL,
   FLODESK_SUBSCRIBERS_URL,
-  PILOT_WAITLIST_SOURCE,
+  FREE_EVALUATION_SOURCE,
   RESEND_EMAILS_URL,
   buildFlodeskCustomFields,
   demoSegmentName,
@@ -17,7 +17,7 @@ import {
   sendDemoNotification,
   upsertFlodeskSubscriber,
 } from '../app/lib/demo-delivery.mjs';
-import { PILOT_WAITLIST_SOURCE as WAITLIST_PAGE_SOURCE } from '../app/lib/pilot-waitlist.ts';
+import { FREE_EVALUATION_SOURCE as EVALUATION_PAGE_SOURCE } from '../app/lib/free-evaluation.ts';
 
 const lead = {
   name: 'Matthias',
@@ -242,26 +242,31 @@ test('sends one notification to both fixed internal recipients', async () => {
   assert.match(body.text, /San José/);
   assert.match(body.text, /1 to 10 people/);
   assert.equal(request.init.headers['Idempotency-Key'], 'demo-request/request-123');
+  // Demo requests keep their usual subject and opening, with no source line.
   assert.equal(body.subject, '[Whagons] New demo request - Malek');
-  assert.doesNotMatch(body.text, /waitlist/i);
+  assert.equal(body.text.split('\n')[0], 'A new demo request was submitted on whagons.com.');
+  assert.doesNotMatch(body.text, /^Source:/m);
+  assert.doesNotMatch(body.html, /Source:/);
+  assert.match(body.html, /<body[^>]*><h1[^>]*>New Whagons demo request<\/h1>/);
 });
 
-test('accepts only the pilot waitlist tag the waitlist page sends', () => {
-  assert.equal(WAITLIST_PAGE_SOURCE, PILOT_WAITLIST_SOURCE);
-  assert.equal(leadSource('pilot-waitlist'), 'pilot-waitlist');
-  for (const value of [undefined, null, '', 'demo', 'Pilot-Waitlist', ' pilot-waitlist', ['pilot-waitlist'], { source: 'pilot-waitlist' }]) {
+test('accepts only the free evaluation tag the evaluation page sends', () => {
+  assert.equal(EVALUATION_PAGE_SOURCE, FREE_EVALUATION_SOURCE);
+  assert.equal(leadSource('free-evaluation'), 'free-evaluation');
+  // The retired pilot waitlist tag, like any other value, is a plain demo request.
+  for (const value of [undefined, null, '', 'demo', 'pilot-waitlist', 'Free-Evaluation', ' free-evaluation', ['free-evaluation'], { source: 'free-evaluation' }]) {
     assert.equal(leadSource(value), '');
   }
 });
 
-test('tags pilot waitlist signups in the same notification to the same recipients', async () => {
+test('tags free evaluation requests in the same notification to the same recipients', async () => {
   let request;
   const result = await sendDemoNotification({
     resendApiKey: 'resend-test-key',
     from: 'Whagons Website <website@notify.whagons.com>',
-    lead: { ...lead, source: PILOT_WAITLIST_SOURCE },
+    lead: { ...lead, source: FREE_EVALUATION_SOURCE },
     flodeskOk: true,
-    requestId: 'request-waitlist',
+    requestId: 'request-evaluation',
     fetchImpl: async (url, init) => {
       request = { url, init };
       return Response.json({ id: 'email-id' });
@@ -272,13 +277,16 @@ test('tags pilot waitlist signups in the same notification to the same recipient
   assert.equal(result.ok, true);
   assert.equal(request.url, RESEND_EMAILS_URL);
   const body = JSON.parse(request.init.body);
-  assert.equal(body.subject, '[Whagons] Pilot waitlist - Malek');
+  assert.equal(body.subject, '[Whagons] Free hotel evaluation - Malek');
   assert.deepEqual(body.to, DEMO_NOTIFICATION_RECIPIENTS);
   assert.equal(body.reply_to, lead.email);
-  assert.match(body.text, /^A visitor joined the pilot waitlist on whagons\.com\./);
-  assert.match(body.text, /^Source: Pilot waitlist$/m);
+  const lines = body.text.split('\n');
+  assert.equal(lines[0], 'Source: Free hotel evaluation');
+  assert.equal(lines[2], 'A visitor asked for a free hotel evaluation on whagons.com.');
+  assert.match(body.text, /^Hotel \/ company: Malek$/m);
   assert.match(body.text, /1 to 10 people/);
-  assert.match(body.html, /New pilot waitlist signup/);
+  assert.match(body.html, /<body[^>]*><p[^>]*>Source: Free hotel evaluation<\/p><h1[^>]*>New free hotel evaluation request<\/h1>/);
+  assert.equal(request.init.headers['Idempotency-Key'], 'demo-request/request-evaluation');
 });
 
 test('user fields cannot change recipients, sender, or inject email headers', async () => {

@@ -3,16 +3,16 @@
 import { useEffect, useRef, useState, FormEvent } from 'react';
 import { demoOffer } from '../lib/demo-offer';
 import { isLanguage, legalRouteFor } from '../lib/locales';
-import { PILOT_WAITLIST_SOURCE } from '../lib/pilot-waitlist';
+import { FREE_EVALUATION_SOURCE } from '../lib/free-evaluation';
 import BoardScreenMock from './product/BoardScreenMock';
 
 interface DemoSectionProps {
   t: any;
   language: string;
-  /** Replaces the demo heading, e.g. on the pilot waitlist page. */
+  /** Replaces the demo heading, e.g. on the free evaluation page. */
   intro?: { eyebrow: string; title: string; description: string };
   /** Tags the request so the team's notification email says where it came from. */
-  source?: typeof PILOT_WAITLIST_SOURCE;
+  source?: typeof FREE_EVALUATION_SOURCE;
 }
 
 function Arrow() {
@@ -90,7 +90,7 @@ export default function DemoSection({ t, language, intro, source }: DemoSectionP
 
   return (
     <>
-      <section id={source ? 'waitlist' : 'demo'} className="pg-hero pg-demo-hero">
+      <section id={source ? 'evaluation' : 'demo'} className="pg-hero pg-demo-hero">
         <div className="pg-hero-inner pg-hero-split">
           <div className="pg-hero-copy">
             <p className="pg-eyebrow">{heading.eyebrow}</p>
