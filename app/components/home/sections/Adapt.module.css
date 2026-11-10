@@ -295,10 +295,12 @@
 .note { margin: 14px 18px 10px; color: var(--muted); font-size: 0.84rem; line-height: 1.5; }
 
 @media (max-width: 1180px) and (min-width: 1000px) {
-  .body { grid-template-columns: 118px minmax(0, 1fr); }
-  .floats { grid-template-columns: minmax(0, 1fr); margin-top: 12px; }
-  .main { padding-bottom: 12px; }
+  .section .body { grid-template-columns: 118px minmax(0, 1fr); }
+  .section .floats { grid-template-columns: minmax(0, 1fr); margin-top: 12px; }
+  .section .main { padding-bottom: 12px; }
 }
+/* The window on its own (platform page). */
+.bare { width: 100%; }
 @media (max-width: 999px) {
   .section { grid-template-columns: minmax(0, 1fr); gap: 48px; }
   .intro { position: static; }

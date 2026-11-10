@@ -2,8 +2,8 @@ import { Language, hasNews, legalRouteFor, routeFor } from '../lib/locales';
 
 const footerContent = {
   en: {
-    market: 'Hotel operations',
-    tag: 'Make every hotel handoff visible: an owner, a due time and proof it was done.',
+    market: 'Operations platform',
+    tag: 'Make every handoff visible: an owner, a due time and proof it was done.',
     award: 'Innovative Product of the Year · Exphore 2017',
     product: 'Product',
     resources: 'Resources',
@@ -26,8 +26,8 @@ const footerContent = {
     siteLinks: 'Site links',
   },
   es: {
-    market: 'Operaciones hoteleras',
-    tag: 'Haz visible cada entrega operativa del hotel: responsable, plazo y evidencia de cierre.',
+    market: 'Plataforma operativa',
+    tag: 'Haz visible cada entrega entre equipos: responsable, plazo y evidencia de cierre.',
     award: 'Producto Innovador del Año · Exphore 2017',
     product: 'Producto',
     resources: 'Recursos',

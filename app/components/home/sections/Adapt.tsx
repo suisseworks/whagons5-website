@@ -33,7 +33,7 @@ type Row = AdaptTask & { fresh?: boolean; bumped?: boolean; suggested?: string }
  * takes it, and another task moves on with new evidence. It moves on to the
  * next sector while it's on screen, until the visitor picks one.
  */
-export default function Adapt({ lang }: { lang: Language }) {
+export default function Adapt({ lang, bare = false }: { lang: Language; bare?: boolean }) {
   const t = HOME_CONTENT[lang].adapt;
   const [active, setActive] = useState<AdaptSector>('industry');
   const [auto, setAuto] = useState(true);
@@ -98,17 +98,7 @@ export default function Adapt({ lang }: { lang: Language }) {
   const rate = s.kpis.rate + (at(6) ? 1 : 0);
   const capture = s.incoming.capture;
 
-  return <section className={styles.section} id={lang === 'es' ? 'como-se-adapta' : 'how-it-adapts'} aria-labelledby="adapt-title">
-    <div className={styles.intro} data-reveal="">
-      <p className={styles.eyebrow}>{t.eyebrow}</p>
-      <h2 id="adapt-title">{t.title}</h2>
-      <p className={styles.lead}>{t.lead}</p>
-      <ol className={styles.principles}>
-        {t.principles.map(([title, text], i) => <li key={title}><span>0{i + 1}</span><div><strong>{title}</strong><p>{text}</p></div></li>)}
-      </ol>
-    </div>
-
-    <div ref={ref} className={styles.config} data-reveal="" style={{ ['--d' as string]: '.08s' }}>
+  const windowEl = <div ref={ref} className={styles.config} data-reveal="" style={{ ['--d' as string]: '.08s' }}>
       <div className={styles.tabs} role="tablist" aria-label={t.tabsLabel}>
         {SECTORS.map((sector, i) => <button
           key={sector}
@@ -215,7 +205,22 @@ export default function Adapt({ lang }: { lang: Language }) {
         </div>
       </div>
       <p className={styles.note}>{t.note}</p>
+    </div>;
+
+  // On the platform page the window stands on its own, under that page's own heading.
+  if (bare) return <div className={styles.bare}>{windowEl}</div>;
+
+  return <section className={styles.section} id={lang === 'es' ? 'como-se-adapta' : 'how-it-adapts'} aria-labelledby="adapt-title">
+    <div className={styles.intro} data-reveal="">
+      <p className={styles.eyebrow}>{t.eyebrow}</p>
+      <h2 id="adapt-title">{t.title}</h2>
+      <p className={styles.lead}>{t.lead}</p>
+      <ol className={styles.principles}>
+        {t.principles.map(([title, text], i) => <li key={title}><span>0{i + 1}</span><div><strong>{title}</strong><p>{text}</p></div></li>)}
+      </ol>
     </div>
+
+    {windowEl}
   </section>;
 }
 

@@ -3,27 +3,27 @@ import { redirect } from 'next/navigation';
 import PlatformPageClient from '../plataforma/PlatformPageClient';
 
 export const metadata: Metadata = {
-  title: 'Hotel Operations Platform & Workflow Automation',
+  title: 'Operations Management Platform & Workflow Automation',
   description:
-    'Connect guest requests, maintenance, inspections, and shifts with workflows, owners, due times, automation, evidence, and manager visibility.',
-  keywords: ['hotel operations software', 'hotel workflow software', 'hotel handoff management', 'hotel task escalation'],
+    'Coordinate plants, field crews, warehouses, sites and buildings: reports by voice, QR or NFC, AI agents, workflows with owners and due times, evidence, KPI cards and powerups.',
+  keywords: ['operations management software', 'workflow automation software', 'field service management software', 'preventive maintenance software', 'task management software'],
   alternates: {
     canonical: 'https://whagons.com/en/platform',
     languages: { en: 'https://whagons.com/en/platform', es: 'https://whagons.com/es/plataforma' },
   },
   openGraph: {
-    title: 'Hotel Workflow Control Platform',
-    description: 'Coordinate owners, due times, escalation, and evidence without replacing the hotel PMS.',
+    title: 'The Whagons platform: every team connected',
+    description: 'From the first report to verified work: owners, due times, evidence and visibility for any operation, next to the systems you already use.',
     url: 'https://whagons.com/en/platform',
     locale: 'en_US',
     type: 'website',
-    images: ['/images/industries/hoteleria.jpg'],
+    images: ['/images/industries/mantenimiento.jpg'],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Hotel Workflow Control Platform | Whagons',
-    description: 'Coordinate owners, due times, escalation, and evidence without replacing the PMS.',
-    images: ['/images/industries/hoteleria.jpg'],
+    title: 'Operations Management Platform | Whagons',
+    description: 'From the first report to verified work, for any operation and next to the systems you already use.',
+    images: ['/images/industries/mantenimiento.jpg'],
   },
 };
 
