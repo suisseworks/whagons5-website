@@ -12,7 +12,7 @@ pnpm dev
 
 Open `http://localhost:3000`. English and Spanish pages live under `/en` and `/es`. Retired language URLs permanently redirect to equivalent English paths; their translations and lead-routing configuration have been removed.
 
-Demo copy lives in `app/lib/demo-offer.ts`. Pilot program copy (the home hero badge and buttons, the nav button, the home closing section and the waitlist page at `/en/pilot` and `/es/piloto`) lives in `app/lib/pilot-waitlist.ts`. Both forms use the existing demo delivery flow. Testimonials link to their historical 2022 source with a notice that its commercial terms are not the current offer.
+Demo copy lives in `app/lib/demo-offer.ts`; "Request a demo" is the primary button in the nav, the home hero and the home closing section. The free hotel evaluation copy (the secondary button in the home hero and closing section, and the page at `/en/evaluation` and `/es/evaluacion`) lives in `app/lib/free-evaluation.ts`. Both forms use the existing demo delivery flow. The retired pilot waitlist URLs (`/en/pilot`, `/es/piloto`) permanently redirect to the demo page in the same language. Testimonials link to their historical 2022 source with a notice that its commercial terms are not the current offer.
 
 ## Blog
 
@@ -88,7 +88,7 @@ The homepage brief and demo forms post to `/api/flodesk`. The server:
 3. assigns demo leads to `Whagons-Demo-EN` or `Whagons-Demo-ES` according to the page language, and brief leads to `Whagons5-Brief`;
 4. for demo requests, sends one internal email to both `hello@whagons.com` and `business@whagons.com` when Resend is configured.
 
-The pilot waitlist page sends the demo form with `source: 'pilot-waitlist'`. A signup is handled exactly like a demo request (same required fields, same language segment, same two recipients). Only the internal email changes: its subject is `[Whagons] Pilot waitlist - <company>` and its first row is `Source: Pilot waitlist`.
+The free evaluation page sends the demo form with `source: 'free-evaluation'`. A request is handled exactly like a demo request (same required fields, same language segment, same two recipients). Only the internal email changes: its subject is `[Whagons] Free hotel evaluation - <company>` and its first line is `Source: Free hotel evaluation`.
 
 Flodesk and email are independent delivery channels. A temporary email failure does not discard a lead already captured in Flodesk, and an internal email can preserve a demo request if Flodesk is temporarily unavailable. The visitor only sees an error when every applicable delivery channel fails.
 

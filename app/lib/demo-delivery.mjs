@@ -23,13 +23,16 @@ export const DEMO_NOTIFICATION_RECIPIENTS = Object.freeze([
   'business@whagons.com',
 ]);
 
-// Pilot waitlist signups are demo requests from /en/pilot and /es/piloto. They
-// use the same validation, Flodesk segments and recipients; the tag only
-// changes the internal email so the team can tell them apart.
-export const PILOT_WAITLIST_SOURCE = 'pilot-waitlist';
+// Free hotel evaluation requests are demo requests from /en/evaluation and
+// /es/evaluacion. They use the same validation, Flodesk segments and
+// recipients; the tag only changes the internal email so the team can tell
+// them apart. Any other value, including the retired 'pilot-waitlist' tag, is
+// an ordinary demo request.
+export const FREE_EVALUATION_SOURCE = 'free-evaluation';
+const FREE_EVALUATION_SOURCE_LINE = 'Source: Free hotel evaluation';
 
 export function leadSource(value) {
-  return value === PILOT_WAITLIST_SOURCE ? PILOT_WAITLIST_SOURCE : '';
+  return value === FREE_EVALUATION_SOURCE ? FREE_EVALUATION_SOURCE : '';
 }
 
 export function buildFlodeskCustomFields({ company, industry, country, city, phone }) {
@@ -372,15 +375,15 @@ function escapeHtml(value) {
 }
 
 function buildNotificationContent(lead, flodeskOk, requestId) {
-  const waitlist = lead.source === PILOT_WAITLIST_SOURCE;
+  // Evaluation requests open with their source line; demo requests are unchanged.
+  const evaluation = lead.source === FREE_EVALUATION_SOURCE;
   const company = cleanHeaderText(lead.company, 'Company not provided');
   const name = cleanHeaderText(lead.name, 'Name not provided');
-  const subject = waitlist
-    ? `[Whagons] Pilot waitlist - ${company}`
+  const subject = evaluation
+    ? `[Whagons] Free hotel evaluation - ${company}`
     : `[Whagons] New demo request - ${company}`;
   const flodeskStatus = flodeskOk ? 'Captured successfully' : 'Needs manual follow-up';
   const fields = [
-    ...(waitlist ? [['Source', 'Pilot waitlist']] : []),
     ['Name', name],
     ['Hotel / company', displayValue(lead.company)],
     ['Email', displayValue(lead.email)],
@@ -395,8 +398,9 @@ function buildNotificationContent(lead, flodeskOk, requestId) {
   ];
 
   const text = [
-    waitlist
-      ? 'A visitor joined the pilot waitlist on whagons.com.'
+    ...(evaluation ? [FREE_EVALUATION_SOURCE_LINE, ''] : []),
+    evaluation
+      ? 'A visitor asked for a free hotel evaluation on whagons.com.'
       : 'A new demo request was submitted on whagons.com.',
     '',
     ...fields.map(([label, value]) => `${label}: ${value}`),
@@ -410,11 +414,14 @@ function buildNotificationContent(lead, flodeskOk, requestId) {
         `<tr><th align="left" style="padding:6px 14px 6px 0;color:#5f625f;font-weight:600">${escapeHtml(label)}</th><td style="padding:6px 0;color:#111">${escapeHtml(value)}</td></tr>`
     )
     .join('');
-  const heading = waitlist ? 'New pilot waitlist signup' : 'New Whagons demo request';
-  const intro = waitlist
-    ? 'A visitor joined the pilot waitlist on whagons.com.'
+  const heading = evaluation ? 'New free hotel evaluation request' : 'New Whagons demo request';
+  const intro = evaluation
+    ? 'A visitor asked for a free hotel evaluation on whagons.com.'
     : 'A visitor submitted the demo form on whagons.com.';
-  const html = `<!doctype html><html><body style="font-family:Arial,sans-serif;line-height:1.5;color:#111"><h1 style="font-size:22px">${heading}</h1><p>${intro}</p><table role="presentation" cellspacing="0" cellpadding="0">${rows}</table><p style="margin-top:24px">Reply to this email to contact the prospect.</p></body></html>`;
+  const sourceLine = evaluation
+    ? `<p style="margin:0;color:#5f625f;font-weight:600">${FREE_EVALUATION_SOURCE_LINE}</p>`
+    : '';
+  const html = `<!doctype html><html><body style="font-family:Arial,sans-serif;line-height:1.5;color:#111">${sourceLine}<h1 style="font-size:22px">${heading}</h1><p>${intro}</p><table role="presentation" cellspacing="0" cellpadding="0">${rows}</table><p style="margin-top:24px">Reply to this email to contact the prospect.</p></body></html>`;
 
   return { subject, text, html };
 }

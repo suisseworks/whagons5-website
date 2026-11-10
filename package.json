@@ -9,7 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "node --test --test-isolation=none tests/demo-delivery.test.mjs tests/pricing.test.mjs tests/parador-offer.test.mjs tests/cronus-contact.test.mjs tests/cronus-careers.test.mjs tests/cronus-checklist.test.mjs tests/news.test.mjs",
+    "test": "node --test --test-isolation=none tests/demo-delivery.test.mjs tests/pricing.test.mjs tests/parador-offer.test.mjs tests/cronus-contact.test.mjs tests/cronus-careers.test.mjs tests/cronus-checklist.test.mjs tests/news.test.mjs tests/routes.test.mjs",
     "blog:media": "node scripts/blog-media/render.mjs"
   },
   "dependencies": {

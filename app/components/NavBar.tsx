@@ -10,7 +10,7 @@ import {
   routeFor,
   routeKeyFromPath,
 } from '../lib/locales';
-import { pilotWaitlist } from '../lib/pilot-waitlist';
+import { demoOffer } from '../lib/demo-offer';
 
 interface NavBarProps {
   lang: Language;
@@ -46,7 +46,7 @@ export default function NavBar({ lang }: NavBarProps) {
     hotels: routeFor(lang, 'hotels'),
     markets: routeFor(lang, 'markets'),
     blog: routeFor(lang, 'blog'),
-    pilot: routeFor(lang, 'pilot'),
+    demo: routeFor(lang, 'demo'),
   };
 
   const languageDestination = (nextLang: Language) => {
@@ -174,7 +174,7 @@ export default function NavBar({ lang }: NavBarProps) {
         <a href={hrefs.hotels} onClick={closeMenu} aria-current={isActive(hrefs.hotels) ? 'page' : undefined} className={`nl${isActive(hrefs.hotels) ? ' nl-active' : ''}`}>{t.hotels}</a>
         <a href={hrefs.markets} onClick={closeMenu} aria-current={isActive(hrefs.markets) ? 'page' : undefined} className={`nl${isActive(hrefs.markets) ? ' nl-active' : ''}`}>{t.markets}</a>
         <a href={hrefs.blog} onClick={closeMenu} aria-current={isActive(hrefs.blog) ? 'page' : undefined} className={`nl${isActive(hrefs.blog) ? ' nl-active' : ''}`}>{t.blog}</a>
-        <a href={hrefs.pilot} onClick={closeMenu} className="nd" data-track="pilot_waitlist_nav_click">{pilotWaitlist[lang].cta} <span aria-hidden="true">→</span></a>
+        <a href={hrefs.demo} onClick={closeMenu} className="nd" data-track="demo_nav_click">{demoOffer[lang].cta} <span aria-hidden="true">→</span></a>
         <label className="language-picker">
           <span className="sr-only">{t.language}</span>
           <select

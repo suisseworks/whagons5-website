@@ -24,11 +24,22 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   async redirects() {
-    return [{
-      source: '/las-vegas',
-      destination: 'https://pageup.whagons.com/01a15986-6781-7777-a282-5fa5a463dd75',
-      permanent: false,
-    }];
+    return [
+      {
+        source: '/las-vegas',
+        destination: 'https://pageup.whagons.com/01a15986-6781-7777-a282-5fa5a463dd75',
+        permanent: false,
+      },
+      // The pilot waitlist (/en/pilot, /es/piloto) was retired. Its public URLs,
+      // and the other-language slugs that used to forward to them, now go to
+      // the demo page in the same language (308, query string kept).
+      ...[
+        ['/en/pilot', '/en/demo'],
+        ['/es/piloto', '/es/demo'],
+        ['/en/piloto', '/en/demo'],
+        ['/es/pilot', '/es/demo'],
+      ].map(([source, destination]) => ({ source, destination, permanent: true })),
+    ];
   },
   env: {
     CRONUS2_PAGES: clientPages('cronus2'),

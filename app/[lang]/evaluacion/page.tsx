@@ -1,22 +1,22 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { pilotWaitlist } from '../../lib/pilot-waitlist';
-import PilotPageClient from './PilotPageClient';
+import { freeEvaluation } from '../../lib/free-evaluation';
+import EvaluationPageClient from '../evaluation/EvaluationPageClient';
 
-const copy = pilotWaitlist.en;
+const copy = freeEvaluation.es;
 
 export const metadata: Metadata = {
   title: copy.metaTitle,
   description: copy.metaDescription,
   alternates: {
-    canonical: 'https://whagons.com/en/pilot',
-    languages: { en: 'https://whagons.com/en/pilot', es: 'https://whagons.com/es/piloto' },
+    canonical: 'https://whagons.com/es/evaluacion',
+    languages: { en: 'https://whagons.com/en/evaluation', es: 'https://whagons.com/es/evaluacion' },
   },
   openGraph: {
     title: copy.metaTitle,
     description: copy.metaDescription,
-    url: 'https://whagons.com/en/pilot',
-    locale: 'en_US',
+    url: 'https://whagons.com/es/evaluacion',
+    locale: 'es_419',
     type: 'website',
     images: ['/images/industries/hoteleria.jpg'],
   },
@@ -29,10 +29,10 @@ export const metadata: Metadata = {
 };
 
 export function generateStaticParams() {
-  return [{ lang: 'en' }];
+  return [{ lang: 'es' }];
 }
 
 export default function Page({ params }: { params: { lang: string } }) {
-  if (params.lang !== 'en') redirect('/es/piloto');
-  return <PilotPageClient lang="en" />;
+  if (params.lang !== 'es') redirect('/en/evaluation');
+  return <EvaluationPageClient lang="es" />;
 }
