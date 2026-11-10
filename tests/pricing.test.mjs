@@ -16,7 +16,11 @@ test('approved implementation revision applies only to Costa Rica across all pla
   ]) {
     assert.equal(calculatePrice('cr', plan, users, []).implementation, crSetup);
     assert.equal(calculatePrice('ca', plan, users, []).implementation, caSetup);
-    assert.equal(calculatePrice('us', plan, users, []).implementation, null);
+  }
+});
+test('USA publishes its implementation fee for each plan', () => {
+  for (const [plan, users, setup] of [['essential', 20, 1500], ['professional', 40, 3500], ['enterprise', 60, 7500]]) {
+    assert.equal(calculatePrice('us', plan, users, []).implementation, setup);
   }
 });
 test('included powerups and duplicate selections never generate a second charge', () => {
@@ -32,11 +36,12 @@ test('additional users start above each plan allowance', () => {
     assert.equal(calculatePrice('cr', plan, included + 1, []).monthly, base + 5);
   }
 });
-test('USA does not represent an unquoted implementation as free', () => {
+test('USA Essential with extra users and two powerups adds the one-time fee to the first month', () => {
   const result = calculatePrice('us', 'essential', 25, ['sales', 'ai']);
-  assert.equal(result.monthly, 1087);
-  assert.equal(result.implementation, null);
-  assert.equal(result.firstMonth, null);
+  assert.equal(result.userTotal, 90);
+  assert.equal(result.monthly, 1537);
+  assert.equal(result.implementation, 1500);
+  assert.equal(result.firstMonth, 3037);
 });
 test('Central America uses the regional discount with cent precision', () => {
   const result = calculatePrice('ca', 'essential', 21, ['maintenance', 'compliance', 'mobility']);
@@ -46,7 +51,7 @@ test('Central America uses the regional discount with cent precision', () => {
 });
 test('Enterprise includes six groups; sales and AI remain optional', () => {
   assert.deepEqual(groups.filter(group => groupPrice(group, 'us', 'enterprise') > 0).map(group => group.id), ['sales', 'ai']);
-  assert.equal(calculatePrice('us', 'enterprise', 61, groups.map(group => group.id)).monthly, 3056);
+  assert.equal(calculatePrice('us', 'enterprise', 61, groups.map(group => group.id)).monthly, 4266);
 });
 test('user count rejects blank-equivalent, fractional, negative and nonfinite numbers', () => {
   for (const users of [0, -1, 1.5, NaN, Infinity, Number.MAX_SAFE_INTEGER + 1]) {
