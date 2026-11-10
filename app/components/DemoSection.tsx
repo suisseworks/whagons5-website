@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, FormEvent } from 'react';
 import { demoOffer } from '../lib/demo-offer';
 import { isLanguage, legalRouteFor } from '../lib/locales';
-import { FREE_EVALUATION_SOURCE } from '../lib/free-evaluation';
+import type { EvaluationSource } from '../lib/free-evaluation';
 import BoardScreenMock from './product/BoardScreenMock';
 
 interface DemoSectionProps {
@@ -12,7 +12,7 @@ interface DemoSectionProps {
   /** Replaces the demo heading, e.g. on the free evaluation page. */
   intro?: { eyebrow: string; title: string; description: string };
   /** Tags the request so the team's notification email says where it came from. */
-  source?: typeof FREE_EVALUATION_SOURCE;
+  source?: EvaluationSource;
 }
 
 function Arrow() {

@@ -183,6 +183,58 @@
 @keyframes cardIn { from { opacity: 0; transform: translateY(8px); } }
 @keyframes arrive { 0% { opacity: 0; transform: translateX(-22px) scale(0.96); } 60% { opacity: 1; transform: translateX(2px) scale(1.02); } 100% { transform: none; } }
 
+/* Logistics: today's routes on a map, with the trucks moving. */
+.map { position: relative; aspect-ratio: 520 / 290; overflow: hidden; border: 1px solid #ece5d9; border-radius: 12px; background: #efebe1; animation: fade 0.5s var(--ease-out) 0.1s both; }
+.map svg { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+@keyframes fade { from { opacity: 0; } }
+.land { fill: #efebe1; }
+.building { fill: #e4ddcf; }
+.streets line { stroke: #fbf9f4; stroke-width: 4.5; }
+.river { fill: none; stroke: #cde0ec; stroke-width: 22; stroke-linecap: round; }
+.park { fill: #d8e8cb; }
+.avenueCasing line { stroke: #ddd4c3; stroke-width: 12.5; }
+.avenues line { stroke: #fff; stroke-width: 9.5; }
+.routeHalo { fill: none; stroke: var(--c); stroke-opacity: 0.16; stroke-width: 9; stroke-linejoin: round; }
+.routeLine { fill: none; stroke: var(--c); stroke-width: 3.2; stroke-linejoin: round; stroke-linecap: round; }
+.depot rect { fill: #17140f; stroke: #fff; stroke-width: 2.5; }
+.mapGlyph { fill: none; stroke: #fff; stroke-width: 2.3; stroke-linecap: round; stroke-linejoin: round; }
+.stop circle { fill: #fff; stroke: var(--c); stroke-width: 3; transition: stroke 0.5s; }
+.stop .stopDot { fill: var(--c); stroke: none; transition: fill 0.5s; }
+.alertPin circle { fill: #dc2626; stroke: #fff; stroke-width: 2.5; animation: fade 0.4s ease-out both; }
+.alertPin .alertDot { fill: #fff; stroke: none; }
+.alertPin .alertRing { fill: none; stroke: #dc2626; stroke-width: 2; transform-box: fill-box; transform-origin: center; animation: alertRing 1.6s ease-out infinite; }
+@keyframes alertRing { 0% { opacity: 0.75; transform: scale(1); } 100% { opacity: 0; transform: scale(2.8); } }
+.truck { filter: drop-shadow(0 1.5px 2px rgba(23, 20, 15, 0.32)); }
+.truck circle { fill: var(--c); stroke: #fff; stroke-width: 2.5; }
+
+.routes { position: absolute; top: 8px; left: 8px; z-index: 1; display: grid; gap: 5px; width: 170px; padding: 8px 10px 9px; border: 1px solid #ebe4d8; border-radius: 10px; background: rgba(255, 255, 255, 0.95); box-shadow: 0 10px 22px -14px rgba(40, 30, 20, 0.4); animation: fade 0.5s var(--ease-out) 0.3s both; }
+.routes small { color: var(--muted); font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.routeRow { display: grid; grid-template-columns: 8px minmax(0, 1fr) auto auto; align-items: center; gap: 3px 6px; font-size: 0.66rem; }
+.routeDot { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+.routeRow b { overflow: hidden; font-weight: 600; white-space: nowrap; text-overflow: ellipsis; }
+.routeWho { display: grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; color: #fff; font-size: 0.46rem; font-weight: 700; }
+.routeRow em { color: var(--muted); font-family: var(--mono); font-size: 0.6rem; font-style: normal; }
+.routeBar { grid-column: 2 / -1; height: 3px; overflow: hidden; border-radius: 3px; background: #eee8dd; }
+.routeBar i { display: block; height: 100%; border-radius: inherit; background: var(--c); }
+
+.mapLabel { position: absolute; z-index: 1; display: grid; gap: 1px; padding: 4px 8px; border: 1px solid #ebe4d8; border-radius: 8px; background: rgba(255, 255, 255, 0.96); box-shadow: 0 6px 14px -8px rgba(40, 30, 20, 0.35); white-space: nowrap; transform: translate(14px, -50%); pointer-events: none; animation: fade 0.45s var(--ease-out) both; }
+.mapLabel[data-side='left'] { transform: translate(calc(-100% - 14px), -50%); }
+.mapLabel b { font-size: 0.66rem; font-weight: 650; letter-spacing: -0.01em; }
+.mapLabel > span { color: var(--muted); font-size: 0.6rem; }
+.mapStatus { display: inline-flex; align-items: center; gap: 4px; animation: pop 0.45s var(--ease-out) both; }
+.mapStatus i { width: 6px; height: 6px; border-radius: 50%; }
+.mapLabel[data-alert] { border-color: #fecaca; background: #fff5f5; }
+.mapLabel[data-alert] b { color: #b91c1c; }
+@container (max-width: 470px) {
+  .routes { width: 146px; gap: 3px; padding: 6px 8px; }
+  .routeBar { display: none; }
+}
+@container (max-width: 400px) {
+  .routes { display: none; }
+  .mapLabel:not([data-alert]) { display: none; }
+  .mapLabel { padding: 3px 6px; }
+}
+
 /* The report coming in and the triage agent, as cards resting on the window. */
 .floats { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: -38px 14px 0; }
 .float {
@@ -267,6 +319,6 @@
   .note { margin: 6px 10px 10px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .timer, .app, .side li, .kpis b, .ring circle + circle, .columns i, .row, .card, .float, .said span, .hint, .tag, .clip, .status, .avatar, .notesCell b, .suggest span, .approve, .wave i, .capIcon::before, .capIcon::after, .agentIcon svg, .working { animation: none !important; }
+  .timer, .app, .map, .routes, .mapLabel, .mapStatus, .alertPin circle, .side li, .kpis b, .ring circle + circle, .columns i, .row, .card, .float, .said span, .hint, .tag, .clip, .status, .avatar, .notesCell b, .suggest span, .approve, .wave i, .capIcon::before, .capIcon::after, .agentIcon svg, .working { animation: none !important; }
   .working { -webkit-text-fill-color: currentColor; background: none; }
 }

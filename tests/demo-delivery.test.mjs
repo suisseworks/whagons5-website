@@ -6,6 +6,7 @@ import {
   DEMO_SEGMENT_NAMES,
   FLODESK_SEGMENTS_URL,
   FLODESK_SUBSCRIBERS_URL,
+  BUSINESS_EVALUATION_SOURCE,
   FREE_EVALUATION_SOURCE,
   RESEND_EMAILS_URL,
   buildFlodeskCustomFields,
@@ -17,7 +18,10 @@ import {
   sendDemoNotification,
   upsertFlodeskSubscriber,
 } from '../app/lib/demo-delivery.mjs';
-import { FREE_EVALUATION_SOURCE as EVALUATION_PAGE_SOURCE } from '../app/lib/free-evaluation.ts';
+import {
+  BUSINESS_EVALUATION_SOURCE as BUSINESS_EVALUATION_PAGE_SOURCE,
+  FREE_EVALUATION_SOURCE as EVALUATION_PAGE_SOURCE,
+} from '../app/lib/free-evaluation.ts';
 
 const lead = {
   name: 'Matthias',
@@ -250,11 +254,13 @@ test('sends one notification to both fixed internal recipients', async () => {
   assert.match(body.html, /<body[^>]*><h1[^>]*>New Whagons demo request<\/h1>/);
 });
 
-test('accepts only the free evaluation tag the evaluation page sends', () => {
+test('accepts only the free evaluation tags the evaluation pages send', () => {
   assert.equal(EVALUATION_PAGE_SOURCE, FREE_EVALUATION_SOURCE);
+  assert.equal(BUSINESS_EVALUATION_PAGE_SOURCE, BUSINESS_EVALUATION_SOURCE);
   assert.equal(leadSource('free-evaluation'), 'free-evaluation');
+  assert.equal(leadSource('free-business-evaluation'), 'free-business-evaluation');
   // The retired pilot waitlist tag, like any other value, is a plain demo request.
-  for (const value of [undefined, null, '', 'demo', 'pilot-waitlist', 'Free-Evaluation', ' free-evaluation', ['free-evaluation'], { source: 'free-evaluation' }]) {
+  for (const value of [undefined, null, '', 'demo', 'pilot-waitlist', 'Free-Evaluation', ' free-evaluation', ['free-evaluation'], { source: 'free-evaluation' }, 'free-business-evaluation ', '__proto__', 'constructor', 'toString']) {
     assert.equal(leadSource(value), '');
   }
 });
@@ -287,6 +293,31 @@ test('tags free evaluation requests in the same notification to the same recipie
   assert.match(body.text, /1 to 10 people/);
   assert.match(body.html, /<body[^>]*><p[^>]*>Source: Free hotel evaluation<\/p><h1[^>]*>New free hotel evaluation request<\/h1>/);
   assert.equal(request.init.headers['Idempotency-Key'], 'demo-request/request-evaluation');
+});
+
+test('tags free business evaluation requests with their own source line', async () => {
+  let request;
+  const result = await sendDemoNotification({
+    resendApiKey: 'resend-test-key',
+    from: 'Whagons Website <website@notify.whagons.com>',
+    lead: { ...lead, source: BUSINESS_EVALUATION_SOURCE },
+    flodeskOk: true,
+    requestId: 'request-business-evaluation',
+    fetchImpl: async (url, init) => {
+      request = { url, init };
+      return Response.json({ id: 'email-id' });
+    },
+    retryDelayMs: 0,
+  });
+
+  assert.equal(result.ok, true);
+  const body = JSON.parse(request.init.body);
+  assert.equal(body.subject, '[Whagons] Free business evaluation - Malek');
+  assert.deepEqual(body.to, DEMO_NOTIFICATION_RECIPIENTS);
+  const lines = body.text.split('\n');
+  assert.equal(lines[0], 'Source: Free business evaluation');
+  assert.equal(lines[2], 'A visitor asked for a free business evaluation on whagons.com.');
+  assert.match(body.html, /<body[^>]*><p[^>]*>Source: Free business evaluation<\/p><h1[^>]*>New free business evaluation request<\/h1>/);
 });
 
 test('user fields cannot change recipients, sender, or inject email headers', async () => {
