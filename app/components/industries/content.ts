@@ -85,7 +85,6 @@ const en = {
     title: 'Bring one workflow from your operation. We’ll show you how it runs in Whagons.',
     text: 'A demo built around your teams, your sites and the work that gets lost today.',
     demo: 'Request a demo',
-    whatsapp: 'Message us on WhatsApp',
   },
   industries: [
     {
@@ -280,7 +279,6 @@ const es: typeof en = {
     title: 'Trae un flujo de tu operación. Te mostramos cómo funciona en Whagons.',
     text: 'Una demo pensada para tus equipos, tus sedes y el trabajo que hoy se pierde.',
     demo: 'Solicitar una demo',
-    whatsapp: 'Escríbenos por WhatsApp',
   },
   industries: [
     {

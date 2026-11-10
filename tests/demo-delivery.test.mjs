@@ -49,14 +49,14 @@ test('maps website lead data to the exact Flodesk custom field keys', () => {
       industry: 'Hospitality',
       country: 'MX',
       city: 'Mexico City',
-      phone: '+506 7071-7099',
+      phone: '+506 2222-3333',
     }),
     {
       empresa: 'Hotel 5',
       sector: 'Hospitality',
       pais: 'MX',
       ciudad: 'Mexico City',
-      telFono: '+506 7071-7099',
+      telFono: '+506 2222-3333',
     }
   );
 

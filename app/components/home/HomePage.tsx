@@ -26,7 +26,6 @@ const content = {
     heroShotCaption: 'Task grid · Maintenance · Whagons',
     clientsLabel: 'Teams that trust Whagons',
     awardShort: 'Innovative Product of the Year 2017',
-    whatsAppCta: 'Message us on WhatsApp',
     problemEyebrow: 'The operational layer',
     problemTitle: 'The work between teams should never disappear between shifts.',
     problemText:
@@ -92,7 +91,6 @@ const content = {
     faqEyebrow: 'Frequently asked questions',
     faqTitle: 'What hotels usually ask us.',
     faqLead: 'If your question is not here, write to us and we will answer within one business day.',
-    faqWhatsApp: 'Message us on WhatsApp',
     faq: [
       ['Do I have to change my PMS?', 'No. Your PMS stays the record of the stay. Whagons coordinates the work around it: guest requests, rooms, maintenance and inspections.'],
       ['Which teams use it?', 'Front desk, housekeeping, maintenance, food and beverage, security and management. Each team works in its own space, on mobile and on the web.'],
@@ -116,7 +114,6 @@ const content = {
     heroShotCaption: 'Tareas · Mantenimiento · Whagons',
     clientsLabel: 'Equipos que confían en Whagons',
     awardShort: 'Producto Innovador del Año 2017',
-    whatsAppCta: 'Escríbenos por WhatsApp',
     problemEyebrow: 'La capa operativa',
     problemTitle: 'El trabajo entre equipos no debería perderse entre turnos.',
     problemText:
@@ -182,7 +179,6 @@ const content = {
     faqEyebrow: 'Preguntas frecuentes',
     faqTitle: 'Lo que suelen preguntarnos los hoteles.',
     faqLead: 'Si tu pregunta no está aquí, escríbenos y te respondemos en un día hábil.',
-    faqWhatsApp: 'Escríbenos por WhatsApp',
     faq: [
       ['¿Tengo que cambiar mi PMS?', 'No. Tu PMS sigue siendo el registro de la estadía. Whagons coordina el trabajo a su alrededor: solicitudes, habitaciones, mantenimiento e inspecciones.'],
       ['¿Qué equipos lo usan?', 'Recepción, ama de llaves, mantenimiento, alimentos y bebidas, seguridad y gerencia. Cada equipo trabaja en su propio espacio, en móvil y en web.'],
@@ -534,7 +530,6 @@ export default function HomePage({ lang }: { lang: Language }) {
             </div>
             <p>{t.faqLead}</p>
             <div className={styles.faqContact}>
-              <a className={styles.btnSecondary} href="https://wa.me/50670717099" data-track="whatsapp_faq_click">{t.faqWhatsApp}</a>
               <a href="mailto:hello@whagons.com">hello@whagons.com</a>
             </div>
           </div>
@@ -562,7 +557,6 @@ export default function HomePage({ lang }: { lang: Language }) {
             <p>{pilot.description}</p>
             <div className={styles.finalActions}>
               <a className={styles.btnPrimary} href={pilotHref} data-track="pilot_waitlist_final_click">{pilot.cta}<Arrow /></a>
-              <a className={styles.btnSecondary} href="https://wa.me/50670717099" data-track="whatsapp_final_click">{t.whatsAppCta}</a>
             </div>
             <small>{pilot.demoPrompt} <a href={demoHref}>{demoOffer[lang].cta}</a></small>
           </div>
