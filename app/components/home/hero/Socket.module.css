@@ -1,0 +1,134 @@
+/* The wall socket beside the hero copy, and the mosaic's cable and plug drawn
+   over the whole hero. The panel and its ancestors stay unpositioned so the
+   overlay and the plug button are placed against the hero itself. */
+
+.panel {
+  --k: 1.16;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  min-width: 0;
+  color: var(--on-dark, #f6f1e7);
+}
+
+/* A fixed box, so switching between a tall and a square plate never moves the copy. */
+.plateBox {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: calc(var(--k) * 86px);
+  height: calc(var(--k) * 116px);
+  cursor: pointer;
+}
+.plate {
+  width: calc(var(--pw) * var(--k) * 1px);
+  height: calc(var(--ph) * var(--k) * 1px);
+  filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.5)) drop-shadow(0 2px 2px rgba(0, 0, 0, 0.45));
+}
+.face { display: block; width: 100%; height: 100%; overflow: visible; }
+.halo { opacity: 0; transition: opacity 0.9s ease; }
+.led { fill: #b9af9f; transition: fill 0.4s ease; }
+.panel[data-connected] .halo { opacity: 1; }
+.panel[data-connected] .led { fill: #ff7a3d; }
+
+.copy { display: grid; gap: 6px; min-width: 0; }
+.invite {
+  margin: 0;
+  color: var(--on-dark, #f6f1e7);
+  font-size: 1.08rem;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  line-height: 1.3;
+  animation: swapIn 0.6s var(--ease-out) both;
+}
+.panel[data-connected] .invite { color: #ffb48f; }
+.hint { margin: 0; color: rgba(246, 241, 231, 0.62); font-size: 0.86rem; line-height: 1.45; }
+@keyframes swapIn { from { opacity: 0; transform: translateY(4px); } }
+
+/* Country and standard: small, mono, out of the way. */
+.standard {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin-top: 6px;
+  color: rgba(246, 241, 231, 0.6);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+}
+.select select {
+  max-width: 190px;
+  padding: 6px 18px 6px 0;
+  border: 0;
+  border-bottom: 1px dashed rgba(246, 241, 231, 0.32);
+  border-radius: 0;
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23f6f1e7' stroke-opacity='.6' stroke-width='1.4'/%3E%3C/svg%3E") no-repeat right 2px center;
+  color: inherit;
+  font: inherit;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.select select:hover { color: #fff; border-bottom-color: rgba(246, 241, 231, 0.6); }
+.select select:focus-visible { outline: 2px solid #ffb68f; outline-offset: 3px; }
+.select option { color: #1b1b1f; background: #fff; }
+.types { display: inline-flex; gap: 2px; margin: 0; padding: 2px; border: 0; border-radius: 999px; background: rgba(255, 255, 255, 0.06); }
+.types label { position: relative; display: block; }
+.types input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.types span { display: block; padding: 4px 9px; border-radius: 999px; transition: background 0.2s ease, color 0.2s ease; }
+.types input:checked + span { background: rgba(255, 255, 255, 0.14); color: #fff; }
+.types input:focus-visible + span { outline: 2px solid #ffb68f; outline-offset: 1px; }
+.types label:hover span { color: #fff; }
+.single { padding: 4px 0; }
+
+/* ── Cable and plug ─────────────────────────── */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.cableShadow { stroke: #000; stroke-opacity: 0.5; }
+.plug {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 7;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: grab;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.plug:active { cursor: grabbing; }
+.plug:focus-visible { outline: 2px solid #ffb68f; outline-offset: 2px; }
+.panel[data-connected] .plug { cursor: pointer; }
+
+.pulse path { fill: none; stroke-linecap: round; stroke-dasharray: 0.14 1.3; stroke-dashoffset: 0.14; animation: travel 0.95s cubic-bezier(0.45, 0.05, 0.4, 1) forwards; }
+.pulse path:first-child { stroke: #ff7a3d; stroke-width: 15; opacity: 0.85; }
+.pulse path:last-child { stroke: #fff4e8; stroke-width: 3.4; }
+@keyframes travel { to { stroke-dashoffset: -1.16; } }
+
+/* One column: the outlet moves to the right, below the mosaic's cable port,
+   and the gap beside it is the cable's lane. */
+@media (max-width: 899px) {
+  .panel { flex-direction: row-reverse; justify-content: space-between; gap: 36px; }
+}
+@media (max-width: 767px) {
+  .panel { --k: 0.92; }
+  .invite { font-size: 1rem; }
+  .hint { font-size: 0.82rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .invite { animation: none; }
+  .halo, .led, .types span { transition: none; }
+}

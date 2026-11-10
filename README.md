@@ -14,6 +14,10 @@ Open `http://localhost:3000`. English and Spanish pages live under `/en` and `/e
 
 Demo copy lives in `app/lib/demo-offer.ts`; "Request a demo" is the primary button in the nav, the home hero and the home closing section. The free hotel evaluation copy (the secondary button in the home hero and closing section, and the page at `/en/evaluation` and `/es/evaluacion`) lives in `app/lib/free-evaluation.ts`. Both forms use the existing demo delivery flow. The retired pilot waitlist URLs (`/en/pilot`, `/es/piloto`) permanently redirect to the demo page in the same language. Testimonials link to their historical 2022 source with a notice that its commercial terms are not the current offer.
 
+## Home page
+
+The home page (`app/components/home/`) opens on a mosaic of real operations that turns over into an animation of the Whagons interface, with a wall socket the visitor can plug the mosaic into. Its copy lives in `app/components/home/content.ts`; the hero's photos and clips are listed in `app/components/home/hero/media.ts`. [docs/home-hero-media.md](./docs/home-hero-media.md) covers the sequence, where each clip comes from and its licence, the shots still missing, and how the socket picks the visitor's plug standard (`/api/geo` returns the country the CDN reports; nothing is stored).
+
 ## Blog
 
 Posts live in `content/blog/<lang>/<slug>.mdx` and render at `/<lang>/blog/<slug>`. The index is `/<lang>/blog`, with an RSS feed at `/<lang>/blog/rss.xml`. Pages are generated at build time; a new file needs a rebuild.
@@ -75,7 +79,7 @@ pnpm blog:media work-plans --lang es  # scenes whose id contains "work-plans"
 pnpm blog:media cleaning-board --frames 0,4000   # review stills in .media-preview/
 ```
 
-The home page's "Whagons en acción" section plays `work-plans-schedule`, `cleaning-board` and `kpi-cards-template` from the same folder, so re-render those when the product screens change.
+The home page's "Cómo funciona / How it works" section plays `first-day-create`, `first-day-status`, `work-plans-schedule` and `kpi-cards-template` from the same folder, so re-render those when the product screens change.
 
 It needs ffmpeg and Chrome or Chromium; set `CHROME_PATH` if Chrome is not found. Output goes to `public/media/blog/<lang>/<group>-<scene>.mp4` with a `.jpg` poster. See `scripts/blog-media/README.md` for the scene format.
 
