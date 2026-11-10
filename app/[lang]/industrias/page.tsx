@@ -6,14 +6,15 @@ import IndustriasPageClient from './IndustriasPageClient';
 const SUPPORTED_LANGS = ['es', 'en'] as const;
 
 interface PageProps {
-  params: { lang: string };
+  params: Promise<{ lang: string }>;
 }
 
 export async function generateStaticParams() {
   return SUPPORTED_LANGS.map((lang) => ({ lang }));
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
   const lang = (SUPPORTED_LANGS.includes(params.lang as any) ? params.lang : 'es') as Language;
 
   const meta: Record<string, Metadata> = {
@@ -84,7 +85,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return meta[lang] || meta.es;
 }
 
-export default function IndustriasPage({ params }: PageProps) {
+export default async function IndustriasPage(props: PageProps) {
+  const params = await props.params;
   if (params.lang === 'en') redirect('/en/industries');
   const lang = (SUPPORTED_LANGS.includes(params.lang as any) ? params.lang : 'es') as Language;
   return <IndustriasPageClient lang={lang} />;

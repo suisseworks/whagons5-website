@@ -4,14 +4,15 @@ import { Language, OPEN_GRAPH_LOCALE, SUPPORTED_LANGS, isLanguage, localizedAlte
 import DemoPageClient from './DemoPageClient';
 
 interface PageProps {
-  params: { lang: string };
+  params: Promise<{ lang: string }>;
 }
 
 export async function generateStaticParams() {
   return SUPPORTED_LANGS.map((lang) => ({ lang }));
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
   const lang: Language = isLanguage(params.lang) ? params.lang : 'es';
 
   const sharedAlternates = localizedAlternates('/demo');
@@ -44,7 +45,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default function DemoPage({ params }: PageProps) {
+export default async function DemoPage(props: PageProps) {
+  const params = await props.params;
   const lang: Language = isLanguage(params.lang) ? params.lang : 'es';
   return <DemoPageClient lang={lang} />;
 }

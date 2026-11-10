@@ -39,7 +39,7 @@ const copy = {
 } as const;
 
 interface PageProps {
-  params: { lang: string; slug: string };
+  params: Promise<{ lang: string; slug: string }>;
 }
 
 export const dynamicParams = false;
@@ -48,7 +48,8 @@ export function generateStaticParams() {
   return SUPPORTED_LANGS.flatMap((lang) => getPosts(lang).map((post) => ({ lang, slug: post.slug })));
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
   if (!isLanguage(params.lang)) return {};
   const post = getPost(params.lang, params.slug);
   if (!post) return {};
@@ -85,7 +86,8 @@ export function generateMetadata({ params }: PageProps): Metadata {
   };
 }
 
-export default async function ArticlePage({ params }: PageProps) {
+export default async function ArticlePage(props: PageProps) {
+  const params = await props.params;
   if (!isLanguage(params.lang)) notFound();
   const lang: Language = params.lang;
   const post = getPost(lang, params.slug);

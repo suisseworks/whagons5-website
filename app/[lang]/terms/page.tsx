@@ -6,14 +6,15 @@ import { termsContent } from '../../lib/legal';
 const SUPPORTED_LANGS = ['es', 'en'] as const;
 
 interface PageProps {
-  params: { lang: string };
+  params: Promise<{ lang: string }>;
 }
 
 export async function generateStaticParams() {
   return SUPPORTED_LANGS.map((lang) => ({ lang }));
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
   const lang = (SUPPORTED_LANGS.includes(params.lang as any) ? params.lang : 'es') as Language;
 
   const meta: Record<Language, Metadata> = {
@@ -62,7 +63,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default function TermsPage({ params }: PageProps) {
+export default async function TermsPage(props: PageProps) {
+  const params = await props.params;
   const lang = (SUPPORTED_LANGS.includes(params.lang as any) ? params.lang : 'es') as Language;
 
   return <LegalPage lang={lang} content={termsContent[lang]} />;

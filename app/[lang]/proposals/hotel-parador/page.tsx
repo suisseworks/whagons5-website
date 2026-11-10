@@ -10,7 +10,8 @@ export const metadata: Metadata = {
   openGraph: { title: 'Hotel Parador · Whagons proposal', description: 'Coordinate housekeeping, maintenance and operational follow-through.', images: [] },
   twitter: { card: 'summary', title: 'Hotel Parador · Whagons proposal', description: 'Coordinate housekeeping, maintenance and operational follow-through.', images: [] },
 };
-export default function Page({ params }: { params: { lang: string } }) {
+export default async function Page(props: { params: Promise<{ lang: string }> }) {
+  const params = await props.params;
   if (params.lang === 'es') redirect('/es/propuestas/hotel-parador');
   return <ParadorOffer lang="en" />;
 }

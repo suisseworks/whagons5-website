@@ -89,7 +89,6 @@ function detectLanguage(request: NextRequest): 'es' | 'en' {
     request.headers.get('cf-ipcountry') ||
     request.headers.get('x-vercel-ip-country') ||
     request.headers.get('x-country-code') ||
-    request.geo?.country ||
     ''
   ).toUpperCase();
   if (country && country !== 'XX' && country !== 'T1') {

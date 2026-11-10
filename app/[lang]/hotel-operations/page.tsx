@@ -31,7 +31,8 @@ export function generateStaticParams() {
   return [{ lang: 'en' }];
 }
 
-export default function Page({ params }: { params: { lang: string } }) {
+export default async function Page(props: { params: Promise<{ lang: string }> }) {
+  const params = await props.params;
   if (params.lang !== 'en') redirect('/es/operaciones-hoteleras');
   return <HotelOperationsPage lang="en" />;
 }

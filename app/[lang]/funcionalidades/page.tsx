@@ -43,7 +43,8 @@ export function generateStaticParams() {
   return [{ lang: 'es' }];
 }
 
-export default function Page({ params }: { params: { lang: string } }) {
+export default async function Page(props: { params: Promise<{ lang: string }> }) {
+  const params = await props.params;
   if (params.lang !== 'es') redirect('/en/features');
   return (
     <>
