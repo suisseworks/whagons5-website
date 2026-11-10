@@ -1,0 +1,4 @@
+.backdrop { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+.backdrop img, .backdrop video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(0.8); }
+.backdrop video { opacity: 0; transition: opacity 0.8s ease; }
+.backdrop video[data-playing] { opacity: 1; }

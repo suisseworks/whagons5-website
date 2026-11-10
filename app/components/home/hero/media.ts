@@ -44,6 +44,15 @@ export const MEDIA = {
   parcelsCarry: clip('parcels-carry', '66% 50%', 'Entregas · Última milla', 'Delivery · Last mile'),
   mechanicMotorcycle: clip('mechanic-motorcycle', '50% 50%', 'Taller · Mantenimiento', 'Workshop · Maintenance'),
   constructionFrame: clip('construction-frame', '62% 45%', 'Obra · Equipos de campo', 'Construction · Field crews'),
+  clinicReception: clip('clinic-reception', '50% 45%', 'Salud · Clínica', 'Healthcare · Clinic'),
+  airportRamp: clip('airport-ramp', '40% 55%', 'Aeropuerto · Rampa', 'Airport · Ramp'),
+  welderHeight: clip('welder-height', '70% 50%', 'Obra · Trabajo en altura', 'Construction · Work at height'),
+  kitchenGrill: clip('kitchen-grill', '50% 60%', 'Restaurantes · Cocina', 'Restaurants · Kitchen'),
+  kitchenBakery: clip('kitchen-bakery', '55% 40%', 'Alimentos · Panadería', 'Food · Bakery'),
+  restaurantService: clip('restaurant-service', '50% 55%', 'Restaurantes · Servicio', 'Restaurants · Service'),
+  baristaShift: clip('barista-shift', '50% 50%', 'Cafeterías · Turno', 'Coffee shops · Shift'),
+  gardenerPlants: clip('gardener-plants', '50% 50%', 'Áreas verdes · Jardinería', 'Grounds · Landscaping'),
+  hotelRoomService: clip('hotel-room-service', '50% 55%', 'Hotelería · Room service', 'Hospitality · Room service'),
 
   housekeeping: photo('/images/photos/room-readiness.jpg', '50% 40%', 'Hotelería · Limpieza', 'Hospitality · Housekeeping'),
   electrician: photo('/images/photos/engineering.jpg', '40% 30%', 'Mantenimiento · Instalaciones', 'Maintenance · Facilities'),
@@ -74,12 +83,12 @@ export interface MosaicTile {
  * one scene among many: it opens in D only.
  */
 export const TILES: MosaicTile[] = [
-  { id: 'a', pool: ['warehouseInventory', 'portSupervisors', 'parcelsCarry'], sizes: '(max-width: 767px) 92vw, (max-width: 1099px) 46vw, 28vw' },
-  { id: 'b', pool: ['portCargo', 'deliverySignature', 'guestService'], sizes: '(max-width: 1099px) 46vw, 28vw' },
-  { id: 'c', pool: ['pharmaCapsules', 'cleaningBathroom', 'electricalPanel'], sizes: '(max-width: 767px) 46vw, (max-width: 1099px) 23vw, 14vw' },
-  { id: 'd', pool: ['housekeeping', 'packingTape', 'roomInspection'], sizes: '(max-width: 767px) 46vw, (max-width: 1099px) 23vw, 14vw' },
-  { id: 'e', pool: ['electrician', 'labScientist', 'guestRoom'], sizes: '(max-width: 1099px) 23vw, 14vw' },
-  { id: 'f', pool: ['mechanicEngine', 'breweryTank', 'plumbing'], sizes: '(max-width: 1099px) 46vw, 28vw' },
-  { id: 'g', pool: ['retail', 'mechanicMotorcycle', 'deliveryBoxes'], sizes: '(max-width: 767px) 46vw, 14vw' },
-  { id: 'h', pool: ['constructionAerial', 'deliveryWalk', 'constructionFrame'], sizes: '28vw' },
+  { id: 'a', pool: ['warehouseInventory', 'portSupervisors', 'parcelsCarry', 'clinicReception'], sizes: '(max-width: 767px) 92vw, (max-width: 1099px) 46vw, 28vw' },
+  { id: 'b', pool: ['portCargo', 'deliverySignature', 'guestService', 'airportRamp'], sizes: '(max-width: 1099px) 46vw, 28vw' },
+  { id: 'c', pool: ['pharmaCapsules', 'cleaningBathroom', 'electricalPanel', 'baristaShift'], sizes: '(max-width: 767px) 46vw, (max-width: 1099px) 23vw, 14vw' },
+  { id: 'd', pool: ['housekeeping', 'packingTape', 'roomInspection', 'gardenerPlants'], sizes: '(max-width: 767px) 46vw, (max-width: 1099px) 23vw, 14vw' },
+  { id: 'e', pool: ['electrician', 'labScientist', 'guestRoom', 'welderHeight'], sizes: '(max-width: 1099px) 23vw, 14vw' },
+  { id: 'f', pool: ['mechanicEngine', 'breweryTank', 'plumbing', 'kitchenGrill'], sizes: '(max-width: 1099px) 46vw, 28vw' },
+  { id: 'g', pool: ['retail', 'mechanicMotorcycle', 'deliveryBoxes', 'kitchenBakery'], sizes: '(max-width: 767px) 46vw, 14vw' },
+  { id: 'h', pool: ['constructionAerial', 'deliveryWalk', 'constructionFrame', 'restaurantService'], sizes: '28vw' },
 ];

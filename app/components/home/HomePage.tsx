@@ -1,9 +1,13 @@
+import Image from 'next/image';
 import { demoOffer } from '../../lib/demo-offer';
 import { Language, legalRouteFor, routeFor } from '../../lib/locales';
 import { freeEvaluation } from '../../lib/free-evaluation';
 import HospitalityAnalytics from '../hospitality/HospitalityAnalytics';
 import Hero from './hero/Hero';
 import Adapt from './sections/Adapt';
+import Backdrop from './sections/Backdrop';
+import Field from './sections/Field';
+import Reel from './sections/Reel';
 import Contexts from './sections/Contexts';
 import HowItWorks from './sections/HowItWorks';
 import CountUp from './CountUp';
@@ -12,9 +16,10 @@ import styles from './HomePage.module.css';
 
 /*
  * Home page: Whagons adapts to the business, not the other way around.
- * Hero (operations mosaic → the product), how it adapts, the same system in
- * different operations, what each person does in it, customers, questions
- * and the next step.
+ * Hero (operations mosaic → the product), customers, the floor team (the
+ * earlier hero photo and its cards), how it adapts, the same system in
+ * different operations, what each person does in it, where the work happens
+ * (clips and photos), proof, questions and the next step.
  */
 export default function HomePage({ lang }: { lang: Language }) {
   const t = HOME_CONTENT[lang];
@@ -51,9 +56,11 @@ export default function HomePage({ lang }: { lang: Language }) {
         <p className={styles.award}><span aria-hidden="true">★</span>{t.clients.award}</p>
       </section>
 
+      <Field lang={lang} />
       <Adapt lang={lang} />
       <Contexts lang={lang} />
       <HowItWorks lang={lang} />
+      <Reel lang={lang} />
 
       {/* ── Proof ─────────────────────────────────── */}
       <section className={styles.proof} aria-labelledby="proof-title">
@@ -107,6 +114,9 @@ export default function HomePage({ lang }: { lang: Language }) {
           <div className={styles.faqContact}>
             <a href="mailto:hello@whagons.com">hello@whagons.com</a>
           </div>
+          <div className={styles.faqPhoto}>
+            <Image src="/images/photos/faq-team.jpg" alt="" fill sizes="(max-width: 999px) 92vw, 460px" />
+          </div>
         </div>
         <div className={styles.faqList} data-reveal="" style={{ ['--d' as string]: '.06s' }}>
           {t.faq.items.map(([question, answer], index) => (
@@ -123,6 +133,7 @@ export default function HomePage({ lang }: { lang: Language }) {
 
       {/* ── Next step ─────────────────────────────── */}
       <section className={styles.final} aria-labelledby="final-title">
+        <Backdrop src="/media/home/delivery-walk.mp4" poster="/media/home/delivery-walk.jpg" focus="50% 42%" />
         <div className={styles.finalInner} data-reveal="">
           <p className={styles.finalEyebrow}>{t.final.eyebrow}</p>
           <h2 id="final-title">{t.final.title}</h2>
