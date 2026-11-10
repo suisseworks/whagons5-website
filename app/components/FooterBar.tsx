@@ -24,7 +24,6 @@ const footerContent = {
     dataRetention: 'Data retention',
     legal: 'Legal',
     siteLinks: 'Site links',
-    whatsApp: 'Sales WhatsApp: +506 7071-7099',
   },
   es: {
     market: 'Operaciones hoteleras',
@@ -49,7 +48,6 @@ const footerContent = {
     dataRetention: 'Retención de datos',
     legal: 'Legal',
     siteLinks: 'Enlaces del sitio',
-    whatsApp: 'WhatsApp de ventas: +506 7071-7099',
   },
 } as const;
 
@@ -88,7 +86,6 @@ export default function FooterBar({ lang }: { lang: Language }) {
         <div className="sf-col" role="navigation" aria-label={`${t.siteLinks}: ${t.contact}`}>
           <p className="sf-h">{t.contact}</p>
           <a href="mailto:hello@whagons.com">hello@whagons.com</a>
-          <a href="https://wa.me/50670717099" aria-label={t.whatsApp}>WhatsApp +506 7071-7099</a>
           <a href="https://www.linkedin.com/company/whagons/" target="_blank" rel="noreferrer" aria-label="LinkedIn — Whagons">LinkedIn <span aria-hidden="true">↗</span></a>
           <a href="https://www.facebook.com/whagons/" target="_blank" rel="noreferrer" aria-label="Facebook — Whagons">Facebook <span aria-hidden="true">↗</span></a>
           <a href="https://www.instagram.com/whagons/" target="_blank" rel="noreferrer" aria-label="Instagram — Whagons">Instagram <span aria-hidden="true">↗</span></a>

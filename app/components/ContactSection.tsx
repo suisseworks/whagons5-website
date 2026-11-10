@@ -45,15 +45,6 @@ export default function ContactSection({ t, language }: ContactSectionProps) {
               <span className="pg-accent" aria-hidden="true"><Arrow /></span>
             </a>
           </li>
-          <li>
-            <a href="https://wa.me/50670717099" target="_blank" rel="noopener noreferrer">
-              <div>
-                <h3>WhatsApp</h3>
-                <p>{t.contactWhatsapp}</p>
-              </div>
-              <span className="pg-accent" aria-hidden="true"><Arrow /></span>
-            </a>
-          </li>
         </ul>
       </div>
     </section>

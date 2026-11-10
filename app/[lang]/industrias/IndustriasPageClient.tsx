@@ -168,7 +168,6 @@ export default function IndustriasPageClient({ lang }: { lang: Language }) {
           <p>{t.cta.text}</p>
           <div className={s.actions}>
             <a className={s.btnPrimary} href={demoHref}>{t.cta.demo}<Arrow /></a>
-            <a className={s.btnGhost} href="https://wa.me/50670717099" data-track="whatsapp_industries_click">{t.cta.whatsapp}</a>
           </div>
         </div>
       </section>
