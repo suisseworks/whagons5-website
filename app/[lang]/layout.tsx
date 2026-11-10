@@ -19,7 +19,7 @@ import '../styles/pages.css';
 // on reaching Google Fonts.
 const instrumentSans = localFont({
   src: '../fonts/instrument-sans-latin.woff2',
-  weight: '400 600',
+  weight: '400 700',
   variable: '--font-sans',
   display: 'swap',
 });
