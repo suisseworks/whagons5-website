@@ -80,5 +80,12 @@ Then, and for every change:
 pnpm deploy
 ```
 
-The custom domain `chat.whagons.com` is created on the first deploy. It fails if
-a DNS record for `chat` already exists; delete that record first.
+The custom domain `chat.whagons.com` is created on the first deploy.
+
+**Careful with an existing `chat` DNS record.** In a terminal, wrangler asks
+before replacing a conflicting record. Without one (CI, scripts, agents) it
+replaces the record without asking. Check `chat.whagons.com` before the first
+deploy.
+
+The deploy goes to the account pinned in `wrangler.jsonc` (`account_id`), so a
+wrangler login for another account fails instead of deploying there.

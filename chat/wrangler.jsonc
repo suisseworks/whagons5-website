@@ -1,6 +1,8 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "whagons-chat",
+  // Developer@whagons.com's account, which owns whagons.com.
+  "account_id": "30962192f9607a89eda812daa15e55fa",
   "main": "src/index.ts",
   "compatibility_date": "2026-10-01",
   "observability": { "enabled": true },
