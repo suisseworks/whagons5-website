@@ -33,7 +33,7 @@
     "SITE_URL": "https://whagons.com",
     "EMAIL_FROM": "Whagons <chat@notify.whagons.com>",
     "VAPID_SUBJECT": "mailto:hello@whagons.com",
-    "VAPID_PUBLIC_KEY": "",
+    "VAPID_PUBLIC_KEY": "BDJC0PhVwNbBa9T8SsucqQ1FCaQok9xyKNO0xYprTHVhLedizyb5PZdLCZ-ySy40GSgRwfGvazv7ZtDHyQLgG6s",
     "RETENTION_DAYS": "365"
   }
   // Secrets (wrangler secret put …):

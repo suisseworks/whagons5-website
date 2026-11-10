@@ -72,7 +72,10 @@ async function boot() {
     showSignin('Can’t reach the server. Check your connection and reload.');
     return;
   }
-  if (!response.ok) return showSignin();
+  if (!response.ok) {
+    response.body?.cancel().catch(() => {});
+    return showSignin();
+  }
   const { me } = await response.json();
   state.me = me;
   if (!me.name) return showNaming();
