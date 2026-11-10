@@ -695,9 +695,6 @@ html:not(.js) .svc-detail > h3 { display: none; } /* repeats the card title; the
   box-shadow: 0 1px 2px rgba(11, 42, 69, 0.06);
   overflow: hidden;
 }
-.sector-art { height: 132px; padding: 14px 16px; background: var(--navy); }
-.sector-art svg { width: 100%; height: 100%; overflow: visible; }
-.sector:hover .r-flow { opacity: 0.9; animation: flow-r 1.2s linear infinite; }
 .sector-body { padding: clamp(22px, 2.5vw, 30px); }
 .sector-tag { font-family: var(--font-head); font-size: var(--fs-sm); font-weight: 600; color: var(--blue-ink); }
 .sector h3 { margin-top: 6px; font-size: var(--fs-xl); line-height: var(--lh-head); }
@@ -1720,6 +1717,78 @@ html:not(.js) .svc-detail > h3 { display: none; } /* repeats the card title; the
 .article .paper-note { font-size: var(--fs-sm); color: var(--text-2); }
 .article-close { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--rule); color: var(--text); }
 
+/* ---------- Photos (client's Rev 2 mockup) ----------
+   A head band puts a photo behind a section heading, washed with the
+   section's own color so the text keeps its contrast. The band sizes to its
+   heading, so it works at any width and any heading length. */
+.has-band { padding-top: 0; }
+.head-band {
+  --wash-rgb: 255, 255, 255;
+  position: relative;
+  isolation: isolate;
+  padding-block: var(--section) clamp(48px, 6vw, 72px);
+  overflow: hidden;
+}
+.photo-band { position: absolute; inset: 0; z-index: -1; }
+.photo-band img { width: 100%; height: 100%; object-fit: cover; }
+.photo-band::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(var(--wash-rgb), 0.94) 0%, rgba(var(--wash-rgb), 0.86) 45%, rgba(var(--wash-rgb), 0.55) 100%);
+}
+.head-band + .container > :first-child { margin-top: 0; }
+.services .head-band,
+.values .head-band,
+.careers .head-band { --wash-rgb: 243, 245, 247; }
+.projects .head-band,
+.reach .head-band { --wash-rgb: 11, 42, 69; }
+.reach .head-band { padding-top: calc(var(--section) * 0.6); }
+.careers .head-band { padding-bottom: clamp(40px, 5vw, 64px); }
+.careers .head-band .pillars { margin-top: 48px; }
+.careers .head-band + .container > .roles { margin-top: clamp(40px, 5vw, 56px); }
+
+/* Hero: the band starts under the fixed header. */
+.hero .head-band {
+  margin-top: calc(-1 * clamp(36px, 5vw, 72px));
+  padding-block: clamp(36px, 5vw, 72px) clamp(40px, 5vw, 64px);
+}
+
+/* Purpose strip: water under a navy wash. */
+.purpose { isolation: isolate; }
+.purpose .photo-band::after { background: rgba(11, 42, 69, 0.8); }
+
+/* Why Cronus: a photo on each reason. */
+.why-list li { padding-top: 0; border-top: 0; }
+.why-img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--radius); }
+.why-list h3 { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--rule-strong); }
+
+/* Sectors: photos in place of the route drawings. */
+.sector-img { display: block; width: 100%; height: 168px; object-fit: cover; }
+
+/* Technical papers: a figure from each paper, faint behind the card. */
+.paper-card a > * { position: relative; }
+.paper-card a > .paper-fig { position: absolute; inset: 0; z-index: 0; }
+.paper-fig img { width: 100%; height: 100%; object-fit: cover; opacity: 0.14; transition: opacity 0.25s; }
+.paper-card a:hover .paper-fig img { opacity: 0.2; }
+
+/* About: the team in front of the office. */
+.about-photo { display: block; width: 100%; height: auto; margin-top: 32px; border-radius: var(--radius); }
+
+/* Contact: the details sit on a washed photo panel. */
+.contact-info.has-photo {
+  position: relative;
+  isolation: isolate;
+  padding: clamp(28px, 4vw, 48px);
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+.contact-info .photo-band::after { background: rgba(255, 255, 255, 0.86); }
+
+@media (max-width: 720px) {
+  .head-band .photo-band::after { background: rgba(var(--wash-rgb), 0.88); }
+}
+
 @media (max-width: 1080px) {
   .page-hero-grid { grid-template-columns: 1fr; }
   .page-title { max-width: 20ch; }
@@ -1917,7 +1986,7 @@ html:not(.js) .svc-detail > h3 { display: none; } /* repeats the card title; the
   .value-list,
   .pillars { grid-template-columns: 1fr; }
   .sector { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
-  .sector-art { height: auto; min-height: 160px; }
+  .sector-img { height: 100%; min-height: 160px; }
   .phases { grid-template-columns: 1fr; row-gap: 48px; }
   .phase--born .timeline { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 48px; }
   .story-list { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 40px; }
@@ -1961,7 +2030,7 @@ html:not(.js) .svc-detail > h3 { display: none; } /* repeats the card title; the
   }
   .svc-sketch { max-width: 360px; margin-top: 20px; }
   .sector { display: flex; }
-  .sector-art { height: 120px; min-height: 0; }
+  .sector-img { height: 150px; min-height: 0; }
 
   .phases { margin-top: 40px; }
   .phase-name { margin-bottom: 20px; }
