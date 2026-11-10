@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
-export default function Page({ params }: { params: { lang: string } }) {
+export default async function Page(props: { params: Promise<{ lang: string }> }) {
+  const params = await props.params;
   redirect(params.lang === 'en' ? '/en/pricing' : '/es/planes');
 }

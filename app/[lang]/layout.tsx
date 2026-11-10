@@ -38,7 +38,7 @@ const REVEAL_BOOT = `(function(d){d.classList.add('js');setTimeout(function(){if
 
 interface LangLayoutProps {
   children: React.ReactNode;
-  params: { lang: string };
+  params: Promise<{ lang: string }>;
 }
 
 const metadataByLang: Record<Language, Metadata> = {
@@ -122,7 +122,8 @@ export async function generateStaticParams() {
   return SUPPORTED_LANGS.map((lang) => ({ lang }));
 }
 
-export async function generateMetadata({ params }: LangLayoutProps): Promise<Metadata> {
+export async function generateMetadata(props: LangLayoutProps): Promise<Metadata> {
+  const params = await props.params;
   const lang = isLanguage(params.lang) ? params.lang : 'es';
   return {
     metadataBase: new URL('https://whagons.com'),
@@ -130,7 +131,13 @@ export async function generateMetadata({ params }: LangLayoutProps): Promise<Met
   };
 }
 
-export default function LangLayout({ children, params }: LangLayoutProps) {
+export default async function LangLayout(props: LangLayoutProps) {
+  const params = await props.params;
+
+  const {
+    children
+  } = props;
+
   if (!isLanguage(params.lang)) notFound();
   const lang = isLanguage(params.lang) ? params.lang : 'es';
   const documentLang = HTML_LANG[lang];

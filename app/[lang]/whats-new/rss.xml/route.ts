@@ -9,7 +9,8 @@ export function generateStaticParams() {
   return getReleases('en').length > 0 ? [{ lang: 'en' }] : [];
 }
 
-export function GET(_request: Request, { params }: { params: { lang: string } }) {
+export async function GET(_request: Request, props: { params: Promise<{ lang: string }> }) {
+  const params = await props.params;
   if (params.lang !== 'en') return new Response('Not found', { status: 404 });
   return newsFeedResponse('en');
 }

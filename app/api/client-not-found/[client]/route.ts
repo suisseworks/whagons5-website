@@ -6,7 +6,8 @@ import path from 'node:path';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-export async function GET(_request: Request, { params }: { params: { client: string } }) {
+export async function GET(_request: Request, props: { params: Promise<{ client: string }> }) {
+  const params = await props.params;
   if (/^[a-z0-9-]+$/.test(params.client)) {
     try {
       const html = await readFile(path.join(process.cwd(), 'public', 'clients', params.client, '404.html'));

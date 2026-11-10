@@ -97,7 +97,7 @@ const FLIGHT = 650;
  * live: the cards settle in, then the mover is lifted and glides to "In progress";
  * the other cards make room (FLIP) and the column counts roll.
  */
-export function useKanbanMotion(rootRef: RefObject<HTMLElement>) {
+export function useKanbanMotion(rootRef: RefObject<HTMLElement | null>) {
   const [phase, setPhase] = useState<Phase>('static');
   const [moved, setMoved] = useState(true);
   const [lifted, setLifted] = useState(false);

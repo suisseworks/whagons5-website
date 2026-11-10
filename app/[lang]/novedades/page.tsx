@@ -9,11 +9,13 @@ export function generateStaticParams() {
   return [{ lang: 'es' }];
 }
 
-export function generateMetadata({ params }: { params: { lang: string } }): Metadata {
+export async function generateMetadata(props: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const params = await props.params;
   return params.lang === 'es' ? newsIndexMetadata('es') : {};
 }
 
-export default function Page({ params }: { params: { lang: string } }) {
+export default async function Page(props: { params: Promise<{ lang: string }> }) {
+  const params = await props.params;
   if (params.lang !== 'es') redirect('/en/whats-new');
   return <NewsIndexPage lang="es" />;
 }

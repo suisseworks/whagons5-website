@@ -5,7 +5,7 @@ import '../../../styles/blog.css';
 import '../../../styles/news.css';
 
 interface PageProps {
-  params: { lang: string; slug: string };
+  params: Promise<{ lang: string; slug: string }>;
 }
 
 export const dynamicParams = false;
@@ -14,11 +14,13 @@ export function generateStaticParams() {
   return releaseParams('es');
 }
 
-export function generateMetadata({ params }: PageProps): Metadata {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
   return params.lang === 'es' ? releaseMetadata('es', params.slug) : {};
 }
 
-export default function Page({ params }: PageProps) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
   if (params.lang !== 'es') notFound();
   return <ReleasePage lang="es" slug={params.slug} />;
 }

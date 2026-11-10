@@ -24,7 +24,8 @@ export function generateStaticParams() {
   return SUPPORTED_LANGS.map((lang) => ({ lang }));
 }
 
-export function generateMetadata({ params }: { params: { lang: string } }): Metadata {
+export async function generateMetadata(props: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const params = await props.params;
   const lang: Language = isLanguage(params.lang) ? params.lang : 'es';
   const url = `https://whagons.com/${lang}/blog`;
   const posts = getPosts(lang);
@@ -56,7 +57,8 @@ export function generateMetadata({ params }: { params: { lang: string } }): Meta
   };
 }
 
-export default function BlogPage({ params }: { params: { lang: string } }) {
+export default async function BlogPage(props: { params: Promise<{ lang: string }> }) {
+  const params = await props.params;
   if (!isLanguage(params.lang)) notFound();
   const lang = params.lang;
   const posts = getPosts(lang).map((post) => toFeedPost(lang, post));

@@ -36,7 +36,8 @@ export function generateStaticParams() {
   return [{ lang: 'en' }];
 }
 
-export default function IndustriesPage({ params }: { params: { lang: string } }) {
+export default async function IndustriesPage(props: { params: Promise<{ lang: string }> }) {
+  const params = await props.params;
   if (params.lang !== 'en') redirect('/es/industrias');
   return <IndustriasPageClient lang="en" />;
 }

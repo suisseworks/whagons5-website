@@ -17,7 +17,8 @@ export function generateStaticParams() {
 const escape = (value: string) =>
   value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-export function GET(_request: Request, { params }: { params: { lang: string } }) {
+export async function GET(_request: Request, props: { params: Promise<{ lang: string }> }) {
+  const params = await props.params;
   if (!isLanguage(params.lang)) return new Response('Not found', { status: 404 });
   const lang = params.lang;
   const items = getPosts(lang).map((post) => {

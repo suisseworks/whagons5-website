@@ -10,7 +10,8 @@ export const metadata: Metadata = {
   openGraph: { title: 'Hotel Parador · Propuesta Whagons', description: 'Coordinación de limpieza, mantenimiento y seguimiento operativo.', images: [] },
   twitter: { card: 'summary', title: 'Hotel Parador · Propuesta Whagons', description: 'Coordinación de limpieza, mantenimiento y seguimiento operativo.', images: [] },
 };
-export default function Page({ params }: { params: { lang: string } }) {
+export default async function Page(props: { params: Promise<{ lang: string }> }) {
+  const params = await props.params;
   if (params.lang === 'en') redirect('/en/proposals/hotel-parador');
   return <ParadorOffer lang="es" />;
 }

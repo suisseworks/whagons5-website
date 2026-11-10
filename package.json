@@ -9,25 +9,25 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "node --test --test-isolation=none tests/demo-delivery.test.mjs tests/pricing.test.mjs tests/parador-offer.test.mjs tests/cronus-contact.test.mjs tests/cronus-careers.test.mjs tests/cronus-checklist.test.mjs tests/news.test.mjs tests/routes.test.mjs",
+    "test": "node --test tests/demo-delivery.test.mjs tests/pricing.test.mjs tests/parador-offer.test.mjs tests/cronus-contact.test.mjs tests/cronus-careers.test.mjs tests/cronus-checklist.test.mjs tests/news.test.mjs tests/routes.test.mjs",
     "blog:media": "node scripts/blog-media/render.mjs"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
-    "next": "^14.2.35",
+    "next": "15.5.29",
     "next-mdx-remote": "^6.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
     "reading-time": "^1.5.0",
     "remark-gfm": "^4.0.1",
-    "sharp": "^0.35.3"
+    "sharp": "0.35.5"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",
-    "@types/react": "^18.2.64",
-    "@types/react-dom": "^18.2.21",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "^19.3.0",
     "eslint": "^8.57.0",
-    "eslint-config-next": "^14.2.35",
+    "eslint-config-next": "15.5.29",
     "playwright-core": "1.58.2",
     "typescript": "^5.8.3"
   }

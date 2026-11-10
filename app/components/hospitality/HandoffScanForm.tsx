@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent, useRef, useState } from 'react';
+import Link from 'next/link';
 import { trackHospitalityEvent } from './HospitalityAnalytics';
 
 type SubmitState = 'idle' | 'submitting' | 'success' | 'error';
@@ -144,7 +145,7 @@ export default function HandoffScanForm() {
         <span>I agree to be contacted about the handoff scan I requested.</span>
       </label>
       <p className="pg-note">
-        Read our <a href="/en/privacy">privacy policy</a> to learn how we handle your details.
+        Read our <Link href="/en/privacy">privacy policy</Link> to learn how we handle your details.
       </p>
 
       <label className="pg-honeypot" aria-hidden="true">
