@@ -9,7 +9,9 @@ import type { MediaKey } from './hero/media';
  * Examples are labelled as examples.
  */
 
-export interface AdaptRow { label: string; hint: string; kind: 'chips' | 'flow' | 'text'; values: Record<AdaptSector, string | string[]> }
+export interface AdaptTask { title: string; spot: string; who: string; col: number; due?: string; proof?: 'photo' | 'check' | 'sign' }
+/** One sector's example setup, drawn as a small Whagons window. `mover` is the task that advances one status while it's shown. */
+export interface AdaptSetup { spaces: string[]; statuses: string[]; view: string; closeout: string; routine: string; kpis: [number, number, number, number]; tasks: AdaptTask[]; mover: number; photo: string }
 export type AdaptSector = 'cleaning' | 'maintenance' | 'logistics' | 'retail';
 
 export interface Context {
@@ -47,14 +49,39 @@ const es = {
     ] as [string, string][],
     tabsLabel: 'Ver un ejemplo de configuración',
     sectors: { cleaning: 'Limpieza', maintenance: 'Mantenimiento', logistics: 'Logística', retail: 'Comercio' } as Record<AdaptSector, string>,
-    rows: [
-      { label: 'Espacios', kind: 'chips', hint: 'Cada equipo, su espacio', values: { cleaning: ['Ama de llaves', 'Lavandería', 'Áreas comunes'], maintenance: ['Correctivos', 'Preventivos', 'Proveedores'], logistics: ['Despacho', 'Rutas', 'Almacén'], retail: ['Tiendas', 'Auditorías', 'Mantenimiento'] } },
-      { label: 'Spots', kind: 'chips', hint: 'Dónde ocurre el trabajo', values: { cleaning: ['Habitaciones', 'Pisos', 'Baños del lobby'], maintenance: ['Plantas', 'Máquinas', 'Vehículos'], logistics: ['Muelles', 'Clientes', 'Unidades'], retail: ['Tiendas', 'Bodegas', 'Cámaras de frío'] } },
-      { label: 'Estados', kind: 'flow', hint: 'Tus pasos, con tus nombres', values: { cleaning: ['Sucia', 'En limpieza', 'Limpia', 'Inspeccionada'], maintenance: ['Reportada', 'Asignada', 'En reparación', 'Verificada'], logistics: ['Programada', 'En ruta', 'Entregada', 'Firmada'], retail: ['Pendiente', 'En revisión', 'Corregida', 'Aprobada'] } },
-      { label: 'Cierre', kind: 'text', hint: 'La evidencia que pides', values: { cleaning: 'Checklist de habitación y foto del baño', maintenance: 'Repuestos usados y fotos de antes y después', logistics: 'Foto de la carga y firma de quien recibe', retail: 'Fotos de góndola y puntaje de la auditoría' } },
-      { label: 'Rutinas', kind: 'text', hint: 'Lo que se repite, solo', values: { cleaning: 'Todos los días a las 7:00, una tarea por habitación', maintenance: 'Cada mes, una tarea por equipo', logistics: 'Antes de cada salida, la revisión de la unidad', retail: 'Apertura y cierre, en cada tienda' } },
-      { label: 'Vista', kind: 'text', hint: 'Cómo lo ve tu equipo', values: { cleaning: 'Tablero de habitaciones', maintenance: 'Kanban y calendario', logistics: 'Mapa y lista del día', retail: 'Lista por tienda y tarjetas KPI' } },
-    ] as AdaptRow[],
+    ui: { spaces: 'Espacios', kpis: ['Total', 'En curso', 'Hechas hoy', 'Vencidas'], closeout: 'Cierre', routine: 'Rutina', window: 'Ejemplo de configuración para' },
+    setups: {
+      cleaning: { spaces: ['Ama de llaves', 'Lavandería', 'Áreas comunes'], statuses: ['Sucia', 'En limpieza', 'Limpia', 'Inspeccionada'], view: 'Tablero de habitaciones', closeout: 'Checklist de habitación y foto del baño', routine: 'Todos los días a las 7:00, una tarea por habitación', kpis: [48, 12, 31, 2], photo: '/media/home/cleaning-bathroom.jpg', mover: 2, tasks: [
+        { title: 'Hab. 204 · Salida', spot: 'Piso 2', who: 'AM', col: 0, due: '10:00' },
+        { title: 'Hab. 311 · Repaso', spot: 'Piso 3', who: 'LR', col: 0 },
+        { title: 'Hab. 118', spot: 'Piso 1', who: 'JP', col: 1, proof: 'check' },
+        { title: 'Baños del lobby', spot: 'Lobby', who: 'CS', col: 2, proof: 'photo' },
+        { title: 'Hab. 207', spot: 'Piso 2', who: 'AM', col: 3, proof: 'photo' },
+        { title: 'Hab. 305', spot: 'Piso 3', who: 'LR', col: 1 },
+      ] },
+      maintenance: { spaces: ['Correctivos', 'Preventivos', 'Proveedores'], statuses: ['Reportada', 'Asignada', 'En reparación', 'Verificada'], view: 'Kanban y calendario', closeout: 'Repuestos usados y fotos de antes y después', routine: 'Cada mes, una tarea por equipo', kpis: [23, 7, 9, 1], photo: '/media/home/mechanic-engine.jpg', mover: 2, tasks: [
+        { title: 'Fuga en bomba 3', spot: 'Planta norte', who: 'OP', col: 0, due: '08:20' },
+        { title: 'Banda transportadora', spot: 'Línea 2', who: 'JT', col: 1 },
+        { title: 'Compresor C-14', spot: 'Sala de máquinas', who: 'RM', col: 2, proof: 'photo' },
+        { title: 'Camión 07 · Frenos', spot: 'Taller', who: 'DV', col: 2 },
+        { title: 'Montacargas 2', spot: 'Almacén', who: 'RM', col: 3, proof: 'photo' },
+      ] },
+      logistics: { spaces: ['Despacho', 'Rutas', 'Almacén'], statuses: ['Programada', 'En ruta', 'Entregada', 'Firmada'], view: 'Mapa y lista del día', closeout: 'Foto de la carga y firma de quien recibe', routine: 'Antes de cada salida, la revisión de la unidad', kpis: [64, 18, 39, 3], photo: '/media/home/delivery-signature.jpg', mover: 3, tasks: [
+        { title: 'Ruta 12 · 14 paradas', spot: 'Muelle 3', who: 'MG', col: 0, due: '05:30' },
+        { title: 'Revisión unidad 08', spot: 'Patio', who: 'LF', col: 0, proof: 'check' },
+        { title: 'Pedido 4471', spot: 'Cliente Norte', who: 'MG', col: 1 },
+        { title: 'Pedido 4468', spot: 'Farmacia Centro', who: 'AV', col: 2, proof: 'photo' },
+        { title: 'Pedido 4460', spot: 'Hotel Plaza', who: 'AV', col: 3, proof: 'sign' },
+        { title: 'Pedido 4473', spot: 'Bodega Sur', who: 'JC', col: 2, proof: 'photo' },
+      ] },
+      retail: { spaces: ['Tiendas', 'Auditorías', 'Mantenimiento'], statuses: ['Pendiente', 'En revisión', 'Corregida', 'Aprobada'], view: 'Lista por tienda y tarjetas KPI', closeout: 'Fotos de góndola y puntaje de la auditoría', routine: 'Apertura y cierre, en cada tienda', kpis: [37, 9, 24, 4], photo: '/images/industries/retail.jpg', mover: 1, tasks: [
+        { title: 'Apertura · Tienda 08', spot: 'Tienda 08', who: 'KR', col: 0, due: '06:30', proof: 'check' },
+        { title: 'Auditoría de góndola', spot: 'Tienda 14', who: 'SP', col: 1, proof: 'photo' },
+        { title: 'Congelador sin frío', spot: 'Cámara de frío 14', who: 'TM', col: 1 },
+        { title: 'Precios pasillo 4', spot: 'Tienda 03', who: 'SP', col: 2, proof: 'photo' },
+        { title: 'Cierre · Tienda 11', spot: 'Tienda 11', who: 'KR', col: 3, proof: 'check' },
+      ] },
+    } as Record<AdaptSector, AdaptSetup>,
     note: 'Ejemplos de configuración. Los nombres, campos y pasos los defines con nuestro equipo durante la puesta en marcha.',
   },
   contexts: {
@@ -160,14 +187,39 @@ const en: HomeContent = {
     ],
     tabsLabel: 'See an example setup',
     sectors: { cleaning: 'Cleaning', maintenance: 'Maintenance', logistics: 'Logistics', retail: 'Retail' },
-    rows: [
-      { label: 'Spaces', kind: 'chips', hint: 'Each team, its own space', values: { cleaning: ['Housekeeping', 'Laundry', 'Public areas'], maintenance: ['Corrective', 'Preventive', 'Vendors'], logistics: ['Dispatch', 'Routes', 'Warehouse'], retail: ['Stores', 'Audits', 'Maintenance'] } },
-      { label: 'Spots', kind: 'chips', hint: 'Where the work happens', values: { cleaning: ['Rooms', 'Floors', 'Lobby restrooms'], maintenance: ['Plants', 'Machines', 'Vehicles'], logistics: ['Docks', 'Customers', 'Trucks'], retail: ['Stores', 'Stockrooms', 'Cold rooms'] } },
-      { label: 'Statuses', kind: 'flow', hint: 'Your steps, your names', values: { cleaning: ['Dirty', 'Cleaning', 'Clean', 'Inspected'], maintenance: ['Reported', 'Assigned', 'In repair', 'Verified'], logistics: ['Scheduled', 'On route', 'Delivered', 'Signed'], retail: ['Pending', 'In review', 'Fixed', 'Approved'] } },
-      { label: 'Close-out', kind: 'text', hint: 'The evidence you ask for', values: { cleaning: 'Room checklist and a photo of the bathroom', maintenance: 'Parts used and before-and-after photos', logistics: 'A photo of the load and the recipient’s signature', retail: 'Shelf photos and the audit score' } },
-      { label: 'Routines', kind: 'text', hint: 'What repeats, on its own', values: { cleaning: 'Every day at 7:00, one task per room', maintenance: 'Every month, one task per machine', logistics: 'Before every departure, the truck check', retail: 'Opening and closing, in every store' } },
-      { label: 'View', kind: 'text', hint: 'How your team sees it', values: { cleaning: 'Room board', maintenance: 'Kanban and calendar', logistics: 'Map and today’s list', retail: 'List by store and KPI cards' } },
-    ],
+    ui: { spaces: 'Spaces', kpis: ['Total', 'In progress', 'Done today', 'Overdue'], closeout: 'Close-out', routine: 'Routine', window: 'Example setup for' },
+    setups: {
+      cleaning: { spaces: ['Housekeeping', 'Laundry', 'Public areas'], statuses: ['Dirty', 'Cleaning', 'Clean', 'Inspected'], view: 'Room board', closeout: 'Room checklist and a photo of the bathroom', routine: 'Every day at 7:00, one task per room', kpis: [48, 12, 31, 2], photo: '/media/home/cleaning-bathroom.jpg', mover: 2, tasks: [
+        { title: 'Room 204 · Checkout', spot: 'Floor 2', who: 'AM', col: 0, due: '10:00' },
+        { title: 'Room 311 · Touch-up', spot: 'Floor 3', who: 'LR', col: 0 },
+        { title: 'Room 118', spot: 'Floor 1', who: 'JP', col: 1, proof: 'check' },
+        { title: 'Lobby restrooms', spot: 'Lobby', who: 'CS', col: 2, proof: 'photo' },
+        { title: 'Room 207', spot: 'Floor 2', who: 'AM', col: 3, proof: 'photo' },
+        { title: 'Room 305', spot: 'Floor 3', who: 'LR', col: 1 },
+      ] },
+      maintenance: { spaces: ['Corrective', 'Preventive', 'Vendors'], statuses: ['Reported', 'Assigned', 'In repair', 'Verified'], view: 'Kanban and calendar', closeout: 'Parts used and before-and-after photos', routine: 'Every month, one task per machine', kpis: [23, 7, 9, 1], photo: '/media/home/mechanic-engine.jpg', mover: 2, tasks: [
+        { title: 'Pump 3 leak', spot: 'North plant', who: 'OP', col: 0, due: '08:20' },
+        { title: 'Conveyor belt', spot: 'Line 2', who: 'JT', col: 1 },
+        { title: 'Compressor C-14', spot: 'Machine room', who: 'RM', col: 2, proof: 'photo' },
+        { title: 'Truck 07 · Brakes', spot: 'Workshop', who: 'DV', col: 2 },
+        { title: 'Forklift 2', spot: 'Warehouse', who: 'RM', col: 3, proof: 'photo' },
+      ] },
+      logistics: { spaces: ['Dispatch', 'Routes', 'Warehouse'], statuses: ['Scheduled', 'On route', 'Delivered', 'Signed'], view: 'Map and today’s list', closeout: 'A photo of the load and the recipient’s signature', routine: 'Before every departure, the truck check', kpis: [64, 18, 39, 3], photo: '/media/home/delivery-signature.jpg', mover: 3, tasks: [
+        { title: 'Route 12 · 14 stops', spot: 'Dock 3', who: 'MG', col: 0, due: '05:30' },
+        { title: 'Truck 08 check', spot: 'Yard', who: 'LF', col: 0, proof: 'check' },
+        { title: 'Order 4471', spot: 'North customer', who: 'MG', col: 1 },
+        { title: 'Order 4468', spot: 'Downtown pharmacy', who: 'AV', col: 2, proof: 'photo' },
+        { title: 'Order 4460', spot: 'Plaza Hotel', who: 'AV', col: 3, proof: 'sign' },
+        { title: 'Order 4473', spot: 'South warehouse', who: 'JC', col: 2, proof: 'photo' },
+      ] },
+      retail: { spaces: ['Stores', 'Audits', 'Maintenance'], statuses: ['Pending', 'In review', 'Fixed', 'Approved'], view: 'List by store and KPI cards', closeout: 'Shelf photos and the audit score', routine: 'Opening and closing, in every store', kpis: [37, 9, 24, 4], photo: '/images/industries/retail.jpg', mover: 1, tasks: [
+        { title: 'Opening · Store 08', spot: 'Store 08', who: 'KR', col: 0, due: '06:30', proof: 'check' },
+        { title: 'Shelf audit', spot: 'Store 14', who: 'SP', col: 1, proof: 'photo' },
+        { title: 'Freezer not cooling', spot: 'Cold room 14', who: 'TM', col: 1 },
+        { title: 'Aisle 4 prices', spot: 'Store 03', who: 'SP', col: 2, proof: 'photo' },
+        { title: 'Closing · Store 11', spot: 'Store 11', who: 'KR', col: 3, proof: 'check' },
+      ] },
+    },
     note: 'Example setups. You define the names, fields and steps with our team during rollout.',
   },
   contexts: {
