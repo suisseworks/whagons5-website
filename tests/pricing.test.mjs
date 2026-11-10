@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { calculatePrice, groups, groupPrice } from '../app/lib/pricing.ts';
+import { aiAllowance, calculatePrice, groups, groupPrice } from '../app/lib/pricing.ts';
 
 test('Costa Rica Professional quote separates recurring and one-time fees', () => {
   assert.deepEqual(calculatePrice('cr', 'professional', 60, ['people', 'supply']), {
@@ -56,5 +56,12 @@ test('Enterprise includes six groups; sales and AI remain optional', () => {
 test('user count rejects blank-equivalent, fractional, negative and nonfinite numbers', () => {
   for (const users of [0, -1, 1.5, NaN, Infinity, Number.MAX_SAFE_INTEGER + 1]) {
     assert.throws(() => calculatePrice('cr', 'essential', users, []), RangeError);
+  }
+});
+test('AI Operations Manager includes some AI usage every month in each market, below its price', () => {
+  const ai = groups.find(group => group.id === 'ai');
+  for (const market of ['cr', 'us', 'ca']) {
+    assert.ok(aiAllowance[market] > 0);
+    assert.ok(aiAllowance[market] < groupPrice(ai, market, 'essential'));
   }
 });

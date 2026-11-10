@@ -42,10 +42,12 @@ export const groups = [
     es: { name: 'Gestión comercial', description: 'De la primera conversación a la relación comercial.', modules: ['CRM', 'Investigación de empresas', 'Llamadas'] },
     en: { name: 'Sales management', description: 'From the first conversation to a customer relationship.', modules: ['CRM', 'Company research', 'Calling'] } },
   { id: 'ai', icon: 'spark', included: 3, cr: 149, us: 349,
-    es: { name: 'Asistente de operaciones con IA', description: 'Asistencia inteligente para tu operación.', modules: ['Asistente de operaciones con IA', 'Consumo de IA por separado'] },
-    en: { name: 'AI Operations Manager', description: 'Intelligent assistance for your operations.', modules: ['AI Operations Manager', 'AI usage billed separately'] } },
+    es: { name: 'Asistente de operaciones con IA', description: 'Asistencia inteligente para tu operación.', modules: ['Asistente de operaciones con IA', 'Uso de IA incluido cada mes'] },
+    en: { name: 'AI Operations Manager', description: 'Intelligent assistance for your operations.', modules: ['AI Operations Manager', 'Monthly AI usage included'] } },
 ] as const;
 export type GroupId = typeof groups[number]['id'];
+/** AI usage included each month with the AI Operations Manager powerup, in USD. Usage above it is billed separately. */
+export const aiAllowance: Record<Market, number> = { cr: 25, us: 50, ca: 25 };
 export function groupPrice(group: typeof groups[number], market: Market, plan: Plan) {
   if (plans.indexOf(plan) >= group.included) return 0;
   return market === 'us' ? group.us : Math.round(group.cr * (market === 'ca' ? 90 : 100)) / 100;

@@ -2,7 +2,7 @@
 
 import { useState, type DragEvent } from 'react';
 import type { Language } from '../../lib/locales';
-import { calculatePrice, groups, groupPrice, includedUsers, planNames, plans, rates, type GroupId, type Market, type Plan } from '../../lib/pricing';
+import { aiAllowance, calculatePrice, groups, groupPrice, includedUsers, planNames, plans, rates, type GroupId, type Market, type Plan } from '../../lib/pricing';
 import styles from './PricingPage.module.css';
 
 function Icon({ name }: { name: string }) {
@@ -40,6 +40,7 @@ export default function PricingPage({ lang }: { lang: Language }) {
   const perMonth = es ? '/mes' : '/mo';
   const from = plan === 'enterprise' ? (es ? 'Desde ' : 'From ') : '';
   const quote = es ? 'Por cotizar' : 'Custom quote';
+  const aiUsage = es ? `${money(aiAllowance[market])} de uso de IA incluidos al mes` : `${money(aiAllowance[market])} of AI usage included each month`;
   const activeGroups = groups.filter(group => groupPrice(group, market, plan) === 0 || selected.includes(group.id));
   const extraGroups = activeGroups.filter(group => groupPrice(group, market, plan) > 0);
   const includedGroups = activeGroups.filter(group => groupPrice(group, market, plan) === 0);
@@ -148,7 +149,7 @@ export default function PricingPage({ lang }: { lang: Language }) {
               return <article key={group.id} data-group={group.id} data-dragging={draggedGroup === group.id} draggable={!checked} onDragStart={event => startDrag(event, group.id)} onDragEnd={endDrag} className={`${styles.group} ${checked ? styles.groupSelected : ''} ${isIncluded ? styles.groupIncluded : ''}`}>
                 <div className={styles.groupTop}><span className={styles.groupIcon}><Icon name={group.icon} /></span>{checked ? <span className={styles.cardStatus}>{isIncluded ? included : (es ? 'En tu paquete' : 'In your package')}</span> : <span className={styles.dragHandle} aria-hidden="true">⠿</span>}</div>
                 <h3>{group[lang].name}</h3><p>{group[lang].description}</p>
-                <ul>{group[lang].modules.map(module => <li key={module}>{module}</li>)}</ul>
+                <ul>{group[lang].modules.map((module, i) => <li key={module}>{group.id === 'ai' && i === 1 ? aiUsage : module}</li>)}</ul>
                 <div className={styles.groupBottom}><span>{isIncluded ? <strong>{es ? 'Sin costo extra' : 'No extra charge'}</strong> : <><strong>+{money(price)}</strong> {perMonth}</>}</span></div>
                 <button type="button" className={styles.groupAction} disabled={isIncluded} aria-pressed={checked} aria-label={`${isIncluded ? included : checked ? (es ? 'Quitar' : 'Remove') : (es ? 'Agregar' : 'Add')} ${group[lang].name}`} onClick={() => toggle(group.id)}><span>{isIncluded ? (es ? 'Incluido en tu plan' : 'Included in your plan') : checked ? (es ? 'Quitar del paquete' : 'Remove from package') : (es ? 'Agregar al paquete' : 'Add to package')}</span><span aria-hidden="true">{isIncluded ? '✓' : checked ? '−' : '+'}</span></button>
               </article>;
@@ -196,12 +197,12 @@ export default function PricingPage({ lang }: { lang: Language }) {
         {(es ? [
           ['¿Cómo se cuentan los usuarios?', 'Se cuenta cada cuenta habilitada, incluidos los administradores. Una persona se cuenta una sola vez aunque use varios powerups. Los formularios públicos sin inicio de sesión no generan una licencia.'],
           ['¿Qué se paga una sola vez?', 'La implementación incluye la configuración y la capacitación inicial. Se suma a la primera mensualidad. La formación adicional se cotiza por separado.'],
-          ['¿Qué no incluye esta estimación?', 'Impuestos, integraciones y consumo variable de telefonía, investigación e IA. Microsoft 365 Automations se cotiza por proyecto. Las propiedades, disponibilidad y condiciones del servicio se definen en el contrato.'],
+          ['¿Qué no incluye esta estimación?', 'Impuestos, integraciones y consumo variable de telefonía, investigación e IA por encima del uso incluido en el Asistente de operaciones con IA. Microsoft 365 Automations se cotiza por proyecto. Las propiedades, disponibilidad y condiciones del servicio se definen en el contrato.'],
           ['¿Estos precios aplican a clientes actuales?', 'Estos son precios propuestos para clientes nuevos. Los clientes actuales conservan su tarifa Legacy individual. Enterprise se cotiza desde los valores mostrados, según el alcance contratado.'],
         ] : [
           ['How are users counted?', 'Each enabled account counts, including administrators. A person is counted just once even when using multiple powerups. Public forms that do not require a login do not generate a user license.'],
           ['What is paid only once?', 'Implementation includes configuration and initial training. It is added to your first monthly payment. Extra training is quoted separately.'],
-          ['What is excluded from this estimate?', 'Taxes, integrations and variable usage for calling, research and AI. Microsoft 365 Automations is quoted per project. Properties, availability and service terms are defined in your contract.'],
+          ['What is excluded from this estimate?', 'Taxes, integrations and variable usage for calling, research, and AI beyond the usage included with AI Operations Manager. Microsoft 365 Automations is quoted per project. Properties, availability and service terms are defined in your contract.'],
           ['Do these rates apply to existing customers?', 'These are proposed rates for new customers. Existing customers retain their individual Legacy rate. Enterprise starts at the amounts shown and is quoted according to scope.'],
         ]).map(([question, answer]) => <details key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}
       </div></section>
