@@ -26,7 +26,6 @@
 .marketBar h2 { margin-top: 12px; font-size: 25px; font-weight: 500; letter-spacing: -.035em; }
 .marketLabel { display: grid; gap: 8px; font-size: 12px; color: var(--muted); min-width: 190px; }
 .marketLabel select { width: 100%; border: 1px solid #d8d7ce; color: #242820; border-radius: 8px; background: #fff; padding: 11px 12px; font-size: 13px; }
-.marketNote { font-size: 12px; color: var(--muted); margin: -10px 0 20px; }
 .plans { border: none; display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
 .plan { position: relative; border: 1px solid #dedfd5; border-radius: 14px; padding: 27px; background: #fff; cursor: pointer; transition: border-color .2s, box-shadow .2s; }
 .plan:hover { border-color: #9c9f8c; }
@@ -238,3 +237,69 @@
 @media (prefers-reduced-motion:reduce) { .powerups .group, .packageZone, .packageItems li { transition: none; animation: none; } }
 
 .powerups h2 { scroll-margin-top: 105px; }
+
+/* Plan cards: recommended badge and the powerups each plan includes. */
+.badge { margin-right: auto; margin-left: 4px; padding: 3px 9px; border-radius: 99px; background: #fdeee8; color: var(--accent); font-size: 11px; font-weight: 600; letter-spacing: .01em; }
+.planGroups { display: grid; gap: 8px; margin-top: 18px; padding-top: 16px; border-top: 1px dashed #e3e1d8; }
+.planGroups > span { color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.planGroups > div { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.planGroups i { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; background: #f1f2ea; color: #4f5d43; }
+.planGroups i svg { width: 15px; height: 15px; }
+.planGroups b { margin-left: 4px; color: var(--muted); font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* Plan comparison. */
+.compare { margin-top: 70px; padding-top: 55px; border-top: 1px solid var(--line); }
+.compareHead { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 40px; margin-bottom: 28px; }
+.compareHead h2 { margin-top: 12px; font-size: 34px; font-weight: 500; letter-spacing: -.045em; line-height: 1.15; }
+.compareHead p { color: var(--muted); font-size: 13px; }
+.tableWrap { overflow-x: auto; border: 1px solid #dedfd5; border-radius: 14px; background: #fff; }
+.compareTable { width: 100%; min-width: 720px; border-collapse: collapse; font-size: 13px; }
+.compareTable th, .compareTable td { padding: 13px 18px; border-bottom: 1px solid #efeee8; text-align: left; vertical-align: middle; }
+.compareTable tbody tr:last-child > * { border-bottom: 0; }
+.compareTable tbody th { width: 30%; color: #343a2f; font-weight: 500; }
+.compareTable td { color: #343a2f; font-variant-numeric: tabular-nums; }
+.compareTable thead th { padding-top: 20px; padding-bottom: 18px; vertical-align: bottom; border-bottom: 1px solid #dedfd5; }
+.colName { display: block; font-size: 16px; font-weight: 600; letter-spacing: -.02em; }
+.compareTable thead strong { display: block; margin: 6px 0 12px; font-size: 22px; font-weight: 600; letter-spacing: -.03em; }
+.compareTable thead strong small { color: var(--muted); font-size: 12px; font-weight: 400; letter-spacing: 0; }
+.compareTable thead button { padding: 7px 14px; border: 1px solid #d8d7ce; border-radius: 8px; background: #fff; color: #242820; font-size: 12px; font-weight: 600; }
+.compareTable thead button[aria-pressed='true'] { border-color: var(--accent); background: var(--accent); color: #fff; }
+.colOn { background: #fffaf6; }
+thead .colOn { box-shadow: inset 0 3px 0 var(--accent); }
+.rowGroup th { padding-top: 18px; padding-bottom: 8px; background: #f7f6f2; color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.rowIcon { display: inline-grid; place-items: center; width: 24px; height: 24px; margin-right: 10px; border-radius: 7px; background: #f1f2ea; color: #4f5d43; vertical-align: middle; }
+.rowIcon svg { width: 14px; height: 14px; }
+.yes { display: inline-flex; align-items: center; gap: 6px; color: #3f6b32; font-weight: 600; }
+.yes > span { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: #e8eddd; font-size: 10px; }
+.addon { color: var(--muted); }
+
+/* A customer, before the questions. */
+.proof { display: grid; grid-template-columns: 1.15fr .85fr; gap: 50px; align-items: center; margin-top: 70px; padding: 44px 48px; border-radius: 18px; background: #263829; color: #f4f3ea; }
+.proof blockquote { margin: 0; font-size: clamp(20px, 2vw, 27px); line-height: 1.35; letter-spacing: -.025em; }
+.proof figcaption { display: grid; gap: 3px; margin-top: 18px; font-size: 13px; }
+.proof figcaption span { color: #b9c6b4; }
+.proof .kicker { color: #c6d2bb; }
+.proof ul { display: flex; flex-wrap: wrap; gap: 10px 24px; margin: 16px 0 0; padding: 0; list-style: none; }
+.proof li { font-size: 16px; font-weight: 600; letter-spacing: -.01em; opacity: .9; }
+
+/* Closing call to action. */
+.finalCta { display: grid; justify-items: center; gap: 14px; margin-top: 70px; padding: 56px 24px; border: 1px solid #dedfd5; border-radius: 18px; background: radial-gradient(60% 80% at 50% 0%, #fdeee8, transparent 70%), #fff; text-align: center; }
+.finalCta h2 { font-size: 34px; font-weight: 500; letter-spacing: -.045em; }
+.finalCta p { max-width: 34em; color: var(--muted); font-size: 15px; line-height: 1.6; }
+.finalCta > div { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 8px; }
+.ctaPrimary, .ctaSecondary { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 20px; border-radius: 10px; font-size: 14px; font-weight: 600; text-decoration: none; }
+.ctaPrimary { background: var(--accent); color: #fff !important; box-shadow: 0 6px 18px rgba(212, 49, 10, .22); }
+.ctaPrimary:hover { background: #b82a09; }
+.ctaSecondary { border: 1px solid #d8d7ce; background: #fff; color: #242820; }
+.ctaSecondary:hover { border-color: #242820; }
+
+@media (max-width: 850px) {
+  .proof { grid-template-columns: 1fr; gap: 28px; padding: 32px 26px; }
+  .compareHead h2, .finalCta h2 { font-size: 28px; }
+}
+@media (max-width: 600px) {
+  .compareTable th, .compareTable td { padding: 11px 12px; }
+  .compareTable tbody th { position: sticky; left: 0; z-index: 1; background: #fff; }
+  .rowGroup th { position: static; }
+  .finalCta > div { flex-direction: column; align-items: stretch; width: 100%; }
+}

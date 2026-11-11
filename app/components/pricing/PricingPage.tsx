@@ -3,6 +3,9 @@
 import { useState, type DragEvent } from 'react';
 import type { Language } from '../../lib/locales';
 import { aiAllowance, calculatePrice, groups, groupPrice, includedUsers, planNames, plans, rates, type GroupId, type Market, type Plan } from '../../lib/pricing';
+import { routeFor } from '../../lib/locales';
+import { businessEvaluation } from '../../lib/free-evaluation';
+import { CUSTOMERS, TESTIMONIALS } from '../home/content';
 import styles from './PricingPage.module.css';
 
 function Icon({ name }: { name: string }) {
@@ -35,7 +38,7 @@ export default function PricingPage({ lang }: { lang: Language }) {
   const planIndex = plans.indexOf(plan);
   const rate = rates[market];
   const money = (value: number) => new Intl.NumberFormat(es ? 'es-CR' : 'en-US', { style: 'currency', currency: 'USD', currencyDisplay: 'narrowSymbol', minimumFractionDigits: Number.isInteger(value) ? 0 : 2, maximumFractionDigits: 2 }).format(value);
-  const marketNames = { cr: 'Costa Rica', us: es ? 'Estados Unidos' : 'United States', ca: es ? 'Centroamérica' : 'Central America' };
+  const marketNames: Record<Market, string> = { cr: es ? 'Latinoamérica' : 'Latin America', us: es ? 'Estados Unidos' : 'United States' };
   const included = es ? 'Incluido' : 'Included';
   const perMonth = es ? '/mes' : '/mo';
   const from = plan === 'enterprise' ? (es ? 'Desde ' : 'From ') : '';
@@ -115,15 +118,15 @@ export default function PricingPage({ lang }: { lang: Language }) {
         <div><span className={styles.kicker}>{es ? 'HECHO PARA TU EQUIPO' : 'BUILT FOR YOUR TEAM'}</span><h2>{es ? 'Un buen comienzo para cada operación.' : 'A good start for every operation.'}</h2></div>
         <label className={styles.marketLabel}>{es ? 'Mercado · precios en USD' : 'Market · prices in USD'}<select value={market} onChange={event => { setMarket(event.target.value as Market); update(); }} aria-label={es ? 'Mercado' : 'Market'}>{Object.entries(marketNames).map(([id, name]) => <option value={id} key={id}>{name}</option>)}</select></label>
       </div>
-      {market === 'ca' && <p className={styles.marketNote}>{es ? 'Centroamérica, excepto Costa Rica. Tarifas regionales en dólares estadounidenses.' : 'Central America, excluding Costa Rica. Regional rates in US dollars.'}</p>}
 
       <fieldset className={styles.plans}><legend className="sr-only">{es ? 'Elige tu plan' : 'Choose your plan'}</legend>
         {plans.map((id, index) => <label key={id} className={`${styles.plan} ${plan === id ? styles.planSelected : ''}`}>
           <input type="radio" name="plan" value={id} checked={plan === id} onChange={() => { setPlan(id); update(); }} />
-          <div className={styles.planTop}><span className={styles.planName}>{planNames[id]}</span><span className={styles.radio} aria-hidden="true" /></div>
+          <div className={styles.planTop}><span className={styles.planName}>{planNames[id]}</span>{id === 'professional' && <span className={styles.badge}>{es ? 'Recomendado' : 'Recommended'}</span>}<span className={styles.radio} aria-hidden="true" /></div>
           <p className={styles.planDesc}>{descriptions[index]}</p>
           <div className={styles.planPrice}>{index === 2 && <small>{es ? 'Desde' : 'From'}</small>}<strong>{money(rate.base[index])}</strong><span>{perMonth}</span></div>
           <ul>{features[index].map(feature => <li key={feature}><span aria-hidden="true">✓</span>{feature}</li>)}</ul>
+          <div className={styles.planGroups}><span>{es ? 'Powerups incluidos' : 'Powerups included'}</span><div>{groups.filter(group => group.included <= index).map(group => <i key={group.id} title={group[lang].name}><Icon name={group.icon} /></i>)}<b>{groups.filter(group => group.included <= index).length}/{groups.length}</b></div></div>
           <div className={styles.choose}>{plan === id ? (es ? 'Plan seleccionado' : 'Selected plan') : (es ? 'Elegir plan' : 'Choose plan')}<span aria-hidden="true">{plan === id ? '✓' : '↗'}</span></div>
         </label>)}
       </fieldset>
@@ -193,19 +196,72 @@ export default function PricingPage({ lang }: { lang: Language }) {
         </aside>
       </div>
 
+      <section className={styles.compare} aria-labelledby="compare-title">
+        <div className={styles.compareHead}>
+          <div><span className={styles.kicker}>{es ? 'COMPARA LOS PLANES' : 'COMPARE THE PLANS'}</span><h2 id="compare-title">{es ? 'Todo lo que incluye cada plan.' : 'Everything each plan includes.'}</h2></div>
+          <p>{es ? `Precios para ${marketNames[market]}, en USD por mes, antes de impuestos.` : `Prices for ${marketNames[market]}, in USD per month, before taxes.`}</p>
+        </div>
+        <div className={styles.tableWrap}>
+          <table className={styles.compareTable}>
+            <thead><tr>
+              <th scope="col"><span className="sr-only">{es ? 'Plan' : 'Plan'}</span></th>
+              {plans.map((id, index) => <th scope="col" key={id} className={plan === id ? styles.colOn : undefined}>
+                <span className={styles.colName}>{planNames[id]}</span>
+                <strong>{index === 2 && <small>{es ? 'Desde ' : 'From '}</small>}{money(rate.base[index])}<small>{perMonth}</small></strong>
+                <button type="button" aria-pressed={plan === id} onClick={() => { setPlan(id); update(); }}>{plan === id ? (es ? 'Seleccionado' : 'Selected') : (es ? 'Elegir' : 'Choose')}</button>
+              </th>)}
+            </tr></thead>
+            <tbody>
+              <tr><th scope="row">{es ? 'Usuarios incluidos' : 'Users included'}</th>{plans.map(id => <td key={id} className={plan === id ? styles.colOn : undefined}>{includedUsers[id]}</td>)}</tr>
+              <tr><th scope="row">{es ? 'Usuario adicional' : 'Additional user'}</th>{plans.map(id => <td key={id} className={plan === id ? styles.colOn : undefined}>{money(rate.user)}{perMonth}</td>)}</tr>
+              <tr className={styles.rowGroup}><th scope="rowgroup" colSpan={4}>Powerups</th></tr>
+              {groups.map(group => <tr key={group.id}>
+                <th scope="row"><span className={styles.rowIcon}><Icon name={group.icon} /></span>{group[lang].name}</th>
+                {plans.map(id => { const price = groupPrice(group, market, id); return <td key={id} className={plan === id ? styles.colOn : undefined}>{price === 0 ? <span className={styles.yes}><span aria-hidden="true">✓</span>{included}</span> : <span className={styles.addon}>+{money(price)}{perMonth}</span>}</td>; })}
+              </tr>)}
+              <tr className={styles.rowGroup}><th scope="rowgroup" colSpan={4}>{es ? 'Puesta en marcha' : 'Getting started'}</th></tr>
+              <tr><th scope="row">{es ? 'Implementación · pago único' : 'Implementation · one-time'}</th>{plans.map((id, index) => <td key={id} className={plan === id ? styles.colOn : undefined}>{rate.implementation[index] === null ? quote : `${index === 2 ? (es ? 'Desde ' : 'From ') : ''}${money(rate.implementation[index]!)}`}</td>)}</tr>
+              <tr><th scope="row">{es ? 'Capacitación inicial' : 'Initial training'}</th>{plans.map(id => <td key={id} className={plan === id ? styles.colOn : undefined}><span className={styles.yes}><span aria-hidden="true">✓</span>{es ? 'Incluida' : 'Included'}</span></td>)}</tr>
+              <tr><th scope="row">{es ? 'Reportes y acompañamiento' : 'Reporting and support'}</th>{plans.map((id, index) => <td key={id} className={plan === id ? styles.colOn : undefined}>{features[index].slice(2).join(' · ')}</td>)}</tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section className={styles.proof} aria-label={es ? 'Clientes' : 'Customers'}>
+        <figure>
+          <blockquote>“{TESTIMONIALS[lang][1].quote}”</blockquote>
+          <figcaption><strong>{TESTIMONIALS[lang][1].name}</strong><span>{TESTIMONIALS[lang][1].role}</span></figcaption>
+        </figure>
+        <div><span className={styles.kicker}>{es ? 'EQUIPOS QUE YA TRABAJAN CON WHAGONS' : 'TEAMS ALREADY WORKING WITH WHAGONS'}</span><ul>{CUSTOMERS.map(name => <li key={name}>{name}</li>)}</ul></div>
+      </section>
+
       <section className={styles.faq} aria-labelledby="details-title"><div><span className={styles.kicker}>{es ? 'ANTES DE EMPEZAR' : 'BEFORE YOU BEGIN'}</span><h2 id="details-title">{es ? 'Las cuentas, claras.' : 'A clear view of the costs.'}</h2></div><div>
         {(es ? [
           ['¿Cómo se cuentan los usuarios?', 'Se cuenta cada cuenta habilitada, incluidos los administradores. Una persona se cuenta una sola vez aunque use varios powerups. Los formularios públicos sin inicio de sesión no generan una licencia.'],
           ['¿Qué se paga una sola vez?', 'La implementación incluye la configuración y la capacitación inicial. Se suma a la primera mensualidad. La formación adicional se cotiza por separado.'],
           ['¿Qué no incluye esta estimación?', 'Impuestos, integraciones y consumo variable de telefonía, investigación e IA por encima del uso incluido en el Asistente de operaciones con IA. Microsoft 365 Automations se cotiza por proyecto. Las propiedades, disponibilidad y condiciones del servicio se definen en el contrato.'],
+          ['¿En qué moneda se cobra?', 'Todos los precios están en dólares estadounidenses (USD), antes de impuestos, en ambos mercados.'],
+          ['¿Puedo agregar powerups después?', 'Sí. Los powerups se activan para toda la organización cuando tu operación los necesita, y los permisos de cada rol deciden quién los usa. Lo incluido en tu plan no se cobra de nuevo.'],
           ['¿Estos precios aplican a clientes actuales?', 'Estos son precios propuestos para clientes nuevos. Los clientes actuales conservan su tarifa Legacy individual. Enterprise se cotiza desde los valores mostrados, según el alcance contratado.'],
         ] : [
           ['How are users counted?', 'Each enabled account counts, including administrators. A person is counted just once even when using multiple powerups. Public forms that do not require a login do not generate a user license.'],
           ['What is paid only once?', 'Implementation includes configuration and initial training. It is added to your first monthly payment. Extra training is quoted separately.'],
           ['What is excluded from this estimate?', 'Taxes, integrations and variable usage for calling, research, and AI beyond the usage included with AI Operations Manager. Microsoft 365 Automations is quoted per project. Properties, availability and service terms are defined in your contract.'],
+          ['What currency do you bill in?', 'All prices are in US dollars (USD), before taxes, in both markets.'],
+          ['Can I add powerups later?', 'Yes. Powerups switch on for the whole organization when your operation needs them, and each role’s permissions decide who uses them. What your plan includes is never charged twice.'],
           ['Do these rates apply to existing customers?', 'These are proposed rates for new customers. Existing customers retain their individual Legacy rate. Enterprise starts at the amounts shown and is quoted according to scope.'],
         ]).map(([question, answer]) => <details key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}
       </div></section>
+
+      <section className={styles.finalCta} aria-labelledby="final-cta-title">
+        <h2 id="final-cta-title">{es ? '¿No sabes qué plan elegir?' : 'Not sure which plan fits?'}</h2>
+        <p>{es ? 'Revisamos tu operación contigo y armamos el paquete que necesitas, sin compromiso.' : 'We review your operation with you and put together the package you need, with no commitment.'}</p>
+        <div>
+          <a className={styles.ctaPrimary} href={routeFor(lang, 'demo')} data-track="pricing_final_demo_click">{es ? 'Solicitar una demo' : 'Request a demo'}<span aria-hidden="true">→</span></a>
+          <a className={styles.ctaSecondary} href={routeFor(lang, 'businessEvaluation')} data-track="pricing_final_evaluation_click">{businessEvaluation[lang].cta}</a>
+        </div>
+      </section>
     </div>
     <div className={styles.mobileTotal}><div><span>{es ? 'Total mensual · USD' : 'Monthly total · USD'}</span><strong>{from}{total ? money(total.monthly) : '—'}<small>{perMonth}</small></strong></div><a href="#plan-summary">{es ? 'Ver desglose' : 'View breakdown'} <span aria-hidden="true">↑</span></a></div>
   </main>;
