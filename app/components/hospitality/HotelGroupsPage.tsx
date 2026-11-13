@@ -1,16 +1,24 @@
 import Image from 'next/image';
 import HospitalityAnalytics from './HospitalityAnalytics';
 import OperationsHeroDemo from '../home/OperationsHeroDemo';
+import Backdrop from '../home/sections/Backdrop';
+import CountUp from '../home/CountUp';
+import { MEDIA, type MediaKey } from '../home/hero/media';
 import TaskGridMock from '../product/TaskGridMock';
 import PhoneCrop from '../product/PhoneCrop';
 import { freeEvaluation } from '../../lib/free-evaluation';
 import { routeFor } from '../../lib/locales';
+import home from '../home/HomePage.module.css';
 import s from './HotelGroupsPage.module.css';
 
 /*
  * The hotel page for hotels and hotel groups (/es/operaciones-hoteleras).
  * Spanish only for now: /en/hotel-operations keeps HotelOperationsPage until
  * this version is approved and translated.
+ *
+ * It looks like the home page: a dark hero with a mosaic of hotel scenes,
+ * dark and photo bands between the cream ones, and the home page's buttons,
+ * questions and closing band (their styles come from HomePage.module.css).
  *
  * The page shows no prices or plans and does not link to the pricing page.
  * Every mention of the PMS says that Whagons integrates with it and does not
@@ -28,6 +36,7 @@ const copy = {
     brand: 'Whagons · Hospitalidad',
     photoAlt: 'Hotel con piscina y palmeras al atardecer',
     photoNote: 'Una habitación. Varios equipos. Un mismo contexto.',
+    mosaicLabel: 'Escenas de la operación de un hotel',
     ribbon: ['Cada solicitud, con responsable', 'Cada lugar, con historial', 'Cada turno, con contexto'],
     sectionsLabel: 'Secciones de la página',
     sections: [
@@ -50,6 +59,7 @@ const copy = {
       eyebrow: 'Ejemplo de operación',
       title: ['El huésped ve un hotel.', 'Tu equipo también debería.'] as Headline,
       lead: 'Una fuga en la habitación 204, de principio a fin.',
+      photoAlt: 'Técnico de mantenimiento trabajando en el baño de una habitación de hotel',
       steps: [
         ['09:10 · Recepción', 'Registra', 'El huésped reporta la fuga. Recepción la registra y ve el avance sin perseguir respuestas.'],
         ['Mantenimiento', 'Repara', 'El técnico recibe ubicación y detalle en su teléfono. Cierra con evidencia.'],
@@ -61,13 +71,13 @@ const copy = {
       eyebrow: 'Por departamento',
       title: ['Cada equipo trabaja a su manera.', 'Todos en el mismo lugar.'] as Headline,
       cards: [
-        ['Ama de llaves', ['Limpieza e inspección de habitaciones y áreas públicas', 'Checklists con evidencia de cierre', 'Solicitudes de huésped con plazo']],
-        ['Mantenimiento', ['Averías con ubicación, prioridad y estado', 'Activos con historial y planes preventivos', 'Rutinas que crean sus tareas a tiempo']],
-        ['Recepción', ['Registro de lo que pide el huésped', 'Avance visible sin llamar a nadie', 'Aviso cuando algo está por vencer']],
-        ['Calidad', ['Estándares y documentos al alcance de cada puesto', 'Auditorías programadas', 'Hallazgos que se convierten en tareas']],
-        ['Alimentos y bebidas', ['Checklists de apertura y cierre', 'Rutinas de limpieza por estación', 'Reportes de equipo de cocina']],
-        ['Gerencia', ['Tarjetas KPI por área', 'Vencidas, en curso y completadas hoy', 'Metas por equipo']],
-      ] as [string, string[]][],
+        ['housekeeping', 'Ama de llaves', ['Limpieza e inspección de habitaciones y áreas públicas', 'Checklists con evidencia de cierre', 'Solicitudes de huésped con plazo']],
+        ['maintenance', 'Mantenimiento', ['Averías con ubicación, prioridad y estado', 'Activos con historial y planes preventivos', 'Rutinas que crean sus tareas a tiempo']],
+        ['frontDesk', 'Recepción', ['Registro de lo que pide el huésped', 'Avance visible sin llamar a nadie', 'Aviso cuando algo está por vencer']],
+        ['quality', 'Calidad', ['Estándares y documentos al alcance de cada puesto', 'Auditorías programadas', 'Hallazgos que se convierten en tareas']],
+        ['food', 'Alimentos y bebidas', ['Checklists de apertura y cierre', 'Rutinas de limpieza por estación', 'Reportes de equipo de cocina']],
+        ['management', 'Gerencia', ['Tarjetas KPI por área', 'Vencidas, en curso y completadas hoy', 'Metas por equipo']],
+      ] as [IconName, string, string[]][],
     },
     product: {
       eyebrow: 'El trabajo, a la vista',
@@ -144,90 +154,155 @@ const copy = {
 
 type Language = keyof typeof copy;
 
-function Title({ text }: { text: Readonly<Headline> }) {
-  return <h2>{text[0]} <em>{text[1]}</em></h2>;
+/** The hero mosaic's smaller tiles: hotel scenes from the home page's media, with their captions. */
+const SCENES: { area: string; media: MediaKey; sizes: string }[] = [
+  { area: 'b', media: 'housekeeping', sizes: '(max-width: 900px) 46vw, 15vw' },
+  { area: 'c', media: 'plumbing', sizes: '(max-width: 900px) 46vw, 15vw' },
+  { area: 'd', media: 'guestService', sizes: '(max-width: 900px) 46vw, 17vw' },
+  { area: 'e', media: 'hotelRoomService', sizes: '(max-width: 900px) 46vw, 28vw' },
+];
+
+type IconName = 'housekeeping' | 'maintenance' | 'frontDesk' | 'quality' | 'food' | 'management';
+
+const ICONS: Record<IconName, React.ReactNode> = {
+  housekeeping: <><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6" /><path d="M3 15h18M6 10V7.5A1.5 1.5 0 0 1 7.5 6h9A1.5 1.5 0 0 1 18 7.5V10M3 18v1.5M21 18v1.5" /></>,
+  maintenance: <path d="M14.6 6.4a4 4 0 0 0-5.2 5.2L4 17l3 3 5.4-5.4a4 4 0 0 0 5.2-5.2l-2.5 2.5-2.1-.5-.5-2.1 2.1-2.9Z" />,
+  frontDesk: <><path d="M4 17h16M5.5 17a6.5 6.5 0 0 1 13 0M12 10.5V8M10 8h4" /><path d="M3 20h18" /></>,
+  quality: <><path d="M12 3.5 5 6.2v5.3c0 4.2 2.9 7.4 7 9 4.1-1.6 7-4.8 7-9V6.2l-7-2.7Z" /><path d="m9 12 2.2 2.2L15.2 10" /></>,
+  food: <><path d="M7 3.5v7M4.5 3.5v4a2.5 2.5 0 0 0 5 0v-4M7 10.5v10" /><path d="M17 20.5v-7h-2.5V8a4.5 4.5 0 0 1 2.5-4.5v10" /></>,
+  management: <><path d="M4 20V4M4 20h16" /><path d="M8 16v-4M12 16V8M16 16v-6" /></>,
+};
+
+function Icon({ name }: { name: IconName }) {
+  return (
+    <svg className={s.icon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      {ICONS[name]}
+    </svg>
+  );
+}
+
+function Arrow() {
+  return (
+    <svg className={home.arrow} width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/** Section heading: eyebrow, a two-beat title with the second half in the accent colour, and an optional lead. */
+function Head({ eyebrow, title, lead, id }: { eyebrow: string; title: Readonly<Headline>; lead?: string; id?: string }) {
+  return (
+    <div className={s.head} data-reveal="">
+      <p className={s.eyebrow}>{eyebrow}</p>
+      <h2 id={id}>{title[0]} <em>{title[1]}</em></h2>
+      {lead && <p className={s.lead}>{lead}</p>}
+    </div>
+  );
 }
 
 export default function HotelGroupsPage({ lang = 'es' }: { lang?: Language }) {
   const t = copy[lang];
   const market = lang === 'es' ? 'latam' : 'us';
-  const actions = (place: 'hero' | 'final') => (
-    <div className={s.actions}>
-      <a className={s.button} href={routeFor(lang, 'demo')} data-track={place === 'hero' ? 'operations_demo_click' : 'operations_final_demo_click'}>
-        {t.demo} <span aria-hidden="true">↗</span>
-      </a>
-      <a className={s.textLink} href={routeFor(lang, 'evaluation')} data-track={`hotel_evaluation_${place}_click`}>
-        {freeEvaluation[lang].cta} <span aria-hidden="true">→</span>
-      </a>
-    </div>
-  );
+  const actions = (place: 'hero' | 'final') => <>
+    <a className={home.btnPrimary} href={routeFor(lang, 'demo')} data-track={place === 'hero' ? 'operations_demo_click' : 'operations_final_demo_click'}>
+      {t.demo}<Arrow />
+    </a>
+    <a className={home.btnGhost} href={routeFor(lang, 'evaluation')} data-track={`hotel_evaluation_${place}_click`}>
+      {freeEvaluation[lang].cta}
+    </a>
+  </>;
 
   return <>
     <HospitalityAnalytics page={`${market}_hotel_operations`} market={market} />
-    <main className={s.page}>
+    <main className={`${home.page} ${s.page}`}>
+      {/* ── Hero ──────────────────────────────────── */}
       <section className={s.hero}>
-        <div className={s.heroCopy}>
-          <p className={s.eyebrow}>{t.eyebrow}</p>
+        <div className={s.heroCopy} data-rise="">
+          <p className={s.badge}><span aria-hidden="true" />{t.eyebrow}</p>
           <h1>{t.title[0]} <em>{t.title[1]}</em></h1>
-          <p className={s.lead}>{t.lead}</p>
-          {actions('hero')}
+          <p className={s.heroLead}>{t.lead}</p>
+          <div className={s.heroActions}>{actions('hero')}</div>
         </div>
-        <figure className={s.heroPhoto}>
-          <Image src="/images/industries/hoteleria.jpg" alt={t.photoAlt} fill priority sizes="(max-width: 820px) 100vw, 50vw" />
-          <figcaption><span>{t.brand}</span><strong>{t.photoNote}</strong></figcaption>
-        </figure>
+        <div className={s.mosaic} role="group" aria-label={t.mosaicLabel} data-rise="" style={{ ['--d' as string]: '.12s' }}>
+          <figure className={`${s.tile} ${s.tileMain}`} style={{ gridArea: 'a' }}>
+            <Image src="/images/industries/hoteleria.jpg" alt={t.photoAlt} fill priority sizes="(max-width: 900px) 92vw, 34vw" />
+            <figcaption><span>{t.brand}</span><strong>{t.photoNote}</strong></figcaption>
+          </figure>
+          {SCENES.map(({ area, media, sizes }) => {
+            const item = MEDIA[media];
+            return (
+              <figure className={s.tile} key={area} style={{ gridArea: area }}>
+                {item.kind === 'video'
+                  ? <Backdrop src={item.src} poster={item.poster!} focus={item.focus} />
+                  : <Image src={item.src} alt="" fill sizes={sizes} style={{ objectPosition: item.focus }} />}
+                <figcaption><span>{item.label[lang]}</span></figcaption>
+              </figure>
+            );
+          })}
+        </div>
+        <ul className={s.ribbon}>{t.ribbon.map((item, i) => <li key={item}><b>0{i + 1}</b>{item}</li>)}</ul>
       </section>
-
-      <div className={s.ribbon}>{t.ribbon.map((item, i) => <span key={item}><b>0{i + 1}</b>{item}</span>)}</div>
 
       {/* Not a <nav> element: the site styles every <nav> as the fixed top bar. */}
       <div className={s.sections} role="navigation" aria-label={t.sectionsLabel}>
         {t.sections.map(([href, label]) => <a key={href} href={href}>{label}</a>)}
       </div>
 
-      <section className={s.section}>
-        <div className={s.wrap} data-reveal-kids="">
-          <p className={s.eyebrow}>{t.problem.eyebrow}</p>
-          <Title text={t.problem.title} />
-          <div className={`${s.grid} ${s.four}`}>
-            {t.problem.cards.map(([title, text], i) => (
-              <article className={s.card} key={title}><span className={s.tag}>0{i + 1}</span><h3>{title}</h3><p>{text}</p></article>
-            ))}
-          </div>
-        </div>
+      {/* ── The problem ───────────────────────────── */}
+      <section className={`${s.band} ${s.problem}`}>
+        <Head eyebrow={t.problem.eyebrow} title={t.problem.title} />
+        <ol className={s.rows}>
+          {t.problem.cards.map(([title, text], i) => (
+            <li key={title} data-reveal="" style={{ ['--d' as string]: `${i * 0.05}s` }}>
+              <span className={s.num}>0{i + 1}</span>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </li>
+          ))}
+        </ol>
       </section>
 
-      <section className={s.section}>
-        <div className={s.wrap} data-reveal-kids="">
-          <p className={s.eyebrow}>{t.flow.eyebrow}</p>
-          <Title text={t.flow.title} />
-          <p className={s.lead}>{t.flow.lead}</p>
-          <ol className={s.flow}>
-            {t.flow.steps.map(([label, title, text]) => (
-              <li key={title}><span className={s.tag}>{label}</span><h3>{title}</h3><p>{text}</p></li>
+      {/* ── Room 204 ──────────────────────────────── */}
+      <section className={`${s.band} ${s.dark}`}>
+        <Head eyebrow={t.flow.eyebrow} title={t.flow.title} lead={t.flow.lead} />
+        <div className={s.flow}>
+          <figure className={s.flowPhoto} data-reveal="">
+            <Image src={MEDIA.plumbing.src} alt={t.flow.photoAlt} fill sizes="(max-width: 900px) 92vw, 44vw" style={{ objectPosition: MEDIA.plumbing.focus }} />
+            <figcaption><span>{MEDIA.plumbing.label[lang]}</span></figcaption>
+          </figure>
+          <ol className={s.timeline}>
+            {t.flow.steps.map(([label, title, text], i) => (
+              <li key={title} data-reveal="" style={{ ['--d' as string]: `${i * 0.07}s` }}>
+                <span className={s.tag}>{label}</span>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </li>
             ))}
           </ol>
         </div>
       </section>
 
-      <section className={s.section} id="departamentos">
-        <div className={s.wrap} data-reveal-kids="">
-          <p className={s.eyebrow}>{t.departments.eyebrow}</p>
-          <Title text={t.departments.title} />
-          <div className={`${s.grid} ${s.three}`}>
-            {t.departments.cards.map(([name, points]) => (
-              <article className={s.card} key={name}><h3>{name}</h3><ul>{points.map((point) => <li key={point}>{point}</li>)}</ul></article>
-            ))}
-          </div>
+      {/* ── By department ─────────────────────────── */}
+      <section className={s.band} id="departamentos">
+        <Head eyebrow={t.departments.eyebrow} title={t.departments.title} />
+        <div className={`${s.cards} ${s.three}`}>
+          {t.departments.cards.map(([icon, name, points], i) => (
+            <article className={s.card} key={name} data-reveal="" style={{ ['--d' as string]: `${(i % 3) * 0.06}s` }}>
+              <Icon name={icon} />
+              <h3>{name}</h3>
+              <ul>{points.map((point) => <li key={point}>{point}</li>)}</ul>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section className={s.section}>
-        <div className={s.wrap} data-reveal-kids="">
-          <div className={s.split}>
-            <div><p className={s.eyebrow}>{t.product.eyebrow}</p><Title text={t.product.title} /></div>
-            <p className={s.lead}>{t.product.lead}</p>
-          </div>
+      {/* ── The work in view ──────────────────────── */}
+      <section className={`${s.band} ${s.white}`}>
+        <div className={s.split}>
+          <Head eyebrow={t.product.eyebrow} title={t.product.title} />
+          <p className={s.lead} data-reveal="">{t.product.lead}</p>
+        </div>
+        <div className={s.stage} data-reveal="">
           <figure className={s.screenshot}>
             <div className={s.screenshotBar}><span aria-hidden="true">● ● ●</span> Whagons · Hotel Premium</div>
             <PhoneCrop><TaskGridMock lang={lang} label={t.product.shotAlt} /></PhoneCrop>
@@ -235,87 +310,113 @@ export default function HotelGroupsPage({ lang = 'es' }: { lang?: Language }) {
         </div>
       </section>
 
-      <section className={`${s.section} ${s.tinted}`}>
-        <div className={s.wrap} data-reveal-kids="">
-          <p className={s.eyebrow}>{t.capture.eyebrow}</p>
-          <Title text={t.capture.title} />
-          <div className={`${s.grid} ${s.three}`}>
-            {t.capture.cards.map(([label, title, text]) => (
-              <article className={s.card} key={label}><span className={s.tag}>{label}</span><h3>{title}</h3><p>{text}</p></article>
+      {/* ── Voice, QR and NFC ─────────────────────── */}
+      <section className={s.band}>
+        <Head eyebrow={t.capture.eyebrow} title={t.capture.title} />
+        <div className={s.capture}>
+          <div className={s.channels}>
+            {t.capture.cards.map(([label, title, text], i) => (
+              <article key={label} data-reveal="" style={{ ['--d' as string]: `${i * 0.06}s` }}>
+                <span className={s.chip}>{label}</span>
+                <div><h3>{title}</h3><p>{text}</p></div>
+              </article>
             ))}
           </div>
-          <div className={s.demo}><OperationsHeroDemo lang={lang} /></div>
+          <div className={s.demo} data-reveal=""><OperationsHeroDemo lang={lang} /></div>
         </div>
       </section>
 
-      <section className={`${s.section} ${s.dark}`} id="grupos">
-        <div className={s.wrap} data-reveal-kids="">
-          <p className={s.eyebrow}>{t.groups.eyebrow}</p>
-          <Title text={t.groups.title} />
-          <p className={s.lead}>{t.groups.lead}</p>
-          <div className={`${s.grid} ${s.three}`}>
-            {t.groups.cards.map(([title, text]) => (
-              <article className={s.card} key={title}><h3>{title}</h3><p>{text}</p></article>
-            ))}
-          </div>
+      {/* ── Hotel groups ──────────────────────────── */}
+      <section className={`${s.band} ${s.groups}`} id="grupos">
+        <Image className={s.groupsPhoto} src="/images/photos/lobby.jpg" alt="" fill sizes="100vw" />
+        <Head eyebrow={t.groups.eyebrow} title={t.groups.title} lead={t.groups.lead} />
+        <div className={`${s.cards} ${s.three}`}>
+          {t.groups.cards.map(([title, text], i) => (
+            <article className={s.glass} key={title} data-reveal="" style={{ ['--d' as string]: `${i * 0.06}s` }}>
+              <span className={s.num}>0{i + 1}</span>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section className={s.section} id="integraciones">
-        <div className={s.wrap} data-reveal-kids="">
-          <p className={s.eyebrow}>{t.integrations.eyebrow}</p>
-          <Title text={t.integrations.title} />
-          <p className={s.lead}>{t.integrations.lead}</p>
-          <ul className={s.pms} aria-label={t.integrations.pmsLabel}>
-            {t.integrations.pms.map((name) => <li key={name}>{name}</li>)}
+      {/* ── Integrations ──────────────────────────── */}
+      <section className={s.band} id="integraciones">
+        <div className={s.integrations}>
+          <Head eyebrow={t.integrations.eyebrow} title={t.integrations.title} lead={t.integrations.lead} />
+          <ul className={s.pms} aria-label={t.integrations.pmsLabel} data-reveal="">
+            {t.integrations.pms.map((name) => <li key={name}><span aria-hidden="true" />{name}</li>)}
             <li className={s.anyPms}>{t.integrations.anyPms}</li>
           </ul>
-          <div className={`${s.grid} ${s.three}`}>
-            {t.integrations.cards.map(([title, text]) => (
-              <article className={s.card} key={title}><h3>{title}</h3><p>{text}</p></article>
-            ))}
-          </div>
+        </div>
+        <div className={`${s.cards} ${s.three}`}>
+          {t.integrations.cards.map(([title, text], i) => (
+            <article className={s.card} key={title} data-reveal="" style={{ ['--d' as string]: `${i * 0.06}s` }}>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section className={s.section}>
-        <div className={s.wrap} data-reveal-kids="">
-          <p className={s.eyebrow}>{t.results.eyebrow}</p>
-          <Title text={t.results.title} />
-          <dl className={s.stats}>
-            {t.results.stats.map(([figure, text]) => <div key={figure}><dt>{figure}</dt><dd>{text}</dd></div>)}
+      {/* ── Results ───────────────────────────────── */}
+      <section className={`${s.band} ${s.resultsBand}`}>
+        <div className={s.results} data-reveal="">
+          <div className={s.head}>
+            <p className={s.eyebrow}>{t.results.eyebrow}</p>
+            <h2>{t.results.title[0]} <em>{t.results.title[1]}</em></h2>
+          </div>
+          <dl>
+            {t.results.stats.map(([figure, text]) => (
+              <div key={figure}><dt><CountUp value={figure} /></dt><dd>{text}</dd></div>
+            ))}
           </dl>
         </div>
       </section>
 
-      <section className={s.section} id="empezar">
-        <div className={s.wrap} data-reveal-kids="">
-          <p className={s.eyebrow}>{t.start.eyebrow}</p>
-          <Title text={t.start.title} />
-          <ol className={`${s.grid} ${s.three} ${s.steps}`}>
-            {t.start.steps.map(([label, title, text]) => (
-              <li className={s.card} key={title}><span className={s.tag}>{label}</span><h3>{title}</h3><p>{text}</p></li>
-            ))}
-          </ol>
-        </div>
+      {/* ── How to start ──────────────────────────── */}
+      <section className={`${s.band} ${s.white}`} id="empezar">
+        <Head eyebrow={t.start.eyebrow} title={t.start.title} />
+        <ol className={s.steps}>
+          {t.start.steps.map(([label, title, text], i) => (
+            <li key={title} data-reveal="" style={{ ['--d' as string]: `${i * 0.07}s` }}>
+              <span className={s.tag}>{label}</span>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </li>
+          ))}
+        </ol>
       </section>
 
-      <section className={s.section}>
-        <div className={`${s.wrap} ${s.faq}`} data-reveal-kids="">
-          <div><p className={s.eyebrow}>{t.faq.eyebrow}</p><Title text={t.faq.title} /></div>
-          <div className={s.questions}>
-            {t.faq.items.map(([question, answer], i) => (
-              <details key={question} open={i === 0}><summary>{question}</summary><p>{answer}</p></details>
-            ))}
+      {/* ── Questions ─────────────────────────────── */}
+      <section className={`${home.faq} ${s.faq}`}>
+        <div className={home.faqIntro} data-reveal="">
+          <div className={s.head}>
+            <p className={s.eyebrow}>{t.faq.eyebrow}</p>
+            <h2>{t.faq.title[0]} <em>{t.faq.title[1]}</em></h2>
+          </div>
+          <div className={home.faqPhoto}>
+            <Image src="/images/photos/faq-team.jpg" alt="" fill sizes="(max-width: 999px) 92vw, 460px" />
           </div>
         </div>
+        <div className={home.faqList} data-reveal="" style={{ ['--d' as string]: '.06s' }}>
+          {t.faq.items.map(([question, answer], i) => (
+            <details key={question} className={home.faqItem} open={i === 0}>
+              <summary>{question}<span className={home.faqIcon} aria-hidden="true" /></summary>
+              <p>{answer}</p>
+            </details>
+          ))}
+        </div>
       </section>
 
-      <section className={`${s.section} ${s.final}`} id="contacto">
-        <div className={s.wrap} data-reveal-kids="">
-          <p className={s.eyebrow}>{t.brand}</p>
-          <Title text={t.final.title} />
-          {actions('final')}
+      {/* ── Closing ───────────────────────────────── */}
+      <section className={`${home.final} ${s.final}`} id="contacto">
+        <Backdrop src={MEDIA.hotelRoomService.src} poster={MEDIA.hotelRoomService.poster!} focus={MEDIA.hotelRoomService.focus} />
+        <div className={home.finalInner} data-reveal="">
+          <p className={home.finalEyebrow}>{t.brand}</p>
+          <h2>{t.final.title[0]} <em>{t.final.title[1]}</em></h2>
+          <div className={home.finalActions}>{actions('final')}</div>
         </div>
       </section>
     </main>

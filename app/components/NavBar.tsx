@@ -35,9 +35,11 @@ export default function NavBar({ lang }: NavBarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const menuPanelRef = useRef<HTMLDivElement>(null);
-  // Pages that open on a dark hero (home, industries): the bar sits clear over
-  // it until the page scrolls.
-  const onDarkHero = pathname === `/${lang}` || routeKeyFromPath(pathname) === 'markets';
+  // Pages that open on a dark hero (home, industries, the Spanish hotel page):
+  // the bar sits clear over it until the page scrolls. The English hotel page
+  // still opens on a light hero.
+  const routeKey = routeKeyFromPath(pathname);
+  const onDarkHero = pathname === `/${lang}` || routeKey === 'markets' || (routeKey === 'hotels' && lang === 'es');
   const [atTop, setAtTop] = useState(true);
 
   const hrefs = {
