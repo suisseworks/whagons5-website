@@ -2,6 +2,8 @@
 
 import Image from 'next/image';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
+import type { Language } from '../../lib/locales';
+import { shotsFor } from '../../lib/shots';
 import s from './HotelGroupsPage.module.css';
 
 /*
@@ -18,7 +20,7 @@ type Visual =
   | { kind: 'image'; src: string; focus: string }
   | { kind: 'video'; src: string; poster: string; focus: string }
   /** A capture of the product on a dark stage, not a photo. */
-  | { kind: 'screen'; src: string; width: number; height: number };
+  | { kind: 'screen' };
 
 const VISUALS: Record<DepartmentKey, Visual> = {
   housekeeping: { kind: 'image', src: '/images/photos/room-readiness.jpg', focus: '50% 38%' },
@@ -26,7 +28,7 @@ const VISUALS: Record<DepartmentKey, Visual> = {
   frontDesk: { kind: 'image', src: '/images/photos/guest-requests.jpg', focus: '55% 40%' },
   quality: { kind: 'image', src: '/images/photos/faq-team.jpg', focus: '55% 30%' },
   food: { kind: 'video', src: '/media/home/kitchen-grill.mp4', poster: '/media/home/kitchen-grill.jpg', focus: '50% 60%' },
-  management: { kind: 'screen', src: '/images/hotel-premium-analytics-es.jpg', width: 1170, height: 446 },
+  management: { kind: 'screen' },
 };
 
 const ICONS: Record<DepartmentKey, ReactNode> = {
@@ -42,7 +44,7 @@ function Icon({ name }: { name: DepartmentKey }) {
   return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{ICONS[name]}</svg>;
 }
 
-export default function Departments({ items }: { items: readonly Department[] }) {
+export default function Departments({ lang, items }: { lang: Language; items: readonly Department[] }) {
   const ref = useRef<HTMLDivElement>(null);
   const hover = useRef(0);
   const [active, setActive] = useState(0);
@@ -112,7 +114,7 @@ export default function Departments({ items }: { items: readonly Department[] })
         <div className={s.deptPanel} id={`dept-${item.key}-panel`} role="region" aria-labelledby={`dept-${item.key}`}>
           <div className={s.deptInner}>
             <div className={s.deptMedia} data-kind={visual.kind}>
-              <DeptVisual visual={visual} play={motion && inView && on} eager={i === 0} />
+              <DeptVisual lang={lang} visual={visual} play={motion && inView && on} eager={i === 0} />
             </div>
             <div className={s.deptSheet}>
               <p className={s.deptSheetHead} aria-hidden="true"><Icon name={item.key} />{item.name}</p>
@@ -130,7 +132,7 @@ export default function Departments({ items }: { items: readonly Department[] })
   </div>;
 }
 
-function DeptVisual({ visual, play, eager }: { visual: Visual; play: boolean; eager: boolean }) {
+function DeptVisual({ lang, visual, play, eager }: { lang: Language; visual: Visual; play: boolean; eager: boolean }) {
   const video = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
   const src = visual.kind === 'video' ? visual.src : '';
@@ -144,7 +146,10 @@ function DeptVisual({ visual, play, eager }: { visual: Visual; play: boolean; ea
     } else v.pause();
   }, [play, src]);
 
-  if (visual.kind === 'screen') return <Image className={s.deptScreen} src={visual.src} alt="" width={visual.width} height={visual.height} sizes="(max-width: 999px) 120vw, 60vw" />;
+  if (visual.kind === 'screen') {
+    const shot = shotsFor(lang).analytics;
+    return <Image className={s.deptScreen} src={shot.src} alt="" width={shot.width} height={shot.height} sizes="(max-width: 999px) 120vw, 60vw" />;
+  }
   if (visual.kind === 'video') return <>
     {/* eslint-disable-next-line @next/next/no-img-element */}
     <img src={visual.poster} alt="" loading="lazy" decoding="async" style={{ objectPosition: visual.focus }} />

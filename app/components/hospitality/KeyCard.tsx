@@ -28,7 +28,7 @@ const COPY = {
   },
   en: {
     invite: 'Slide the card in. Switch your hotel on.',
-    connected: 'One room. Several teams. The same context.',
+    connected: 'One room. Several teams. Shared context.',
     hintPointer: 'Drag the card to the switch, or click it.',
     hintTouch: 'Tap the card to slide it in.',
     hintOff: 'Pull the card up, or click it, to take it out.',
