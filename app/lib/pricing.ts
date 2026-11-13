@@ -7,7 +7,9 @@
 // implementation [1500, 3500, 7500] (Enterprise from), and powerups about 30%
 // higher (people, supply, mobility, sales and AI as proposed; maintenance and
 // compliance follow the same steps). Costa Rica and Central America unchanged.
-export type Market = 'cr' | 'us' | 'ca';
+// November 10, 2026: two markets. 'cr' is shown as Latin America, at the
+// Costa Rica rates; the separate Central America market is retired.
+export type Market = 'cr' | 'us';
 export type Plan = 'essential' | 'professional' | 'enterprise';
 export const plans: Plan[] = ['essential', 'professional', 'enterprise'];
 export const planNames: Record<Plan, string> = { essential: 'Essential', professional: 'Professional', enterprise: 'Enterprise' };
@@ -16,7 +18,6 @@ type Rate = { base: readonly number[]; implementation: readonly (number | null)[
 export const rates: Record<Market, Rate> = {
   cr: { base: [399, 699, 1200], implementation: [600, 1000, 1600], user: 5 },
   us: { base: [699, 1290, 3500], implementation: [1500, 3500, 7500], user: 18 },
-  ca: { base: [359.1, 629.1, 1080], implementation: [675, 1125, 1800], user: 4.5 },
 };
 
 export const groups = [
@@ -47,10 +48,10 @@ export const groups = [
 ] as const;
 export type GroupId = typeof groups[number]['id'];
 /** AI usage included each month with the AI Operations Manager powerup, in USD. Usage above it is billed separately. */
-export const aiAllowance: Record<Market, number> = { cr: 25, us: 50, ca: 25 };
+export const aiAllowance: Record<Market, number> = { cr: 25, us: 50 };
 export function groupPrice(group: typeof groups[number], market: Market, plan: Plan) {
   if (plans.indexOf(plan) >= group.included) return 0;
-  return market === 'us' ? group.us : Math.round(group.cr * (market === 'ca' ? 90 : 100)) / 100;
+  return market === 'us' ? group.us : group.cr;
 }
 export function calculatePrice(market: Market, plan: Plan, users: number, selected: readonly GroupId[]) {
   if (!Number.isSafeInteger(users) || users < 1) throw new RangeError('Users must be a positive whole number');

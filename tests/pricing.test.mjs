@@ -8,14 +8,13 @@ test('Costa Rica Professional quote separates recurring and one-time fees', () =
     implementation: 1000, firstMonth: 2147,
   });
 });
-test('approved implementation revision applies only to Costa Rica across all plans', () => {
-  for (const [plan, users, crSetup, caSetup] of [
-    ['essential', 20, 600, 675],
-    ['professional', 40, 1000, 1125],
-    ['enterprise', 60, 1600, 1800],
+test('Latin America keeps the approved implementation revision across all plans', () => {
+  for (const [plan, users, setup] of [
+    ['essential', 20, 600],
+    ['professional', 40, 1000],
+    ['enterprise', 60, 1600],
   ]) {
-    assert.equal(calculatePrice('cr', plan, users, []).implementation, crSetup);
-    assert.equal(calculatePrice('ca', plan, users, []).implementation, caSetup);
+    assert.equal(calculatePrice('cr', plan, users, []).implementation, setup);
   }
 });
 test('USA publishes its implementation fee for each plan', () => {
@@ -43,12 +42,6 @@ test('USA Essential with extra users and two powerups adds the one-time fee to t
   assert.equal(result.implementation, 1500);
   assert.equal(result.firstMonth, 3037);
 });
-test('Central America uses the regional discount with cent precision', () => {
-  const result = calculatePrice('ca', 'essential', 21, ['maintenance', 'compliance', 'mobility']);
-  assert.equal(result.monthly, 729.9);
-  assert.equal(result.implementation, 675);
-  assert.equal(result.firstMonth, 1404.9);
-});
 test('Enterprise includes six groups; sales and AI remain optional', () => {
   assert.deepEqual(groups.filter(group => groupPrice(group, 'us', 'enterprise') > 0).map(group => group.id), ['sales', 'ai']);
   assert.equal(calculatePrice('us', 'enterprise', 61, groups.map(group => group.id)).monthly, 4266);
@@ -60,7 +53,7 @@ test('user count rejects blank-equivalent, fractional, negative and nonfinite nu
 });
 test('AI Operations Manager includes some AI usage every month in each market, below its price', () => {
   const ai = groups.find(group => group.id === 'ai');
-  for (const market of ['cr', 'us', 'ca']) {
+  for (const market of ['cr', 'us']) {
     assert.ok(aiAllowance[market] > 0);
     assert.ok(aiAllowance[market] < groupPrice(ai, market, 'essential'));
   }
