@@ -11,7 +11,7 @@ import type { Language } from '../../../lib/locales';
  * the data is sample data and the scene says so.
  */
 
-export type SpaceIcon = 'wrench' | 'zap' | 'truck' | 'package' | 'clipboard' | 'hardhat';
+export type SpaceIcon = 'wrench' | 'zap' | 'truck' | 'package' | 'clipboard' | 'hardhat' | 'bed' | 'bell' | 'shield' | 'utensils' | 'chart';
 export type Status = 'todo' | 'doing' | 'done';
 export type Tone = 'blue' | 'violet' | 'amber' | 'teal' | 'pink' | 'green' | 'orange';
 

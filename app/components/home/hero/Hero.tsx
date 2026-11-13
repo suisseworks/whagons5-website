@@ -1,13 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type ComponentType, type RefObject } from 'react';
 import type { Language } from '../../../lib/locales';
 import { appFont } from '../../product/appFont';
 import ProductScene, { type SceneFrame } from './ProductScene';
 import Socket from './Socket';
-import { MEDIA, TILES, type MediaKey, type MosaicTile } from './media';
-import { SCENE_COPY, SCENE_LENGTH, SCRIPT, TYPE_START, TYPE_STEP } from './scenarios';
+import { MEDIA, TILES as HOME_TILES, type MediaKey, type MosaicTile } from './media';
+import { SCENE_COPY, SCENE_LENGTH, SCRIPT, TYPE_START, TYPE_STEP, type SceneCopy } from './scenarios';
 import styles from './Hero.module.css';
 
 /*
@@ -19,6 +19,9 @@ import styles from './Hero.module.css';
  * Plugging the cable into the socket sends a pulse into the mosaic and
  * starts the reveal from wherever the sequence is. Every timing runs on a
  * clock that stops while paused, off screen or in a background tab.
+ *
+ * The hotel page uses the same hero with its own tiles, its own screen and a
+ * key card in place of the plug (hospitality/HotelHero.tsx).
  */
 
 export interface HeroCopy {
@@ -31,6 +34,31 @@ export interface HeroCopy {
   mosaicLabel: string;
   pause: string;
   play: string;
+}
+
+/** What the hero gives the control that connects it: the home page's socket, the hotel page's key card. */
+export interface ConnectorProps {
+  lang: Language;
+  connected: boolean;
+  onConnect: (via: 'drag' | 'click' | 'keyboard') => void;
+  onDisconnect: () => void;
+  heroRef: RefObject<HTMLElement>;
+  /** Where the connection enters the mosaic. */
+  portRef: RefObject<HTMLElement>;
+  reducedMotion: boolean;
+  /** Increments to send a pulse of light towards the mosaic. */
+  pulse: number;
+  onPulseArrive: () => void;
+}
+
+interface Props {
+  lang: Language;
+  copy: HeroCopy;
+  /** The mosaic's tiles and their media. */
+  tiles?: MosaicTile[];
+  /** The screen the mosaic turns into. */
+  scene?: SceneCopy;
+  Connector?: ComponentType<ConnectorProps>;
 }
 
 type Phase = 'intro' | 'mosaic' | 'charge' | 'flip' | 'scene' | 'hold' | 'return';
@@ -76,7 +104,9 @@ class Clock {
 
 const rand = (a: number, b: number) => a + Math.random() * (b - a);
 
-export default function Hero({ lang, copy }: { lang: Language; copy: HeroCopy }) {
+export default function Hero({ lang, copy, tiles = HOME_TILES, scene, Connector = Socket }: Props) {
+  const sceneCopy = scene ?? SCENE_COPY[lang];
+  const scenarios = sceneCopy.scenarios;
   const heroRef = useRef<HTMLElement>(null);
   const mosaicRef = useRef<HTMLDivElement>(null);
   const portRef = useRef<HTMLSpanElement>(null);
@@ -87,7 +117,7 @@ export default function Hero({ lang, copy }: { lang: Language; copy: HeroCopy })
   const phaseRef = useRef<Phase>('intro');
   const go = (next: Phase) => { phaseRef.current = next; setPhase(next); };
 
-  const [indices, setIndices] = useState<number[]>(() => TILES.map(() => 0));
+  const [indices, setIndices] = useState<number[]>(() => tiles.map(() => 0));
   const indicesRef = useRef(indices);
   indicesRef.current = indices;
   const [face, setFace] = useState<0 | 180 | 360>(0);
@@ -172,30 +202,30 @@ export default function Hero({ lang, copy }: { lang: Language; copy: HeroCopy })
   useEffect(() => () => clock.current!.dispose(), []);
 
   /* ── The sequence ─────────────────────────────────── */
-  const visibleTiles = useCallback(() => TILES.filter(t => VISIBLE[bpRef.current].includes(t.id)), []);
+  const visibleTiles = useCallback(() => tiles.filter(t => VISIBLE[bpRef.current].includes(t.id)), [tiles]);
   const isVideo = (tile: MosaicTile, index: number) => MEDIA[tile.pool[index % tile.pool.length]].kind === 'video';
   const isHotel = (tile: MosaicTile, index: number) => MEDIA[tile.pool[index % tile.pool.length]].label.en.startsWith('Hospitality');
 
   /** The tile's next item, skipping hospitality while another visible tile already shows it. */
   const nextFor = useCallback((tile: MosaicTile, idx: number[]) => {
-    const i = TILES.indexOf(tile);
+    const i = tiles.indexOf(tile);
     const others = visibleTiles().filter(t => t !== tile);
-    const hotelShown = others.some(t => isHotel(t, idx[TILES.indexOf(t)]));
+    const hotelShown = others.some(t => isHotel(t, idx[tiles.indexOf(t)]));
     for (let step = 1; step <= tile.pool.length; step++) {
       if (!hotelShown || !isHotel(tile, idx[i] + step)) return idx[i] + step;
     }
     return idx[i] + 1;
-  }, [visibleTiles]);
+  }, [tiles, visibleTiles]);
 
   const swapOne = useCallback(() => {
-    const tiles = visibleTiles();
+    const shown = visibleTiles();
     const idx = indicesRef.current;
-    const videos = tiles.filter(t => isVideo(t, idx[TILES.indexOf(t)])).length;
-    const options = tiles.filter(t => t.id !== lastSwap.current);
+    const videos = shown.filter(t => isVideo(t, idx[tiles.indexOf(t)])).length;
+    const options = shown.filter(t => t.id !== lastSwap.current);
     for (let attempt = 0; attempt < 6; attempt++) {
       const tile = options[Math.floor(Math.random() * options.length)];
       if (!tile) return;
-      const i = TILES.indexOf(tile);
+      const i = tiles.indexOf(tile);
       const next = nextFor(tile, idx);
       const adds = isVideo(tile, next) && !isVideo(tile, idx[i]);
       if (adds && videos >= VIDEO_CAP[bpRef.current]) continue;
@@ -203,11 +233,10 @@ export default function Hero({ lang, copy }: { lang: Language; copy: HeroCopy })
       setIndices(prev => prev.map((v, j) => j === i ? next : v));
       return;
     }
-  }, [nextFor, visibleTiles]);
+  }, [tiles, nextFor, visibleTiles]);
 
   const tileDelay = useCallback((o: { x: number; y: number }) => {
-    const tiles = geo.tiles;
-    const entries = Object.entries(tiles);
+    const entries = Object.entries(geo.tiles);
     const dist = (t: { x: number; y: number; w: number; h: number }) => Math.hypot(t.x + t.w / 2 - o.x, t.y + t.h / 2 - o.y);
     const max = Math.max(1, ...entries.map(([, t]) => dist(t)));
     return Object.fromEntries(entries.map(([id, t]) => [id, Math.round((dist(t) / max) * CASCADE_MS)]));
@@ -226,7 +255,7 @@ export default function Hero({ lang, copy }: { lang: Language; copy: HeroCopy })
     const c = clock.current!;
     c.cancel('scene');
     const scenario = scenarioRef.current;
-    const title = SCENE_COPY[lang].scenarios[scenario].task.title;
+    const title = scenarios[scenario].task.title;
     setFrame({ scenario, beat: 'idle', typed: 0 });
     for (const [at, beat] of SCRIPT) c.after(at, () => setFrame(f => ({ ...f, scenario, beat })), 'scene');
     for (let i = 1; i <= title.length; i++) c.after(TYPE_START + i * TYPE_STEP, () => setFrame(f => ({ ...f, typed: i })), 'scene');
@@ -234,20 +263,20 @@ export default function Hero({ lang, copy }: { lang: Language; copy: HeroCopy })
       go('hold');
       c.after(connectedRef.current ? 6500 : 7800, () => connectedRef.current ? nextInPlace() : returnToMosaic(), 'scene');
     }, 'scene');
-  }, [lang]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [scenarios]); // eslint-disable-line react-hooks/exhaustive-deps
 
   /** While plugged in, the screen moves on to another team instead of turning back. */
   const nextInPlace = useCallback(() => {
     const c = clock.current!;
     setSceneFade(true);
     c.after(420, () => {
-      scenarioRef.current = (scenarioRef.current + 1) % SCENE_COPY[lang].scenarios.length;
+      scenarioRef.current = (scenarioRef.current + 1) % scenarios.length;
       setFrame({ scenario: scenarioRef.current, beat: 'idle', typed: 0 });
       setSceneFade(false);
       go('scene');
       c.after(700, playScene, 'scene');
     }, 'scene');
-  }, [lang, playScene]);
+  }, [scenarios, playScene]);
 
   const flipToScene = useCallback((source: 'auto' | 'plug') => {
     const c = clock.current!;
@@ -293,7 +322,7 @@ export default function Hero({ lang, copy }: { lang: Language; copy: HeroCopy })
         // New footage on every front while the tiles still show their backs.
         setIndices(prev => {
           const next = [...prev];
-          for (const tile of TILES) next[TILES.indexOf(tile)] = nextFor(tile, next);
+          for (const tile of tiles) next[tiles.indexOf(tile)] = nextFor(tile, next);
           return next;
         });
         const m = mosaicRef.current;
@@ -305,7 +334,7 @@ export default function Hero({ lang, copy }: { lang: Language; copy: HeroCopy })
           setInstant(true);
           setFace(0);
           requestAnimationFrame(() => requestAnimationFrame(() => setInstant(false)));
-          scenarioRef.current = (scenario + 1) % SCENE_COPY[lang].scenarios.length;
+          scenarioRef.current = (scenario + 1) % scenarios.length;
           startMosaic(false);
         }, 'return');
       }, 'return');
@@ -314,7 +343,7 @@ export default function Hero({ lang, copy }: { lang: Language; copy: HeroCopy })
       setFrame(f => ({ ...f, beat: 'end', typed: 99 }));
       c.after(800, end, 'return');
     } else end();
-  }, [lang, nextFor, startMosaic]);
+  }, [tiles, scenarios, nextFor, startMosaic]);
 
   const reverseReturn = useCallback(() => {
     const c = clock.current!;
@@ -399,13 +428,13 @@ export default function Hero({ lang, copy }: { lang: Language; copy: HeroCopy })
     const allowed = envReady && !reducedMotion && !saveData && running && !sceneOn && phase !== 'scene' && phase !== 'hold';
     const set = new Set<string>();
     if (!allowed) return set;
-    for (const tile of TILES) {
+    for (const tile of tiles) {
       if (!visible.includes(tile.id)) continue;
-      const media = MEDIA[tile.pool[indices[TILES.indexOf(tile)] % tile.pool.length]];
+      const media = MEDIA[tile.pool[indices[tiles.indexOf(tile)] % tile.pool.length]];
       if (media.kind === 'video' && set.size < VIDEO_CAP[bp]) set.add(tile.id);
     }
     return set;
-  }, [bp, envReady, indices, phase, reducedMotion, running, saveData, sceneOn, visible]);
+  }, [tiles, bp, envReady, indices, phase, reducedMotion, running, saveData, sceneOn, visible]);
 
   return <section
     ref={heroRef}
@@ -427,7 +456,7 @@ export default function Hero({ lang, copy }: { lang: Language; copy: HeroCopy })
     </div>
 
     <div className={styles.socket} data-rise="" style={{ ['--d' as string]: '.3s' }}>
-      <Socket
+      <Connector
         lang={lang}
         connected={connected}
         onConnect={onConnect}
@@ -451,7 +480,7 @@ export default function Hero({ lang, copy }: { lang: Language; copy: HeroCopy })
         data-lift={lift || undefined}
         data-glow={glow || undefined}
       >
-        {TILES.map((tile, i) => {
+        {tiles.map((tile, i) => {
           const g = geo.tiles[tile.id];
           return <div
             key={tile.id}
@@ -466,14 +495,14 @@ export default function Hero({ lang, copy }: { lang: Language; copy: HeroCopy })
               </div>
               <div className={`${styles.back} ${appFont.className}`}>
                 {g && geo.w > 0 && <div className={styles.slice} style={{ width: geo.w, height: geo.h, transform: `translate(${-g.x}px, ${-g.y}px)` }}>
-                  <ProductScene lang={lang} frame={slice} />
+                  <ProductScene lang={lang} frame={slice} copy={sceneCopy} />
                 </div>}
               </div>
             </div>
           </div>;
         })}
         <div className={`${styles.sceneLayer} ${appFont.className}`} data-on={sceneOn || undefined} data-fade={sceneFade || undefined}>
-          <ProductScene lang={lang} frame={frame} live pulse={scenePulse} />
+          <ProductScene lang={lang} frame={frame} live pulse={scenePulse} copy={sceneCopy} />
         </div>
       </div>
       <span ref={portRef} className={styles.port} aria-hidden="true" />

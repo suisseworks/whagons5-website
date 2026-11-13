@@ -64,6 +64,18 @@ export const MEDIA = {
   roomInspection: photo('/images/photos/quality.jpg', '46% 40%', 'Hotelería · Inspección', 'Hospitality · Inspection'),
   guestRoom: photo('/images/photos/hero-woman.jpg', '60% 35%', 'Hotelería · Habitaciones', 'Hospitality · Rooms'),
   plumbing: photo('/images/photos/maintenance.jpg', '72% 45%', 'Mantenimiento · Plomería', 'Maintenance · Plumbing'),
+
+  // The hotel page's mosaic (HOTEL_TILES in hospitality/hotelScene.ts) adds these to the hospitality items above.
+  hotelProperty: photo('/images/industries/hoteleria.jpg', '50% 58%', 'Hotelería · Propiedad', 'Hospitality · Property'),
+  hotelLobby: photo('/images/photos/lobby.jpg', '50% 62%', 'Hotelería · Recepción', 'Hospitality · Front desk'),
+  hotelTeam: photo('/images/photos/faq-team.jpg', '55% 35%', 'Hotelería · Supervisión', 'Hospitality · Supervision'),
+  hotelElectrical: photo('/images/photos/hero-maintenance.jpg', '40% 40%', 'Mantenimiento · Electricidad', 'Maintenance · Electrical'),
+  hotelBathroom: clip('cleaning-bathroom', '38% 40%', 'Ama de llaves · Baños', 'Housekeeping · Bathrooms'),
+  hotelRestaurant: clip('restaurant-service', '50% 55%', 'Alimentos y bebidas · Servicio', 'Food and beverage · Service'),
+  hotelKitchen: clip('kitchen-grill', '50% 60%', 'Alimentos y bebidas · Cocina', 'Food and beverage · Kitchen'),
+  hotelBakery: clip('kitchen-bakery', '55% 40%', 'Alimentos y bebidas · Panadería', 'Food and beverage · Bakery'),
+  hotelCafe: clip('barista-shift', '50% 50%', 'Alimentos y bebidas · Cafetería', 'Food and beverage · Café'),
+  hotelGardens: clip('gardener-plants', '50% 50%', 'Áreas verdes · Jardinería', 'Grounds · Landscaping'),
 } satisfies Record<string, MosaicMedia>;
 
 export type MediaKey = keyof typeof MEDIA;

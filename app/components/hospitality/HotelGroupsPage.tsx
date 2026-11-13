@@ -3,7 +3,10 @@ import HospitalityAnalytics from './HospitalityAnalytics';
 import OperationsHeroDemo from '../home/OperationsHeroDemo';
 import Backdrop from '../home/sections/Backdrop';
 import CountUp from '../home/CountUp';
-import { MEDIA, type MediaKey } from '../home/hero/media';
+import { MEDIA } from '../home/hero/media';
+import Departments, { type DepartmentKey } from './Departments';
+import FlowSteps from './FlowSteps';
+import HotelHero from './HotelHero';
 import TaskGridMock from '../product/TaskGridMock';
 import PhoneCrop from '../product/PhoneCrop';
 import { freeEvaluation } from '../../lib/free-evaluation';
@@ -16,9 +19,11 @@ import s from './HotelGroupsPage.module.css';
  * Spanish only for now: /en/hotel-operations keeps HotelOperationsPage until
  * this version is approved and translated.
  *
- * It looks like the home page: a dark hero with a mosaic of hotel scenes,
- * dark and photo bands between the cream ones, and the home page's buttons,
- * questions and closing band (their styles come from HomePage.module.css).
+ * It looks and moves like the home page: the same living mosaic, with hotel
+ * scenes and a room key card in place of the plug (HotelHero), the room 204
+ * example playing step by step (FlowSteps), the departments as an index that
+ * moves on by itself (Departments), and the home page's buttons, questions
+ * and closing band (their styles come from HomePage.module.css).
  *
  * The page shows no prices or plans and does not link to the pricing page.
  * Every mention of the PMS says that Whagons integrates with it and does not
@@ -34,9 +39,9 @@ const copy = {
     lead: 'Conecta recepción, ama de llaves, mantenimiento y calidad para que cada solicitud tenga responsable y cada turno sepa qué sigue. En un hotel o en todos los de tu grupo.',
     demo: 'Conversemos sobre tu hotel',
     brand: 'Whagons · Hospitalidad',
-    photoAlt: 'Hotel con piscina y palmeras al atardecer',
-    photoNote: 'Una habitación. Varios equipos. Un mismo contexto.',
-    mosaicLabel: 'Escenas de la operación de un hotel',
+    mosaicLabel: 'Mosaico de escenas de un hotel: la propiedad, habitaciones, limpieza, mantenimiento, cocina y servicio. Después todos los cuadros giran y forman una animación de la interfaz de Whagons en la que se crea una solicitud, se asigna, cambia de estado y se actualizan los indicadores.',
+    pause: 'Pausar la animación',
+    play: 'Reanudar la animación',
     ribbon: ['Cada solicitud, con responsable', 'Cada lugar, con historial', 'Cada turno, con contexto'],
     sectionsLabel: 'Secciones de la página',
     sections: [
@@ -77,7 +82,7 @@ const copy = {
         ['quality', 'Calidad', ['Estándares y documentos al alcance de cada puesto', 'Auditorías programadas', 'Hallazgos que se convierten en tareas']],
         ['food', 'Alimentos y bebidas', ['Checklists de apertura y cierre', 'Rutinas de limpieza por estación', 'Reportes de equipo de cocina']],
         ['management', 'Gerencia', ['Tarjetas KPI por área', 'Vencidas, en curso y completadas hoy', 'Metas por equipo']],
-      ] as [IconName, string, string[]][],
+      ] as [DepartmentKey, string, string[]][],
     },
     product: {
       eyebrow: 'El trabajo, a la vista',
@@ -154,33 +159,6 @@ const copy = {
 
 type Language = keyof typeof copy;
 
-/** The hero mosaic's smaller tiles: hotel scenes from the home page's media, with their captions. */
-const SCENES: { area: string; media: MediaKey; sizes: string }[] = [
-  { area: 'b', media: 'housekeeping', sizes: '(max-width: 900px) 46vw, 15vw' },
-  { area: 'c', media: 'plumbing', sizes: '(max-width: 900px) 46vw, 15vw' },
-  { area: 'd', media: 'guestService', sizes: '(max-width: 900px) 46vw, 17vw' },
-  { area: 'e', media: 'hotelRoomService', sizes: '(max-width: 900px) 46vw, 28vw' },
-];
-
-type IconName = 'housekeeping' | 'maintenance' | 'frontDesk' | 'quality' | 'food' | 'management';
-
-const ICONS: Record<IconName, React.ReactNode> = {
-  housekeeping: <><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6" /><path d="M3 15h18M6 10V7.5A1.5 1.5 0 0 1 7.5 6h9A1.5 1.5 0 0 1 18 7.5V10M3 18v1.5M21 18v1.5" /></>,
-  maintenance: <path d="M14.6 6.4a4 4 0 0 0-5.2 5.2L4 17l3 3 5.4-5.4a4 4 0 0 0 5.2-5.2l-2.5 2.5-2.1-.5-.5-2.1 2.1-2.9Z" />,
-  frontDesk: <><path d="M4 17h16M5.5 17a6.5 6.5 0 0 1 13 0M12 10.5V8M10 8h4" /><path d="M3 20h18" /></>,
-  quality: <><path d="M12 3.5 5 6.2v5.3c0 4.2 2.9 7.4 7 9 4.1-1.6 7-4.8 7-9V6.2l-7-2.7Z" /><path d="m9 12 2.2 2.2L15.2 10" /></>,
-  food: <><path d="M7 3.5v7M4.5 3.5v4a2.5 2.5 0 0 0 5 0v-4M7 10.5v10" /><path d="M17 20.5v-7h-2.5V8a4.5 4.5 0 0 1 2.5-4.5v10" /></>,
-  management: <><path d="M4 20V4M4 20h16" /><path d="M8 16v-4M12 16V8M16 16v-6" /></>,
-};
-
-function Icon({ name }: { name: IconName }) {
-  return (
-    <svg className={s.icon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      {ICONS[name]}
-    </svg>
-  );
-}
-
 function Arrow() {
   return (
     <svg className={home.arrow} width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
@@ -203,45 +181,23 @@ function Head({ eyebrow, title, lead, id }: { eyebrow: string; title: Readonly<H
 export default function HotelGroupsPage({ lang = 'es' }: { lang?: Language }) {
   const t = copy[lang];
   const market = lang === 'es' ? 'latam' : 'us';
-  const actions = (place: 'hero' | 'final') => <>
-    <a className={home.btnPrimary} href={routeFor(lang, 'demo')} data-track={place === 'hero' ? 'operations_demo_click' : 'operations_final_demo_click'}>
-      {t.demo}<Arrow />
-    </a>
-    <a className={home.btnGhost} href={routeFor(lang, 'evaluation')} data-track={`hotel_evaluation_${place}_click`}>
-      {freeEvaluation[lang].cta}
-    </a>
-  </>;
 
   return <>
     <HospitalityAnalytics page={`${market}_hotel_operations`} market={market} />
     <main className={`${home.page} ${s.page}`}>
       {/* ── Hero ──────────────────────────────────── */}
-      <section className={s.hero}>
-        <div className={s.heroCopy} data-rise="">
-          <p className={s.badge}><span aria-hidden="true" />{t.eyebrow}</p>
-          <h1>{t.title[0]} <em>{t.title[1]}</em></h1>
-          <p className={s.heroLead}>{t.lead}</p>
-          <div className={s.heroActions}>{actions('hero')}</div>
-        </div>
-        <div className={s.mosaic} role="group" aria-label={t.mosaicLabel} data-rise="" style={{ ['--d' as string]: '.12s' }}>
-          <figure className={`${s.tile} ${s.tileMain}`} style={{ gridArea: 'a' }}>
-            <Image src="/images/industries/hoteleria.jpg" alt={t.photoAlt} fill priority sizes="(max-width: 900px) 92vw, 34vw" />
-            <figcaption><span>{t.brand}</span><strong>{t.photoNote}</strong></figcaption>
-          </figure>
-          {SCENES.map(({ area, media, sizes }) => {
-            const item = MEDIA[media];
-            return (
-              <figure className={s.tile} key={area} style={{ gridArea: area }}>
-                {item.kind === 'video'
-                  ? <Backdrop src={item.src} poster={item.poster!} focus={item.focus} />
-                  : <Image src={item.src} alt="" fill sizes={sizes} style={{ objectPosition: item.focus }} />}
-                <figcaption><span>{item.label[lang]}</span></figcaption>
-              </figure>
-            );
-          })}
-        </div>
-        <ul className={s.ribbon}>{t.ribbon.map((item, i) => <li key={item}><b>0{i + 1}</b>{item}</li>)}</ul>
-      </section>
+      <HotelHero lang={lang} copy={{
+        badge: t.eyebrow,
+        titleA: t.title[0],
+        titleB: t.title[1],
+        lead: t.lead,
+        primary: { label: t.demo, href: routeFor(lang, 'demo'), track: 'operations_demo_click' },
+        secondary: { label: freeEvaluation[lang].cta, href: routeFor(lang, 'evaluation'), track: 'hotel_evaluation_hero_click' },
+        mosaicLabel: t.mosaicLabel,
+        pause: t.pause,
+        play: t.play,
+      }} />
+      <ul className={s.ribbon}>{t.ribbon.map((item, i) => <li key={item}><b>0{i + 1}</b>{item}</li>)}</ul>
 
       {/* Not a <nav> element: the site styles every <nav> as the fixed top bar. */}
       <div className={s.sections} role="navigation" aria-label={t.sectionsLabel}>
@@ -265,35 +221,13 @@ export default function HotelGroupsPage({ lang = 'es' }: { lang?: Language }) {
       {/* ── Room 204 ──────────────────────────────── */}
       <section className={`${s.band} ${s.dark}`}>
         <Head eyebrow={t.flow.eyebrow} title={t.flow.title} lead={t.flow.lead} />
-        <div className={s.flow}>
-          <figure className={s.flowPhoto} data-reveal="">
-            <Image src={MEDIA.plumbing.src} alt={t.flow.photoAlt} fill sizes="(max-width: 900px) 92vw, 44vw" style={{ objectPosition: MEDIA.plumbing.focus }} />
-            <figcaption><span>{MEDIA.plumbing.label[lang]}</span></figcaption>
-          </figure>
-          <ol className={s.timeline}>
-            {t.flow.steps.map(([label, title, text], i) => (
-              <li key={title} data-reveal="" style={{ ['--d' as string]: `${i * 0.07}s` }}>
-                <span className={s.tag}>{label}</span>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
+        <FlowSteps steps={t.flow.steps} photo={MEDIA.plumbing.src} focus={MEDIA.plumbing.focus} alt={t.flow.photoAlt} caption={MEDIA.plumbing.label[lang]} />
       </section>
 
       {/* ── By department ─────────────────────────── */}
       <section className={s.band} id="departamentos">
         <Head eyebrow={t.departments.eyebrow} title={t.departments.title} />
-        <div className={`${s.cards} ${s.three}`}>
-          {t.departments.cards.map(([icon, name, points], i) => (
-            <article className={s.card} key={name} data-reveal="" style={{ ['--d' as string]: `${(i % 3) * 0.06}s` }}>
-              <Icon name={icon} />
-              <h3>{name}</h3>
-              <ul>{points.map((point) => <li key={point}>{point}</li>)}</ul>
-            </article>
-          ))}
-        </div>
+        <Departments items={t.departments.cards.map(([key, name, points]) => ({ key, name, points }))} />
       </section>
 
       {/* ── The work in view ──────────────────────── */}
@@ -397,7 +331,7 @@ export default function HotelGroupsPage({ lang = 'es' }: { lang?: Language }) {
             <h2>{t.faq.title[0]} <em>{t.faq.title[1]}</em></h2>
           </div>
           <div className={home.faqPhoto}>
-            <Image src="/images/photos/faq-team.jpg" alt="" fill sizes="(max-width: 999px) 92vw, 460px" />
+            <Image src="/images/photos/hero-woman.jpg" alt="" fill sizes="(max-width: 999px) 92vw, 460px" style={{ objectPosition: '60% 30%' }} />
           </div>
         </div>
         <div className={home.faqList} data-reveal="" style={{ ['--d' as string]: '.06s' }}>
@@ -416,7 +350,10 @@ export default function HotelGroupsPage({ lang = 'es' }: { lang?: Language }) {
         <div className={home.finalInner} data-reveal="">
           <p className={home.finalEyebrow}>{t.brand}</p>
           <h2>{t.final.title[0]} <em>{t.final.title[1]}</em></h2>
-          <div className={home.finalActions}>{actions('final')}</div>
+          <div className={home.finalActions}>
+            <a className={home.btnPrimary} href={routeFor(lang, 'demo')} data-track="operations_final_demo_click">{t.demo}<Arrow /></a>
+            <a className={home.btnGhost} href={routeFor(lang, 'evaluation')} data-track="hotel_evaluation_final_click">{freeEvaluation[lang].cta}</a>
+          </div>
         </div>
       </section>
     </main>
