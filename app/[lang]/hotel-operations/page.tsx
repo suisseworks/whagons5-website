@@ -1,19 +1,32 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import HotelOperationsPage from '../../components/hospitality/HotelOperationsPage';
+import HotelGroupsPage from '../../components/hospitality/HotelGroupsPage';
+
+const title = 'Operations software for hotels and hotel groups';
+const description =
+  'Connect front desk, housekeeping, maintenance and quality in every hotel in your group. Every request with an owner, every place with a history, every shift with context.';
 
 export const metadata: Metadata = {
-  title: 'Hotel Operations Workflows by Department',
-  description:
-    'Coordinate guest issues, maintenance, room readiness, inspections, and shift handoffs across front desk, housekeeping, engineering, and hotel operations leaders.',
-  keywords: ['hotel department workflow', 'hotel shift handoff', 'hotel maintenance request workflow', 'room readiness workflow'],
+  title,
+  description,
+  keywords: [
+    'hotel operations software',
+    'software for hotel groups',
+    'hotel operations management',
+    'hotel maintenance',
+    'housekeeping',
+    'PMS integration',
+  ],
   alternates: {
     canonical: 'https://whagons.com/en/hotel-operations',
-    languages: { en: 'https://whagons.com/en/hotel-operations', es: 'https://whagons.com/es/operaciones-hoteleras' },
+    languages: {
+      en: 'https://whagons.com/en/hotel-operations',
+      es: 'https://whagons.com/es/operaciones-hoteleras',
+    },
   },
   openGraph: {
-    title: 'One Operating Layer Across Hotel Departments',
-    description: 'Make work between front desk, housekeeping, engineering, and managers visible.',
+    title: `${title} | Whagons`,
+    description,
     url: 'https://whagons.com/en/hotel-operations',
     locale: 'en_US',
     type: 'website',
@@ -21,8 +34,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Hotel Operations Workflows by Department | Whagons',
-    description: 'Make work between front desk, housekeeping, engineering, and managers visible.',
+    title: `${title} | Whagons`,
+    description,
     images: ['/images/industries/hoteleria.jpg'],
   },
 };
@@ -33,5 +46,5 @@ export function generateStaticParams() {
 
 export default function Page({ params }: { params: { lang: string } }) {
   if (params.lang !== 'en') redirect('/es/operaciones-hoteleras');
-  return <HotelOperationsPage lang="en" />;
+  return <HotelGroupsPage lang="en" />;
 }

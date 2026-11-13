@@ -10,7 +10,8 @@ import styles from './KeyCard.module.css';
  * room's key card. Sliding the card in does what the plug does on the home
  * page: light runs along the wire to the mosaic, which turns into the Whagons
  * screen. Drag the card over the switch, click or tap it, or press Enter or
- * Space on it; the same again takes it out.
+ * Space on it. Pulling it up out of the switch, or the same click, tap or key
+ * again, takes it out.
  */
 
 const COPY = {
@@ -19,19 +20,19 @@ const COPY = {
     connected: 'Una habitación. Varios equipos. Un mismo contexto.',
     hintPointer: 'Arrastra la tarjeta hasta el interruptor o haz clic en ella.',
     hintTouch: 'Toca la tarjeta para insertarla.',
-    hintOff: 'Haz clic en la tarjeta para retirarla.',
-    hintOffTouch: 'Tócala de nuevo para retirarla.',
+    hintOff: 'Tira de la tarjeta hacia arriba o haz clic en ella para retirarla.',
+    hintOffTouch: 'Deslízala hacia arriba o tócala de nuevo para retirarla.',
     insert: 'Insertar la tarjeta de Whagons en el interruptor de la habitación',
     remove: 'Retirar la tarjeta de Whagons del interruptor',
     room: 'Hab. 204',
   },
   en: {
     invite: 'Slide the card in. Switch your hotel on.',
-    connected: 'One room. Several teams. The same context.',
+    connected: 'One room. Several teams. Shared context.',
     hintPointer: 'Drag the card to the switch, or click it.',
     hintTouch: 'Tap the card to slide it in.',
-    hintOff: 'Click the card to take it out.',
-    hintOffTouch: 'Tap it again to take it out.',
+    hintOff: 'Pull the card up, or click it, to take it out.',
+    hintOffTouch: 'Slide it up, or tap it again, to take it out.',
     insert: 'Slide the Whagons card into the room switch',
     remove: 'Take the Whagons card out of the switch',
     room: 'Room 204',
@@ -43,6 +44,8 @@ const REST = { x: 94, y: 16, tilt: 9 };
 /** How far above its seat the card lines up before it slides in. */
 const LIFT = 50;
 const SEAT_MS = 460;
+/** How far up the card comes before it is clear of the slot and the room switches off. */
+const CLEAR = 52;
 
 type Stage = 'rest' | 'lift' | 'in';
 
@@ -50,13 +53,13 @@ export default function KeyCard({ lang, connected, onConnect, onDisconnect, hero
   const t = COPY[lang];
   const plateRef = useRef<HTMLDivElement>(null);
   const [stage, setStage] = useState<Stage>('rest');
-  const [drag, setDrag] = useState<{ x: number; y: number } | null>(null);
+  const [drag, setDrag] = useState<{ x: number; y: number; from: 'rest' | 'in' } | null>(null);
   const [near, setNear] = useState(false);
   const [mirror, setMirror] = useState(false);
   const [coarse, setCoarse] = useState(false);
   const [wire, setWire] = useState<{ w: number; h: number; d: string } | null>(null);
   const [pulseOn, setPulseOn] = useState(0);
-  const pointer = useRef<{ x: number; y: number; moved: boolean } | null>(null);
+  const pointer = useRef<{ x: number; y: number; moved: boolean; from: 'rest' | 'in'; out: boolean } | null>(null);
   const dragged = useRef(false);
   const timers = useRef<number[]>([]);
   const callbacks = useRef({ onConnect, onDisconnect, onPulseArrive });
@@ -151,10 +154,17 @@ export default function KeyCard({ lang, connected, onConnect, onDisconnect, hero
     return (Math.abs(o.x) < 42 && o.y < 40 && o.y > -130) || Math.hypot(o.x, o.y + LIFT / 2) < 62;
   };
 
+  /** The seated card pulled by (dx, dy): it only comes up, and moves sideways once it is clear of the slot. */
+  const pulled = (dx: number, dy: number) => {
+    const y = Math.min(5, dy);
+    const free = Math.min(1, Math.max(0.1, (-y - CLEAR * 0.6) / (CLEAR * 0.6)));
+    return { x: dx * free, y };
+  };
+
   const onPointerDown = (e: ReactPointerEvent<HTMLButtonElement>) => {
-    if (e.button !== 0 || stage !== 'rest') return;
+    if (e.button !== 0 || stage === 'lift') return;
     e.currentTarget.setPointerCapture(e.pointerId);
-    pointer.current = { x: e.clientX, y: e.clientY, moved: false };
+    pointer.current = { x: e.clientX, y: e.clientY, moved: false, from: stage, out: false };
   };
   const onPointerMove = (e: ReactPointerEvent<HTMLButtonElement>) => {
     const p = pointer.current;
@@ -163,8 +173,15 @@ export default function KeyCard({ lang, connected, onConnect, onDisconnect, hero
     const dy = e.clientY - p.y;
     if (!p.moved && Math.hypot(dx, dy) < 6) return;
     p.moved = true;
-    setDrag({ x: dx, y: dy });
-    setNear(overSlot(dx, dy));
+    setDrag({ x: dx, y: dy, from: p.from });
+    if (p.from === 'rest') { setNear(overSlot(dx, dy)); return; }
+    // Pulled clear of the slot: the room switches off there and then.
+    if (!p.out && pulled(dx, dy).y < -CLEAR) {
+      p.out = true;
+      clearTimers();
+      setStage('rest');
+      callbacks.current.onDisconnect();
+    }
   };
   const onPointerUp = (e: ReactPointerEvent<HTMLButtonElement>) => {
     const p = pointer.current;
@@ -174,7 +191,8 @@ export default function KeyCard({ lang, connected, onConnect, onDisconnect, hero
     if (!p.moved) return; // a click: onClick takes it
     dragged.current = true;
     window.setTimeout(() => { dragged.current = false; }, 0);
-    if (overSlot(e.clientX - p.x, e.clientY - p.y)) seat('drag');
+    // A card pulled out goes back to rest; one not pulled far enough settles back in.
+    if (p.from === 'rest' && overSlot(e.clientX - p.x, e.clientY - p.y)) seat('drag');
     else { setDrag(null); setNear(false); }
   };
   const onPointerCancel = () => { pointer.current = null; setDrag(null); setNear(false); };
@@ -185,7 +203,7 @@ export default function KeyCard({ lang, connected, onConnect, onDisconnect, hero
     if (stage === 'in') release();
     else seat(e.detail === 0 ? 'keyboard' : 'click');
   };
-  const onPlateClick = () => { if (stage === 'rest') seat('click'); };
+  const onPlateClick = () => { if (stage === 'rest') seat('click'); else if (stage === 'in') release(); };
 
   /* ── The pulse of light towards the mosaic ─────────── */
   useEffect(() => {
@@ -194,10 +212,10 @@ export default function KeyCard({ lang, connected, onConnect, onDisconnect, hero
     setPulseOn(pulse);
   }, [pulse, reducedMotion]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const o = drag ? offset(drag.x, drag.y) : stage === 'rest' ? { x: REST.x * side, y: REST.y } : stage === 'lift' ? { x: 0, y: -LIFT } : { x: 0, y: 0 };
+  const o = drag ? (drag.from === 'in' ? pulled(drag.x, drag.y) : offset(drag.x, drag.y)) : stage === 'rest' ? { x: REST.x * side, y: REST.y } : stage === 'lift' ? { x: 0, y: -LIFT } : { x: 0, y: 0 };
   // The card straightens as it nears the slot.
   const away = Math.min(1, Math.hypot(o.x, o.y + LIFT) / (REST.x * 0.9));
-  const tilt = drag ? REST.tilt * side * away : stage === 'rest' ? REST.tilt * side : 0;
+  const tilt = drag ? (drag.from === 'in' ? o.x / 9 : REST.tilt * side * away) : stage === 'rest' ? REST.tilt * side : 0;
   const cardStyle = { transform: `translate(${o.x}px, ${o.y}px) rotate(${tilt}deg)` } as CSSProperties;
   const hint = connected ? (coarse ? t.hintOffTouch : t.hintOff) : coarse ? t.hintTouch : t.hintPointer;
 

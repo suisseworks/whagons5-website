@@ -10,5 +10,5 @@ import { HOTEL_SCENE, HOTEL_TILES } from './hotelScene';
  * hotel's screen behind it and the room's key card in place of the plug.
  */
 export default function HotelHero({ lang, copy }: { lang: Language; copy: HeroCopy }) {
-  return <Hero lang={lang} copy={copy} tiles={HOTEL_TILES} scene={HOTEL_SCENE} Connector={KeyCard} />;
+  return <Hero lang={lang} copy={copy} tiles={HOTEL_TILES} scene={HOTEL_SCENE[lang]} Connector={KeyCard} />;
 }

@@ -129,7 +129,9 @@
 .card[data-dragging] { z-index: 4; cursor: grabbing; transition: none; }
 .panel[data-near] .card[data-dragging] { z-index: 2; }
 .panel[data-stage='lift'] .card { transition-duration: 0.3s; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
-.panel[data-stage='in'] .card { cursor: pointer; }
+/* Still in the slot while it is being pulled: behind the switch's front. */
+.panel[data-stage='in'] .card { cursor: grab; }
+.panel[data-stage='in'] .card[data-dragging] { z-index: 2; cursor: grabbing; }
 .card:focus-visible { outline: 2px solid #ffb68f; outline-offset: 3px; }
 .face {
   position: absolute;

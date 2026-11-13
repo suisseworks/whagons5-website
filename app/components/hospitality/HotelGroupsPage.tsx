@@ -9,15 +9,13 @@ import FlowSteps from './FlowSteps';
 import HotelHero from './HotelHero';
 import TaskGridMock from '../product/TaskGridMock';
 import PhoneCrop from '../product/PhoneCrop';
-import { freeEvaluation } from '../../lib/free-evaluation';
 import { routeFor } from '../../lib/locales';
 import home from '../home/HomePage.module.css';
 import s from './HotelGroupsPage.module.css';
 
 /*
- * The hotel page for hotels and hotel groups (/es/operaciones-hoteleras).
- * Spanish only for now: /en/hotel-operations keeps HotelOperationsPage until
- * this version is approved and translated.
+ * The hotel page for hotels and hotel groups: /es/operaciones-hoteleras and
+ * /en/hotel-operations.
  *
  * It looks and moves like the home page: the same living mosaic, with hotel
  * scenes and a room key card in place of the plug (HotelHero), the room 204
@@ -34,6 +32,7 @@ type Headline = [plain: string, accent: string];
 
 const copy = {
   es: {
+    ids: { departments: 'departamentos', groups: 'grupos', integrations: 'integraciones', start: 'empezar', contact: 'contacto' },
     eyebrow: 'Whagons para hoteles y grupos hoteleros',
     title: ['Una gran estadía empieza', 'detrás de escena.'] as Headline,
     lead: 'Conecta recepción, ama de llaves, mantenimiento y calidad para que cada solicitud tenga responsable y cada turno sepa qué sigue. En un hotel o en todos los de tu grupo.',
@@ -44,12 +43,7 @@ const copy = {
     play: 'Reanudar la animación',
     ribbon: ['Cada solicitud, con responsable', 'Cada lugar, con historial', 'Cada turno, con contexto'],
     sectionsLabel: 'Secciones de la página',
-    sections: [
-      ['#departamentos', 'Departamentos'],
-      ['#grupos', 'Grupos hoteleros'],
-      ['#integraciones', 'Integraciones'],
-      ['#empezar', 'Cómo empezar'],
-    ],
+    sections: ['Departamentos', 'Grupos hoteleros', 'Integraciones', 'Cómo empezar'],
     problem: {
       eyebrow: 'Lo que pasa hoy',
       title: ['El huésped no ve el desorden.', 'Pero lo siente.'] as Headline,
@@ -155,6 +149,124 @@ const copy = {
       title: ['Que el buen servicio se note.', 'Y el trabajo detrás también.'] as Headline,
     },
   },
+  en: {
+    ids: { departments: 'departments', groups: 'groups', integrations: 'integrations', start: 'get-started', contact: 'contact' },
+    eyebrow: 'Whagons for hotels and hotel groups',
+    title: ['A great stay starts', 'behind the scenes.'] as Headline,
+    lead: 'Connect front desk, housekeeping, maintenance and quality so every request has an owner and every shift knows what comes next. In one hotel or across your whole group.',
+    demo: 'Let’s talk about your hotel',
+    brand: 'Whagons · Hospitality',
+    mosaicLabel: 'A mosaic of hotel scenes: the property, rooms, cleaning, maintenance, kitchen and service. Then every tile turns over and together they form an animation of the Whagons interface, where a request is created, assigned, moves through its statuses and the indicators update.',
+    pause: 'Pause the animation',
+    play: 'Resume the animation',
+    ribbon: ['Every request, with an owner', 'Every place, with a history', 'Every shift, with context'],
+    sectionsLabel: 'Page sections',
+    sections: ['Departments', 'Hotel groups', 'Integrations', 'How to start'],
+    problem: {
+      eyebrow: 'What happens today',
+      title: ['Guests don’t see the disorder.', 'But they feel it.'] as Headline,
+      cards: [
+        ['The request gets lost', 'It leaves the front desk by radio or chat, and nobody knows who took it or when it will be done.'],
+        ['The shift starts blind', 'Open work is handed over by word of mouth. What wasn’t said doesn’t get done.'],
+        ['The fault comes back', 'With no history for the room or the equipment, the same thing gets repaired again and again.'],
+        ['Every hotel measures differently', 'Management gets reports that can’t be compared, and gets them late.'],
+      ],
+    },
+    flow: {
+      eyebrow: 'Example workflow',
+      title: ['Guests see one hotel.', 'Your team should, too.'] as Headline,
+      lead: 'A leak in room 204, from start to finish.',
+      photoAlt: 'Maintenance technician working in the bathroom of a hotel room',
+      steps: [
+        ['09:10 · Front desk', 'Records it', 'The guest reports the leak. Front desk records it and follows progress without chasing replies.'],
+        ['Maintenance', 'Repairs it', 'The technician gets the location and the details on their phone, and closes with evidence.'],
+        ['Housekeeping', 'Inspects it', 'The supervisor inspects the room and releases it for the next arrival.'],
+        ['Management', 'Sees the whole picture', 'The case stays in room 204’s history and counts towards the hotel’s indicators.'],
+      ],
+    },
+    departments: {
+      eyebrow: 'By department',
+      title: ['Every team works its own way.', 'All in the same place.'] as Headline,
+      cards: [
+        ['housekeeping', 'Housekeeping', ['Cleaning and inspection of rooms and public areas', 'Checklists with evidence at close', 'Guest requests with a deadline']],
+        ['maintenance', 'Maintenance', ['Faults with location, priority and status', 'Assets with history and preventive plans', 'Routines that create their tasks on time']],
+        ['frontDesk', 'Front desk', ['A record of what the guest asks for', 'Progress in view without calling anyone', 'An alert when something is about to be overdue']],
+        ['quality', 'Quality', ['Standards and documents within reach of every role', 'Scheduled audits', 'Findings that become tasks']],
+        ['food', 'Food and beverage', ['Opening and closing checklists', 'Cleaning routines by station', 'Kitchen equipment reports']],
+        ['management', 'Management', ['KPI cards by area', 'Overdue, in progress and completed today', 'Goals by team']],
+      ] as [DepartmentKey, string, string[]][],
+    },
+    product: {
+      eyebrow: 'Work in view',
+      title: ['Fewer questions about status.', 'More clarity to act.'] as Headline,
+      lead: 'Organize tasks by team, location and priority. The next shift can pick up open work and check what has already been done.',
+      shotAlt: 'Whagons maintenance task grid with locations, priorities and assignees',
+    },
+    capture: {
+      eyebrow: 'Where the work happens',
+      title: ['Reporting should be', 'the easy part.'] as Headline,
+      cards: [
+        ['Voice', 'Report it', 'Dictate the issue in your own words and check the text before you send it.'],
+        ['QR', 'Identify it', 'Scan the code on the room or the equipment. The place is already recorded.'],
+        ['NFC', 'Confirm on site', 'Hold your phone to the tag to confirm the round was done there.'],
+      ],
+    },
+    groups: {
+      eyebrow: 'For hotel groups',
+      title: ['One standard.', 'All your properties.'] as Headline,
+      lead: 'Define how work is done once and take it to every hotel. Compare properties with the same indicators.',
+      cards: [
+        ['One template per brand', 'Spaces, statuses, forms and routines set up once and replicated in every property.'],
+        ['The same measure for everyone', 'The same indicators in every hotel, with consolidated reports for the group.'],
+        ['Everyone sees their own', 'Access by role: the hotel sees its operation and corporate sees the whole.'],
+      ],
+    },
+    integrations: {
+      eyebrow: 'Integrations',
+      title: ['Your PMS stays in charge.', 'Whagons connects.'] as Headline,
+      lead: 'Whagons does not replace your PMS or your ERP. It integrates with Cloudbeds, OPERA Cloud and Mews, and with any other PMS via API.',
+      pmsLabel: 'PMS it integrates with',
+      pms: ['Cloudbeds', 'OPERA Cloud', 'Mews'],
+      anyPms: 'Any other PMS, via API',
+      cards: [
+        ['AI assistants', 'An agent suggests who takes each new task. The assistant answers questions about your operation.'],
+        ['Tools made to measure', 'If your hotel has a process of its own, we set it up: forms, flows, boards and specific development.'],
+        ['Powerups', 'Add staffing, procurement, mobility or training when you need them.'],
+      ],
+    },
+    // A third figure, from a hotel, joins these two when that case exists.
+    results: {
+      eyebrow: 'Results',
+      title: ['What changes when', 'the work is in view.'] as Headline,
+      stats: [
+        ['80% fewer', 'Repeat visits in a refrigeration maintenance team, in 60 days.'],
+        ['From 2 days to 4 hours', 'Resolution time in that same team.'],
+      ],
+    },
+    start: {
+      eyebrow: 'How to start',
+      title: ['Start with a real day', 'at your hotel.'] as Headline,
+      steps: [
+        ['01 · Assessment', 'We assess your hotel', 'We look at a frequent request, the teams involved and where time is lost.'],
+        ['02 · 90 days', 'A pilot with goals', 'One to three hotels, with indicators you define against your own baseline.'],
+        ['03 · At your pace', 'More areas and properties', 'What worked is replicated across the rest of the group, with the configuration already proven.'],
+      ],
+    },
+    faq: {
+      eyebrow: 'Frequently asked questions',
+      title: ['What hoteliers', 'ask us.'] as Headline,
+      items: [
+        ['Does Whagons replace my PMS?', 'No. Your PMS remains the main record. Whagons coordinates the operational work and integrates with Cloudbeds, OPERA Cloud, Mews or the PMS you use, via API.'],
+        ['Does it work where there is no signal?', 'Yes. Your team can check saved information offline, and compatible changes sync when the signal returns.'],
+        ['Does my staff need a special phone?', 'No. Whagons works on the phone and on the web, and access depends on each person’s role.'],
+        ['What is implementation like?', 'In stages. We set up your operation, train the team and support the launch, starting with one specific workflow.'],
+        ['Does it work for a single hotel?', 'Yes. You can start with one property and expand to more areas or more hotels whenever you want.'],
+      ],
+    },
+    final: {
+      title: ['Make great service visible.', 'And the work behind it, too.'] as Headline,
+    },
+  },
 } as const;
 
 type Language = keyof typeof copy;
@@ -192,7 +304,6 @@ export default function HotelGroupsPage({ lang = 'es' }: { lang?: Language }) {
         titleB: t.title[1],
         lead: t.lead,
         primary: { label: t.demo, href: routeFor(lang, 'demo'), track: 'operations_demo_click' },
-        secondary: { label: freeEvaluation[lang].cta, href: routeFor(lang, 'evaluation'), track: 'hotel_evaluation_hero_click' },
         mosaicLabel: t.mosaicLabel,
         pause: t.pause,
         play: t.play,
@@ -201,7 +312,7 @@ export default function HotelGroupsPage({ lang = 'es' }: { lang?: Language }) {
 
       {/* Not a <nav> element: the site styles every <nav> as the fixed top bar. */}
       <div className={s.sections} role="navigation" aria-label={t.sectionsLabel}>
-        {t.sections.map(([href, label]) => <a key={href} href={href}>{label}</a>)}
+        {([t.ids.departments, t.ids.groups, t.ids.integrations, t.ids.start] as const).map((id, i) => <a key={id} href={`#${id}`}>{t.sections[i]}</a>)}
       </div>
 
       {/* ── The problem ───────────────────────────── */}
@@ -225,9 +336,9 @@ export default function HotelGroupsPage({ lang = 'es' }: { lang?: Language }) {
       </section>
 
       {/* ── By department ─────────────────────────── */}
-      <section className={s.band} id="departamentos">
+      <section className={s.band} id={t.ids.departments}>
         <Head eyebrow={t.departments.eyebrow} title={t.departments.title} />
-        <Departments items={t.departments.cards.map(([key, name, points]) => ({ key, name, points }))} />
+        <Departments lang={lang} items={t.departments.cards.map(([key, name, points]) => ({ key, name, points }))} />
       </section>
 
       {/* ── The work in view ──────────────────────── */}
@@ -261,7 +372,7 @@ export default function HotelGroupsPage({ lang = 'es' }: { lang?: Language }) {
       </section>
 
       {/* ── Hotel groups ──────────────────────────── */}
-      <section className={`${s.band} ${s.groups}`} id="grupos">
+      <section className={`${s.band} ${s.groups}`} id={t.ids.groups}>
         <Image className={s.groupsPhoto} src="/images/photos/lobby.jpg" alt="" fill sizes="100vw" />
         <Head eyebrow={t.groups.eyebrow} title={t.groups.title} lead={t.groups.lead} />
         <div className={`${s.cards} ${s.three}`}>
@@ -276,7 +387,7 @@ export default function HotelGroupsPage({ lang = 'es' }: { lang?: Language }) {
       </section>
 
       {/* ── Integrations ──────────────────────────── */}
-      <section className={s.band} id="integraciones">
+      <section className={s.band} id={t.ids.integrations}>
         <div className={s.integrations}>
           <Head eyebrow={t.integrations.eyebrow} title={t.integrations.title} lead={t.integrations.lead} />
           <ul className={s.pms} aria-label={t.integrations.pmsLabel} data-reveal="">
@@ -310,7 +421,7 @@ export default function HotelGroupsPage({ lang = 'es' }: { lang?: Language }) {
       </section>
 
       {/* ── How to start ──────────────────────────── */}
-      <section className={`${s.band} ${s.white}`} id="empezar">
+      <section className={`${s.band} ${s.white}`} id={t.ids.start}>
         <Head eyebrow={t.start.eyebrow} title={t.start.title} />
         <ol className={s.steps}>
           {t.start.steps.map(([label, title, text], i) => (
@@ -345,14 +456,13 @@ export default function HotelGroupsPage({ lang = 'es' }: { lang?: Language }) {
       </section>
 
       {/* ── Closing ───────────────────────────────── */}
-      <section className={`${home.final} ${s.final}`} id="contacto">
+      <section className={`${home.final} ${s.final}`} id={t.ids.contact}>
         <Backdrop src={MEDIA.hotelRoomService.src} poster={MEDIA.hotelRoomService.poster!} focus={MEDIA.hotelRoomService.focus} />
         <div className={home.finalInner} data-reveal="">
           <p className={home.finalEyebrow}>{t.brand}</p>
           <h2>{t.final.title[0]} <em>{t.final.title[1]}</em></h2>
           <div className={home.finalActions}>
             <a className={home.btnPrimary} href={routeFor(lang, 'demo')} data-track="operations_final_demo_click">{t.demo}<Arrow /></a>
-            <a className={home.btnGhost} href={routeFor(lang, 'evaluation')} data-track="hotel_evaluation_final_click">{freeEvaluation[lang].cta}</a>
           </div>
         </div>
       </section>

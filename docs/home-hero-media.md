@@ -4,7 +4,7 @@ The home page opens on a mosaic of real operations that turns into the Whagons i
 
 Code: `app/components/home/hero/` (`Hero.tsx` runs the sequence, `media.ts` lists the mosaic media, `ProductScene.tsx` draws the interface, `Socket.tsx` and `plugs.ts` draw the outlet, cable and plug). Copy for the rest of the page is in `app/components/home/content.ts`.
 
-The hotel page (`/es/operaciones-hoteleras`) uses the same hero through `app/components/hospitality/HotelHero.tsx`: its own tiles and screen (`hotelScene.ts`, with the extra `hotel…` items at the end of `MEDIA`) and a room key card with its wall switch in place of the plug (`KeyCard.tsx`). Everything below applies to it too.
+The hotel page (`/es/operaciones-hoteleras`, `/en/hotel-operations`) uses the same hero through `app/components/hospitality/HotelHero.tsx`: its own tiles and screen (`hotelScene.ts`, with the extra `hotel…` items at the end of `MEDIA`) and a room key card with its wall switch in place of the plug (`KeyCard.tsx`). Everything below applies to it too.
 
 ## The sequence
 
