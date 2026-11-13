@@ -9,7 +9,6 @@ import FlowSteps from './FlowSteps';
 import HotelHero from './HotelHero';
 import TaskGridMock from '../product/TaskGridMock';
 import PhoneCrop from '../product/PhoneCrop';
-import { freeEvaluation } from '../../lib/free-evaluation';
 import { routeFor } from '../../lib/locales';
 import home from '../home/HomePage.module.css';
 import s from './HotelGroupsPage.module.css';
@@ -192,7 +191,6 @@ export default function HotelGroupsPage({ lang = 'es' }: { lang?: Language }) {
         titleB: t.title[1],
         lead: t.lead,
         primary: { label: t.demo, href: routeFor(lang, 'demo'), track: 'operations_demo_click' },
-        secondary: { label: freeEvaluation[lang].cta, href: routeFor(lang, 'evaluation'), track: 'hotel_evaluation_hero_click' },
         mosaicLabel: t.mosaicLabel,
         pause: t.pause,
         play: t.play,
@@ -352,7 +350,6 @@ export default function HotelGroupsPage({ lang = 'es' }: { lang?: Language }) {
           <h2>{t.final.title[0]} <em>{t.final.title[1]}</em></h2>
           <div className={home.finalActions}>
             <a className={home.btnPrimary} href={routeFor(lang, 'demo')} data-track="operations_final_demo_click">{t.demo}<Arrow /></a>
-            <a className={home.btnGhost} href={routeFor(lang, 'evaluation')} data-track="hotel_evaluation_final_click">{freeEvaluation[lang].cta}</a>
           </div>
         </div>
       </section>

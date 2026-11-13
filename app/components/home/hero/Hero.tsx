@@ -30,7 +30,8 @@ export interface HeroCopy {
   titleB: string;
   lead: string;
   primary: { label: string; href: string; track: string };
-  secondary: { label: string; href: string; track: string };
+  /** The quieter second button; the hotel page has none. */
+  secondary?: { label: string; href: string; track: string };
   mosaicLabel: string;
   pause: string;
   play: string;
@@ -451,7 +452,7 @@ export default function Hero({ lang, copy, tiles = HOME_TILES, scene, Connector 
       <p className={styles.lead} data-rise="" style={{ ['--d' as string]: '.12s' }}>{copy.lead}</p>
       <div className={styles.actions} data-rise="" style={{ ['--d' as string]: '.18s' }}>
         <a className={styles.primary} href={copy.primary.href} data-track={copy.primary.track}>{copy.primary.label}<Arrow /></a>
-        <a className={styles.secondary} href={copy.secondary.href} data-track={copy.secondary.track}>{copy.secondary.label}</a>
+        {copy.secondary && <a className={styles.secondary} href={copy.secondary.href} data-track={copy.secondary.track}>{copy.secondary.label}</a>}
       </div>
     </div>
 
