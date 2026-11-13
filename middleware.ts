@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { hospitalityDestination, isHospitalityHost } from './app/lib/hospitality-host';
 
 const BRIEF_PDF_PATH = '/9af3877fd2b65a3c/whagons-brief-2026.pdf';
 
@@ -27,6 +28,20 @@ export function middleware(request: NextRequest) {
   }
   if (pathname === BRIEF_PDF_PATH || /\.[^/]+$/.test(pathname) ||
       /^\/(?:_next|api|images|media|clients)(?:\/|$)/.test(pathname)) return NextResponse.next();
+
+  // hospitality.whagons.com shows the hotel page and nothing else: its root
+  // opens the page in the visitor's language, and any other page goes to the
+  // same path on whagons.com. Temporary redirects, so the rule can change.
+  if (isHospitalityHost(request.headers.get('x-forwarded-host') || request.headers.get('host'))) {
+    const destination = hospitalityDestination(pathname, detectLanguage(request));
+    if (destination === null) return NextResponse.next();
+    if (destination.startsWith('/')) {
+      const response = redirect(request, destination, 307);
+      if (pathname === '/') response.headers.set('Vary', 'Accept-Language, Cookie');
+      return response;
+    }
+    return NextResponse.redirect(new URL(`${destination}${request.nextUrl.search}`), 307);
+  }
 
   // Retired locales move directly to equivalent English pages, retaining queries.
   const retired = pathname.match(/^\/(pt|de|it)(\/.*)?$/);

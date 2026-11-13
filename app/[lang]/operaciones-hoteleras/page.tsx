@@ -1,17 +1,21 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import HotelOperationsPage from '../../components/hospitality/HotelOperationsPage';
+import HotelGroupsPage from '../../components/hospitality/HotelGroupsPage';
+
+const title = 'Software de operaciones para hoteles y grupos hoteleros';
+const description =
+  'Conecta recepción, ama de llaves, mantenimiento y calidad en cada hotel de tu grupo. Cada solicitud con responsable, cada lugar con historial, cada turno con contexto.';
 
 export const metadata: Metadata = {
-  title: 'Software de Operaciones Hoteleras por Departamento',
-  description:
-    'Coordina solicitudes de huéspedes, habitaciones, mantenimiento, inspecciones y entregas entre turnos con responsables, plazos, escalamientos y evidencia.',
+  title,
+  description,
   keywords: [
     'software de operaciones hoteleras',
+    'software para grupos hoteleros',
     'gestión operativa hotelera',
-    'flujo de trabajo hotelero',
     'mantenimiento de hoteles',
-    'habitaciones listas',
+    'ama de llaves',
+    'integración con PMS',
   ],
   alternates: {
     canonical: 'https://whagons.com/es/operaciones-hoteleras',
@@ -21,9 +25,8 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Una Capa Operativa para Todos los Departamentos del Hotel',
-    description:
-      'Haz visible el trabajo entre recepción, ama de llaves, ingeniería, gerencia y cada turno del hotel.',
+    title: `${title} | Whagons`,
+    description,
     url: 'https://whagons.com/es/operaciones-hoteleras',
     locale: 'es_419',
     type: 'website',
@@ -31,9 +34,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Software de Operaciones Hoteleras | Whagons',
-    description:
-      'Coordina el trabajo entre recepción, ama de llaves, ingeniería, gerencia y cada turno del hotel.',
+    title: `${title} | Whagons`,
+    description,
     images: ['/images/industries/hoteleria.jpg'],
   },
 };
@@ -44,5 +46,5 @@ export function generateStaticParams() {
 
 export default function Page({ params }: { params: { lang: string } }) {
   if (params.lang !== 'es') redirect('/en/hotel-operations');
-  return <HotelOperationsPage lang="es" />;
+  return <HotelGroupsPage lang="es" />;
 }

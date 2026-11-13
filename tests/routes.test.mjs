@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 
 import { routeFor, routeKeyFromPath } from '../app/lib/locales.ts';
+import { hospitalityDestination, isHospitalityHost } from '../app/lib/hospitality-host.ts';
 
 const require = createRequire(import.meta.url);
 const nextConfig = require('../next.config.js');
@@ -42,4 +43,25 @@ test('the retired pilot waitlist URLs permanently redirect to the demo in the sa
   }
   assert.equal(routeKeyFromPath('/en/pilot'), null);
   assert.equal(routeKeyFromPath('/es/piloto'), null);
+});
+
+test('hospitality.whagons.com serves only the hotel page', () => {
+  assert.equal(isHospitalityHost('hospitality.whagons.com'), true);
+  assert.equal(isHospitalityHost('Hospitality.whagons.com:443'), true);
+  for (const host of ['whagons.com', 'www.whagons.com', 'pageup.whagons.com', '', null]) {
+    assert.equal(isHospitalityHost(host), false);
+  }
+
+  // The root opens the hotel page in the visitor's language.
+  assert.equal(hospitalityDestination('/', 'es'), '/es/operaciones-hoteleras');
+  assert.equal(hospitalityDestination('/', 'en'), '/en/hotel-operations');
+  assert.equal(hospitalityDestination('/en', 'es'), '/en/hotel-operations');
+  assert.equal(hospitalityDestination('/es/', 'en'), '/es/operaciones-hoteleras');
+  // The hotel page itself is served on the subdomain.
+  assert.equal(hospitalityDestination('/es/operaciones-hoteleras', 'es'), null);
+  assert.equal(hospitalityDestination('/en/hotel-operations/', 'es'), null);
+  // Its buttons and the site menu lead to pages that live on the main site.
+  assert.equal(hospitalityDestination('/es/demo', 'es'), 'https://whagons.com/es/demo');
+  assert.equal(hospitalityDestination('/es/evaluacion', 'es'), 'https://whagons.com/es/evaluacion');
+  assert.equal(hospitalityDestination('/es/planes', 'es'), 'https://whagons.com/es/planes');
 });
