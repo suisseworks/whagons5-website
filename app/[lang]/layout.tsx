@@ -37,6 +37,11 @@ const jetBrainsMono = localFont({
 // blocked or failed), everything is shown instead.
 const REVEAL_BOOT = `(function(d){d.classList.add('js');setTimeout(function(){if(!window.__whReveal)d.classList.add('no-reveal')},3000)})(document.documentElement);`;
 
+// Notes where the mouse is from the first paint. When the page loads under a
+// cursor that does not move, the browser says where it is only once, before
+// the app's code runs; Rufo reads it from here (see components/rufo/Rufo.tsx).
+const CURSOR_BOOT = `(function(w){function f(e){if(!e.pointerType||e.pointerType==='mouse')w.__whCursor={x:e.clientX,y:e.clientY}}w.addEventListener('pointerover',f,{passive:true,capture:true});w.addEventListener('pointermove',f,{passive:true,capture:true})})(window);`;
+
 interface LangLayoutProps {
   children: React.ReactNode;
   params: { lang: string };
@@ -172,6 +177,7 @@ export default function LangLayout({ children, params }: LangLayoutProps) {
     >
       <body suppressHydrationWarning>
         <script dangerouslySetInnerHTML={{ __html: REVEAL_BOOT }} />
+        <script dangerouslySetInnerHTML={{ __html: CURSOR_BOOT }} />
         <a className="skip-link" href="#page-content">
           {lang === 'es' ? 'Saltar al contenido' : 'Skip to content'}
         </a>

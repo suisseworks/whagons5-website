@@ -15,6 +15,10 @@ import styles from './Rufo.module.css';
  * activity. Nothing renders until he is needed, so pages pay for nothing.
  */
 
+declare global {
+  interface Window { __whCursor?: { x: number; y: number } }
+}
+
 const IDLE_MS = 10_000;
 // After he leaves, he waits at least this long before coming back.
 const COOLDOWN_MS = 30_000;
@@ -180,6 +184,17 @@ export default function Rufo({ lang }: { lang: Language }) {
       if (prev && prev.x === e.clientX && prev.y === e.clientY) return;
       active();
     };
+    // The browser reports what is under a cursor that has not moved (after a
+    // reload, or when the page changes beneath it). That says where the cursor
+    // is without counting as activity, so a cursor left still since the page
+    // loaded is noticed too.
+    const onOver = (e: PointerEvent) => {
+      if (e.pointerType && e.pointerType !== 'mouse') return;
+      inside.current = true;
+      const first = !cursor.current;
+      cursor.current = { x: e.clientX, y: e.clientY };
+      if (first) arm();
+    };
     const onOut = (e: MouseEvent) => {
       if (!e.relatedTarget) inside.current = false;
     };
@@ -188,7 +203,15 @@ export default function Rufo({ lang }: { lang: Language }) {
       else if (cursor.current) arm();
     };
 
+    // A cursor that has sat still since the page loaded: the layout's boot
+    // script noted where it is.
+    if (!cursor.current && window.__whCursor) {
+      cursor.current = { ...window.__whCursor };
+      arm();
+    }
+
     window.addEventListener('pointermove', onMove, { passive: true });
+    window.addEventListener('pointerover', onOver, { passive: true });
     window.addEventListener('pointerdown', active, { passive: true });
     window.addEventListener('keydown', active);
     window.addEventListener('wheel', active, { passive: true });
@@ -199,6 +222,7 @@ export default function Rufo({ lang }: { lang: Language }) {
       window.clearTimeout(idleTimer.current);
       window.clearTimeout(stepTimer.current);
       window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerover', onOver);
       window.removeEventListener('pointerdown', active);
       window.removeEventListener('keydown', active);
       window.removeEventListener('wheel', active);
