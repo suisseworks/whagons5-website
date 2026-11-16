@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Language } from '../../lib/locales';
 import styles from './Rufo.module.css';
+import type { Rufo3D } from './rufo3d';
 
 /**
  * Rufo, the Whagons mascot. He lives in the bottom-right corner of every
@@ -17,6 +18,10 @@ import styles from './Rufo.module.css';
  *
  * Touch screens get a smaller Rufo with the tricks and taps, but nothing that
  * needs a mouse. With reduced motion he stays put and only changes face.
+ *
+ * He is drawn in 3D (rufo3d.ts), so he turns all the way round and follows
+ * the mouse with his head; the flat poses from the character sheet are the
+ * fallback.
  */
 
 declare global {
@@ -86,6 +91,7 @@ export default function Rufo({ lang }: { lang: Language }) {
 
   const dock = useRef<HTMLDivElement>(null);
   const mover = useRef<HTMLDivElement>(null);
+  const canvas = useRef<HTMLCanvasElement>(null);
   const copy = COPY[lang] ?? COPY.es;
   const copyRef = useRef(copy);
   const lastWords = useRef('');
@@ -103,9 +109,13 @@ export default function Rufo({ lang }: { lang: Language }) {
     const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     let viewNow: View = { pose: 'front', mirror: false, bubble: null, act: '', align: 'end', below: false };
+    // The 3D Rufo, once loaded; until then (or without WebGL) the flat poses.
+    let r3d: Rufo3D | null = null;
+    let disposed = false;
     const show = (patch: Partial<View>) => {
       viewNow = { ...viewNow, ...patch };
       setView(viewNow);
+      if (r3d && ('pose' in patch || 'mirror' in patch)) r3d.pose(viewNow.pose, viewNow.mirror);
     };
 
     // ---- position: an offset from his home corner ----
@@ -191,6 +201,14 @@ export default function Rufo({ lang }: { lang: Language }) {
     ];
     const spin = async (g: number, settle = true) => {
       show({ act: 'spin', bubble: null, pose: 'front', mirror: false });
+      if (r3d) {
+        // In 3D he simply turns all the way round.
+        await r3d.spin(settle ? 950 : 800);
+        if (gen !== g || !settle) return;
+        if (!(await wait(200, g))) return;
+        show({ act: '' });
+        return;
+      }
       if (!(await wait(90, g))) return;
       for (const [pose, mirror, ms] of spinFrames) {
         show({ pose, mirror });
@@ -294,6 +312,13 @@ export default function Rufo({ lang }: { lang: Language }) {
       const cx = h.left + offset.x + h.width / 2;
       const cy = h.top + offset.y + h.height / 2;
       const dx = cursor.x - cx;
+      if (r3d) {
+        // Head and eyes follow the mouse.
+        if (viewNow.pose !== 'front' || viewNow.mirror) show({ pose: 'front', mirror: false });
+        const clamp = (v: number) => Math.max(-1, Math.min(1, v));
+        r3d.aim(clamp(dx / 450), clamp((cy - cursor.y) / 450));
+        return;
+      }
       const near = Math.hypot(dx, cursor.y - cy) < 150;
       const next: Partial<View> = near || Math.abs(dx) < 50
         ? { pose: 'front', mirror: false }
@@ -431,8 +456,29 @@ export default function Rufo({ lang }: { lang: Language }) {
     } catch {
       greeted = false;
     }
-    if (still) place(0, 0, 0);
+    // Load the 3D model (three.js, a separate ~130 KB download); he shows up
+    // once it is ready, or after a few seconds with the flat poses if it is
+    // slow, WebGL is missing or the visitor asked to save data.
+    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+    const ready = new Promise<void>((resolve) => {
+      if (saveData) return resolve();
+      import('./rufo3d')
+        .then(({ createRufo3D }) => {
+          if (disposed || !canvas.current) return;
+          r3d = createRufo3D(canvas.current, still);
+          if (!r3d) return;
+          r3d.pose(viewNow.pose, viewNow.mirror);
+          dockEl.dataset.three = '';
+        })
+        .catch(() => undefined)
+        .finally(resolve);
+      later(resolve, 4000);
+    });
+
     void run('trick', async (g) => {
+      await ready;
+      if (gen !== g) return;
+      if (still) place(0, 0, 0);
       if (!still) {
         place(0, home().height + 40, 0);
         void moverEl.offsetWidth;
@@ -450,6 +496,8 @@ export default function Rufo({ lang }: { lang: Language }) {
 
     return () => {
       gen++;
+      disposed = true;
+      r3d?.dispose();
       timers.forEach((t) => window.clearTimeout(t));
       window.clearTimeout(trickTimer);
       window.clearTimeout(idleTimer);
@@ -500,6 +548,7 @@ export default function Rufo({ lang }: { lang: Language }) {
               />
             ))}
           </div>
+          <canvas ref={canvas} className={styles.canvas} />
         </div>
       </div>
     </div>

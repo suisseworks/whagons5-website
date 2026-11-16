@@ -72,7 +72,23 @@
 }
 .img[data-on] { opacity: 1; z-index: 1; transition: none; }
 
-.body:hover .face { scale: 1.06; }
+.body:hover .face, .body:hover .canvas { scale: 1.06; }
+
+/* The 3D Rufo: a little larger than the body box, so the antlers and a
+   turning profile fit. Shown once it has loaded; the poses stay as fallback. */
+.canvas {
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  width: 120px;
+  height: 126px;
+  translate: -50% 0;
+  transform-origin: 50% 90%;
+  pointer-events: none;
+  opacity: 0;
+}
+.dock[data-three] .canvas { opacity: 1; }
+.dock[data-three] .face { visibility: hidden; }
 
 /* Tricks. The face lives inside the body, so these combine with turning. */
 .body[data-act='hop'] { animation: hop 0.75s cubic-bezier(0.3, 0, 0.4, 1); }
@@ -128,6 +144,7 @@
 .bubble[data-below][data-align='end']::after { transform: translate(50%, 6px) rotate(45deg); }
 
 @media (max-width: 640px) {
+  .canvas { width: 82px; height: 86px; bottom: -3px; }
   .bubble { font-size: 0.82rem; padding: 7px 11px 8px; }
   .bubble[data-align='end']::after { right: 24px; }
 }
@@ -174,7 +191,7 @@
   .mover { transition: none; }
   .body, .body::after, .body[data-act] { animation: none; rotate: 0deg; }
   .img { transition: none; }
-  .body:hover .face { scale: none; }
+  .body:hover .face, .body:hover .canvas { scale: none; }
 }
 @media print {
   .dock { display: none; }
