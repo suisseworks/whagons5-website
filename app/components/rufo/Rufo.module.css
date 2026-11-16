@@ -1,0 +1,128 @@
+/* Rufo, floating beside an idle cursor. The outer box travels (its transform
+   is set from Rufo.tsx); the inner body bobs and leans. Nothing here takes
+   clicks, so he never gets in the way. */
+
+.rufo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 900;
+  width: 92px;
+  height: 107px;
+  pointer-events: none;
+  user-select: none;
+  visibility: hidden;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.22, 0.9, 0.3, 1);
+  will-change: transform;
+}
+.rufo:not([data-phase='away']) { visibility: visible; }
+.rufo[data-phase='leaving'] { transition-timing-function: cubic-bezier(0.55, 0, 0.75, 0.4); }
+
+.body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  animation: bob 2.6s ease-in-out infinite;
+}
+/* A soft shadow on the "floor" below him, so he reads as floating. */
+.body::after {
+  content: '';
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: -14px;
+  height: 9px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(10, 10, 9, 0.22), transparent);
+  animation: shadow 2.6s ease-in-out infinite;
+}
+
+.img {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: block;
+  width: 100%;
+  height: auto;
+  transform-origin: 50% 80%;
+  transition: transform 0.6s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+.img[data-mirror] { transform: scaleX(-1); }
+
+/* Leaning into the trip: forward on the way in, then settling. */
+.rufo[data-phase='arriving'][data-side='right'] .img { transform: rotate(-9deg); }
+.rufo[data-phase='arriving'][data-side='left'] .img { transform: scaleX(-1) rotate(-9deg); }
+.rufo[data-phase='leaving'][data-side='right'] .img { transform: scaleX(-1) rotate(-12deg); }
+.rufo[data-phase='leaving'][data-side='left'] .img { transform: rotate(-12deg); }
+.rufo[data-phase='winking'] .img { animation: hop 0.5s cubic-bezier(0.34, 1.6, 0.64, 1); }
+
+.bubble {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  padding: 8px 13px 9px;
+  border-radius: 14px;
+  background: #fff;
+  color: var(--ink, #0a0a09);
+  font-family: var(--sans, sans-serif);
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(10, 10, 9, 0.14), 0 1px 2px rgba(10, 10, 9, 0.12);
+  opacity: 0;
+  transform: translate(-50%, 6px) scale(0.85);
+  transform-origin: 50% 100%;
+  transition: opacity 0.2s ease, transform 0.35s cubic-bezier(0.34, 1.5, 0.64, 1);
+}
+.bubble::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border-radius: 0 0 3px 0;
+  transform: translate(-50%, -6px) rotate(45deg);
+}
+.bubble[data-show] {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+/* Under the cursor there is no room above, so the bubble goes under him. */
+.rufo[data-below] .bubble {
+  bottom: auto;
+  top: calc(100% + 20px);
+  transform-origin: 50% 0;
+}
+.rufo[data-below] .bubble::after {
+  top: auto;
+  bottom: 100%;
+  border-radius: 3px 0 0 0;
+  transform: translate(-50%, 6px) rotate(45deg);
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+@keyframes shadow {
+  0%, 100% { transform: scaleX(1); opacity: 1; }
+  50% { transform: scaleX(0.82); opacity: 0.7; }
+}
+@keyframes hop {
+  0% { translate: 0 0; }
+  45% { translate: 0 -10px; }
+  100% { translate: 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rufo { transition: opacity 0.25s ease; }
+  .rufo[data-phase='leaving'] { opacity: 0; }
+  .body, .body::after, .rufo[data-phase='winking'] .img { animation: none; }
+  .img { transition: none; }
+  .rufo[data-phase] .img { transform: none; }
+  .rufo[data-phase] .img[data-mirror] { transform: scaleX(-1); }
+}
