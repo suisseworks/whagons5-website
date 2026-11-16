@@ -11,6 +11,7 @@ import {
 import NavBar from '../components/NavBar';
 import FooterBar from '../components/FooterBar';
 import RevealObserver from '../components/RevealObserver';
+import Rufo from '../components/rufo/Rufo';
 import '../globals.css';
 import '../styles/pages.css';
 
@@ -182,6 +183,7 @@ export default function LangLayout({ children, params }: LangLayoutProps) {
         <div id="page-content" tabIndex={-1}>{children}</div>
         <FooterBar lang={lang} />
         <RevealObserver />
+        <Rufo lang={lang} />
       </body>
     </html>
   );
