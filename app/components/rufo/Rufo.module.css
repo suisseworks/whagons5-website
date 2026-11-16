@@ -53,7 +53,6 @@
   position: absolute;
   inset: 0;
   transform-origin: 50% 85%;
-  transition: transform 0.45s cubic-bezier(0.34, 1.4, 0.64, 1);
 }
 .face[data-mirror] { transform: scaleX(-1); }
 
@@ -67,15 +66,19 @@
   transform: translateX(-50%);
   opacity: 0;
   pointer-events: none;
+  /* The pose he leaves fades out under the new one, so turning reads as
+     one motion without him ever looking see-through. */
+  transition: opacity 0.08s linear;
 }
-.img[data-on] { opacity: 1; }
+.img[data-on] { opacity: 1; z-index: 1; transition: none; }
 
 .body:hover .face { scale: 1.06; }
 
 /* Tricks. The face lives inside the body, so these combine with turning. */
 .body[data-act='hop'] { animation: hop 0.75s cubic-bezier(0.3, 0, 0.4, 1); }
 .body[data-act='hop']::after { animation: hopShadow 0.75s cubic-bezier(0.3, 0, 0.4, 1); }
-.body[data-act='spin'] { animation: lift 0.8s ease-in-out; }
+.body[data-act='spin'] { animation: lift 0.85s ease-in-out; }
+.body[data-act='spin']::after { animation: hopShadow 0.85s ease-in-out; }
 .body[data-act='wobble'] { animation: wobble 0.65s ease-in-out; }
 .body[data-act='giggle'] { animation: giggle 0.5s ease-in-out 2; }
 .body[data-act='lean-l'] { rotate: -9deg; transition: rotate 0.4s ease; }
@@ -170,7 +173,7 @@
 @media (prefers-reduced-motion: reduce) {
   .mover { transition: none; }
   .body, .body::after, .body[data-act] { animation: none; rotate: 0deg; }
-  .face { transition: none; }
+  .img { transition: none; }
   .body:hover .face { scale: none; }
 }
 @media print {

@@ -23,11 +23,13 @@ declare global {
   interface Window { __whCursor?: { x: number; y: number } }
 }
 
-type Pose = 'front' | 'turn' | 'side' | 'wink' | 'look' | 'sad';
+type Pose = 'front' | 'turn' | 'side' | 'back' | 'wink' | 'look' | 'sad';
 // Height of each pose on the character sheet, so all of them share one scale.
-const POSE_H: Record<Pose, number> = { front: 307, turn: 310, wink: 303, side: 307, look: 303, sad: 291 };
+const POSE_H: Record<Pose, number> = { front: 307, turn: 310, side: 307, back: 307, wink: 303, look: 303, sad: 291 };
 const POSES = Object.keys(POSE_H) as Pose[];
 // turn, side and look face left on the sheet; mirrored, they face right.
+// back is front mirrored with the face and belly painted over in body red
+// (the sheet has no back view), so he can turn all the way round.
 
 const IDLE_MS = 10_000; // a still mouse before he goes to look at it
 const VISIT_COOLDOWN_MS = 30_000;
@@ -166,6 +168,9 @@ export default function Rufo({ lang }: { lang: Language }) {
     const lookAround = async (g: number) => {
       show({ pose: 'turn', mirror: false });
       if (!(await wait(900, g))) return;
+      // Through the front, so he turns his head instead of flipping.
+      show({ pose: 'front', mirror: false });
+      if (!(await wait(140, g))) return;
       show({ pose: 'turn', mirror: true });
       if (!(await wait(900, g))) return;
       show({ pose: 'look', mirror: false });
@@ -177,16 +182,22 @@ export default function Rufo({ lang }: { lang: Language }) {
       if (!(await wait(800, g))) return;
       show({ act: '', pose: 'front' });
     };
-    const spinFaces: [Pose, boolean][] = [
-      ['turn', false], ['side', false], ['side', true], ['turn', true], ['front', false],
+    // A full turn: the face goes off to the left, round the back and in
+    // from the right. He switches sides while his back is turned, where it
+    // does not show. Slower at both ends, like a real spin.
+    const spinFrames: [Pose, boolean, number][] = [
+      ['turn', false, 95], ['side', false, 80], ['back', false, 85],
+      ['side', true, 80], ['turn', true, 95], ['front', false, 0],
     ];
-    const spin = async (g: number) => {
-      show({ act: 'spin', bubble: null });
-      for (const [pose, mirror] of spinFaces) {
+    const spin = async (g: number, settle = true) => {
+      show({ act: 'spin', bubble: null, pose: 'front', mirror: false });
+      if (!(await wait(90, g))) return;
+      for (const [pose, mirror, ms] of spinFrames) {
         show({ pose, mirror });
-        if (!(await wait(110, g))) return;
+        if (ms && !(await wait(ms, g))) return;
       }
-      if (!(await wait(250, g))) return;
+      if (!settle) return;
+      if (!(await wait(320, g))) return;
       show({ act: '' });
     };
     const wander = async (g: number) => {
@@ -368,7 +379,7 @@ export default function Rufo({ lang }: { lang: Language }) {
       if (clicks.length >= 3) {
         clicks = [];
         void run('trick', async (g) => {
-          await spin(g);
+          await spin(g, false);
           if (gen !== g) return;
           await spin(g);
           if (gen !== g) return;
