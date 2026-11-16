@@ -11,7 +11,7 @@ const UI = {
   en: { others: ['Contractor in a guest room', 'Weekend overtime'], title: 'Add New Approval', stages: ['Basics', 'Approvers', 'Trigger', 'Actions', 'Summary'], name: 'Name', description: 'Description', addApprover: 'Add approver', user: 'User', search: 'Search user...', assigned: 'Assigned approvers', requirements: 'Approval requirements', requireAll: 'Require all approvers', peopleRequired: 'People required', onePerson: '1 person', triggerType: 'Trigger Type', onCreate: 'When task is created', conditional: 'Conditional', approved: 'Approved', rejected: 'Rejected', runAfter: 'Run after approval', addAction: 'Add Action', actionTypes: ['Add Tags', 'Remove Tags', 'Change Status', 'Assign User'], changeStatus: 'Change Status', create: 'Create Approval', next: 'Next', back: 'Back', list: 'Approvals', active: 'Active', oneAction: '1 action' },
   es: { others: ['Contratista en habitación de huésped', 'Horas extra de fin de semana'], title: 'Agregar nueva aprobación', stages: ['Básico', 'Aprobadores', 'Disparador', 'Acciones', 'Resumen'], name: 'Nombre', description: 'Descripción', addApprover: 'Agregar aprobador', user: 'Usuario', search: 'Buscar usuario...', assigned: 'Aprobadores asignados', requirements: 'Requisitos de aprobación', requireAll: 'Requerir todos los aprobadores', peopleRequired: 'Personas requeridas', onePerson: '1 persona', triggerType: 'Tipo de disparador', onCreate: 'Cuando se crea la tarea', conditional: 'Condicional', approved: 'Aprobado', rejected: 'Rechazado', runAfter: 'Después de aprobar', addAction: 'Agregar acción', actionTypes: ['Agregar etiquetas', 'Quitar etiquetas', 'Cambiar estado', 'Asignar usuario'], changeStatus: 'Cambiar estado', create: 'Crear aprobación', next: 'Siguiente', back: 'Atrás', list: 'Aprobaciones', active: 'Activa', oneAction: '1 acción' },
   pt: { others: ['Prestador em quarto de hóspede', 'Hora extra de fim de semana'], title: 'Add New Approval', stages: ['Básico', 'Aprovadores', 'Disparador', 'Ações', 'Resumo'], name: 'Name', description: 'Description', addApprover: 'Adicionar aprovador', user: 'Usuário', search: 'Pesquisar usuário...', assigned: 'Aprovadores atribuídos', requirements: 'Requisitos de aprovação', requireAll: 'Require all approvers', peopleRequired: 'People required', onePerson: '1 person', triggerType: 'Trigger Type', onCreate: 'When task is created', conditional: 'Conditional', approved: 'Aprovado', rejected: 'Rejeitado', runAfter: 'Depois de aprovar', addAction: 'Adicionar ação', actionTypes: ['Adicionar tags', 'Remover tags', 'Alterar status', 'Atribuir usuário'], changeStatus: 'Alterar status', create: 'Criar aprovação', next: 'Próximo', back: 'Voltar', list: 'Approvals', active: 'Active', oneAction: '1 ação' },
-  de: { others: ['Handwerker im Gästezimmer', 'Überstunden am Wochenende'], title: 'Add New Approval', stages: ['Basics', 'Approvers', 'Trigger', 'Actions', 'Summary'], name: 'Name', description: 'Description', addApprover: 'Add approver', user: 'User', search: 'Search user...', assigned: 'Assigned approvers', requirements: 'Approval requirements', requireAll: 'Require all approvers', peopleRequired: 'People required', onePerson: '1 person', triggerType: 'Trigger Type', onCreate: 'When task is created', conditional: 'Conditional', approved: 'Genehmigt', rejected: 'Abgelehnt', runAfter: 'Nach Genehmigung ausführen', addAction: 'Aktion hinzufügen', actionTypes: ['Tags hinzufügen', 'Tags entfernen', 'Status ändern', 'Benutzer zuweisen'], changeStatus: 'Status ändern', create: 'Create Approval', next: 'Next', back: 'Back', list: 'Approvals', active: 'Active', oneAction: '1 Aktion' },
+  de: { others: ['Handwerker im Gästezimmer', 'Überstunden am Wochenende'], title: 'Neue Freigabe hinzufügen', stages: ['Grundlagen', 'Freigabeberechtigte', 'Auslöser', 'Aktionen', 'Zusammenfassung'], name: 'Name', description: 'Beschreibung', addApprover: 'Freigabeberechtigte hinzufügen', user: 'Benutzer', search: 'Person suchen …', assigned: 'Zugewiesene Freigabeberechtigte', requirements: 'Freigabeanforderungen', requireAll: 'Alle Freigabeberechtigten erforderlich', peopleRequired: 'Erforderliche Personen', onePerson: '1 Person', triggerType: 'Auslösertyp', onCreate: 'Wenn die Aufgabe erstellt wird', conditional: 'Bedingt', approved: 'Freigegeben', rejected: 'Abgelehnt', runAfter: 'Nach Freigabe ausführen', addAction: 'Aktion hinzufügen', actionTypes: ['Tags hinzufügen', 'Tags entfernen', 'Status ändern', 'Benutzer zuweisen'], changeStatus: 'Status ändern', create: 'Freigabe erstellen', next: 'Weiter', back: 'Zurück', list: 'Freigaben', active: 'Aktiv', oneAction: '1 Aktion' },
 };
 
 export default {
@@ -22,10 +22,10 @@ export default {
     en: { ...UI.en, steps: ['Name what is being approved', 'One approver, by name. Everyone must say yes', 'It starts when the task is created', 'On approval, the status moves on its own', 'Create it, and it is ready to attach'] },
     es: { ...UI.es, steps: ['Nombra lo que se aprueba', 'Un aprobador por nombre. Todos deben decir que sí', 'Empieza cuando se crea la tarea', 'Al aprobar, el estado avanza solo', 'Créala y está lista para conectar'] },
     pt: { ...UI.pt, steps: ['Dê nome ao que é aprovado', 'Um aprovador pelo nome. Todos precisam dizer sim', 'Começa quando a tarefa é criada', 'Ao aprovar, o status avança sozinho', 'Crie e ela está pronta para ligar'] },
-    de: { ...UI.de, steps: ['Benennen, was genehmigt wird', 'Eine Person namentlich. Alle müssen zustimmen', 'Startet, wenn die Aufgabe erstellt wird', 'Bei Genehmigung wechselt der Status von selbst', 'Anlegen, und sie ist bereit zum Verbinden'] },
+    de: { ...UI.de, steps: ['Benennen, was freigegeben wird', 'Eine Person namentlich. Alle müssen zustimmen', 'Startet, wenn die Aufgabe erstellt wird', 'Bei Freigabe wechselt der Status von selbst', 'Erstellen, und sie ist bereit zum Verbinden'] },
   }),
 
-  build(stage, s, { duration }) {
+  build(stage, s, { duration, lang }) {
     injectTasksCss();
     stage.classList.add('dot-grid');
 
@@ -70,10 +70,12 @@ export default {
     head.style.cssText = 'padding:14px 18px 10px';
     el('div', 'dlg-title', head, s.title);
     const pills = el('div', '', head);
-    pills.style.cssText = 'display:flex;gap:5px;margin-top:10px';
+    // The German step names are longer, so their pills are a little tighter.
+    const tight = lang === 'de';
+    pills.style.cssText = `display:flex;gap:${tight ? 4 : 5}px;margin-top:10px`;
     const stagePills = s.stages.map((label, i) => {
       const node = el('span', '', pills, `${i + 1}. ${label}`);
-      node.style.cssText = 'display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:11px;font-size:10.5px;font-weight:600;border:1px solid var(--line-2);color:var(--ink-3);white-space:nowrap';
+      node.style.cssText = `display:inline-flex;align-items:center;height:22px;padding:0 ${tight ? 7 : 9}px;border-radius:11px;font-size:${tight ? 9.5 : 10.5}px;font-weight:600;border:1px solid var(--line-2);color:var(--ink-3);white-space:nowrap`;
       return node;
     });
     const body = el('div', '', dlg);

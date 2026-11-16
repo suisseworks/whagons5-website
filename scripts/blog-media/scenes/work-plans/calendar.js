@@ -58,6 +58,27 @@ export default {
         'The percentage shows how much of the plan got done',
       ],
     },
+    de: {
+      plan: 'Vorbeugender Rundgang',
+      tabs: ['Planung', 'Kalender', 'Ausführungen'],
+      today: 'Heute',
+      view: 'Woche ▾',
+      week: ['Mo 5', 'Di 6', 'Mi 7', 'Do 8', 'Fr 9', 'Sa 10', 'So 11'],
+      rows: [
+        ['Zimmerprüfung', 'Zi. 101'],
+        ['Zimmerprüfung', 'Zi. 102'],
+        ['Zimmerprüfung', 'Zi. 103'],
+        ['Generatortest', 'Technikraum'],
+        ['Chlor und pH im Pool', 'Pool'],
+      ],
+      legend: ['Abgeschlossen', 'Verspätet', 'Geplant'],
+      total: 'Gesamt',
+      steps: [
+        'Jeder Zeitplan ist eine Zeile, jeder Tag eine Spalte',
+        'Grün ist erledigt, das rote Dreieck ist verspätet',
+        'Der Prozentwert zeigt, wie viel vom Plan erledigt ist',
+      ],
+    },
   },
 
   build(stage, s, { duration }) {

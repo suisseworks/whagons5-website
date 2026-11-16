@@ -28,6 +28,15 @@ export default {
       now: 'just now',
       ago: 'yesterday',
     },
+    de: {
+      kicker: 'Powerup',
+      name: 'Reinigung',
+      progress: 'Täglicher Fortschritt',
+      labels: { dirty: 'Schmutzig', cleaning: 'In Reinigung', clean: 'Sauber', inspected: 'Kontrolliert' },
+      rooms: ['Zi. 101', 'Zi. 102', 'Zi. 103', 'Zi. 104', 'Zi. 105', 'Zi. 106'],
+      now: 'gerade eben',
+      ago: 'gestern',
+    },
   },
 
   build(stage, s) {

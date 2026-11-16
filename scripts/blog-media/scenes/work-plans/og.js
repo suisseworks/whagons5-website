@@ -6,6 +6,7 @@ export default ogScene({
   strings: {
     es: { chip: 'Powerups', title: 'Planes de Trabajo: la rutina que se crea sola', meta: 'Guía · Whagons', task: 'Revisión de habitación', rooms: ['Hab 101', 'Hab 102', 'Hab 103'], todo: 'por hacer', done: 'completado', days: ['L', 'M', 'M', 'J', 'V'] },
     en: { chip: 'Powerups', title: 'Work Plans: routines that create themselves', meta: 'Guide · Whagons', task: 'Room check', rooms: ['Rm 101', 'Rm 102', 'Rm 103'], todo: 'to do', done: 'completed', days: ['M', 'T', 'W', 'T', 'F'] },
+    de: { chip: 'Powerups', title: 'Arbeitspläne: Routinen, die sich selbst erstellen', meta: 'Leitfaden · Whagons', task: 'Zimmerprüfung', rooms: ['Zi. 101', 'Zi. 102', 'Zi. 103'], todo: 'Offen', done: 'Erledigt', days: ['Mo', 'Di', 'Mi', 'Do', 'Fr'], tight: true },
   },
   art(panel, s) {
     panel.style.padding = '16px';
@@ -21,7 +22,8 @@ export default ogScene({
     });
     s.rooms.forEach((room, i) => {
       const card = el('div', '', panel);
-      card.style.cssText = 'display:flex;align-items:center;gap:9px;margin-top:10px;padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:#fff';
+      // `tight` trims the spacing so a longer task name still fits beside its pill.
+      card.style.cssText = `display:flex;align-items:center;gap:${s.tight ? 6 : 9}px;margin-top:10px;padding:9px ${s.tight ? 8 : 10}px;border:1px solid var(--line);border-radius:9px;background:#fff`;
       el('span', 'tico', card, '↻').style.cssText = 'display:grid;place-items:center;width:22px;height:22px;border-radius:6px;background:#e0f2fe;color:#0369a1;font-size:11px';
       const text = el('div', '', card);
       text.style.cssText = 'display:grid;gap:1px;flex:1;min-width:0';

@@ -25,5 +25,16 @@ export default checklistScene({
         { title: 'Who edits', items: ['Only roles with permission create or edit cards', 'The board gets a look in the shift meeting'] },
       ],
     },
+    de: {
+      kicker: 'KPI-Karten',
+      title: 'Ihre Checkliste für KPI-Karten',
+      caption: 'Gehen Sie sie durch, bevor Sie dem Team die Karten zeigen',
+      groups: [
+        { title: 'Die Karten', items: ['Sie haben mit einer Vorlage begonnen', 'Jeder Bereich zeigt nur genutzte Karten'] },
+        { title: 'Filtern', items: ['Das Team weiß: Ein Klick auf eine Karte filtert', 'Von Grund auf erstellte Karten sind eingeschaltet'] },
+        { title: 'Reihenfolge', items: ['Was dringend ist, steht links', 'Jede Person passt ihre Reihenfolge an'] },
+        { title: 'Wer bearbeitet', items: ['Nur Rollen mit Berechtigung bearbeiten Karten', 'Die Karten kommen in die Schichtbesprechung'] },
+      ],
+    },
   },
 });

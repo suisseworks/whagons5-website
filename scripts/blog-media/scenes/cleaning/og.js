@@ -7,6 +7,7 @@ export default ogScene({
   strings: {
     es: { chip: 'Powerups', title: 'Limpieza: cada habitación con su estado, en una pantalla', meta: 'Guía · Whagons', progress: 'Progreso del día', labels: { dirty: 'Sucia', cleaning: 'En limpieza', clean: 'Limpia', inspected: 'Inspeccionada' }, rooms: ['Hab 101', 'Hab 102', 'Hab 103', 'Hab 104'], now: 'ahora', ago: 'ayer' },
     en: { chip: 'Powerups', title: 'Cleaning: every room and its status on one screen', meta: 'Guide · Whagons', progress: 'Daily progress', labels: { dirty: 'Dirty', cleaning: 'Cleaning', clean: 'Clean', inspected: 'Inspected' }, rooms: ['Rm 101', 'Rm 102', 'Rm 103', 'Rm 104'], now: 'just now', ago: 'yesterday' },
+    de: { chip: 'Powerups', title: 'Reinigung: jedes Zimmer und sein Status im Blick', meta: 'Leitfaden · Whagons', progress: 'Täglicher Fortschritt', labels: { dirty: 'Schmutzig', cleaning: 'In Reinigung', clean: 'Sauber', inspected: 'Kontrolliert' }, rooms: ['Zi. 101', 'Zi. 102', 'Zi. 103', 'Zi. 104'], now: 'gerade eben', ago: 'gestern', tight: true },
   },
   art(panel, s) {
     panel.style.cssText += ';background:linear-gradient(180deg,#fbfaf7,#f1ede4)';
@@ -23,6 +24,12 @@ export default ogScene({
       const card = update({ t: 0, state: states[i], since: -5000, who: 'Ana', tone: 'a', last: states[i] === 'clean' ? s.now : s.ago, tasks: states[i] === 'cleaning' ? 1 : 0 });
       card.querySelector('.r-last').style.display = 'none';
       card.querySelector('.r-status').style.fontSize = '9.5px';
+      // `tight` trims the padding so a longer status name stays on one line.
+      if (s.tight) {
+        card.style.paddingLeft = '8px';
+        card.style.paddingRight = '8px';
+        card.querySelector('.r-status').style.cssText += ';padding:0 6px;gap:4px;white-space:nowrap';
+      }
       card.querySelector('.r-sweep').style.display = 'none';
     });
   },

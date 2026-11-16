@@ -50,6 +50,27 @@ export default {
         'Once completed it is clean, with time and person',
       ],
     },
+    de: {
+      task: 'Abreisereinigung',
+      taskId: 'Aufgabe #2481',
+      spot: 'Zi. 204',
+      assignee: 'Ana Morales',
+      statusLabel: 'Status',
+      statuses: ['Offen', 'In Arbeit', 'Erledigt'],
+      mapping: 'Statuszuordnung',
+      mapHead: ['Aufgabe', 'Zimmer'],
+      labels: { dirty: 'Schmutzig', cleaning: 'In Reinigung', clean: 'Sauber', inspected: 'Kontrolliert' },
+      room: 'Zi. 204',
+      type: 'Doppelzimmer',
+      ago: 'gestern',
+      now: 'gerade eben',
+      last: 'Letzte Reinigung',
+      steps: [
+        'Ihr Team ändert den Status der Aufgabe',
+        'Das Zimmer folgt der Zuordnung, die Sie eingerichtet haben',
+        'Erledigt heißt sauber, mit Uhrzeit und Person',
+      ],
+    },
   },
 
   build(stage, s, { duration }) {

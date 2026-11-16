@@ -1,6 +1,6 @@
 // Shared copy for the approvals scenes. UI labels follow the app's own
-// translations; where the German or Portuguese app still shows English for a
-// setting, the scene shows the same English so it matches the screen.
+// translations; where the Portuguese app still shows English for a setting,
+// the scene shows the same English so it matches the screen.
 export const COMMON = {
   en: {
     space: 'Maintenance · Tasks',
@@ -61,7 +61,7 @@ export const COMMON = {
   },
   de: {
     space: 'Technik · Aufgaben',
-    cols: ['ID', 'Name', 'Spot', 'Status', 'Zugewiesen'],
+    cols: ['ID', 'Name', 'Standort', 'Status', 'Zugewiesene Person'],
     statuses: { pending: 'Offen', progress: 'In Arbeit', approved: 'Kauf freigegeben', done: 'Erledigt' },
     request: 'Bestellanforderung · 2 Matratzen',
     rows: [['Tropfenden Hahn tauschen', 'Zi. 214'], ['Klimaanlage kühlt nicht', 'Zi. 305'], ['Flur streichen', '2. OG'], ['Poolpumpe prüfen', 'Pool']],
@@ -69,13 +69,13 @@ export const COMMON = {
     approval: 'Einkauf über 500 €',
     approver: 'Laura Méndez',
     approverRole: 'Hausdamenleitung',
-    progress: 'Genehmigungsfortschritt',
+    progress: 'Freigabestatus',
     pendingLbl: 'Ausstehend',
-    approvedLbl: 'Genehmigt',
+    approvedLbl: 'Freigegeben',
     rejectedLbl: 'Abgelehnt',
-    approve: 'Genehmigen',
+    approve: 'Freigeben',
     reject: 'Ablehnen',
-    approvedWord: 'hat genehmigt',
+    approvedWord: 'hat freigegeben',
     tag: 'Nachbessern',
   },
 };

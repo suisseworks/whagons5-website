@@ -12,6 +12,7 @@ export default {
   strings: {
     es: { kicker: 'Powerup', name: 'Tarjetas KPI', cards: ['Total Tareas', 'En Progreso', 'Finalizadas Hoy', 'Vencidas', 'Tendencia Semanal', 'Por Estado'] },
     en: { kicker: 'Powerup', name: 'KPI Cards', cards: ['Total Tasks', 'In Progress', 'Finished Today', 'Overdue', 'Weekly Trend', 'By Status'] },
+    de: { kicker: 'Powerup', name: 'KPI-Karten', cards: ['Gesamtaufgaben', 'In Bearbeitung', 'Heute erledigt', 'Überfällig', 'Wochentrend', 'Nach Status'] },
   },
 
   build(stage, s) {

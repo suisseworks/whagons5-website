@@ -13,10 +13,10 @@ export default {
     en: { steps: ['Create Task opens the panel', 'Action, object and place', 'Pick the Spot, drop a photo', 'It lands in the space, with its number'] },
     es: { steps: ['Crear Tarea abre el panel', 'Acción, objeto y lugar', 'Elige el Spot y suelta una foto', 'Llega al espacio, con su número'] },
     pt: { steps: ['Criar tarefa abre o painel', 'Ação, objeto e lugar', 'Escolha o Spot e solte uma foto', 'Ela chega ao espaço, com o seu número'] },
-    de: { steps: ['Create Task öffnet das Fenster', 'Tätigkeit, Objekt und Ort', 'Spot wählen, Foto ablegen', 'Sie landet im Bereich, mit Nummer'] },
+    de: { steps: ['Aufgabe erstellen öffnet das Fenster', 'Tätigkeit, Objekt und Ort', 'Standort wählen, Foto ablegen', 'Sie landet im Bereich, mit ihrer Nummer'] },
   }),
 
-  build(stage, s, { duration }) {
+  build(stage, s, { duration, lang }) {
     injectTasksCss();
     stage.classList.add('dot-grid');
     const frame = box(stage, 'win', 22, 20, 756, 340);
@@ -26,7 +26,8 @@ export default {
     el('span', 'sp', top);
     const createBtn = el('span', 'btn primary', top, `＋ ${s.createTask}`);
     createBtn.style.height = '26px';
-    const cols = '52px 1.9fr 0.7fr 0.95fr 0.55fr';
+    // German headers are longer ("Zugewiesene Person"), so its columns are fixed.
+    const cols = lang === 'de' ? '52px 1fr 80px 110px 120px' : '52px 1.9fr 0.7fr 0.95fr 0.55fr';
     const grid = taskGrid(frame, { x: 0, y: 38, w: 756, h: 302, title: '', headers: s.cols, cols });
     grid.win.style.cssText += ';border:0;border-radius:0;box-shadow:none';
     grid.hd.remove();

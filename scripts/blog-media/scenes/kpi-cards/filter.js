@@ -41,6 +41,21 @@ export default {
         'Another card, like Total Tasks, clears the filter',
       ],
     },
+    de: {
+      space: 'Vorbeugende Wartung',
+      cards: ['Gesamtaufgaben', 'In Bearbeitung', 'Heute erledigt', 'Überfällig', 'Wochentrend', 'Nach Status'],
+      cardWidths: [132, 124, 136, 110, 146, 118],
+      cols: ['Aufgabe', 'Standort', 'Status', 'Fällig'],
+      names: ['Fensterdichtungen prüfen', 'Wartung Küchengeräte', 'Klimafilter wechseln', 'Elektroprüfung', 'Pumpentest', 'Flur 2 streichen', 'Heizkessel prüfen'],
+      spots: ['Zi. 204', 'Küche', 'Zi. 118', 'Lobby', 'Technikraum', '2. OG', 'Keller'],
+      statuses: [['Offen', 'todo'], ['In Arbeit', 'progress'], ['In Prüfung', 'review']],
+      dues: ['heute', 'morgen', 'heute', 'Fr', 'gestern', 'Mo', 'morgen'],
+      steps: [
+        'In Bearbeitung anklicken, um die Liste zu filtern',
+        'Die Liste zeigt nur noch die laufende Arbeit',
+        'Eine andere Karte wie Gesamtaufgaben hebt den Filter auf',
+      ],
+    },
   },
 
   build(stage, s, { duration }) {
@@ -51,12 +66,12 @@ export default {
     el('span', '', hd, s.space).style.fontSize = '14px';
     const strip = el('div', '', win);
     strip.style.cssText = 'position:relative;height:62px;margin:10px 14px;overflow:hidden';
-    const cards = overviewCards(strip, s.cards, { values: ['7', '3', '4', '1', '+18%', ''] });
+    const cards = overviewCards(strip, s.cards, { values: ['7', '3', '4', '1', '+18%', ''], widths: s.cardWidths });
     stripEdge(strip);
     const grid = el('div', '', win);
     grid.style.cssText = 'position:relative;border-top:1px solid var(--line)';
     const { rows } = taskRows(grid, TASKS.map((task, i) => ({
-      name: s.names[i], spot: s.spots[task.spot], status: s.statuses[task.status][0], tone: s.statuses[task.status][1], due: s.dues[i], late: s.dues[i] === 'ayer' || s.dues[i] === 'yesterday', who: ['AM', 'LR', 'JP', 'SV', 'AM', 'LR', 'JP'][i], whoTone: ['a', 'b', 'c', 'd', 'a', 'b', 'c'][i],
+      name: s.names[i], spot: s.spots[task.spot], status: s.statuses[task.status][0], tone: s.statuses[task.status][1], due: s.dues[i], late: s.dues[i] === 'ayer' || s.dues[i] === 'yesterday' || s.dues[i] === 'gestern', who: ['AM', 'LR', 'JP', 'SV', 'AM', 'LR', 'JP'][i], whoTone: ['a', 'b', 'c', 'd', 'a', 'b', 'c'][i],
     })), s.cols);
     const rowH = 36;
 

@@ -7,6 +7,7 @@ export default ogScene({
   strings: {
     es: { chip: 'Powerups', title: 'Tarjetas KPI: los números del turno, arriba de cada espacio', meta: 'Guía · Whagons', cards: ['Total Tareas', 'En Progreso', 'Vencidas', 'Tendencia Semanal'] },
     en: { chip: 'Powerups', title: "KPI Cards: the shift's numbers on top of every space", meta: 'Guide · Whagons', cards: ['Total Tasks', 'In Progress', 'Overdue', 'Weekly Trend'] },
+    de: { chip: 'Powerups', title: 'KPI-Karten: die Zahlen der Schicht über jedem Bereich', meta: 'Leitfaden · Whagons', cards: ['Gesamtaufgaben', 'In Bearbeitung', 'Überfällig', 'Wochentrend'] },
   },
   art(panel, s) {
     panel.style.background = 'var(--paper-2)';

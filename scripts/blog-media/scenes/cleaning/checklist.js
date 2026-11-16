@@ -25,5 +25,16 @@ export default checklistScene({
         { title: 'The shift', items: ['Someone checks daily progress at the start', 'Whoever changes statuses by hand has the permission'] },
       ],
     },
+    de: {
+      kicker: 'Reinigung',
+      title: 'Ihre Checkliste vor der ersten Schicht',
+      caption: 'Vor der ersten Schicht mit dem Housekeeping durchgehen',
+      groups: [
+        { title: 'Die Grundlagen', items: ['Zimmer sind Standorte eines anwendbaren Typs', 'Es gibt eine Vorlage für die Reinigungsaufgabe'] },
+        { title: 'Die Status', items: ['Schmutzig, In Reinigung, Sauber, bei Bedarf Kontrolliert', 'Fertige Status haben Sauber-Status angehakt'] },
+        { title: 'Die Verbindung', items: ['Jeder Aufgabenstatus ist zugeordnet', 'Der letzte Aufgabenstatus führt zu sauber'] },
+        { title: 'Die Schicht', items: ['Jemand prüft zu Beginn den Fortschritt', 'Wer von Hand ändert, hat die Berechtigung'] },
+      ],
+    },
   },
 });

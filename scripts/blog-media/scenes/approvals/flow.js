@@ -13,12 +13,13 @@ export default {
     en: { steps: ['The request arrives with an orange badge', 'The approver opens the badge and decides', 'Approved: the badge turns green and the status moves', 'The person who asked gets a notification'] },
     es: { steps: ['La solicitud llega con una insignia naranja', 'El aprobador abre la insignia y decide', 'Aprobada: la insignia se pone verde y el estado avanza', 'Quien pidió recibe una notificación'] },
     pt: { steps: ['O pedido chega com um selo laranja', 'O aprovador abre o selo e decide', 'Aprovado: o selo fica verde e o status avança', 'Quem pediu recebe uma notificação'] },
-    de: { steps: ['Die Anfrage kommt mit orangem Abzeichen', 'Die freigebende Person öffnet es und entscheidet', 'Genehmigt: Abzeichen grün, der Status geht weiter', 'Die anfragende Person wird benachrichtigt'] },
+    de: { steps: ['Die Anfrage kommt mit orangem Abzeichen', 'Die freigabeberechtigte Person öffnet es und entscheidet', 'Freigegeben: Abzeichen grün, der Status geht weiter', 'Die anfragende Person wird benachrichtigt'] },
   }),
 
-  build(stage, s, { duration }) {
+  build(stage, s, { duration, lang }) {
     stage.classList.add('dot-grid');
-    const cols = '52px 1.9fr 0.7fr 1.55fr 0.62fr';
+    // German headers are longer ("Zugewiesene Person"), so its columns are fixed.
+    const cols = lang === 'de' ? '52px 1fr 64px 158px 120px' : '52px 1.9fr 0.7fr 1.55fr 0.62fr';
     const grid = taskGrid(stage, { x: 24, y: 22, w: 752, h: 300, title: s.space, headers: s.cols, cols });
     const tones = [['AM', 'a'], ['JP', 'b'], ['SV', 'c'], ['LR', 'd']];
     const statusOf = [['progress', s.statuses.progress], ['pending', s.statuses.pending], ['progress', s.statuses.progress], ['done', s.statuses.done]];

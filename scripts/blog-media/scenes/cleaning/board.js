@@ -46,6 +46,21 @@ export default {
         'And you see who cleaned each one, and when',
       ],
     },
+    de: {
+      title: 'Reinigungsmanagement',
+      tabs: ['Dashboard', 'Berichte und Analysen'],
+      progress: 'Täglicher Fortschritt',
+      labels: { dirty: 'Schmutzig', cleaning: 'In Reinigung', clean: 'Sauber', inspected: 'Kontrolliert' },
+      rooms: ['Zi. 101', 'Zi. 102', 'Zi. 103', 'Zi. 104', 'Zi. 105', 'Zi. 106', 'Zi. 201', 'Zi. 202', 'Zi. 203', 'Zi. 204', 'Zi. 205', 'Zi. 206'],
+      ago: ['vor 1 Std.', 'gestern', 'gestern', 'vor 3 Std.', 'gestern', 'vor 40 Min.', 'gestern', 'gestern', 'vor 2 Std.', 'gestern', 'vor 25 Min.', 'gestern'],
+      now: 'gerade eben',
+      view: 'Kartenansicht',
+      steps: [
+        'Jedes Zimmer zeigt seinen Reinigungsstatus',
+        'Der tägliche Fortschritt steigt mit jedem sauberen Zimmer',
+        'Und Sie sehen, wer jedes Zimmer gereinigt hat und wann',
+      ],
+    },
   },
 
   build(stage, s, { duration }) {
@@ -124,7 +139,7 @@ export default {
           t,
           state,
           since,
-          who: start === 'clean' || justCleaned || state === 'cleaning' ? who : (s.ago[i] === 'ayer' || s.ago[i] === 'yesterday' ? WHO[(i + 1) % 4][0] : who),
+          who: start === 'clean' || justCleaned || state === 'cleaning' ? who : (s.ago[i] === 'ayer' || s.ago[i] === 'yesterday' || s.ago[i] === 'gestern' ? WHO[(i + 1) % 4][0] : who),
           tone,
           last: justCleaned ? s.now : s.ago[i],
           tasks: state === 'cleaning' ? 1 : 0,

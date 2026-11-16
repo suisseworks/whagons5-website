@@ -42,9 +42,9 @@ export default checklistScene({
       caption: 'In der ersten Schicht abhaken',
       groups: [
         { title: 'Finden', items: ['Ich kann den Bereich meines Teams öffnen', 'Ich kann die Liste auf meine Aufgaben filtern'] },
-        { title: 'Melden', items: ['Meine Aufgaben sagen, was und wo', 'Ich wähle den Spot und füge ein Foto hinzu'] },
-        { title: 'Arbeiten', items: ['Ich ändere den Status, wenn die Arbeit beginnt', 'Ich kommentiere, bevor ich aufhöre', 'Ich schließe erst ab, wenn es fertig ist'] },
-        { title: 'Rückmeldung', items: ['Benachrichtigungen liegen hinter meinem Avatar'] },
+        { title: 'Melden', items: ['Meine Aufgaben sagen, was und wo', 'Ich wähle den Standort und füge ein Foto hinzu'] },
+        { title: 'Arbeiten', items: ['Ich ändere den Status, wenn die Arbeit beginnt', 'Ich kommentiere, bevor ich aufhöre', 'Ich schließe erst ab, wenn alles fertig ist'] },
+        { title: 'Rückmeldung', items: ['Meine Benachrichtigungen liegen hinter meinem Avatar'] },
       ],
     },
   },

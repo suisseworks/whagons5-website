@@ -17,11 +17,12 @@ export default {
     de: { steps: ['Den Bereich Ihres Teams öffnen', 'Filter → Zugewiesene Person → Sie', 'Ihre Schicht: nur Ihre Aufgaben'] },
   }),
 
-  build(stage, s, { duration }) {
+  build(stage, s, { duration, lang }) {
     stage.classList.add('dot-grid');
     const frame = box(stage, 'win', 22, 20, 756, 340);
     const side = sidebar(frame, { x: 0, y: 0, w: 168, h: 340, brand: s.brand, label: s.spacesLbl, spaces: s.spaces, everything: s.everything });
-    const cols = '48px 1.75fr 0.7fr 1fr 0.55fr';
+    // German headers are longer ("Zugewiesene Person"), so its columns are fixed.
+    const cols = lang === 'de' ? '48px 1fr 62px 78px 116px' : '48px 1.75fr 0.7fr 1fr 0.55fr';
     const grid = taskGrid(frame, { x: 168, y: 0, w: 588, h: 340, title: s.tasksTitle, headers: s.cols, cols });
     grid.win.style.cssText += ';border:0;border-radius:0;box-shadow:none';
     const filterBtn = el('span', 'btn', grid.tools, `⏷ ${s.filters}`);
