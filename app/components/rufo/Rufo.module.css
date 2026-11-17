@@ -1,7 +1,13 @@
-/* Rufo in his corner. The dock marks home (bottom right); the mover carries
-   him away from it and back (its transform is set from Rufo.tsx); the body
-   bobs and does tricks; the face turns and holds the poses. Only his body
-   takes clicks. */
+/* Rufo in his corner. Layers, outside in:
+     dock    his home corner (fixed)
+     mover   where he is: an offset from home, set every frame by Rufo.tsx
+     air     how high he is off the ground (hops, flips), set by Rufo.tsx
+     tilt    leaning and squash-and-stretch from springs, set by Rufo.tsx
+     float   the idle bob: one endless CSS animation nothing interrupts,
+             so tricks never make him snap
+     body    the button; a few tricks still play as CSS animations here
+     face    which way he faces (mirror) and the pose images
+   The shadow stays on the ground under him. Only his body takes clicks. */
 
 .dock {
   --s: 0.31; /* scale from the character sheet */
@@ -23,10 +29,46 @@
   position: absolute;
   inset: 0;
   transform: translate3d(0, 160px, 0);
-  transition-property: transform;
-  transition-timing-function: cubic-bezier(0.25, 0.85, 0.3, 1);
   will-change: transform;
 }
+
+.ground {
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  bottom: -10px;
+  height: 8px;
+  will-change: transform, opacity;
+}
+.shadow {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(10, 10, 9, 0.24), transparent);
+  animation: shadow 2.6s ease-in-out infinite;
+}
+
+.air {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 58%;
+  will-change: transform;
+}
+.tilt {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 100%;
+  will-change: transform;
+}
+.float {
+  position: absolute;
+  inset: 0;
+  animation: bob 2.6s ease-in-out infinite;
+}
+/* Asleep, the bob holds still (no jump) and he breathes slowly instead. */
+.dock[data-asleep] .float,
+.dock[data-asleep] .shadow { animation-play-state: paused; }
+.dock[data-asleep] .body { transform-origin: 50% 100%; animation: breathe 3.2s ease-in-out infinite; }
 
 .body {
   position: absolute;
@@ -42,28 +84,20 @@
   color: inherit;
   pointer-events: auto;
   cursor: pointer;
-  animation: bob 2.6s ease-in-out infinite;
   -webkit-tap-highlight-color: transparent;
 }
-/* A soft shadow on the "floor" below him, so he reads as floating. */
-.body::after {
-  content: '';
-  position: absolute;
-  left: 20%;
-  right: 20%;
-  bottom: -10px;
-  height: 8px;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(10, 10, 9, 0.24), transparent);
-  animation: shadow 2.6s ease-in-out infinite;
-}
+.body[data-act='giggle'] { animation: giggle 0.5s ease-in-out 2; }
+.body[data-act='wiggle'] { animation: wiggle 0.9s ease-in-out; }
 
 .face {
   position: absolute;
   inset: 0;
   transform-origin: 50% 85%;
+  transition: scale 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .face[data-mirror] { transform: scaleX(-1); }
+.body:hover .face { scale: 1.07; }
+.body:focus-visible { outline: 3px solid var(--red, #d4310a); outline-offset: 4px; }
 
 .img {
   position: absolute;
@@ -77,29 +111,9 @@
   pointer-events: none;
   /* The pose he leaves fades out under the new one, so turning reads as
      one motion without him ever looking see-through. */
-  transition: opacity 0.08s linear;
+  transition: opacity 0.09s linear;
 }
 .img[data-on] { opacity: 1; z-index: 1; transition: none; }
-
-.body:hover .face { scale: 1.06; }
-.body:focus-visible { outline: 3px solid var(--red, #d4310a); outline-offset: 4px; }
-/* While he answers in the chat, a small happy bounce. */
-.dock[data-talking] .body:not([data-act]) { animation: talk 0.42s ease-in-out infinite; }
-@keyframes talk {
-  0%, 100% { translate: 0 0; }
-  50% { translate: 0 -4px; }
-}
-
-/* Tricks. The face lives inside the body, so these combine with turning. */
-.body[data-act='hop'] { animation: hop 0.75s cubic-bezier(0.3, 0, 0.4, 1); }
-.body[data-act='hop']::after { animation: hopShadow 0.75s cubic-bezier(0.3, 0, 0.4, 1); }
-.body[data-act='spin'] { animation: lift 0.85s ease-in-out; }
-.body[data-act='spin']::after { animation: hopShadow 0.85s ease-in-out; }
-.body[data-act='wobble'] { animation: wobble 0.65s ease-in-out; }
-.body[data-act='giggle'] { animation: giggle 0.5s ease-in-out 2; }
-.body[data-act='lean-l'] { rotate: -9deg; transition: rotate 0.4s ease; }
-.body[data-act='lean-r'] { rotate: 9deg; transition: rotate 0.4s ease; }
-.body:not([data-act^='lean']) { rotate: 0deg; transition: rotate 0.4s ease; }
 
 .bubble {
   position: absolute;
@@ -142,6 +156,8 @@
 .bubble[data-below] { bottom: auto; top: calc(100% + 20px); transform-origin: 50% 0; }
 .bubble[data-below]::after { top: auto; bottom: 100%; border-radius: 3px 0 0 0; transform: translate(-50%, 6px) rotate(45deg); }
 .bubble[data-below][data-align='end']::after { transform: translate(50%, 6px) rotate(45deg); }
+/* "Zzz" while he sleeps: quieter. */
+.bubble[data-soft] { font-weight: 500; color: var(--mid, #66615b); }
 
 @media (max-width: 640px) {
   .bubble { font-size: 0.82rem; padding: 7px 11px 8px; }
@@ -156,42 +172,29 @@
   0%, 100% { transform: scaleX(1); opacity: 1; }
   50% { transform: scaleX(0.84); opacity: 0.72; }
 }
-@keyframes hop {
-  0% { translate: 0 0; scale: 1 1; }
-  12% { translate: 0 2px; scale: 1.08 0.9; }
-  32% { translate: 0 -26px; scale: 0.95 1.06; }
-  50% { translate: 0 0; scale: 1.06 0.93; }
-  64% { translate: 0 -12px; scale: 0.98 1.03; }
-  82% { translate: 0 0; scale: 1.03 0.97; }
-  100% { translate: 0 0; scale: 1 1; }
-}
-@keyframes hopShadow {
-  0%, 50%, 82%, 100% { transform: scaleX(1); opacity: 1; }
-  32% { transform: scaleX(0.6); opacity: 0.4; }
-  64% { transform: scaleX(0.8); opacity: 0.7; }
-}
-@keyframes lift {
-  0%, 100% { translate: 0 0; }
-  45% { translate: 0 -14px; }
-}
-@keyframes wobble {
-  0%, 100% { rotate: 0deg; }
-  20% { rotate: -8deg; }
-  45% { rotate: 6deg; }
-  70% { rotate: -3deg; }
+@keyframes breathe {
+  0%, 100% { scale: 1 1; }
+  50% { scale: 1.04 0.95; }
 }
 @keyframes giggle {
   0%, 100% { rotate: 0deg; translate: 0 0; }
   25% { rotate: -5deg; translate: 0 -3px; }
   75% { rotate: 5deg; translate: 0 -3px; }
 }
+/* Antlers-first shake, like shaking off water. */
+@keyframes wiggle {
+  0%, 100% { rotate: 0deg; }
+  15% { rotate: -7deg; }
+  30% { rotate: 7deg; }
+  45% { rotate: -5deg; }
+  60% { rotate: 4deg; }
+  75% { rotate: -2deg; }
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .mover { transition: none; }
-  .body, .body::after, .body[data-act] { animation: none; rotate: 0deg; }
-  .img { transition: none; }
+  .float, .shadow, .body[data-act] { animation: none; }
+  .img, .face { transition: none; }
   .body:hover .face { scale: none; }
-  .dock[data-talking] .body { animation: none; }
 }
 @media print {
   .dock { display: none; }
