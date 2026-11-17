@@ -203,10 +203,14 @@ export async function POST(request: NextRequest) {
             },
             { signal: request.signal }
           );
+          // Text after a demo request is sent starts a new paragraph instead
+          // of running on from what Rufo said before it.
+          let gap = wroteText;
           for await (const event of stream) {
             if (event.type === 'content_block_delta' && event.delta.type === 'text_delta' && event.delta.text) {
               wroteText = true;
-              controller.enqueue(line({ t: 'text', v: event.delta.text }));
+              controller.enqueue(line({ t: 'text', v: gap ? `\n\n${event.delta.text}` : event.delta.text }));
+              gap = false;
             }
           }
           const message = await stream.finalMessage();
