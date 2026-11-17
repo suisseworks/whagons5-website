@@ -41,3 +41,41 @@ test('accepts a demo request only with the details the team needs', () => {
   assert.ok('error' in bad);
   assert.match(bad.error, /email/);
 });
+
+// ---- the privacy policy describes what the chat actually does ----
+import { readFileSync } from 'node:fs';
+import { privacyContent } from '../app/lib/legal.ts';
+
+const source = (path) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
+
+test('both privacy policies have the Rufo chat section the panel links to', () => {
+  const panel = source('app/components/rufo/RufoChat.tsx');
+  assert.match(panel, /\/privacy#rufo-assistant/);
+  for (const lang of ['es', 'en']) {
+    const { sections } = privacyContent[lang];
+    sections.forEach((section, i) => assert.ok(section.title.startsWith(`${i + 1}. `), `${lang}: ${section.title}`));
+    const rufo = sections.find((section) => section.id === 'rufo-assistant');
+    assert.ok(rufo, lang);
+    const all = sections.map((s) => [s.title, ...s.body, ...(s.bullets ?? [])].join(' ')).join(' ');
+    for (const word of ['Anthropic', 'Flodesk', 'Resend', '30', '24']) assert.ok(all.includes(word), `${lang}: ${word}`);
+  }
+});
+
+test('the chat keeps to what the privacy policy says', () => {
+  const route = source('app/api/rufo/route.ts');
+  const panel = source('app/components/rufo/RufoChat.tsx');
+  // "up to 30 messages" are sent to Anthropic; IP entries are dropped after a day.
+  assert.match(route, /const MAX_TURNS = 30;/);
+  assert.match(route, /const DAY_MS = 24 \* 60 \* 60 \* 1000;/);
+  assert.match(route, /buckets\.delete\(key\)/);
+  // The conversation lives in the tab's session storage only.
+  assert.match(panel, /sessionStorage/);
+  assert.doesNotMatch(panel, /localStorage/);
+  // Logs carry no conversation text and no address.
+  const logs = [...route.matchAll(/console\.(?:log|error|warn)\(([\s\S]*?)\);\n/g)].map((m) => m[1]);
+  assert.ok(logs.length >= 2);
+  for (const log of logs) assert.doesNotMatch(log, /messages|turns|content|text|address|addressOf|ip\b/i);
+  // Anthropic gets no visitor address or browser headers.
+  const call = route.slice(route.indexOf('client.beta.messages.stream('), route.indexOf('for await'));
+  assert.doesNotMatch(call, /addressOf|headers|metadata/);
+});

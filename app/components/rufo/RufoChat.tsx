@@ -28,8 +28,8 @@ const COPY: Record<Language, {
     placeholder: 'Escribe tu pregunta…',
     send: 'Enviar',
     close: 'Cerrar el chat',
-    note: 'Rufo es una IA y puede equivocarse. No compartas datos sensibles.',
-    privacy: 'Privacidad',
+    note: 'Rufo es una IA (Claude, de Anthropic) y puede equivocarse. No compartas datos sensibles.',
+    privacy: 'Cómo tratamos tus datos',
     suggestions: ['¿Qué es Whagons?', '¿Sirve para hoteles?', '¿Cómo es la implementación?', 'Quiero una demo'],
     lead: 'Solicitud enviada al equipo',
     leadFailed: 'No se pudo enviar la solicitud',
@@ -45,8 +45,8 @@ const COPY: Record<Language, {
     placeholder: 'Type your question…',
     send: 'Send',
     close: 'Close the chat',
-    note: 'Rufo is an AI and can make mistakes. Don’t share sensitive data.',
-    privacy: 'Privacy',
+    note: 'Rufo is an AI (Claude, by Anthropic) and can make mistakes. Don’t share sensitive data.',
+    privacy: 'How we handle your data',
     suggestions: ['What is Whagons?', 'Does it work for hotels?', 'How does setup work?', 'I’d like a demo'],
     lead: 'Request sent to the team',
     leadFailed: 'The request could not be sent',
@@ -332,7 +332,7 @@ export default function RufoChat({
         </button>
       </form>
       <p className={styles.note}>
-        {copy.note} <a href={`/${lang}/privacy`}>{copy.privacy}</a>
+        {copy.note} <a href={`/${lang}/privacy#rufo-assistant`}>{copy.privacy}</a>
       </p>
     </section>
   );

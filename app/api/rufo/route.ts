@@ -54,7 +54,18 @@ const REQUEST_DEMO: Anthropic.Beta.BetaTool = {
 };
 
 // ---- rate limits (per address, in memory; one container) ----
+// The address is only kept as a salted hash (the salt is random per server
+// start), never written to disk or logs, and dropped once its day is over:
+// the privacy policy says so (app/lib/legal.ts, "Rufo" section).
 const buckets = new Map<string, { windowStart: number; inWindow: number; dayStart: number; inDay: number; leads: number }>();
+const SWEEP_MS = 10 * 60 * 1000;
+let lastSweep = Date.now();
+
+function sweep(now: number) {
+  if (now - lastSweep < SWEEP_MS) return;
+  lastSweep = now;
+  for (const [key, b] of buckets) if (now - b.dayStart > DAY_MS) buckets.delete(key);
+}
 
 function addressOf(request: NextRequest) {
   return (
@@ -69,6 +80,7 @@ function bucketFor(request: NextRequest) {
   const address = addressOf(request) || 'unknown';
   const key = createHash('sha256').update(SALT).update(address).digest('hex').slice(0, 32);
   const now = Date.now();
+  sweep(now);
   if (buckets.size > 20000) buckets.clear();
   let b = buckets.get(key);
   if (!b) {

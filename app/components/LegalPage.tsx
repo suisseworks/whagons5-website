@@ -18,7 +18,7 @@ function slugify(value: string) {
 }
 
 export default function LegalPage({ lang, content }: LegalPageProps) {
-  const sections = content.sections.map((section, index) => ({ ...section, id: `${index + 1}-${slugify(section.title)}` }));
+  const sections = content.sections.map((section, index) => ({ ...section, id: section.id ?? `${index + 1}-${slugify(section.title)}` }));
 
   return (
     <main className="pg">
