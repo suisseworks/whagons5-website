@@ -9,6 +9,7 @@ import {
   BUSINESS_EVALUATION_SOURCE,
   FREE_EVALUATION_SOURCE,
   RESEND_EMAILS_URL,
+  RUFO_CHAT_SOURCE,
   buildFlodeskCustomFields,
   demoSegmentName,
   findFlodeskSegmentId,
@@ -431,4 +432,32 @@ test('delivery matrix succeeds through either demo channel and fails only when b
     }),
     { success: false, status: 502 }
   );
+});
+
+test('labels demo requests taken by Rufo and carries his summary', async () => {
+  let request;
+  const result = await sendDemoNotification({
+    resendApiKey: 'resend-test-key',
+    from: 'Whagons Website <website@notify.whagons.com>',
+    lead: { ...lead, source: RUFO_CHAT_SOURCE, page: '/es/operaciones-hoteleras', summary: 'Hotel de 80 habitaciones; coordinan mantenimiento por WhatsApp.' },
+    flodeskOk: true,
+    requestId: 'request-rufo',
+    fetchImpl: async (url, init) => {
+      request = { url, init };
+      return Response.json({ id: 'email-id' });
+    },
+    retryDelayMs: 0,
+  });
+
+  assert.equal(result.ok, true);
+  const body = JSON.parse(request.init.body);
+  assert.equal(body.subject, '[Whagons] Demo request from Rufo chat - Malek');
+  assert.deepEqual(body.to, DEMO_NOTIFICATION_RECIPIENTS);
+  assert.equal(body.reply_to, lead.email);
+  assert.equal(body.text.split('\n')[0], 'Source: Rufo website chat');
+  assert.match(body.text, /^Page: \/es\/operaciones-hoteleras$/m);
+  assert.match(body.text, /coordinan mantenimiento por WhatsApp/);
+  assert.match(body.html, /New demo request from Rufo/);
+  // The public form cannot claim to be Rufo.
+  assert.equal(leadSource(RUFO_CHAT_SOURCE), '');
 });

@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Language } from '../../lib/locales';
 import styles from './Rufo.module.css';
+import RufoChat from './RufoChat';
 
 /**
  * Rufo, the Whagons mascot. He lives in the bottom-right corner of every
@@ -10,7 +11,9 @@ import styles from './Rufo.module.css';
  * the bottom and comes back, winks, now and then says something.
  *
  * - His eyes follow the mouse; he wobbles when the page scrolls.
- * - Click him and he reacts (three quick clicks make him dizzy).
+ * - Click him (or one of his speech bubbles) to chat: he answers questions
+ *   about Whagons from the site's pages and can request a demo (RufoChat).
+ *   While the chat is open he stays home and skips his tricks.
  * - «El cursor abandonado»: leave the mouse still for IDLE_MS and he floats
  *   over to it and asks «¿Es tuyo?»; move it and he winks and flies home.
  * - Head for the tabs and he looks sad; come back and he cheers up.
@@ -38,8 +41,8 @@ const TRICK_MAX_MS = 12_000;
 const LEAVE_COOLDOWN_MS = 45_000;
 
 const COPY: Record<Language, {
-  hello: string; ask: string; found: string; leaving: string; back: string; dizzy: string;
-  clicks: string[]; idle: string[];
+  hello: string; ask: string; found: string; leaving: string; back: string;
+  idle: string[]; invite: string; label: string;
 }> = {
   es: {
     hello: '¡Hola!',
@@ -47,8 +50,8 @@ const COPY: Record<Language, {
     found: '¡Ah, es tuyo!',
     leaving: '¿Ya te vas?',
     back: '¡Volviste!',
-    dizzy: '¡Uf, me mareo!',
-    clicks: ['¡Hola! Soy Rufo.', '¡Jeje, cosquillas!', 'Estoy de turno.', '¡Otra vez!'],
+    invite: '¿Preguntas? Pregúntame.',
+    label: 'Chatear con Rufo, el asistente de Whagons',
     idle: ['Todo bajo control.', 'Nada se pierde aquí.', '¿Ya pediste tu demo?'],
   },
   en: {
@@ -57,8 +60,8 @@ const COPY: Record<Language, {
     found: 'Oh, it’s yours!',
     leaving: 'Leaving already?',
     back: 'You’re back!',
-    dizzy: 'Whoa, dizzy!',
-    clicks: ['Hi! I’m Rufo.', 'Hehe, that tickles!', 'I’m on shift.', 'Again!'],
+    invite: 'Questions? Ask me.',
+    label: 'Chat with Rufo, the Whagons assistant',
     idle: ['All under control.', 'Nothing gets lost here.', 'Booked your demo yet?'],
   },
 };
@@ -80,6 +83,18 @@ const between = (a: number, b: number) => a + Math.random() * (b - a);
 
 export default function Rufo({ lang }: { lang: Language }) {
   const [on, setOn] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [talking, setTalking] = useState(false);
+  const chatRef = useRef(false);
+  const bodyBtn = useRef<HTMLButtonElement>(null);
+  const openChat = useCallback((open: boolean) => {
+    chatRef.current = open;
+    setChatOpen(open);
+    if (!open) bodyBtn.current?.focus({ preventScroll: true });
+  }, []);
+  const openChatRef = useRef(openChat);
+  openChatRef.current = openChat;
+  const closeChat = useCallback(() => openChat(false), [openChat]);
   const [view, setView] = useState<View>({
     pose: 'front', mirror: false, bubble: null, act: '', align: 'end', below: false,
   });
@@ -137,7 +152,7 @@ export default function Rufo({ lang }: { lang: Language }) {
     const scheduleTrick = () => {
       window.clearTimeout(trickTimer);
       trickTimer = window.setTimeout(() => {
-        if (mode !== 'home' || document.visibilityState !== 'visible' || hovering) return scheduleTrick();
+        if (mode !== 'home' || document.visibilityState !== 'visible' || hovering || chatRef.current) return scheduleTrick();
         void run('trick', pick(tricks));
       }, between(TRICK_MIN_MS, TRICK_MAX_MS));
     };
@@ -215,8 +230,9 @@ export default function Rufo({ lang }: { lang: Language }) {
       await goHome(g);
     };
     const chat = async (g: number) => {
-      const say = Math.random() < 0.5;
-      show({ pose: 'wink', bubble: say ? pick(copyRef.current.idle) : null, align: 'end', below: false });
+      const say = Math.random() < 0.6;
+      const words = Math.random() < 0.5 ? copyRef.current.invite : pick(copyRef.current.idle);
+      show({ pose: 'wink', bubble: say ? words : null, align: 'end', below: false });
       if (!(await wait(say ? 2400 : 1000, g))) return;
       show({ pose: 'front', bubble: null });
     };
@@ -232,7 +248,7 @@ export default function Rufo({ lang }: { lang: Language }) {
       if (mouse) idleTimer = window.setTimeout(visit, ms);
     };
     const visit = () => {
-      if (!cursor.known || !inside || document.visibilityState !== 'visible' || mode === 'visit' || mode === 'asking') return;
+      if (!cursor.known || !inside || document.visibilityState !== 'visible' || mode === 'visit' || mode === 'asking' || chatRef.current) return;
       const since = Date.now() - lastVisit;
       if (since < VISIT_COOLDOWN_MS) return armIdle(VISIT_COOLDOWN_MS - since);
       const h = home();
@@ -335,7 +351,7 @@ export default function Rufo({ lang }: { lang: Language }) {
       if (e.relatedTarget) return;
       inside = false;
       // Toward the tabs or the address bar.
-      if (e.clientY > 8 || (mode !== 'home' && mode !== 'trick') || Date.now() - lastLeave < LEAVE_COOLDOWN_MS) return;
+      if (e.clientY > 8 || (mode !== 'home' && mode !== 'trick') || chatRef.current || Date.now() - lastLeave < LEAVE_COOLDOWN_MS) return;
       lastLeave = Date.now();
       void run('sad', async () => {
         show({ pose: 'sad', mirror: false, bubble: copyRef.current.leaving, align: 'end', below: false });
@@ -368,37 +384,23 @@ export default function Rufo({ lang }: { lang: Language }) {
       else window.clearTimeout(idleTimer);
     };
 
-    // Clicks on Rufo himself.
-    let clicks: number[] = [];
-    let clickLine = 0;
+    // A click on Rufo (or on one of his bubbles) opens or closes the chat.
     const onPoke = () => {
-      const now = Date.now();
-      clicks = [...clicks.filter((t) => now - t < 900), now];
-      lastVisit = now; // he was just played with: no visit right away
+      lastVisit = Date.now(); // he was just talked to: no visit right away
       armIdle();
-      if (clicks.length >= 3) {
-        clicks = [];
-        void run('trick', async (g) => {
-          await spin(g, false);
-          if (gen !== g) return;
-          await spin(g);
-          if (gen !== g) return;
-          show({ pose: 'look', bubble: copyRef.current.dizzy, act: 'wobble' });
-          if (!(await wait(1800, g))) return;
-          show({ pose: 'front', bubble: null, act: '' });
-        });
-        return;
-      }
-      const line = copyRef.current.clicks[clickLine++ % copyRef.current.clicks.length];
+      const opening = !chatRef.current;
+      openChatRef.current(opening);
       void run('trick', async (g) => {
         if (offset.x !== 0 || offset.y !== 0) {
           if (!(await goHome(g))) return;
         }
-        show({ pose: 'wink', mirror: false, bubble: line, act: still ? '' : 'giggle', align: 'end', below: false });
-        if (!(await wait(1700, g))) return;
-        show({ pose: 'front', bubble: null, act: '' });
+        show({ bubble: null, pose: opening ? 'wink' : 'front', mirror: false, act: opening && !still ? 'hop' : '', align: 'end', below: false });
+        if (!(await wait(800, g))) return;
+        show({ pose: 'front', act: '' });
       });
     };
+    const bubbleEl = moverEl.querySelector<HTMLElement>('[data-rufo-bubble]');
+    bubbleEl?.addEventListener('click', onPoke);
     const body = moverEl.querySelector<HTMLElement>('[data-rufo-body]');
     const onEnter = () => { hovering = true; };
     const onLeave = () => { hovering = false; };
@@ -455,6 +457,7 @@ export default function Rufo({ lang }: { lang: Language }) {
       window.clearTimeout(idleTimer);
       if (gazeFrame) cancelAnimationFrame(gazeFrame);
       body?.removeEventListener('click', onPoke);
+      bubbleEl?.removeEventListener('click', onPoke);
       body?.removeEventListener('pointerenter', onEnter);
       body?.removeEventListener('pointerleave', onLeave);
       window.removeEventListener('pointermove', onMove);
@@ -474,17 +477,29 @@ export default function Rufo({ lang }: { lang: Language }) {
   if (!on) return null;
 
   return (
-    <div ref={dock} className={styles.dock} aria-hidden="true">
+    <>
+    <div ref={dock} className={styles.dock} data-talking={talking ? '' : undefined}>
       <div ref={mover} className={styles.mover}>
         <div
           className={styles.bubble}
+          aria-hidden="true"
+          data-rufo-bubble=""
           data-show={view.bubble ? '' : undefined}
           data-align={view.align}
           data-below={view.below ? '' : undefined}
         >
           {view.bubble ?? lastWords.current}
         </div>
-        <div className={styles.body} data-rufo-body="" data-act={view.act || undefined}>
+        <button
+          ref={bodyBtn}
+          type="button"
+          className={styles.body}
+          data-rufo-body=""
+          data-act={view.act || undefined}
+          aria-label={copy.label}
+          aria-expanded={chatOpen}
+          aria-controls="rufo-chat"
+        >
           <div className={styles.face} data-mirror={view.mirror ? '' : undefined}>
             {POSES.map((pose) => (
               // eslint-disable-next-line @next/next/no-img-element
@@ -500,8 +515,10 @@ export default function Rufo({ lang }: { lang: Language }) {
               />
             ))}
           </div>
-        </div>
+        </button>
       </div>
     </div>
+    <RufoChat lang={lang} open={chatOpen} onClose={closeChat} onTalking={setTalking} />
+    </>
   );
 }

@@ -36,6 +36,13 @@ const EVALUATION_LABELS = new Map([
   [BUSINESS_EVALUATION_SOURCE, 'Free business evaluation'],
 ]);
 
+// Demo requests that Rufo, the website chat assistant, takes in a
+// conversation. Set only by the server (app/api/rufo); the public form cannot
+// send it (leadSource below ignores it). The email says where the lead came
+// from and carries Rufo's summary of the conversation.
+export const RUFO_CHAT_SOURCE = 'rufo-chat';
+const RUFO_CHAT_LABEL = 'Rufo website chat';
+
 export function leadSource(value) {
   return typeof value === 'string' && EVALUATION_LABELS.has(value) ? value : '';
 }
@@ -380,6 +387,7 @@ function escapeHtml(value) {
 }
 
 function buildNotificationContent(lead, flodeskOk, requestId) {
+  if (lead.source === RUFO_CHAT_SOURCE) return buildRufoNotificationContent(lead, flodeskOk, requestId);
   // Evaluation requests open with their source line; demo requests are unchanged.
   const evaluation = typeof lead.source === 'string' ? EVALUATION_LABELS.get(lead.source) : undefined;
   const sourceText = evaluation ? `Source: ${evaluation}` : '';
@@ -429,6 +437,48 @@ function buildNotificationContent(lead, flodeskOk, requestId) {
     : '';
   const html = `<!doctype html><html><body style="font-family:Arial,sans-serif;line-height:1.5;color:#111">${sourceLine}<h1 style="font-size:22px">${heading}</h1><p>${intro}</p><table role="presentation" cellspacing="0" cellpadding="0">${rows}</table><p style="margin-top:24px">Reply to this email to contact the prospect.</p></body></html>`;
 
+  return { subject, text, html };
+}
+
+function buildRufoNotificationContent(lead, flodeskOk, requestId) {
+  const company = cleanHeaderText(lead.company, 'Company not provided');
+  const name = cleanHeaderText(lead.name, 'Name not provided');
+  const subject = `[Whagons] Demo request from Rufo chat - ${company}`;
+  const summary = typeof lead.summary === 'string' ? lead.summary.trim().slice(0, 1500) : '';
+  const fields = [
+    ['Name', name],
+    ['Company', displayValue(lead.company)],
+    ['Email', displayValue(lead.email)],
+    ['Phone', displayValue(lead.phone)],
+    ['Industry', displayValue(lead.industry)],
+    ['Team size', displayValue(lead.teamSize)],
+    ['Language', displayValue(lead.language).toUpperCase()],
+    ['Page', displayValue(lead.page)],
+    ['City', displayValue(lead.city)],
+    ['Country', displayValue(lead.country)],
+    ['Flodesk', flodeskOk ? 'Captured successfully' : 'Needs manual follow-up'],
+    ['Request ID', displayValue(requestId)],
+  ];
+  const intro = 'A visitor asked Rufo, the website assistant, for a demo on whagons.com.';
+  const text = [
+    `Source: ${RUFO_CHAT_LABEL}`,
+    '',
+    intro,
+    '',
+    ...fields.map(([label, value]) => `${label}: ${value}`),
+    '',
+    'What they told Rufo:',
+    summary || 'Not provided',
+    '',
+    'Reply to this email to contact the prospect.',
+  ].join('\n');
+  const rows = fields
+    .map(
+      ([label, value]) =>
+        `<tr><th align="left" style="padding:6px 14px 6px 0;color:#5f625f;font-weight:600">${escapeHtml(label)}</th><td style="padding:6px 0;color:#111">${escapeHtml(value)}</td></tr>`
+    )
+    .join('');
+  const html = `<!doctype html><html><body style="font-family:Arial,sans-serif;line-height:1.5;color:#111"><p style="margin:0;color:#5f625f;font-weight:600">${escapeHtml(`Source: ${RUFO_CHAT_LABEL}`)}</p><h1 style="font-size:22px">New demo request from Rufo</h1><p>${escapeHtml(intro)}</p><table role="presentation" cellspacing="0" cellpadding="0">${rows}</table><h2 style="font-size:16px;margin-top:24px">What they told Rufo</h2><p style="white-space:pre-wrap">${escapeHtml(summary || 'Not provided')}</p><p style="margin-top:24px">Reply to this email to contact the prospect.</p></body></html>`;
   return { subject, text, html };
 }
 
