@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { pageText } from '../app/lib/rufo/knowledge.ts';
-import { parseLead } from '../app/lib/rufo/lead.ts';
+import { leadDeliveryMode, parseLead } from '../app/lib/rufo/lead.ts';
 
 test('reads only the main content of a page, without decorative demos', () => {
   const html = `<html><head><title>Whagons — Hotels</title></head><body>
@@ -57,7 +57,9 @@ test('both privacy policies have the Rufo chat section the panel links to', () =
     const rufo = sections.find((section) => section.id === 'rufo-assistant');
     assert.ok(rufo, lang);
     const all = sections.map((s) => [s.title, ...s.body, ...(s.bullets ?? [])].join(' ')).join(' ');
-    for (const word of ['Anthropic', 'Flodesk', 'Resend', '30', '24']) assert.ok(all.includes(word), `${lang}: ${word}`);
+    for (const word of ['Anthropic', 'Flodesk', 'Resend', 'ipwho.is', 'Cloudflare', '30', '24']) assert.ok(all.includes(word), `${lang}: ${word}`);
+    // The 12-month log period is a proposal, never stated as a guarantee.
+    assert.doesNotMatch(all, /un máximo de 12 meses\.|a maximum of 12 months\./);
   }
 });
 
@@ -78,4 +80,18 @@ test('the chat keeps to what the privacy policy says', () => {
   // Anthropic gets no visitor address or browser headers.
   const call = route.slice(route.indexOf('client.beta.messages.stream('), route.indexOf('for await'));
   assert.doesNotMatch(call, /addressOf|headers|metadata/);
+});
+
+test('only the live site delivers demo requests', () => {
+  assert.equal(leadDeliveryMode('whagons.com', ''), 'live');
+  assert.equal(leadDeliveryMode('WWW.whagons.com:443', undefined), 'live');
+  assert.equal(leadDeliveryMode('whagons.com', 'dry-run'), 'dry-run');
+  for (const host of ['89.whagons.com', 'localhost:3000', '127.0.0.1:3417', 'whagons.com.evil.test', '', null]) {
+    assert.equal(leadDeliveryMode(host, ''), 'dry-run', String(host));
+  }
+  const route = source('app/api/rufo/route.ts');
+  // deliverRufoLead runs only inside the live branch.
+  const live = route.indexOf("if (leadMode === 'live')");
+  const call = route.indexOf('await deliverRufoLead(');
+  assert.ok(live > 0 && call > live && call - live < 200);
 });

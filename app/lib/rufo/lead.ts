@@ -15,6 +15,18 @@ import {
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Only the live site sends demo requests to Flodesk and the team inbox.
+// Anywhere else (Coolify previews, local runs) a request Rufo takes is
+// simulated: nothing leaves the server. RUFO_LEADS=dry-run forces the same
+// on the live site, for testing there.
+const LIVE_HOSTS = new Set(['whagons.com', 'www.whagons.com']);
+
+export function leadDeliveryMode(host: string | null | undefined, setting = process.env.RUFO_LEADS): 'live' | 'dry-run' {
+  if (setting?.trim().toLowerCase() === 'dry-run') return 'dry-run';
+  const name = (host || '').split(',')[0].trim().toLowerCase().replace(/:\d+$/, '');
+  return LIVE_HOSTS.has(name) ? 'live' : 'dry-run';
+}
+
 export interface RufoLeadInput {
   name: string;
   email: string;

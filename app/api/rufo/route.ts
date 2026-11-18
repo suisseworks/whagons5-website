@@ -3,7 +3,7 @@ import { NextRequest } from 'next/server';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { siteKnowledge } from '../../lib/rufo/knowledge';
 import { RUFO_INSTRUCTIONS, RUFO_PAGE_NOTE } from '../../lib/rufo/prompt';
-import { deliverRufoLead, parseLead } from '../../lib/rufo/lead';
+import { deliverRufoLead, leadDeliveryMode, parseLead } from '../../lib/rufo/lead';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -14,7 +14,13 @@ export const dynamic = 'force-dynamic';
  *   {"t":"text","v":"..."}   a piece of Rufo's answer
  *   {"t":"lead","ok":true}   a demo request was sent to the team
  *   {"t":"done"} | {"t":"error","code":"..."}
- * Off (503) until ANTHROPIC_API_KEY is set on the server.
+ * Off (503) until ANTHROPIC_API_KEY is set on the server, when the day's
+ * message budget is used up, or for a while after the API reports the
+ * account's credits are exhausted.
+ *
+ * Demo requests reach Flodesk and the team only on whagons.com; elsewhere
+ * they are simulated ({"t":"lead","ok":true,"test":true}). See
+ * leadDeliveryMode().
  */
 
 const MODEL = 'claude-opus-5-5';
@@ -26,6 +32,10 @@ const MAX_PER_WINDOW = 30;
 const DAY_MS = 24 * 60 * 60 * 1000;
 const MAX_PER_DAY = 150;
 const MAX_LEADS_PER_DAY = 3;
+// All visitors together, per server, per day: keeps the API credits from
+// being drained in a burst. RUFO_DAILY_MAX overrides it.
+const SITE_MAX_PER_DAY = Math.max(1, Number(process.env.RUFO_DAILY_MAX) || 300);
+const BILLING_PAUSE_MS = 30 * 60 * 1000;
 const SALT = randomBytes(32);
 
 const REQUEST_DEMO: Anthropic.Beta.BetaTool = {
@@ -99,6 +109,18 @@ function bucketFor(request: NextRequest) {
   return b;
 }
 
+// ---- the whole site's budget ----
+const site = { dayStart: Date.now(), inDay: 0, pausedUntil: 0 };
+
+function siteHasBudget() {
+  const now = Date.now();
+  if (now - site.dayStart > DAY_MS) {
+    site.dayStart = now;
+    site.inDay = 0;
+  }
+  return now >= site.pausedUntil && site.inDay < SITE_MAX_PER_DAY;
+}
+
 // ---- input ----
 interface ChatTurn {
   role: 'user' | 'assistant';
@@ -164,8 +186,15 @@ export async function POST(request: NextRequest) {
   if (bucket.inWindow >= MAX_PER_WINDOW || bucket.inDay >= MAX_PER_DAY) {
     return Response.json({ error: 'rate_limited' }, { status: 429, headers: { 'Retry-After': '600' } });
   }
+  if (!siteHasBudget()) {
+    console.log(JSON.stringify({ event: 'rufo_paused', inDay: site.inDay, billingPause: Date.now() < site.pausedUntil }));
+    return Response.json({ error: 'unavailable' }, { status: 503, headers: { 'Cache-Control': 'no-store' } });
+  }
   bucket.inWindow += 1;
   bucket.inDay += 1;
+  site.inDay += 1;
+  // The Host header, set by the proxy in front of us; X-Forwarded-Host can come from the client.
+  const leadMode = leadDeliveryMode(request.headers.get('host'));
 
   const knowledge = await siteKnowledge();
   if (!knowledge.pages) return Response.json({ error: 'unavailable' }, { status: 503 });
@@ -257,15 +286,23 @@ export async function POST(request: NextRequest) {
               continue;
             }
             bucket.leads += 1;
-            const sent = await deliverRufoLead(check.lead, {
-              lang,
-              page,
-              requestId,
-              country: request.headers.get('cf-ipcountry'),
-              city: request.headers.get('cf-ipcity'),
-              ip: addressOf(request),
-            });
-            controller.enqueue(line({ t: 'lead', ok: sent.ok }));
+            let sent: { ok: boolean };
+            if (leadMode === 'live') {
+              sent = await deliverRufoLead(check.lead, {
+                lang,
+                page,
+                requestId,
+                country: request.headers.get('cf-ipcountry'),
+                city: request.headers.get('cf-ipcity'),
+                ip: addressOf(request),
+              });
+            } else {
+              // Not the live site: nothing goes to Flodesk, the email
+              // service, or the geolocation service.
+              console.log(JSON.stringify({ event: 'rufo_lead', requestId, dryRun: true }));
+              sent = { ok: true };
+            }
+            controller.enqueue(line({ t: 'lead', ok: sent.ok, ...(leadMode === 'live' ? {} : { test: true }) }));
             results.push({
               type: 'tool_result',
               tool_use_id: call.id,
@@ -279,6 +316,10 @@ export async function POST(request: NextRequest) {
         }
         controller.enqueue(line({ t: 'done' }));
       } catch (error) {
+        // Credits used up (402 billing_error): stop calling the API for a while.
+        if (error instanceof Anthropic.APIError && (error.status === 402 || error.type === 'billing_error')) {
+          site.pausedUntil = Date.now() + BILLING_PAUSE_MS;
+        }
         if (!request.signal.aborted) {
           console.error(
             JSON.stringify({

@@ -14,11 +14,12 @@ interface Turn {
   role: 'user' | 'assistant';
   content: string;
   lead?: boolean;
+  leadTest?: boolean;
 }
 
 const COPY: Record<Language, {
   title: string; subtitle: string; hello: string; placeholder: string; send: string; close: string;
-  note: string; privacy: string; suggestions: string[]; lead: string; leadFailed: string;
+  note: string; privacy: string; suggestions: string[]; lead: string; leadTest: string; leadFailed: string;
   busy: string; off: string; dialog: string; restart: string;
 }> = {
   es: {
@@ -32,6 +33,7 @@ const COPY: Record<Language, {
     privacy: 'Cómo tratamos tus datos',
     suggestions: ['¿Qué es Whagons?', '¿Sirve para hoteles?', '¿Cómo es la implementación?', 'Quiero una demo'],
     lead: 'Solicitud enviada al equipo',
+    leadTest: 'Prueba: la solicitud no se envió (solo se envían desde whagons.com)',
     leadFailed: 'No se pudo enviar la solicitud',
     busy: 'Me hiciste muchas preguntas seguidas 😅 Dame unos minutos, o escríbenos a hello@whagons.com.',
     off: 'Ahora mismo no puedo responder. Escríbenos a hello@whagons.com o [pide una demo](/es/demo).',
@@ -49,6 +51,7 @@ const COPY: Record<Language, {
     privacy: 'How we handle your data',
     suggestions: ['What is Whagons?', 'Does it work for hotels?', 'How does setup work?', 'I’d like a demo'],
     lead: 'Request sent to the team',
+    leadTest: 'Test: the request was not sent (only whagons.com sends them)',
     leadFailed: 'The request could not be sent',
     busy: 'That’s a lot of questions in a row 😅 Give me a few minutes, or write to hello@whagons.com.',
     off: 'I can’t answer right now. Write to hello@whagons.com or [request a demo](/en/demo).',
@@ -183,8 +186,12 @@ export default function RufoChat({
     abort.current = controller;
     let answer = '';
     let lead: boolean | undefined;
+    let leadTest = false;
     const update = () =>
-      setTurns([...history, { role: 'assistant', content: answer, ...(lead !== undefined ? { lead } : {}) }]);
+      setTurns([
+        ...history,
+        { role: 'assistant', content: answer, ...(lead !== undefined ? { lead, ...(leadTest ? { leadTest } : {}) } : {}) },
+      ]);
     try {
       const response = await fetch('/api/rufo', {
         method: 'POST',
@@ -217,7 +224,10 @@ export default function RufoChat({
           try {
             const event = JSON.parse(raw);
             if (event.t === 'text' && typeof event.v === 'string') answer += event.v;
-            else if (event.t === 'lead') lead = Boolean(event.ok);
+            else if (event.t === 'lead') {
+              lead = Boolean(event.ok);
+              leadTest = event.test === true;
+            }
           } catch {
             /* a broken line */
           }
@@ -283,7 +293,7 @@ export default function RufoChat({
               </div>
               {turn.lead !== undefined && (
                 <div className={styles.lead} data-ok={turn.lead ? '' : undefined}>
-                  {turn.lead ? `✓ ${copy.lead}` : copy.leadFailed}
+                  {turn.lead ? (turn.leadTest ? copy.leadTest : `✓ ${copy.lead}`) : copy.leadFailed}
                 </div>
               )}
             </Fragment>

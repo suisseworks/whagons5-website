@@ -88,6 +88,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         body: [
           'Cuando completas un formulario de demo o brief, la información enviada puede utilizarse para contactarte, clasificar tu interés comercial y enviarte seguimiento relacionado con Whagons.',
           'Actualmente utilizamos proveedores de automatización y gestión de leads para procesar estos envíos. Si no deseas recibir futuras comunicaciones comerciales, puedes darte de baja o solicitar la exclusión escribiéndonos a hello@whagons.com.',
+          'Para registrar la ciudad y el país aproximados de una solicitud usamos los datos de Cloudflare, nuestro proveedor de red, o los que escribas en el formulario. Si no tenemos la ciudad, nuestro servidor envía tu dirección IP a ipwho.is, el servicio de geolocalización de ipwhois.io, que devuelve la ciudad y el país aproximados. La política de privacidad de ipwhois.io no indica cuánto tiempo conserva estas consultas.',
         ],
       },
       {
@@ -101,7 +102,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         ],
         bullets: [
           'La conversación se guarda solo en tu navegador, en el almacenamiento de sesión de esa pestaña. Se borra al cerrar la pestaña o al pulsar «Empezar de nuevo».',
-          'Nuestro servidor no guarda el texto de la conversación en bases de datos ni en registros. Por cada respuesta registramos datos técnicos: un identificador de la solicitud, el modelo usado, la cantidad de tokens, el motivo de finalización y, si hubo un error, su tipo. Si se envía una solicitud de demo, también registramos si la entrega tuvo éxito. Para estos registros aplica el plazo propuesto para registros técnicos en nuestra Política de Retención y Eliminación de Datos: un máximo de 12 meses.',
+          'Nuestro servidor no guarda el texto de la conversación en bases de datos ni en registros. Por cada respuesta registramos datos técnicos: un identificador de la solicitud, el modelo usado, la cantidad de tokens, el motivo de finalización y, si hubo un error, su tipo. Si se envía una solicitud de demo, también registramos si la entrega tuvo éxito. Estos registros quedan en los registros del servidor de nuestro proveedor de hosting. Todavía no hemos verificado cuánto tiempo se conservan allí: nuestra Política de Retención y Eliminación de Datos propone un máximo de 12 meses para los registros técnicos, pero hoy no es un plazo garantizado.',
           'Para evitar abusos, limitamos cuántos mensajes y solicitudes de demo puede enviar cada conexión. Para eso usamos tu dirección IP solo en la memoria del servidor, convertida en un hash con una clave aleatoria. No se escribe en disco ni en registros, y se descarta en un plazo aproximado de 24 horas o al reiniciar el servidor.',
         ],
       },
@@ -115,7 +116,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
           'Flodesk, nuestro proveedor de gestión de contactos, recibe tu nombre, correo, empresa, industria, teléfono si lo diste, y ciudad y país aproximados. Te agrega al segmento de solicitudes de demo de tu idioma, desde donde podemos enviarte seguimiento comercial. Puedes darte de baja en cualquier momento.',
           'El equipo de Whagons (hello@whagons.com y business@whagons.com) recibe un correo enviado a través de Resend con esos datos, el tamaño del equipo, el idioma, la página desde la que escribiste y el resumen de Rufo. El correo indica que la solicitud vino del chat con Rufo.',
           'La transcripción completa del chat no se envía a Flodesk ni al equipo.',
-          'La ciudad y el país se estiman a partir de tu conexión, con los datos de nuestro proveedor de red o, si faltan, con un servicio de geolocalización por IP. La dirección IP no se incluye en la solicitud.',
+          'La ciudad y el país se estiman a partir de tu conexión. Si Cloudflare, nuestro proveedor de red, no nos indica la ciudad, nuestro servidor envía tu dirección IP a ipwho.is, el servicio de geolocalización de ipwhois.io, que devuelve la ciudad y el país aproximados. La política de privacidad de ipwhois.io no indica cuánto tiempo conserva estas consultas. Tu dirección IP no se incluye en la solicitud que reciben Flodesk y el equipo.',
         ],
       },
       {
@@ -127,6 +128,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         links: [
           { label: 'Términos Comerciales de Anthropic', href: 'https://www.anthropic.com/legal/commercial-terms' },
           { label: 'Retención de datos de Anthropic para organizaciones', href: 'https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data' },
+          { label: 'Política de privacidad de ipwhois.io (ipwho.is)', href: 'https://ipwhois.io/privacy' },
           { label: 'Política de Retención y Eliminación de Datos', href: '/es/data-retention' },
         ],
       },
@@ -249,6 +251,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         body: [
           'When you request a Hotel Handoff Leak Scan, the submitted information may be used to review the request, contact you using the selected method, prepare the working session, and send follow-up related to the scan or a potential hotel pilot.',
           'We currently use automation and lead-management providers to process these submissions. If you no longer want to receive marketing communications, you can unsubscribe or request removal by contacting hello@whagons.com.',
+          'To record the approximate city and country of a request, we use data from Cloudflare, our network provider, or what you enter in the form. If we do not have the city, our server sends your IP address to ipwho.is, the geolocation service of ipwhois.io, which returns the approximate city and country. The ipwhois.io privacy policy does not say how long it keeps these lookups.',
         ],
       },
       {
@@ -262,7 +265,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         ],
         bullets: [
           'The conversation is kept only in your browser, in that tab’s session storage. It is cleared when you close the tab or click “Start over”.',
-          'Our server does not save the text of the conversation in any database or log. For each answer we log technical data: a request ID, the model used, token counts, the stop reason, and, if there was an error, its type. If a demo request is sent, we also log whether delivery succeeded. These logs fall under the proposed period for technical logs in our Data Retention and Disposal Policy: a maximum of 12 months.',
+          'Our server does not save the text of the conversation in any database or log. For each answer we log technical data: a request ID, the model used, token counts, the stop reason, and, if there was an error, its type. If a demo request is sent, we also log whether delivery succeeded. These logs stay in the server logs of our hosting provider. We have not yet verified how long they are kept there: our Data Retention and Disposal Policy proposes a maximum of 12 months for technical logs, but that is not a guaranteed period today.',
           'To prevent abuse, we limit how many messages and demo requests each connection can send. For this we use your IP address only in server memory, as a hash made with a random key. It is not written to disk or logs, and it is discarded within about 24 hours or when the server restarts.',
         ],
       },
@@ -276,7 +279,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
           'Flodesk, our contact-management provider, receives your name, email, company, industry, phone number if you gave one, and approximate city and country. It adds you to the demo-request segment for your language, from which we may send you sales follow-up. You can unsubscribe at any time.',
           'The Whagons team (hello@whagons.com and business@whagons.com) receives an email sent through Resend with those details, your team size, language, the page you wrote from, and Rufo’s summary. The email says the request came from the Rufo chat.',
           'The full chat transcript is not sent to Flodesk or to the team.',
-          'City and country are estimated from your connection, using data from our network provider or, if that is missing, an IP geolocation service. Your IP address is not included in the request.',
+          'City and country are estimated from your connection. If Cloudflare, our network provider, does not give us the city, our server sends your IP address to ipwho.is, the geolocation service of ipwhois.io, which returns the approximate city and country. The ipwhois.io privacy policy does not say how long it keeps these lookups. Your IP address is not included in the request that Flodesk and the team receive.',
         ],
       },
       {
@@ -288,6 +291,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         links: [
           { label: 'Anthropic Commercial Terms', href: 'https://www.anthropic.com/legal/commercial-terms' },
           { label: 'Anthropic data retention for organizations', href: 'https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data' },
+          { label: 'ipwhois.io (ipwho.is) privacy policy', href: 'https://ipwhois.io/privacy' },
           { label: 'Data Retention and Disposal Policy', href: '/en/data-retention' },
         ],
       },
