@@ -1,6 +1,8 @@
-import { Language } from './i18n';
+import type { Language } from './i18n';
 
 export interface LegalSection {
+  /** A stable anchor for links into the page; otherwise it comes from the number and title. */
+  id?: string;
   title: string;
   body: string[];
   bullets?: string[];
@@ -25,14 +27,14 @@ export const privacyContent: Record<Language, LegalPageContent> = {
     eyebrow: 'Legal',
     title: 'Política de Privacidad',
     intro:
-      'Esta Política de Privacidad explica cómo Whagons recopila, usa, protege y comparte información cuando visitas nuestro sitio web, solicitas un brief o demo, o utilizas la plataforma Whagons para gestionar operaciones, automatizaciones, documentación y flujos de trabajo empresariales.',
+      'Esta Política de Privacidad explica cómo Whagons recopila, usa, protege y comparte información cuando visitas nuestro sitio web, conversas con Rufo (el asistente con IA del sitio), solicitas un brief o demo, o utilizas la plataforma Whagons para gestionar operaciones, automatizaciones, documentación y flujos de trabajo empresariales.',
     updatedLabel: 'Última actualización',
-    updatedDate: '1 de noviembre de 2026',
+    updatedDate: '17 de noviembre de 2026',
     sections: [
       {
         title: '1. Alcance',
         body: [
-          'Esta política aplica a https://whagons.com, a los formularios y comunicaciones comerciales asociados al sitio, y al uso de la plataforma Whagons, incluyendo sus módulos de gestión operativa, asistente con inteligencia artificial, flujos de trabajo, integraciones, formularios, firmas y funciones móviles o web.',
+          'Esta política aplica a https://whagons.com, al chat con Rufo, a los formularios y comunicaciones comerciales asociados al sitio, y al uso de la plataforma Whagons, incluyendo sus módulos de gestión operativa, asistente con inteligencia artificial, flujos de trabajo, integraciones, formularios, firmas y funciones móviles o web.',
           'Si tu organización tiene un contrato o acuerdo de servicios con Whagons, ese documento puede complementar esta política para el uso empresarial de la plataforma.',
         ],
       },
@@ -41,6 +43,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         body: ['Podemos recopilar las siguientes categorías de información:'],
         bullets: [
           'Datos de contacto y negocio que nos envías al solicitar un demo o brief, como nombre, correo electrónico, empresa, industria, teléfono y tamaño del equipo operativo.',
+          'Los mensajes que escribes en el chat con Rufo y lo que decidas contarle allí, por ejemplo sobre tu operación. La sección 7 explica cómo se tratan.',
           'Información de cuenta y administración cuando una organización implementa Whagons, como usuarios autorizados, roles, ubicaciones, equipos y preferencias de configuración.',
           'Datos operativos cargados o generados dentro de la plataforma, incluyendo tareas, flujos, aprobaciones, formularios, documentación, registros, métricas, comentarios y archivos relacionados con la operación del cliente.',
           'Información técnica y de uso, como dirección IP, ubicación aproximada (ciudad y país), tipo de navegador, dispositivo, páginas visitadas, tiempos de acceso, idioma y registros necesarios para seguridad, soporte y rendimiento.',
@@ -54,6 +57,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         bullets: [
           'Operar, mantener y mejorar el sitio web y la plataforma Whagons.',
           'Responder a solicitudes comerciales, coordinar demos, enviar briefs y dar seguimiento a oportunidades comerciales.',
+          'Responder tus preguntas en el chat con Rufo y, si lo pides, preparar una solicitud de demo con lo que le contaste.',
           'Provisionar cuentas, autenticar usuarios, habilitar automatizaciones, integraciones, reportes y funciones del asistente con inteligencia artificial.',
           'Monitorear seguridad, prevenir abuso, investigar incidentes y proteger la integridad de los sistemas.',
           'Cumplir obligaciones legales, regulatorias, contractuales o de auditoría.',
@@ -72,6 +76,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         body: ['No vendemos tu información personal. Podemos compartirla únicamente en estos contextos:'],
         bullets: [
           'Con proveedores que nos ayudan a operar el negocio y la plataforma, por ejemplo servicios de hosting, correo, soporte, seguridad, autenticación o gestión de leads.',
+          'Con Anthropic, PBC, que provee el modelo de IA (Claude) con el que responde Rufo, como se explica en la sección 7.',
           'Con herramientas que el cliente decida integrar a Whagons para habilitar procesos de negocio, notificaciones, reportes o sincronización de datos.',
           'Con afiliadas o entidades relacionadas cuando sea necesario para prestar el servicio, administrar contratos o dar soporte.',
           'Cuando la ley, una autoridad competente o un proceso legal válido lo exijan.',
@@ -83,17 +88,59 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         body: [
           'Cuando completas un formulario de demo o brief, la información enviada puede utilizarse para contactarte, clasificar tu interés comercial y enviarte seguimiento relacionado con Whagons.',
           'Actualmente utilizamos proveedores de automatización y gestión de leads para procesar estos envíos. Si no deseas recibir futuras comunicaciones comerciales, puedes darte de baja o solicitar la exclusión escribiéndonos a hello@whagons.com.',
+          'Para registrar la ciudad y el país aproximados de una solicitud usamos los datos de Cloudflare, nuestro proveedor de red, o los que escribas en el formulario. Si no tenemos la ciudad, nuestro servidor envía tu dirección IP a ipwho.is, el servicio de geolocalización de ipwhois.io, que devuelve la ciudad y el país aproximados. La política de privacidad de ipwhois.io no indica cuánto tiempo conserva estas consultas.',
         ],
       },
       {
-        title: '7. Cookies, almacenamiento local y tecnologías similares',
+        id: 'rufo-assistant',
+        title: '7. Chat con Rufo, el asistente con IA del sitio',
         body: [
-          'El sitio puede utilizar almacenamiento local del navegador y tecnologías similares para recordar preferencias, mantener funciones del sitio y apoyar mediciones técnicas básicas.',
+          'Rufo es un asistente con inteligencia artificial que aparece en el sitio. El chat solo se abre si haces clic en él. Responde preguntas sobre Whagons a partir del contenido público de este sitio y, si lo pides, puede enviar una solicitud de demo por ti. Rufo es una IA y puede equivocarse. No compartas datos sensibles, como contraseñas, datos de pago, información de salud o datos de huéspedes.',
+          'Cada vez que envías un mensaje, nuestro servidor envía a Anthropic, PBC, proveedor del modelo Claude, los últimos mensajes de la conversación (hasta 30 entre los tuyos y los de Rufo), el idioma y la dirección de la página en la que estás, junto con las instrucciones de Rufo y el contenido público del sitio. No enviamos a Anthropic tu dirección IP ni cookies o identificadores de tu navegador. Usamos estos datos para responderte, entender qué necesita tu operación y, si lo pides, preparar tu solicitud de demo.',
+          'Anthropic trata estos datos como proveedor nuestro, según sus Términos Comerciales y su Anexo de Tratamiento de Datos. Esos términos establecen que Anthropic no puede entrenar modelos con el contenido que le enviamos. Según su política de retención para clientes comerciales, Anthropic elimina automáticamente de sus sistemas las entradas y salidas de la API dentro de los 30 días. La excepción es cuando la ley exige conservarlas o cuando sus sistemas automáticos de seguridad las marcan como posible infracción de su Política de Uso. En ese caso puede conservar las entradas y salidas hasta 2 años y las puntuaciones de clasificación de seguridad hasta 7 años. Si el modelo rechaza una solicitud, Anthropic puede responderla con otro modelo Claude. Para dirigir los mensajes siguientes al mismo modelo, guarda durante aproximadamente 1 hora un hash de la conversación, no su contenido. Anthropic puede tratar estos datos fuera de tu país (ver la sección 12).',
+          'Lo que guardamos nosotros:',
+        ],
+        bullets: [
+          'La conversación se guarda solo en tu navegador, en el almacenamiento de sesión de esa pestaña. Se borra al cerrar la pestaña o al pulsar «Empezar de nuevo».',
+          'Nuestro servidor no guarda el texto de la conversación en bases de datos ni en registros. Por cada respuesta registramos datos técnicos: un identificador de la solicitud, el modelo usado, la cantidad de tokens, el motivo de finalización y, si hubo un error, su tipo. Si se envía una solicitud de demo, también registramos si la entrega tuvo éxito. Estos registros quedan en los registros del servidor de nuestro proveedor de hosting. Todavía no hemos verificado cuánto tiempo se conservan allí: nuestra Política de Retención y Eliminación de Datos propone un máximo de 12 meses para los registros técnicos, pero hoy no es un plazo garantizado.',
+          'Para evitar abusos, limitamos cuántos mensajes y solicitudes de demo puede enviar cada conexión. Para eso usamos tu dirección IP solo en la memoria del servidor, convertida en un hash con una clave aleatoria. No se escribe en disco ni en registros, y se descarta en un plazo aproximado de 24 horas o al reiniciar el servidor.',
+        ],
+      },
+      {
+        title: '8. Solicitudes de demo hechas en el chat con Rufo',
+        body: [
+          'Si le pides una demo, Rufo te pide nombre, correo, empresa, industria y tamaño del equipo, y opcionalmente tu teléfono. Antes de enviarlos, te los repite para que los confirmes. Además, redacta en inglés un breve resumen para el equipo comercial con lo que le contaste: qué es tu operación, cómo trabajas hoy y qué quieres resolver. Ese resumen lo genera el modelo de Anthropic a partir de la conversación.',
+          'La solicitud llega a los mismos destinos que el formulario de demo:',
+        ],
+        bullets: [
+          'Flodesk, nuestro proveedor de gestión de contactos, recibe tu nombre, correo, empresa, industria, teléfono si lo diste, y ciudad y país aproximados. Te agrega al segmento de solicitudes de demo de tu idioma, desde donde podemos enviarte seguimiento comercial. Puedes darte de baja en cualquier momento.',
+          'El equipo de Whagons (hello@whagons.com y business@whagons.com) recibe un correo enviado a través de Resend con esos datos, el tamaño del equipo, el idioma, la página desde la que escribiste y el resumen de Rufo. El correo indica que la solicitud vino del chat con Rufo.',
+          'La transcripción completa del chat no se envía a Flodesk ni al equipo.',
+          'La ciudad y el país se estiman a partir de tu conexión. Si Cloudflare, nuestro proveedor de red, no nos indica la ciudad, nuestro servidor envía tu dirección IP a ipwho.is, el servicio de geolocalización de ipwhois.io, que devuelve la ciudad y el país aproximados. La política de privacidad de ipwhois.io no indica cuánto tiempo conserva estas consultas. Tu dirección IP no se incluye en la solicitud que reciben Flodesk y el equipo.',
+        ],
+      },
+      {
+        title: '9. Plazos y derechos para los datos del chat',
+        body: [
+          'Las solicitudes de demo enviadas por Rufo se conservan con el mismo plazo que los demás datos del sitio y de prospectos de nuestra Política de Retención y Eliminación de Datos: el objetivo es eliminarlas dentro de 24 meses desde la última interacción, o antes si lo pides.',
+          'Para acceder, corregir o eliminar una solicitud enviada por Rufo, escríbenos a hello@whagons.com. Como no guardamos el texto de la conversación, no podemos recuperarlo ni eliminarlo de nuestros sistemas; lo que conserve Anthropic se rige por su política de retención descrita en la sección 7.',
+        ],
+        links: [
+          { label: 'Términos Comerciales de Anthropic', href: 'https://www.anthropic.com/legal/commercial-terms' },
+          { label: 'Retención de datos de Anthropic para organizaciones', href: 'https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data' },
+          { label: 'Política de privacidad de ipwhois.io (ipwho.is)', href: 'https://ipwhois.io/privacy' },
+          { label: 'Política de Retención y Eliminación de Datos', href: '/es/data-retention' },
+        ],
+      },
+      {
+        title: '10. Cookies, almacenamiento local y tecnologías similares',
+        body: [
+          'El sitio puede utilizar almacenamiento local del navegador y tecnologías similares para recordar preferencias, mantener funciones del sitio y apoyar mediciones técnicas básicas. Por ejemplo, la conversación con Rufo se guarda en el almacenamiento de sesión de la pestaña y se borra al cerrarla.',
           'Tu navegador te permite bloquear o eliminar estas tecnologías, aunque hacerlo puede afectar algunas funciones del sitio.',
         ],
       },
       {
-        title: '8. Seguridad y retención',
+        title: '11. Seguridad y retención',
         body: [
           'Aplicamos medidas administrativas, técnicas y organizativas razonables para proteger la información contra acceso no autorizado, pérdida, alteración o divulgación indebida. Ningún sistema es completamente infalible, por lo que no podemos garantizar seguridad absoluta.',
           'Conservamos la información durante el tiempo necesario para los fines descritos en esta política, para cumplir obligaciones legales, resolver disputas, hacer cumplir acuerdos y mantener registros comerciales y operativos legítimos.',
@@ -102,32 +149,32 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         links: [{ label: 'Política de Retención y Eliminación de Datos', href: '/es/data-retention' }],
       },
       {
-        title: '9. Transferencias internacionales',
+        title: '12. Transferencias internacionales',
         body: [
           'Whagons puede procesar o almacenar información en países distintos al tuyo, incluyendo a través de proveedores de infraestructura y software. Cuando esto ocurra, aplicaremos medidas razonables para proteger la información de acuerdo con la legislación aplicable y nuestros compromisos contractuales.',
         ],
       },
       {
-        title: '10. Tus derechos',
+        title: '13. Tus derechos',
         body: [
           'Según tu jurisdicción, podrías tener derecho a solicitar acceso, corrección, actualización, portabilidad, limitación, objeción o eliminación de tu información personal.',
           'Si deseas ejercer alguno de estos derechos, escríbenos a hello@whagons.com. Podremos solicitar información adicional para verificar tu identidad y procesar la solicitud de forma segura.',
         ],
       },
       {
-        title: '11. Menores de edad',
+        title: '14. Menores de edad',
         body: [
           'Whagons no está dirigido a menores de edad y no recopilamos intencionalmente información personal de niños a través del sitio o la plataforma. Si crees que un menor nos ha proporcionado información, contáctanos para revisarlo y eliminarla cuando corresponda.',
         ],
       },
       {
-        title: '12. Cambios a esta política',
+        title: '15. Cambios a esta política',
         body: [
           'Podemos actualizar esta Política de Privacidad periódicamente para reflejar cambios en el servicio, prácticas de tratamiento o requisitos legales. Publicaremos la versión vigente en esta página con su fecha de actualización.',
         ],
       },
       {
-        title: '13. Contacto',
+        title: '16. Contacto',
         body: [
           'Si tienes preguntas sobre esta Política de Privacidad o sobre cómo Whagons trata información, puedes escribirnos a hello@whagons.com.',
         ],
@@ -143,14 +190,14 @@ export const privacyContent: Record<Language, LegalPageContent> = {
     eyebrow: 'Legal',
     title: 'Privacy Policy',
     intro:
-      'This Privacy Policy explains how Whagons Systems LLC (Whagons, we, or us) collects, uses, protects, and shares information when you visit the U.S. website, request a Hotel Handoff Leak Scan, or use the Whagons platform.',
+      'This Privacy Policy explains how Whagons Systems LLC (Whagons, we, or us) collects, uses, protects, and shares information when you visit the U.S. website, chat with Rufo (the website’s AI assistant), request a Hotel Handoff Leak Scan, or use the Whagons platform.',
     updatedLabel: 'Last updated',
-    updatedDate: 'November 1, 2026',
+    updatedDate: 'November 17, 2026',
     sections: [
       {
         title: '1. Scope',
         body: [
-          'This policy applies to the English-language U.S. market at https://whagons.com/en, its Hotel Handoff Leak Scan and related commercial communications, and use of the Whagons platform, including workflow, form, documentation, analytics, integration, AI-assisted, and web features.',
+          'This policy applies to the English-language U.S. market at https://whagons.com/en, the Rufo website chat, its Hotel Handoff Leak Scan and related commercial communications, and use of the Whagons platform, including workflow, form, documentation, analytics, integration, AI-assisted, and web features.',
           'If your organization has a separate order form, master services agreement, or services contract with Whagons, that document may supplement this policy for enterprise use of the platform.',
         ],
       },
@@ -159,6 +206,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         body: ['We may collect the following categories of information:'],
         bullets: [
           'Contact and business information you submit when requesting a Hotel Handoff Leak Scan, such as name, work email address, hotel or management company, role, phone number, property count, workflow category, and preferred contact method.',
+          'Messages you write in the Rufo chat and anything you choose to tell Rufo there, for example about your operation. Section 7 explains how they are handled.',
           'Account and administration information when an organization implements Whagons, such as authorized users, roles, locations, teams, and configuration preferences.',
           'Operational data uploaded to or generated within the platform, including tasks, workflows, approvals, forms, documentation, logs, metrics, comments, and files related to the customer’s operations.',
           'Technical and usage information such as IP address, approximate location (city and country), browser type, device information, visited pages, access times, language, and logs needed for security, support, and performance.',
@@ -172,6 +220,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         bullets: [
           'Operate, maintain, and improve the website and the Whagons platform.',
           'Respond to commercial inquiries, coordinate Hotel Handoff Leak Scans, prepare requested scorecards, and follow up on hotel pilot opportunities.',
+          'Answer your questions in the Rufo chat and, if you ask, prepare a demo request from what you told Rufo.',
           'Provision accounts, authenticate users, enable automations, integrations, reporting, and AI assistant functionality.',
           'Monitor security, prevent misuse, investigate incidents, and protect the integrity of our systems.',
           'Comply with legal, regulatory, contractual, and audit-related obligations.',
@@ -190,6 +239,7 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         body: ['We do not sell personal information. We may share it only in these contexts:'],
         bullets: [
           'With service providers that help us operate the business and platform, such as hosting, email, support, security, authentication, or lead-management providers.',
+          'With Anthropic, PBC, which provides the AI model (Claude) that Rufo answers with, as described in Section 7.',
           'With tools a customer chooses to integrate with Whagons in order to enable business processes, notifications, reporting, or data synchronization.',
           'With affiliates or related entities where needed to deliver the service, administer contracts, or provide support.',
           'When required by law, competent authority, or valid legal process.',
@@ -201,17 +251,59 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         body: [
           'When you request a Hotel Handoff Leak Scan, the submitted information may be used to review the request, contact you using the selected method, prepare the working session, and send follow-up related to the scan or a potential hotel pilot.',
           'We currently use automation and lead-management providers to process these submissions. If you no longer want to receive marketing communications, you can unsubscribe or request removal by contacting hello@whagons.com.',
+          'To record the approximate city and country of a request, we use data from Cloudflare, our network provider, or what you enter in the form. If we do not have the city, our server sends your IP address to ipwho.is, the geolocation service of ipwhois.io, which returns the approximate city and country. The ipwhois.io privacy policy does not say how long it keeps these lookups.',
         ],
       },
       {
-        title: '7. Cookies, local storage, and similar technologies',
+        id: 'rufo-assistant',
+        title: '7. The Rufo chat, our website’s AI assistant',
         body: [
-          'The website may use browser local storage and similar technologies to remember preferences, support site functionality, and enable basic technical measurement.',
+          'Rufo is an AI assistant that appears on the website. The chat opens only if you click him. He answers questions about Whagons from this website’s public content and, if you ask, can send a demo request for you. Rufo is an AI and can make mistakes. Do not share sensitive information such as passwords, payment details, health information, or guest data.',
+          'Each time you send a message, our server sends Anthropic, PBC, the provider of the Claude model, the latest messages of the conversation (up to 30 of yours and Rufo’s combined), the language, and the address of the page you are on, together with Rufo’s instructions and the website’s public content. We do not send Anthropic your IP address or any cookies or browser identifiers. We use this data to answer you, understand what your operation needs, and, if you ask, prepare your demo request.',
+          'Anthropic processes this data as our service provider under its Commercial Terms and Data Processing Addendum. Those terms state that Anthropic may not train models on the content we send it. Under its retention policy for commercial customers, Anthropic automatically deletes API inputs and outputs from its systems within 30 days. The exception is when the law requires keeping them or when its automated trust and safety systems flag them as a possible Usage Policy violation. In that case it may keep the inputs and outputs for up to 2 years and safety classification scores for up to 7 years. If the model declines a request, Anthropic may answer it with another Claude model. To route the following messages to that same model, it keeps a hash of the conversation, not its content, for about 1 hour. Anthropic may process this data outside your country (see Section 12).',
+          'What we keep ourselves:',
+        ],
+        bullets: [
+          'The conversation is kept only in your browser, in that tab’s session storage. It is cleared when you close the tab or click “Start over”.',
+          'Our server does not save the text of the conversation in any database or log. For each answer we log technical data: a request ID, the model used, token counts, the stop reason, and, if there was an error, its type. If a demo request is sent, we also log whether delivery succeeded. These logs stay in the server logs of our hosting provider. We have not yet verified how long they are kept there: our Data Retention and Disposal Policy proposes a maximum of 12 months for technical logs, but that is not a guaranteed period today.',
+          'To prevent abuse, we limit how many messages and demo requests each connection can send. For this we use your IP address only in server memory, as a hash made with a random key. It is not written to disk or logs, and it is discarded within about 24 hours or when the server restarts.',
+        ],
+      },
+      {
+        title: '8. Demo requests made in the Rufo chat',
+        body: [
+          'If you ask for a demo, Rufo asks for your name, email, company, industry, and team size, and optionally your phone number. Before sending them, he reads them back for you to confirm. He also writes a short English summary for our sales team of what you told him: what your operation is, how you work today, and what you want to solve. That summary is generated by Anthropic’s model from the conversation.',
+          'The request goes to the same destinations as the demo form:',
+        ],
+        bullets: [
+          'Flodesk, our contact-management provider, receives your name, email, company, industry, phone number if you gave one, and approximate city and country. It adds you to the demo-request segment for your language, from which we may send you sales follow-up. You can unsubscribe at any time.',
+          'The Whagons team (hello@whagons.com and business@whagons.com) receives an email sent through Resend with those details, your team size, language, the page you wrote from, and Rufo’s summary. The email says the request came from the Rufo chat.',
+          'The full chat transcript is not sent to Flodesk or to the team.',
+          'City and country are estimated from your connection. If Cloudflare, our network provider, does not give us the city, our server sends your IP address to ipwho.is, the geolocation service of ipwhois.io, which returns the approximate city and country. The ipwhois.io privacy policy does not say how long it keeps these lookups. Your IP address is not included in the request that Flodesk and the team receive.',
+        ],
+      },
+      {
+        title: '9. Retention and your rights for chat data',
+        body: [
+          'Demo requests sent by Rufo are kept for the same period as other website and lead data in our Data Retention and Disposal Policy: the target is deletion within 24 months after the last interaction, or earlier on request.',
+          'To access, correct, or delete a demo request sent by Rufo, contact hello@whagons.com. Because we do not keep the text of the conversation, we cannot retrieve it or delete it from our systems; anything Anthropic keeps is governed by its retention policy described in Section 7.',
+        ],
+        links: [
+          { label: 'Anthropic Commercial Terms', href: 'https://www.anthropic.com/legal/commercial-terms' },
+          { label: 'Anthropic data retention for organizations', href: 'https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data' },
+          { label: 'ipwhois.io (ipwho.is) privacy policy', href: 'https://ipwhois.io/privacy' },
+          { label: 'Data Retention and Disposal Policy', href: '/en/data-retention' },
+        ],
+      },
+      {
+        title: '10. Cookies, local storage, and similar technologies',
+        body: [
+          'The website may use browser local storage and similar technologies to remember preferences, support site functionality, and enable basic technical measurement. For example, the Rufo conversation is kept in the tab’s session storage and cleared when you close it.',
           'Your browser allows you to block or clear these technologies, although some website functionality may be affected if you do so.',
         ],
       },
       {
-        title: '8. Security and retention',
+        title: '11. Security and retention',
         body: [
           'We apply reasonable administrative, technical, and organizational measures to protect information against unauthorized access, loss, alteration, or improper disclosure. No system is completely fail-safe, so we cannot guarantee absolute security.',
           'We retain information for as long as needed for the purposes described in this policy, to comply with legal obligations, resolve disputes, enforce agreements, and maintain legitimate business and operational records.',
@@ -220,32 +312,32 @@ export const privacyContent: Record<Language, LegalPageContent> = {
         links: [{ label: 'Data Retention and Disposal Policy', href: '/en/data-retention' }],
       },
       {
-        title: '9. International transfers',
+        title: '12. International transfers',
         body: [
           'Whagons may process or store information in countries other than your own, including through infrastructure and software providers. When this happens, we apply reasonable measures to protect information in line with applicable law and our contractual commitments.',
         ],
       },
       {
-        title: '10. Your rights',
+        title: '13. Your rights',
         body: [
           'Depending on your jurisdiction, you may have rights to request access, correction, updating, portability, restriction, objection, or deletion of personal information.',
           'To exercise any applicable rights, contact us at hello@whagons.com. We may request additional information to verify identity and process the request securely.',
         ],
       },
       {
-        title: '11. Children',
+        title: '14. Children',
         body: [
           'Whagons is not directed to children and we do not knowingly collect personal information from children through the website or platform. If you believe a child has provided information to us, contact us so we can review and delete it where appropriate.',
         ],
       },
       {
-        title: '12. Changes to this policy',
+        title: '15. Changes to this policy',
         body: [
           'We may update this Privacy Policy from time to time to reflect changes in the service, processing practices, or legal requirements. We will post the current version on this page together with its effective date.',
         ],
       },
       {
-        title: '13. Contact',
+        title: '16. Contact',
         body: [
           'Whagons Systems LLC is a California limited liability company. If you have questions about this Privacy Policy or how Whagons handles information, contact us at hello@whagons.com.',
         ],

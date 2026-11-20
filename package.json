@@ -9,10 +9,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "node --test --test-isolation=none tests/demo-delivery.test.mjs tests/pricing.test.mjs tests/parador-offer.test.mjs tests/cronus-contact.test.mjs tests/cronus-careers.test.mjs tests/cronus-checklist.test.mjs tests/news.test.mjs tests/routes.test.mjs",
+    "test": "node --test --test-isolation=none tests/demo-delivery.test.mjs tests/pricing.test.mjs tests/parador-offer.test.mjs tests/cronus-contact.test.mjs tests/cronus-careers.test.mjs tests/cronus-checklist.test.mjs tests/news.test.mjs tests/routes.test.mjs tests/rufo.test.mjs",
     "blog:media": "node scripts/blog-media/render.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^1.8.0",
     "gray-matter": "^4.0.3",
     "next": "^14.2.35",
     "next-mdx-remote": "^6.0.0",

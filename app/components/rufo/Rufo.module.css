@@ -151,7 +151,7 @@
 .bubble[data-align='end']::after { left: auto; right: 34px; transform: translate(50%, -6px) rotate(45deg); }
 .bubble[data-align='start'] { left: -4px; --tx: 0; transform-origin: 15% 100%; }
 .bubble[data-align='start']::after { left: 34px; }
-.bubble[data-show] { opacity: 1; transform: translate(var(--tx), 0) scale(1); }
+.bubble[data-show] { opacity: 1; transform: translate(var(--tx), 0) scale(1); pointer-events: auto; cursor: pointer; }
 /* Near the top of the window the bubble goes under him. */
 .bubble[data-below] { bottom: auto; top: calc(100% + 20px); transform-origin: 50% 0; }
 .bubble[data-below]::after { top: auto; bottom: 100%; border-radius: 3px 0 0 0; transform: translate(-50%, 6px) rotate(45deg); }
